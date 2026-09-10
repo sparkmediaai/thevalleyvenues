@@ -271,7 +271,7 @@ PAGES["index.html"] = dict(
          '      imagesrcset="/assets/img/hero-1-sm.webp 1100w, /assets/img/hero-1.webp 2200w"\n'
          '      imagesizes="100vw">\n',
     foot_js='<script src="/assets/home.js" defer></script>',
-    hero_html='  <div class="hero-stage">\n    <figure class="slide is-on" data-moment="The arrival"><img src="/assets/img/hero-1.webp" srcset="/assets/img/hero-1-sm.webp 1100w, /assets/img/hero-1.webp 2200w" sizes="100vw" alt="Magnolia House, white columns above the lawn" width="2200" height="1100" fetchpriority="high" decoding="async"></figure>\n    <figure class="slide" data-moment="The morning"><img data-src="/assets/img/hero-2.webp" data-srcset="/assets/img/hero-2-sm.webp 1100w, /assets/img/hero-2.webp 2200w" sizes="100vw" alt="A groom having his bow tie straightened, both of them laughing" width="2200" height="1100" decoding="async"></figure>\n    <figure class="slide" data-moment="The meadow, set"><img data-src="/assets/img/hero-3.webp" data-srcset="/assets/img/hero-3-sm.webp 1100w, /assets/img/hero-3.webp 2200w" sizes="100vw" alt="The ceremony aisle set out, the ridge behind it" width="2200" height="1100" decoding="async"></figure>\n    <figure class="slide" data-moment="Golden hour"><img data-src="/assets/img/hero-4.webp" data-srcset="/assets/img/hero-4-sm.webp 1100w, /assets/img/hero-4.webp 2200w" sizes="100vw" alt="A couple in the meadow as the light goes" width="2200" height="1100" decoding="async"></figure>\n    <figure class="slide" data-moment="After dark"><img data-src="/assets/img/hero-5.webp" data-srcset="/assets/img/hero-5-sm.webp 1100w, /assets/img/hero-5.webp 2200w" sizes="100vw" alt="The conservatory at Magnolia House, lit for dinner" width="2200" height="1100" decoding="async"></figure>\n    <div class="hero-marks">\n      <p class="hero-hour"><span>The arrival</span></p>\n      <div class="hero-dots" role="group" aria-label="Choose a moment">\n      <button type="button" aria-current="true"><span class="skip">The arrival</span></button>\n      <button type="button" aria-current="false"><span class="skip">The morning</span></button>\n      <button type="button" aria-current="false"><span class="skip">The meadow, set</span></button>\n      <button type="button" aria-current="false"><span class="skip">Golden hour</span></button>\n      <button type="button" aria-current="false"><span class="skip">After dark</span></button>\n      </div>\n    </div>\n  </div>\n',
+    hero_html='  <div class="hero-stage">\n    <figure class="slide is-on" data-moment="The arrival"><img src="/assets/img/hero-1.webp" srcset="/assets/img/hero-1-sm.webp 1100w, /assets/img/hero-1.webp 2200w" sizes="100vw" alt="Magnolia House, white columns above the lawn" width="2200" height="1100" fetchpriority="high" decoding="async"></figure>\n    <figure class="slide" data-moment="The morning"><img data-src="/assets/img/hero-2.webp" data-srcset="/assets/img/hero-2-sm.webp 1100w, /assets/img/hero-2.webp 2200w" sizes="100vw" alt="A groom having his bow tie straightened, both of them laughing" width="2200" height="1100" decoding="async"></figure>\n    <figure class="slide" data-moment="The meadow, set"><img data-src="/assets/img/hero-3.webp" data-srcset="/assets/img/hero-3-sm.webp 1100w, /assets/img/hero-3.webp 2200w" sizes="100vw" alt="The ceremony aisle set out, the ridge behind it" width="2200" height="1100" decoding="async"></figure>\n    <figure class="slide" data-moment="Golden hour"><img data-src="/assets/img/hero-4.webp" data-srcset="/assets/img/hero-4-sm.webp 1100w, /assets/img/hero-4.webp 2200w" sizes="100vw" alt="A couple in the meadow as the light goes" width="2200" height="1100" decoding="async"></figure>\n    <figure class="slide" data-moment="After dark"><img data-src="/assets/img/hero-5.webp" data-srcset="/assets/img/hero-5-sm.webp 1100w, /assets/img/hero-5.webp 2200w" sizes="100vw" alt="The conservatory at Magnolia House, lit for dinner" width="2200" height="1100" decoding="async"></figure>\n    <div class="hero-marks">\n      <button type="button" class="hero-step" data-step="-1" aria-label="Previous moment"><svg viewBox="0 0 12 20" aria-hidden="true" focusable="false"><path d="M9 1 2 10 9 19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>\n      <p class="hero-hour"><span>The arrival</span></p>\n      <div class="hero-dots" role="group" aria-label="Choose a moment">\n        <button type="button" aria-current="true"><span class="skip">The arrival</span><i></i></button>\n        <button type="button" aria-current="false"><span class="skip">The morning</span><i></i></button>\n        <button type="button" aria-current="false"><span class="skip">The meadow, set</span><i></i></button>\n        <button type="button" aria-current="false"><span class="skip">Golden hour</span><i></i></button>\n        <button type="button" aria-current="false"><span class="skip">After dark</span><i></i></button>\n      </div>\n      <button type="button" class="hero-step" data-step="1" aria-label="Next moment"><svg viewBox="0 0 12 20" aria-hidden="true" focusable="false"><path d="M3 1 10 10 3 19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>\n    </div>\n  </div>\n',
     eyebrow="Wildwood, Georgia &middot; Fifteen minutes from Chattanooga",
     h1="One Private Mountain Estate. All for You.",
     standfirst="Seventy-four private acres beneath Lookout Mountain, fifteen minutes from "
@@ -307,35 +307,27 @@ PAGES["index.html"] = dict(
  </div>
 </section>
 
-<section>
-  <div class="statement reveal">
+<section class="claim">
+  {{img:band-estate.webp|The estate from above, two people alone in the meadow|class="claim-img"}}
+  <div class="claim-fade" aria-hidden="true"></div>
+  <div class="claim-body">
     <div class="eyebrow">What makes this different</div>
     <h2 class="rise-words"><span>One</span> <span>estate.</span> <span>One</span> <span>couple.</span> <span>One</span> <span>weekend.</span></h2>
-    <p>Larger estates in this region run two and sometimes three weddings on a single
-       Saturday. It is how the acreage pays for itself &mdash; and it means another bride is
-       on the property, another family&rsquo;s flowers are going out the far door, and
-       another cocktail hour is audible from the ceremony. Someone else&rsquo;s arch is
-       coming down while yours goes up.</p>
-    <p>Seventy-four acres cannot be split, so they are not. From the moment you arrive to
-       the moment you leave, the estate is arranged around one family, held that way for
-       two days, and then put away and arranged again around the next.</p>
+    <p>Larger estates in this region run two and sometimes three weddings on a
+       single Saturday. It is how the acreage pays for itself &mdash; and it means
+       another bride is on the property, another family&rsquo;s flowers are going out
+       the far door, and another cocktail hour is audible from the ceremony.
+       Someone else&rsquo;s arch is coming down while yours goes up.</p>
     <ul class="nots">
       <li>No second wedding on the property</li>
       <li>Nothing flipped or reset around you</li>
       <li>Nothing shared, overheard, or hurried</li>
       <li>Every gate, every field, every bed</li>
     </ul>
-    <p class="close">Not one ballroom. Not one ceremony lawn. Not a collection of unrelated
-       venues. For a little while, an entire mountain estate is simply yours.</p>
+    <p class="close">For two days, the only people on seventy&#8209;four acres are
+       the ones you invited.</p>
     <a class="btn" href="/the-estate/">See the whole property</a>
   </div>
-</section>
-
-<section class="band">
-  <img class="band-img" src="/assets/img/band-estate.webp"
-       alt="The estate from above, the meadow and the ridge beyond it"
-       width="1600" height="900" loading="lazy" decoding="async">
-  <p>For two days, the only people on seventy&#8209;four acres are the ones you invited.</p>
 </section>
 
 <section>
@@ -398,15 +390,15 @@ PAGES["index.html"] = dict(
     <h2>Celebrate, or simply stay.</h2>
   </div>
   <div class="grid">
-    <article class="card reveal wipe">
-      <img src="/assets/img/weddings.webp" alt="A ceremony under way in the meadow" width="2000" height="1000" loading="lazy" decoding="async">
+    <article class="card card-door reveal">
+      <figure class="frame">{{img:weddings.webp|A ceremony under way in the meadow|class="wipe"}}</figure>
       <div class="eyebrow">Celebrate</div>
       <h3>The Estate Weekend</h3>
       <p>Friday afternoon to Sunday morning, the property held for one couple.</p>
       <a class="btn" href="/weddings/">Weddings</a>
     </article>
-    <article class="card reveal wipe">
-      <img src="/assets/img/stay.webp" alt="A cottage in the woods" width="1600" height="800" loading="lazy" decoding="async">
+    <article class="card card-door reveal">
+      <figure class="frame">{{img:stay.webp|A cottage in the woods|class="wipe"}}</figure>
       <div class="eyebrow">Stay</div>
       <h3>Lodging on the estate</h3>
       <p>Cottages facing the ridge, open when there is no wedding on the property.</p>

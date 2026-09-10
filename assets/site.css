@@ -342,6 +342,132 @@ section:last-of-type{border-bottom:0}
 .closing-body .btn:hover,.closing-body .btn:focus-visible{
   background:var(--ivory);color:#1b2118}
 
+/* ============================================================================
+   The claim.
+
+   This is the sentence the whole site is evidence for, and for a while it was
+   the flattest thing on the page: a grey panel of type. Directly beneath it sat
+   a full-bleed photograph carrying the same argument in one line. Two sections
+   saying one thing, one of them plain and one of them handsome. They are one
+   section now.
+
+   The obvious move was to put the words on the photograph, and it was measured
+   and rejected. The frame is a flat, bright aerial with no dark corner
+   anywhere in it, so the ramp needed to hold white type at 7:1 left the
+   picture visible over 5% of itself -- a good photograph spoiled to serve as a
+   background. Loosening it to show a quarter of the frame dropped the type to
+   3.8:1.
+
+   So they are adjacent instead: the land across the top, untouched and
+   uncovered, and the argument underneath it on ink. The type is at 15:1
+   because it is on a solid ground, the photograph is at full strength because
+   nothing is over it, and neither is compromising for the other.
+
+   The four denials are the only decorated thing on the page, and the
+   decoration means something: each is struck through by a rule that draws
+   itself as you reach it. They are things that do not happen here, so they
+   cross themselves out.
+   ========================================================================== */
+.claim{
+  position:relative;margin:var(--gap) calc(var(--pad) * -1);
+  background:#141a13;padding:0;border-bottom:0;overflow:hidden;
+}
+.claim-img{
+  display:block;width:100%;height:auto;max-width:none;
+  aspect-ratio:2.6/1;object-fit:cover;object-position:center 58%;
+}
+/* The strip does not stop, it goes into the ground it sits on. */
+.claim{display:grid;grid-template-rows:auto auto}
+/* Pulled up over the foot of the strip by its own height, so the photograph
+   dissolves into the ground rather than stopping at a ruled edge. */
+.claim-fade{
+  height:clamp(4rem,9vw,8rem);margin-top:calc(clamp(4rem,9vw,8rem) * -1);
+  position:relative;z-index:1;pointer-events:none;
+  background:linear-gradient(180deg,rgba(20,26,19,0),#141a13);
+}
+.claim-body{
+  position:relative;z-index:2;width:100%;max-width:82rem;margin:0 auto;
+  padding:clamp(2.5rem,6vh,4rem) var(--pad) clamp(3rem,8vh,5rem);
+  display:flex;flex-direction:column;align-items:flex-start;gap:1.2rem;
+}
+.claim-body > *{max-width:44rem}
+.claim-body .eyebrow{color:var(--ivory)}
+.claim-body h2{
+  color:#fff;max-width:13ch;
+  font-size:clamp(2.4rem,6vw,4rem);line-height:1.04;
+}
+.claim-body p{color:rgba(255,255,255,.88)}
+.claim-body .close{
+  color:#fff;font-family:var(--display);font-size:clamp(1.3rem,2.6vw,1.9rem);
+  line-height:1.25;max-width:26ch;margin-top:.4rem;
+}
+.claim-body .btn{border-color:var(--ivory);color:var(--ivory);margin-top:.6rem}
+.claim-body .btn:hover,.claim-body .btn:focus-visible{
+  background:var(--ivory);color:#1b2118}
+
+/* the four denials */
+.claim .nots{
+  border-top:1px solid rgba(247,231,206,.28);
+  margin-top:1.2rem;max-width:44rem;
+}
+.claim .nots li{
+  position:relative;border-bottom:0;color:rgba(255,255,255,.92);
+  padding:.95rem 0;
+}
+.claim .nots li::before{background:var(--ivory);opacity:.75}
+.claim .nots li::after{
+  content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
+  background:rgba(247,231,206,.3);transform-origin:left;
+}
+@media (min-width:620px){.claim .nots{grid-template-columns:1fr 1fr}}
+@media (max-width:620px){.claim-img{aspect-ratio:16/10}}
+
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    /* Each rule draws across as its line is read. Staggered, because they are
+       read in order and arriving together would look like a table loading. */
+    .claim .nots li::after{
+      transform:scaleX(0);
+      animation:strike linear both;
+      animation-timeline:view();animation-range:entry 34% entry 82%;
+    }
+    .claim .nots li:nth-child(2)::after{animation-range:entry 40% entry 88%}
+    .claim .nots li:nth-child(3)::after{animation-range:entry 46% entry 94%}
+    .claim .nots li:nth-child(4)::after{animation-range:entry 52% entry 100%}
+
+    /* The land drifts against its letterbox, very slightly. It is a still
+       aerial of an empty field; anything faster would be a screensaver. */
+    .claim-img{
+      animation:claim-drift linear both;
+      animation-timeline:view();animation-range:cover 0% cover 100%;
+    }
+  }
+}
+@keyframes strike{to{transform:scaleX(1)}}
+@keyframes claim-drift{
+  from{transform:scale(1.07) translate3d(0,-1.4%,0)}
+  to{transform:scale(1.07) translate3d(0,1.4%,0)}
+}
+
+/* ------------------------------------------------------------- the doors
+   The two cards at the foot of the page are links, and until now only their
+   button said so. The whole card is the hit area now, via a pseudo-element
+   stretched from the button -- one link per card, no nested anchors, and the
+   keyboard still lands on exactly one thing. */
+.card-door{position:relative;isolation:isolate}
+.card-door .btn::after{content:"";position:absolute;inset:0;z-index:1}
+.card-door .frame{cursor:pointer}
+.card-door img{transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.card-door:hover img,.card-door:focus-within img{transform:scale(1.05)}
+.card-door h3{transition:color .3s}
+.card-door:hover h3,.card-door:focus-within h3{color:var(--forest)}
+.card-door .btn{transition:background .3s,color .3s,border-color .3s}
+.card-door:hover .btn,.card-door:focus-within .btn{
+  background:var(--accent);color:var(--ground)}
+/* The focus ring belongs on the card, since the card is what is clickable. */
+.card-door:focus-within{outline:2px solid var(--accent);outline-offset:6px}
+.card-door .btn:focus-visible{outline:none}
+
 /* ------------------------------------------------------------------ forms */
 .form{display:flex;flex-direction:column;gap:1.5rem;max-width:34rem;margin-top:2rem}
 .field{display:flex;flex-direction:column;gap:.45rem}

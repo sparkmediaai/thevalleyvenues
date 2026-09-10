@@ -114,7 +114,25 @@
     }
     .cl-2 img{animation-name:par-fast}
     .cl-3 img{animation-name:par-mid}
+
+    /* And the frames themselves open, rather than simply being there.
+
+       The photograph is uncovered upward while the frame settles up to size,
+       so the picture appears through a widening window instead of sliding in.
+       Two elements are doing the work: the figure carries the clip and the
+       scale, the img inside carries the parallax, so neither is fighting the
+       other for the transform property. */
+    .cluster figure{
+      animation:frame-open linear both;
+      animation-timeline:view();animation-range:entry 12% entry 84%;
+    }
+    .cluster .cl-2{animation-range:entry 19% entry 91%}
+    .cluster .cl-3{animation-range:entry 26% entry 98%}
   }
+}
+@keyframes frame-open{
+  from{clip-path:inset(0 0 100% 0);transform:scale(.93)}
+  to{clip-path:inset(0 0 0 0);transform:none}
 }
 @keyframes par-slow{from{transform:scale(1.1) translateY(2.4%)}
                     to{transform:scale(1.1) translateY(-2.4%)}}

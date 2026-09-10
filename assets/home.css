@@ -105,27 +105,74 @@
 .hero-body .btn:not(.btn-solid):hover,
 .hero-body .btn:not(.btn-solid):focus-visible{background:#fff;color:var(--ink)}
 
-/* The clock marks move out of the way of the words, to the opposite corner. */
+/* ---------------------------------------------------- driving the hero
+   The first version gave five 2.2rem-by-2px lines and nothing else. Two pixels
+   is not a hit target, there was no way to go back, and nothing on screen said
+   the thing could be touched at all -- so it read as decoration that happened
+   to change.
+
+   Now: arrows either side, a proper hit area around each mark, swipe on touch,
+   and the active mark fills as its six seconds run. That last part is the one
+   that matters. The hero is a clock -- five moments across one day -- and a
+   filling bar is the only honest way to say a slide is about to change rather
+   than surprising you with it. */
 .hero-marks{
   position:absolute;right:0;bottom:0;z-index:4;
-  display:flex;align-items:center;gap:1rem;
-  padding:1rem clamp(1.15rem,5vw,3.5rem);
+  display:flex;align-items:center;gap:clamp(.5rem,1.4vw,1rem);
+  padding:.6rem clamp(1.15rem,5vw,3.5rem) .9rem;
 }
-.hero-hour{
-  margin:0;color:#fff;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;
-  font-weight:600;white-space:nowrap;
+
+.hero-step{
+  flex:none;width:2.4rem;height:2.4rem;padding:0;
+  display:grid;place-items:center;cursor:pointer;
+  background:transparent;border:1px solid rgba(255,255,255,.34);color:#fff;
+  transition:background .25s,border-color .25s;
 }
-.hero-dots{display:flex;gap:.5rem}
+.hero-step svg{width:.62rem;height:1.05rem;display:block}
+.hero-step:hover,.hero-step:focus-visible{
+  background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.8)}
+.hero-step:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+.hero-dots{display:flex;gap:.15rem}
+/* The button is the hit area and the <i> is the mark, so one can be finger
+   sized without the other getting fat. */
+.hero-dots button{
+  padding:.85rem .3rem;background:none;border:0;cursor:pointer;line-height:0;
+}
+.hero-dots button i{
+  display:block;width:clamp(1.5rem,3.4vw,2.2rem);height:2px;
+  background:rgba(255,255,255,.38);position:relative;overflow:hidden;
+  transition:background .3s;
+}
+.hero-dots button:hover i{background:rgba(255,255,255,.72)}
+.hero-dots button:focus-visible i{background:#fff}
+.hero-dots button:focus-visible{outline:2px solid #fff;outline-offset:1px}
+.hero-dots button i::after{
+  content:"";position:absolute;inset:0;background:#fff;
+  transform:scaleX(0);transform-origin:left;
+}
+/* Filled instantly when motion is off, so the current moment is still marked. */
+.hero-dots button[aria-current="true"] i::after{transform:scaleX(1)}
+
+@media (prefers-reduced-motion:no-preference){
+  /* Restarts on its own: the rule newly matches each time aria-current flips,
+     which is what makes a CSS animation begin again. */
+  .hero-dots button[aria-current="true"] i::after{
+    transform:scaleX(0);
+    animation:hero-tick var(--hold,6200ms) linear forwards;
+  }
+  /* Paused while somebody is reading, or hovering, or has just pressed a
+     control -- the bar and the slide stop together, so the bar never lies. */
+  .hero-stage.is-held .hero-dots button[aria-current="true"] i::after{
+    animation-play-state:paused;
+  }
+}
+@keyframes hero-tick{to{transform:scaleX(1)}}
+
 @media (max-width:600px){
   .hero-marks{left:0;justify-content:space-between}
+  .hero-hour{order:-1}
 }
-.hero-dots button{
-  width:2.2rem;height:2px;padding:0;border:0;cursor:pointer;
-  background:rgba(255,255,255,.42);transition:background .4s;
-}
-.hero-dots button[aria-current="true"]{background:#fff}
-.hero-dots button:hover{background:rgba(255,255,255,.8)}
-.hero-dots button:focus-visible{outline:2px solid #fff;outline-offset:3px}
 
 /* ------------------------------------------------- the load, once, in order */
 @media (prefers-reduced-motion:no-preference){
