@@ -80,16 +80,25 @@ SITE = "The Valley Venues"
 URL_ROOT = "/"
 BASE = "https://thevalley.sparkmedia.ai/"
 
-# Where the inquiry forms post. This is the Cloudflare worker in _worker/, not
-# the GoHighLevel webhook: the GHL URL is its own authentication and GHL bills
-# per execution, so it cannot be in page source. The worker holds it as a
-# secret, checks the Origin, and rejects dropdown values GHL would otherwise
-# accept silently and mis-file.
+# Where the inquiry forms post: GoHighLevel, straight from the browser.
 #
-# Empty until the worker is deployed. While it is empty the forms still render
-# and still validate, and submitting tells the visitor to email instead of
-# failing silently.
-FORM_ENDPOINT = ""
+# This is a decision taken against the CRM spec's own advice, which says to
+# post server side because the URL is the endpoint's only authentication and
+# GHL bills Inbound Webhook per execution. Client-side was chosen anyway, and
+# the URL not rotated, so two things follow.
+#
+#   It is public. Not only in page source -- this repo is public too, so it is
+#   in GitHub where secret scrapers look first.
+#   The honeypot in assets/forms.js is the only thing between a scraper and
+#   the invoice. Do not remove it.
+#
+# Verified 10 Sep 2026: the endpoint answers a CORS preflight with
+# Access-Control-Allow-Origin: *, so the browser allows this in normal cors
+# mode and the response can be read -- which is what lets a failed post show
+# the visitor an email address instead of losing what they wrote.
+FORM_ENDPOINT = ("https://services.leadconnectorhq.com/hooks/"
+                 "oDcqfZdwDgTOXwK0GS98/webhook-trigger/"
+                 "53fd0129-80af-4311-bfb2-e0955fb2ebe0")
 TAGLINE = "One Private Mountain Estate. All for You."
 
 # Primary navigation. Five destinations and one invitation — the Venues
@@ -1141,7 +1150,9 @@ PAGES["planners/register/index.html"] = dict(
     eyebrow="For planners &middot; Register",
     h1="Tell us who you are.",
     standfirst="Short on purpose. You do not have a date, a guest count or a "
-               "budget to give us, and asking for them would only slow this down.",
+               "budget to give us, and asking for them would only slow this "
+               "down. The website and handle are for your listing on the "
+               "approved planners page.",
     body="""
 <section>
   <form class="form inquiry" id="inquiry-planner" novalidate
@@ -1173,6 +1184,20 @@ PAGES["planners/register/index.html"] = dict(
       <label for="p_planner_name">Your studio <b aria-hidden="true">*</b></label>
       <input id="p_planner_name" name="planner_name" type="text"
              autocomplete="organization" required>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="p_planner_website">Website</label>
+        <input id="p_planner_website" name="planner_website" type="url"
+               inputmode="url" autocomplete="url"
+               placeholder="okaforevents.com">
+      </div>
+      <div class="field">
+        <label for="p_planner_social">Instagram</label>
+        <input id="p_planner_social" name="planner_social" type="text"
+               placeholder="@okaforevents">
+      </div>
     </div>
 
     <div class="field">
@@ -1209,11 +1234,12 @@ PAGES["planners/register/index.html"] = dict(
   </div>
 
   <div class="note">
-    <p><b>To confirm.</b> The planner welcome email promises a listing on the
-       approved planners page &mdash; studio, website and social. This form does not
-       collect the website or the social handle yet, because the CRM has no fields for
-       them. Two custom fields in GoHighLevel and two inputs here would save chasing
-       every planner for them afterwards.</p>
+    <p><b>New keys, and the CRM has to be told.</b> Website and Instagram post as
+       <code>planner_website</code> and <code>planner_social</code>. Per section 6 of the
+       webhook spec, GoHighLevel built its field mapping from one sample payload and matches
+       on key names &mdash; so after the custom fields exist, the sample request must be
+       <b>re-fetched</b> in the workflow trigger. Skip that and both fields arrive and go
+       nowhere, silently, exactly like a mistyped dropdown value.</p>
   </div>
 </section>
 """)

@@ -1,4 +1,14 @@
-# The inquiry worker
+# The inquiry worker — NOT IN USE
+
+> **The forms do not post here.** On 10 Sep 2026 the decision was taken to post
+> client-side, straight to GoHighLevel, and not to rotate the webhook URL. The
+> rules below now live in `assets/forms.js` instead, and the GHL URL sits in
+> `_build/build.py` and therefore in this public repo.
+>
+> This is kept, deployed nowhere, because it is written and tested and the
+> reasons for it have not gone away: that URL is the endpoint's only
+> authentication and GHL bills per execution. If spam starts costing money,
+> deploying this and swapping `FORM_ENDPOINT` is an hour's work.
 
 The site is static — GitHub Pages serves files and runs nothing — so there is
 no server for the forms to post through. This is that server: forty lines on

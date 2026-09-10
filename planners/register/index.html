@@ -25,7 +25,7 @@
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/assets/motion.css">
 <link rel="stylesheet" href="/assets/forms.css">
-<script>window.FORM_ENDPOINT="";if(/[?&]notes/.test(location.search))document.documentElement.classList.add("notes")</script>
+<script>window.FORM_ENDPOINT="https://services.leadconnectorhq.com/hooks/oDcqfZdwDgTOXwK0GS98/webhook-trigger/53fd0129-80af-4311-bfb2-e0955fb2ebe0";if(/[?&]notes/.test(location.search))document.documentElement.classList.add("notes")</script>
 </head>
 <body>
 
@@ -52,7 +52,7 @@
   <div class="hero-body">
     <div class="eyebrow">For planners &middot; Register</div>
     <h1>Tell us who you are.</h1>
-    <p>Short on purpose. You do not have a date, a guest count or a budget to give us, and asking for them would only slow this down.</p>
+    <p>Short on purpose. You do not have a date, a guest count or a budget to give us, and asking for them would only slow this down. The website and handle are for your listing on the approved planners page.</p>
   </div>
 </header>
 
@@ -90,6 +90,20 @@
              autocomplete="organization" required>
     </div>
 
+    <div class="field-row">
+      <div class="field">
+        <label for="p_planner_website">Website</label>
+        <input id="p_planner_website" name="planner_website" type="url"
+               inputmode="url" autocomplete="url"
+               placeholder="okaforevents.com">
+      </div>
+      <div class="field">
+        <label for="p_planner_social">Instagram</label>
+        <input id="p_planner_social" name="planner_social" type="text"
+               placeholder="@okaforevents">
+      </div>
+    </div>
+
     <div class="field">
       <label for="p_referral_source">How did you hear about the estate?</label>
       <select id="p_referral_source" name="referral_source">
@@ -124,11 +138,12 @@
   </div>
 
   <div class="note">
-    <p><b>To confirm.</b> The planner welcome email promises a listing on the
-       approved planners page &mdash; studio, website and social. This form does not
-       collect the website or the social handle yet, because the CRM has no fields for
-       them. Two custom fields in GoHighLevel and two inputs here would save chasing
-       every planner for them afterwards.</p>
+    <p><b>New keys, and the CRM has to be told.</b> Website and Instagram post as
+       <code>planner_website</code> and <code>planner_social</code>. Per section 6 of the
+       webhook spec, GoHighLevel built its field mapping from one sample payload and matches
+       on key names &mdash; so after the custom fields exist, the sample request must be
+       <b>re-fetched</b> in the workflow trigger. Skip that and both fields arrive and go
+       nowhere, silently, exactly like a mistyped dropdown value.</p>
   </div>
 </section>
 

@@ -77,18 +77,29 @@ not work served from a subdirectory.
 
 ## The inquiry forms
 
-`/book-a-tour/` (couples) and `/planners/register/` (planners) post to a
-Cloudflare worker in `_worker/`, which forwards to GoHighLevel. They do **not**
-post to GHL directly: the GHL webhook URL is its own authentication, GHL bills
-per execution, and a URL in page source is a URL anyone can point a script at.
+`/book-a-tour/` (couples) and `/planners/register/` (planners) post **straight
+to the GoHighLevel webhook from the browser**. `FORM_ENDPOINT` in
+`_build/build.py` holds that URL.
 
-`FORM_ENDPOINT` in `_build/build.py` is the worker's address. While it is
-empty the forms render and validate but tell the visitor to email instead —
-they never fail silently.
+That was decided against the CRM spec's own advice, which says to post server
+side. The consequence to keep in mind: the URL is the endpoint's only
+authentication, GHL bills Inbound Webhook per execution, and this repo is
+public — so the URL is not merely in page source, it is on GitHub, where
+secret scrapers look first. **The honeypot in `assets/forms.js` is the only
+thing between a scraper and the invoice; do not remove it.** `_worker/` holds
+a written and tested Cloudflare worker that closes this, deployed nowhere, if
+it is ever wanted.
 
-Both forms follow the CRM spec exactly: snake_case keys it matches on by name,
-dropdown values spelled the way it spells them, `guest_count` as a number, and
-Yes/No as strings rather than booleans. `_worker/test.mjs` guards all of that.
+Because there is no server, every rule the CRM depends on is enforced in
+`assets/forms.js`: the exact option strings, `guest_count` as a number, phone
+to E.164, `submitted_at` at submit. A value that is not on the allowlist is
+dropped rather than sent — an empty CRM field is at least visible, a wrong one
+is not. `node _worker/test.mjs` still exercises the same rule set.
+
+The planner form also sends `planner_website` and `planner_social`. Those are
+**new keys**, and GHL matches on key names it learned from one sample payload,
+so the sample request has to be re-fetched in the workflow trigger or both
+fields will arrive and go nowhere.
 
 The couple form requires an experience type and either a date or a season,
 because the CRM only starts Kobi's sequence when it has both — an inquiry
