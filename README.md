@@ -33,8 +33,16 @@ URL_ROOT = "/"                                 # what internal links point at
 BASE = "https://thevalley.sparkmedia.ai/"      # absolute origin, for og: tags
 ```
 
-Pointing thevalleyvenues.com here is a one-line change to `BASE`, a rebuild,
-and a new `CNAME`. Nothing in any stylesheet knows the site's address.
+Pointing thevalleyvenues.com here is one command:
+
+```
+python _build/set_domain.py thevalleyvenues.com
+```
+
+which changes `BASE` and `CNAME` together, rebuilds and link-checks. Getting
+one and not the other gives you a site that works but previews under its old
+name in every message anybody pastes it into. Nothing in any stylesheet knows
+the site's address.
 
 ## The other generators
 
@@ -45,6 +53,8 @@ and a new `CNAME`. Nothing in any stylesheet knows the site's address.
 | `_tools/place.py` | Cuts every photograph on the site from the sorted library. Each slot on the site has a job — a hero, a band, a card — and a job implies a width and an aspect, so the slots are listed in one table and rebuilt from the originals in one pass. |
 | `_tools/catsheet.py` | A contact sheet for one category of the sorted library, for choosing frames. |
 | `_tools/triage.py`, `sort.py`, `sheets.py` | The one-time pass that sorted 2,472 uncategorised images into the library. |
+| `_tools/linkcheck.py` | Resolves every internal href, src, srcset and CSS url() against the filesystem. Run it after a build and always after moving the site. |
+| `_build/set_domain.py` | Moves the site to a new hostname — changes `BASE` and `CNAME` together, rebuilds, and link-checks. `python _build/set_domain.py thevalleyvenues.com` |
 
 ### The photograph library is not in this repo
 
