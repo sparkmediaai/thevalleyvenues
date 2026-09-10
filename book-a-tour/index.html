@@ -24,7 +24,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Libre+Franklin:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/assets/motion.css">
-<script>if(/[?&]notes/.test(location.search))document.documentElement.classList.add("notes")</script>
+<link rel="stylesheet" href="/assets/forms.css">
+<script>window.FORM_ENDPOINT="";if(/[?&]notes/.test(location.search))document.documentElement.classList.add("notes")</script>
 </head>
 <body>
 
@@ -57,42 +58,148 @@
 
 <main id="main">
 
+
 <section>
-  <form class="form" action="#" method="post" onsubmit="return false">
-    <div class="field">
-      <label for="name">Your name</label>
-      <input id="name" name="name" type="text" autocomplete="name">
+  <form class="form inquiry" id="inquiry-couple" novalidate
+        data-inquiry-type="Couple" data-kind="couple">
+    <p class="form-intro">Everything except your name and email is optional,
+       but the more you tell us the more useful the reply is.</p>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="first_name">First name <b aria-hidden="true">*</b></label>
+        <input id="first_name" name="first_name" type="text" autocomplete="given-name" required>
+      </div>
+      <div class="field">
+        <label for="last_name">Last name</label>
+        <input id="last_name" name="last_name" type="text" autocomplete="family-name">
+      </div>
     </div>
-    <div class="field">
-      <label for="email">Email</label>
-      <input id="email" name="email" type="email" autocomplete="email">
+
+    <div class="field-row">
+      <div class="field">
+        <label for="email">Email <b aria-hidden="true">*</b></label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel"
+               placeholder="(423) 555&#8209;0147">
+      </div>
     </div>
-    <div class="field">
-      <label for="date">Your date, or the season you are considering</label>
-      <input id="date" name="date" type="text" placeholder="October 2027, or just &ldquo;autumn&rdquo;">
+
+    <fieldset class="field-set" data-group="when">
+      <legend>When</legend>
+      <p class="hint">A date or a season &mdash; either is enough to start with.</p>
+      <div class="field-row">
+        <div class="field">
+          <label for="event_date">Your date, if you have one</label>
+          <input id="event_date" name="event_date" type="date">
+        </div>
+        <div class="field">
+          <label for="season">Or the season you are considering</label>
+          <select id="season" name="season">
+            <option value="">&mdash;</option>
+            <option>Spring</option>
+            <option>Summer</option>
+            <option>Fall</option>
+            <option>Winter</option>
+            <option>Not sure</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="date_flexible">Is the date flexible?</label>
+        <select id="date_flexible" name="date_flexible">
+          <option value="">&mdash;</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </div>
+    </fieldset>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="experience_type">A weekend, or a single day? <b aria-hidden="true">*</b></label>
+        <select id="experience_type" name="experience_type" required>
+          <option value="">&mdash;</option>
+          <option>Estate Weekend</option>
+          <option>Single Day</option>
+          <option>Undecided</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="guest_count">Roughly how many people</label>
+        <input id="guest_count" name="guest_count" type="number" min="0" max="1000"
+               inputmode="numeric" placeholder="An estimate is fine">
+      </div>
     </div>
+
     <div class="field">
-      <label for="count">Roughly how many people</label>
-      <input id="count" name="count" type="text" placeholder="An estimate is fine">
-    </div>
-    <div class="field">
-      <label for="shape">A weekend, or a single day?</label>
-      <select id="shape" name="shape">
-        <option>The whole weekend</option>
-        <option>A single day</option>
-        <option>Not sure yet</option>
+      <label for="lodging_interest">Would you want people staying on the property?</label>
+      <select id="lodging_interest" name="lodging_interest">
+        <option value="">&mdash;</option>
+        <option>Yes</option>
+        <option>No</option>
       </select>
     </div>
+
     <div class="field">
-      <label for="staying">Who is staying on the property with you?</label>
-      <input id="staying" name="staying" type="text" placeholder="Wedding party, immediate family, everyone">
+      <label for="feeling">What do you want the weekend to feel like?</label>
+      <textarea id="feeling" name="feeling" rows="4"
+                placeholder="In your own words."></textarea>
     </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="working_with_planner">Are you working with a planner?</label>
+        <select id="working_with_planner" name="working_with_planner">
+          <option value="">&mdash;</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Looking for one</option>
+        </select>
+      </div>
+      <div class="field" id="planner-name-field" hidden>
+        <label for="planner_name">Their studio</label>
+        <input id="planner_name" name="planner_name" type="text">
+      </div>
+    </div>
+
     <div class="field">
-      <label for="feel">What do you want the weekend to feel like?</label>
-      <textarea id="feel" name="feel" placeholder="In your own words."></textarea>
+      <label for="referral_source">How did you hear about us?</label>
+      <select id="referral_source" name="referral_source">
+        <option value="">&mdash;</option>
+        <option>Instagram</option>
+        <option>TikTok</option>
+        <option>Google</option>
+        <option>Planner referral</option>
+        <option>Past couple</option>
+        <option>Wedding site</option>
+        <option>Other</option>
+      </select>
     </div>
+
+    <div class="hp" aria-hidden="true">
+      <label for="c_website">Website</label>
+      <input id="c_website" name="_hp" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
+    <p class="form-error" id="inquiry-couple-error" role="alert" hidden></p>
     <button class="btn btn-solid" type="submit">Request a tour</button>
+    <p class="form-privacy">We will only use this to answer you. No list, no
+       drip, nothing sold.</p>
   </form>
+
+  <div class="form-done" id="inquiry-couple-done" role="status" hidden>
+    <div class="eyebrow">Thank you</div>
+    <h2>That is with Kobi.</h2>
+    <p>You will get a reply from a person, naming the two or three
+       configurations that actually fit what you described. If it has not
+       arrived within a day or so, email
+       <a href="mailto:Info@thevalleyvenues.com">Info@thevalleyvenues.com</a>
+       and we will find out why.</p>
+  </div>
 
   <div class="lede" style="margin-top:3rem">
     <div class="eyebrow">What happens next</div>
@@ -114,13 +221,20 @@
   </div>
 
   <div class="note">
-    <p><b>Prototype note.</b> The form does not submit. Note what it does not ask: your total
+    <p><b>Prototype note.</b> The form posts to a Cloudflare worker, which holds the
+       GoHighLevel webhook URL as a secret and forwards the inquiry. Until that worker is
+       deployed the form validates and then tells the visitor to email instead. Note what it
+       does not ask: your total
        budget. That question closes more doors than it filters, and guest count arrives
        naturally here anyway &mdash; after you have described what you want, rather than as
        the price of entry.</p>
     <p>What should come back is a recommendation naming the two or three configurations that
        fit, priced, in the brand voice, and signed by Kobi &mdash; within minutes rather than
        a pamphlet within seconds.</p>
+    <p>The two starred fields are starred for a reason beyond politeness. The CRM only
+       starts Kobi&rsquo;s sequence for an inquiry that has an experience type <em>and</em>
+       either a date or a season; anything less sits in the pipeline unworked. So the form
+       insists on them rather than letting somebody skip both and never hear back.</p>
   </div>
 </section>
 
@@ -160,6 +274,7 @@
           <ul>
             <li><a href="/planners/">For Planners</a></li>
             <li><a href="/planners/vendors/">Preferred Vendors</a></li>
+            <li><a href="/planners/register/">Register as a Planner</a></li>
           </ul>
         </div>
         <div>
@@ -184,5 +299,6 @@
   </div>
 </footer>
 
+<script src="/assets/forms.js" defer></script>
 </body>
 </html>

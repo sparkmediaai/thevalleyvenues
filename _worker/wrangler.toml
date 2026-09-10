@@ -1,0 +1,15 @@
+name = "thevalleyvenues-inquiries"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+[vars]
+# Which sites may post here. The worker refuses every other Origin, so the
+# endpoint being public does not make it useful to anyone else.
+# Add thevalleyvenues.com when the domain moves.
+ALLOWED_ORIGINS = "https://thevalley.sparkmedia.ai,http://localhost:8791"
+
+# GHL_WEBHOOK_URL is NOT here on purpose. It is the only authentication the
+# GHL endpoint has, this repo is public, and GHL bills per execution.
+# Set it as an encrypted secret instead:
+#
+#     npx wrangler secret put GHL_WEBHOOK_URL

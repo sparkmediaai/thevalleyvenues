@@ -75,6 +75,25 @@ python -m http.server 8790
 Then http://localhost:8790. The site is written for a domain root, so it will
 not work served from a subdirectory.
 
+## The inquiry forms
+
+`/book-a-tour/` (couples) and `/planners/register/` (planners) post to a
+Cloudflare worker in `_worker/`, which forwards to GoHighLevel. They do **not**
+post to GHL directly: the GHL webhook URL is its own authentication, GHL bills
+per execution, and a URL in page source is a URL anyone can point a script at.
+
+`FORM_ENDPOINT` in `_build/build.py` is the worker's address. While it is
+empty the forms render and validate but tell the visitor to email instead —
+they never fail silently.
+
+Both forms follow the CRM spec exactly: snake_case keys it matches on by name,
+dropdown values spelled the way it spells them, `guest_count` as a number, and
+Yes/No as strings rather than booleans. `_worker/test.mjs` guards all of that.
+
+The couple form requires an experience type and either a date or a season,
+because the CRM only starts Kobi's sequence when it has both — an inquiry
+missing them is filed `not-yet-qualified` and sits unworked.
+
 ## What is still open
 
 - The wordmark: "The Valley Venues" or "THE VALLEY".

@@ -3,17 +3,17 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Preferred Vendors | The Valley Venues</title>
-<meta name="description" content="Planners and vendors who know the estate.">
+<title>Register as a Planner | The Valley Venues</title>
+<meta name="description" content="Register as a planner with The Valley Venues.">
 <meta name="robots" content="noindex,nofollow">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/assets/icon-180.png">
 <meta name="theme-color" content="#23291F">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="The Valley Venues">
-<meta property="og:title" content="Preferred Vendors | The Valley Venues">
-<meta property="og:description" content="Planners and vendors who know the estate.">
-<meta property="og:url" content="https://thevalley.sparkmedia.ai/planners/vendors/">
+<meta property="og:title" content="Register as a Planner | The Valley Venues">
+<meta property="og:description" content="Register as a planner with The Valley Venues.">
+<meta property="og:url" content="https://thevalley.sparkmedia.ai/planners/register/">
 <meta property="og:image" content="https://thevalley.sparkmedia.ai/assets/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
@@ -48,71 +48,87 @@
 </header>
 
 <header class="hero hero-photo">
-  <img class="hero-bg" src="/assets/img/vendors.webp" alt="An invitation suite and two rings" width="2000" height="1000" fetchpriority="high" decoding="async">
+  <img class="hero-bg" src="/assets/img/pl-deck.webp" alt="A group on the Lookout Deck with the mountain behind them" width="1800" height="900" fetchpriority="high" decoding="async">
   <div class="hero-body">
-    <div class="eyebrow">For planners &middot; Preferred vendors</div>
-    <h1>The people who know this property.</h1>
-    <p>Most couples reach this site before they have hired a planner. This list puts one in front of a couple who has already chosen the estate.</p>
+    <div class="eyebrow">For planners &middot; Register</div>
+    <h1>Tell us who you are.</h1>
+    <p>Short on purpose. You do not have a date, a guest count or a budget to give us, and asking for them would only slow this down.</p>
   </div>
 </header>
 
 <main id="main">
 
 <section>
-  <div class="lede">
-    <h2>Planners</h2>
-    <p>Each entry carries a name, a studio, a website and a social handle.</p>
-  </div>
-  <ul class="named">
-    <li>Planner name <span>Studio &middot; website &middot; social</span></li>
-    <li>Planner name <span>Studio &middot; website &middot; social</span></li>
-    <li>Planner name <span>Studio &middot; website &middot; social</span></li>
-  </ul>
-  <div class="split flip" style="margin-top:3rem">
-    <div class="split-text">
-      <h2>Vendors</h2>
-      <p>Photography, florals, music, hair and makeup, rentals, officiants.</p>
-      <p>Rentals is the shortest list, because the tables, the chairs, the linens and a
-         good deal of the decor are already on the property.</p>
+  <form class="form inquiry" id="inquiry-planner" novalidate
+        data-inquiry-type="Planner" data-kind="planner">
+    <div class="field-row">
+      <div class="field">
+        <label for="p_first_name">First name <b aria-hidden="true">*</b></label>
+        <input id="p_first_name" name="first_name" type="text" autocomplete="given-name" required>
+      </div>
+      <div class="field">
+        <label for="p_last_name">Last name</label>
+        <input id="p_last_name" name="last_name" type="text" autocomplete="family-name">
+      </div>
     </div>
-    <figure class="frame">
-      <img src="/assets/img/vend-table.webp" alt="Glassware and candles down the length of a laid table" width="1200" height="900" loading="lazy" decoding="async" class="par par-mid">
-    </figure>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="p_email">Email <b aria-hidden="true">*</b></label>
+        <input id="p_email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="p_phone">Phone</label>
+        <input id="p_phone" name="phone" type="tel" autocomplete="tel"
+               placeholder="(423) 555&#8209;0147">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="p_planner_name">Your studio <b aria-hidden="true">*</b></label>
+      <input id="p_planner_name" name="planner_name" type="text"
+             autocomplete="organization" required>
+    </div>
+
+    <div class="field">
+      <label for="p_referral_source">How did you hear about the estate?</label>
+      <select id="p_referral_source" name="referral_source">
+        <option value="">&mdash;</option>
+        <option>Instagram</option>
+        <option>TikTok</option>
+        <option>Google</option>
+        <option>Planner referral</option>
+        <option>Past couple</option>
+        <option>Wedding site</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div class="hp" aria-hidden="true">
+      <label for="p_website">Website</label>
+      <input id="p_website" name="_hp" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
+    <p class="form-error" id="inquiry-planner-error" role="alert" hidden></p>
+    <button class="btn btn-solid" type="submit">Register</button>
+    <p class="form-privacy">This goes to the planner list, not the bridal one.
+       You will not get couples&rsquo; email.</p>
+  </form>
+
+  <div class="form-done" id="inquiry-planner-done" role="status" hidden>
+    <div class="eyebrow">Registered</div>
+    <h2>Welcome. Come and walk it.</h2>
+    <p>A welcome note is on its way, and planner site visits are welcome on
+       their own &mdash; without a couple, and a good deal more useful than a
+       floor plan. Reply to that email with a date that suits you.</p>
   </div>
-  <ul class="named">
-    <li>Vendor name <span>Category &middot; website &middot; social</span></li>
-    <li>Vendor name <span>Category &middot; website &middot; social</span></li>
-    <li>Vendor name <span>Category &middot; website &middot; social</span></li>
-  </ul>
+
   <div class="note">
-    <p><b>Why this page exists.</b> Being listed here gives a planner cause to name the estate
-       on her own site and in her guides. The referral runs both directions, and the estate
-       holds the list.</p>
-  </div>
-</section>
-
-<section>
-  <div class="statement">
-    <div class="eyebrow">How this list is meant to work</div>
-    <h2 class="rise-words"><span>A</span> <span>referral</span> <span>is</span> <span>worth</span> <span>more</span> <span>than</span> <span>an</span> <span>advertisement.</span></h2>
-    <p>Most couples find a venue before they find a planner. By the time
-       somebody is reading this page they have already decided where the wedding
-       is, which makes it the least competitive introduction a planner will get
-       all year.</p>
-    <p class="close">In return, the estate gets named on a dozen other sites by
-       people with no reason to flatter it. That is the entire mechanism, and it
-       only works if the list stays short and honest.</p>
-  </div>
-</section>
-
-<section class="closing">
-  <div class="closing-img" role="img" aria-label="Candles and low light on a dressed table"
-       style="background-image:url('/assets/img/close-vendors.webp')"></div>
-  <div class="closing-body">
-    <div class="eyebrow">For vendors</div>
-    <h2>Worked here before?</h2>
-    <p>If you have run a wedding on this property and it went well, tell us. The list is built from people the team has actually stood beside at one in the morning.</p>
-    <a class="btn" href="/book-a-tour/">Get in touch</a>
+    <p><b>To confirm.</b> The planner welcome email promises a listing on the
+       approved planners page &mdash; studio, website and social. This form does not
+       collect the website or the social handle yet, because the CRM has no fields for
+       them. Two custom fields in GoHighLevel and two inputs here would save chasing
+       every planner for them afterwards.</p>
   </div>
 </section>
 

@@ -14,6 +14,12 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMG = os.path.join(ROOT, "assets", "img")
 
 
+def json_str(value):
+    """A JavaScript string literal that cannot end the script element early."""
+    return ('"' + str(value).replace("\\", "\\\\").replace('"', '\\"')
+            .replace("<", "\\x3c") + '"')
+
+
 def webp_size(path):
     """Width and height of a WebP, without a dependency.
 
@@ -73,6 +79,17 @@ SITE = "The Valley Venues"
 # thevalleyvenues.com is pointed here the only change is BASE.
 URL_ROOT = "/"
 BASE = "https://thevalley.sparkmedia.ai/"
+
+# Where the inquiry forms post. This is the Cloudflare worker in _worker/, not
+# the GoHighLevel webhook: the GHL URL is its own authentication and GHL bills
+# per execution, so it cannot be in page source. The worker holds it as a
+# secret, checks the Origin, and rejects dropdown values GHL would otherwise
+# accept silently and mis-file.
+#
+# Empty until the worker is deployed. While it is empty the forms still render
+# and still validate, and submitting tells the visitor to email instead of
+# failing silently.
+FORM_ENDPOINT = ""
 TAGLINE = "One Private Mountain Estate. All for You."
 
 # Primary navigation. Five destinations and one invitation — the Venues
@@ -101,6 +118,7 @@ FOOTER = [
     ("Trade", [
         ("For Planners", "/planners/"),
         ("Preferred Vendors", "/planners/vendors/"),
+        ("Register as a Planner", "/planners/register/"),
     ]),
     ("The Valley Venues", [
         ("About &amp; Kobi", "/about/"),
@@ -169,7 +187,8 @@ def shell(page, path="index.html"):
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Libre+Franklin:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="%(root)sassets/site.css">
 <link rel="stylesheet" href="%(root)sassets/motion.css">
-%(head)s<script>if(/[?&]notes\b/.test(location.search))document.documentElement.classList.add("notes")</script>
+<link rel="stylesheet" href="%(root)sassets/forms.css">
+%(head)s<script>window.FORM_ENDPOINT=%(endpoint)s;if(/[?&]notes\b/.test(location.search))document.documentElement.classList.add("notes")</script>
 </head>
 <body>
 
@@ -217,11 +236,13 @@ def shell(page, path="index.html"):
   </div>
 </footer>
 %(foot_js)s
+<script src="%(root)sassets/forms.js" defer></script>
 </body>
 </html>
 """ % {
         "title": page["title"], "desc": page["desc"], "root": depth_root,
         "url": url, "base": BASE,
+        "endpoint": json_str(FORM_ENDPOINT),
         "site": SITE, "nav": nav, "cta_href": CTA[1], "cta_text": CTA[0],
         "hero": hero, "eyebrow": page["eyebrow"], "h1": page["h1"],
         "standfirst": page["standfirst"], "actions": actions,
@@ -931,7 +952,7 @@ PAGES["planners/index.html"] = dict(
     h1="Bring your vision. We know the estate.",
     standfirst="Planners send couples here repeatedly once they trust the operation. This "
                "page is written to your lens rather than the bride's.",
-    actions=[("Register as a planner", "/book-a-tour/"),
+    actions=[("Register as a planner", "/planners/register/"),
              ("Preferred vendors", "/planners/vendors/")],
     body="""
 <section>
@@ -1039,7 +1060,7 @@ PAGES["planners/index.html"] = dict(
     <div class="eyebrow">Trade enquiries</div>
     <h2>Come and walk it without a couple.</h2>
     <p>Planner site visits are welcome on their own, and are a good deal more useful than a floor plan. Bring a timeline and we will tell you what it actually takes here.</p>
-    <a class="btn" href="/book-a-tour/">Register as a planner</a>
+    <a class="btn" href="/planners/register/">Register as a planner</a>
   </div>
 </section>
 """)
@@ -1111,6 +1132,92 @@ PAGES["planners/vendors/index.html"] = dict(
   </div>
 </section>
 """)
+
+PAGES["planners/register/index.html"] = dict(
+    nav="Planners", title="Register as a Planner | %s" % SITE,
+    desc="Register as a planner with The Valley Venues.",
+    hero_img="pl-deck.webp",
+    hero_alt="A group on the Lookout Deck with the mountain behind them",
+    eyebrow="For planners &middot; Register",
+    h1="Tell us who you are.",
+    standfirst="Short on purpose. You do not have a date, a guest count or a "
+               "budget to give us, and asking for them would only slow this down.",
+    body="""
+<section>
+  <form class="form inquiry" id="inquiry-planner" novalidate
+        data-inquiry-type="Planner" data-kind="planner">
+    <div class="field-row">
+      <div class="field">
+        <label for="p_first_name">First name <b aria-hidden="true">*</b></label>
+        <input id="p_first_name" name="first_name" type="text" autocomplete="given-name" required>
+      </div>
+      <div class="field">
+        <label for="p_last_name">Last name</label>
+        <input id="p_last_name" name="last_name" type="text" autocomplete="family-name">
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="p_email">Email <b aria-hidden="true">*</b></label>
+        <input id="p_email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="p_phone">Phone</label>
+        <input id="p_phone" name="phone" type="tel" autocomplete="tel"
+               placeholder="(423) 555&#8209;0147">
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="p_planner_name">Your studio <b aria-hidden="true">*</b></label>
+      <input id="p_planner_name" name="planner_name" type="text"
+             autocomplete="organization" required>
+    </div>
+
+    <div class="field">
+      <label for="p_referral_source">How did you hear about the estate?</label>
+      <select id="p_referral_source" name="referral_source">
+        <option value="">&mdash;</option>
+        <option>Instagram</option>
+        <option>TikTok</option>
+        <option>Google</option>
+        <option>Planner referral</option>
+        <option>Past couple</option>
+        <option>Wedding site</option>
+        <option>Other</option>
+      </select>
+    </div>
+
+    <div class="hp" aria-hidden="true">
+      <label for="p_website">Website</label>
+      <input id="p_website" name="_hp" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
+    <p class="form-error" id="inquiry-planner-error" role="alert" hidden></p>
+    <button class="btn btn-solid" type="submit">Register</button>
+    <p class="form-privacy">This goes to the planner list, not the bridal one.
+       You will not get couples&rsquo; email.</p>
+  </form>
+
+  <div class="form-done" id="inquiry-planner-done" role="status" hidden>
+    <div class="eyebrow">Registered</div>
+    <h2>Welcome. Come and walk it.</h2>
+    <p>A welcome note is on its way, and planner site visits are welcome on
+       their own &mdash; without a couple, and a good deal more useful than a
+       floor plan. Reply to that email with a date that suits you.</p>
+  </div>
+
+  <div class="note">
+    <p><b>To confirm.</b> The planner welcome email promises a listing on the
+       approved planners page &mdash; studio, website and social. This form does not
+       collect the website or the social handle yet, because the CRM has no fields for
+       them. Two custom fields in GoHighLevel and two inputs here would save chasing
+       every planner for them afterwards.</p>
+  </div>
+</section>
+""")
+
 
 PAGES["about/index.html"] = dict(
     nav="About", title="About | %s" % SITE,
@@ -1206,42 +1313,148 @@ PAGES["book-a-tour/index.html"] = dict(
                "little about the weekend you are imagining and we will tell you what "
                "actually fits.",
     body="""
+
 <section>
-  <form class="form" action="#" method="post" onsubmit="return false">
-    <div class="field">
-      <label for="name">Your name</label>
-      <input id="name" name="name" type="text" autocomplete="name">
+  <form class="form inquiry" id="inquiry-couple" novalidate
+        data-inquiry-type="Couple" data-kind="couple">
+    <p class="form-intro">Everything except your name and email is optional,
+       but the more you tell us the more useful the reply is.</p>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="first_name">First name <b aria-hidden="true">*</b></label>
+        <input id="first_name" name="first_name" type="text" autocomplete="given-name" required>
+      </div>
+      <div class="field">
+        <label for="last_name">Last name</label>
+        <input id="last_name" name="last_name" type="text" autocomplete="family-name">
+      </div>
     </div>
-    <div class="field">
-      <label for="email">Email</label>
-      <input id="email" name="email" type="email" autocomplete="email">
+
+    <div class="field-row">
+      <div class="field">
+        <label for="email">Email <b aria-hidden="true">*</b></label>
+        <input id="email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="phone">Phone</label>
+        <input id="phone" name="phone" type="tel" autocomplete="tel"
+               placeholder="(423) 555&#8209;0147">
+      </div>
     </div>
-    <div class="field">
-      <label for="date">Your date, or the season you are considering</label>
-      <input id="date" name="date" type="text" placeholder="October 2027, or just &ldquo;autumn&rdquo;">
+
+    <fieldset class="field-set" data-group="when">
+      <legend>When</legend>
+      <p class="hint">A date or a season &mdash; either is enough to start with.</p>
+      <div class="field-row">
+        <div class="field">
+          <label for="event_date">Your date, if you have one</label>
+          <input id="event_date" name="event_date" type="date">
+        </div>
+        <div class="field">
+          <label for="season">Or the season you are considering</label>
+          <select id="season" name="season">
+            <option value="">&mdash;</option>
+            <option>Spring</option>
+            <option>Summer</option>
+            <option>Fall</option>
+            <option>Winter</option>
+            <option>Not sure</option>
+          </select>
+        </div>
+      </div>
+      <div class="field">
+        <label for="date_flexible">Is the date flexible?</label>
+        <select id="date_flexible" name="date_flexible">
+          <option value="">&mdash;</option>
+          <option>Yes</option>
+          <option>No</option>
+        </select>
+      </div>
+    </fieldset>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="experience_type">A weekend, or a single day? <b aria-hidden="true">*</b></label>
+        <select id="experience_type" name="experience_type" required>
+          <option value="">&mdash;</option>
+          <option>Estate Weekend</option>
+          <option>Single Day</option>
+          <option>Undecided</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="guest_count">Roughly how many people</label>
+        <input id="guest_count" name="guest_count" type="number" min="0" max="1000"
+               inputmode="numeric" placeholder="An estimate is fine">
+      </div>
     </div>
+
     <div class="field">
-      <label for="count">Roughly how many people</label>
-      <input id="count" name="count" type="text" placeholder="An estimate is fine">
-    </div>
-    <div class="field">
-      <label for="shape">A weekend, or a single day?</label>
-      <select id="shape" name="shape">
-        <option>The whole weekend</option>
-        <option>A single day</option>
-        <option>Not sure yet</option>
+      <label for="lodging_interest">Would you want people staying on the property?</label>
+      <select id="lodging_interest" name="lodging_interest">
+        <option value="">&mdash;</option>
+        <option>Yes</option>
+        <option>No</option>
       </select>
     </div>
+
     <div class="field">
-      <label for="staying">Who is staying on the property with you?</label>
-      <input id="staying" name="staying" type="text" placeholder="Wedding party, immediate family, everyone">
+      <label for="feeling">What do you want the weekend to feel like?</label>
+      <textarea id="feeling" name="feeling" rows="4"
+                placeholder="In your own words."></textarea>
     </div>
+
+    <div class="field-row">
+      <div class="field">
+        <label for="working_with_planner">Are you working with a planner?</label>
+        <select id="working_with_planner" name="working_with_planner">
+          <option value="">&mdash;</option>
+          <option>Yes</option>
+          <option>No</option>
+          <option>Looking for one</option>
+        </select>
+      </div>
+      <div class="field" id="planner-name-field" hidden>
+        <label for="planner_name">Their studio</label>
+        <input id="planner_name" name="planner_name" type="text">
+      </div>
+    </div>
+
     <div class="field">
-      <label for="feel">What do you want the weekend to feel like?</label>
-      <textarea id="feel" name="feel" placeholder="In your own words."></textarea>
+      <label for="referral_source">How did you hear about us?</label>
+      <select id="referral_source" name="referral_source">
+        <option value="">&mdash;</option>
+        <option>Instagram</option>
+        <option>TikTok</option>
+        <option>Google</option>
+        <option>Planner referral</option>
+        <option>Past couple</option>
+        <option>Wedding site</option>
+        <option>Other</option>
+      </select>
     </div>
+
+    <div class="hp" aria-hidden="true">
+      <label for="c_website">Website</label>
+      <input id="c_website" name="_hp" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
+    <p class="form-error" id="inquiry-couple-error" role="alert" hidden></p>
     <button class="btn btn-solid" type="submit">Request a tour</button>
+    <p class="form-privacy">We will only use this to answer you. No list, no
+       drip, nothing sold.</p>
   </form>
+
+  <div class="form-done" id="inquiry-couple-done" role="status" hidden>
+    <div class="eyebrow">Thank you</div>
+    <h2>That is with Kobi.</h2>
+    <p>You will get a reply from a person, naming the two or three
+       configurations that actually fit what you described. If it has not
+       arrived within a day or so, email
+       <a href="mailto:Info@thevalleyvenues.com">Info@thevalleyvenues.com</a>
+       and we will find out why.</p>
+  </div>
 
   <div class="lede" style="margin-top:3rem">
     <div class="eyebrow">What happens next</div>
@@ -1263,13 +1476,20 @@ PAGES["book-a-tour/index.html"] = dict(
   </div>
 
   <div class="note">
-    <p><b>Prototype note.</b> The form does not submit. Note what it does not ask: your total
+    <p><b>Prototype note.</b> The form posts to a Cloudflare worker, which holds the
+       GoHighLevel webhook URL as a secret and forwards the inquiry. Until that worker is
+       deployed the form validates and then tells the visitor to email instead. Note what it
+       does not ask: your total
        budget. That question closes more doors than it filters, and guest count arrives
        naturally here anyway &mdash; after you have described what you want, rather than as
        the price of entry.</p>
     <p>What should come back is a recommendation naming the two or three configurations that
        fit, priced, in the brand voice, and signed by Kobi &mdash; within minutes rather than
        a pamphlet within seconds.</p>
+    <p>The two starred fields are starred for a reason beyond politeness. The CRM only
+       starts Kobi&rsquo;s sequence for an inquiry that has an experience type <em>and</em>
+       either a date or a season; anything less sits in the pipeline unworked. So the form
+       insists on them rather than letting somebody skip both and never hear back.</p>
   </div>
 </section>
 

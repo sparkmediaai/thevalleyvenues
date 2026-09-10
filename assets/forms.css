@@ -1,0 +1,68 @@
+@charset "UTF-8";
+/* ============================================================================
+   The inquiry forms.
+
+   site.css already dresses .form, .field, labels and inputs. This adds only
+   what the CRM's field list forced into the page: two-up rows, a grouped set
+   for the date questions, a honeypot, and the three states a form that
+   actually posts somewhere has to be able to show.
+   ========================================================================== */
+
+.form-intro,.hint,.form-privacy{
+  font-size:.88rem;color:var(--ink-soft);max-width:34rem;margin:0;
+}
+.form-privacy{color:var(--ink-faint);font-size:.8rem;margin-top:-.4rem}
+.hint{margin:-.3rem 0 .4rem}
+
+/* The starred fields are starred because the CRM will not start Kobi's
+   sequence without them, not to be officious about it. */
+.form label b{color:var(--taupe);font-weight:600;margin-left:.15rem}
+
+.field-row{display:grid;gap:1.5rem}
+@media (min-width:34rem){.field-row{grid-template-columns:1fr 1fr}}
+
+.field-set{
+  border:0;border-top:1px solid var(--line);margin:.6rem 0 0;
+  padding:1.4rem 0 0;display:flex;flex-direction:column;gap:1.1rem;
+}
+.field-set legend{
+  padding:0 .7rem 0 0;font-size:.68rem;font-weight:600;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--taupe);
+}
+
+/* A field the visitor has been told about is wrong. */
+.field.is-bad input,.field.is-bad select,.field.is-bad textarea{
+  border-color:#9c4b3c;
+}
+.field-msg{font-size:.82rem;color:#9c4b3c;margin:0}
+
+.form-error{
+  border-left:2px solid #9c4b3c;padding:.2rem 0 .2rem 1rem;
+  font-size:.92rem;color:var(--ink);max-width:34rem;
+}
+.form-error a{color:inherit}
+
+/* Off-screen rather than display:none. A bot that reads the markup will fill
+   this in; a bot that skips hidden fields would skip a display:none one. It is
+   aria-hidden and out of the tab order, so nobody else ever meets it. */
+.hp{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+
+.form.is-sending{opacity:.55;pointer-events:none}
+.form.is-sending button[type="submit"]{cursor:progress}
+
+.form-done{
+  border-left:2px solid var(--forest);padding:.2rem 0 .2rem 1.4rem;
+  display:flex;flex-direction:column;gap:.9rem;align-items:flex-start;
+  max-width:40rem;margin-top:1rem;
+}
+.form-done h2{font-size:clamp(1.6rem,3.4vw,2.3rem)}
+.form-done p{color:var(--ink-soft)}
+
+@media (prefers-reduced-motion:no-preference){
+  @supports (animation-timeline:view()){
+    /* The confirmation replaces the form after the page has settled, so it
+       cannot rely on a scroll timeline that already ran past it. */
+    .form-done{animation:done-in .5s cubic-bezier(.16,.8,.24,1) both}
+  }
+}
+@keyframes done-in{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}

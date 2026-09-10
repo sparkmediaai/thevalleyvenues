@@ -24,7 +24,8 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Libre+Franklin:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/assets/motion.css">
-<script>if(/[?&]notes/.test(location.search))document.documentElement.classList.add("notes")</script>
+<link rel="stylesheet" href="/assets/forms.css">
+<script>window.FORM_ENDPOINT="";if(/[?&]notes/.test(location.search))document.documentElement.classList.add("notes")</script>
 </head>
 <body>
 
@@ -53,7 +54,7 @@
     <h1>Bring your vision. We know the estate.</h1>
     <p>Planners send couples here repeatedly once they trust the operation. This page is written to your lens rather than the bride's.</p>
     <div class="hero-actions">
-      <a class="btn btn-solid" href="/book-a-tour/">Register as a planner</a>
+      <a class="btn btn-solid" href="/planners/register/">Register as a planner</a>
       <a class="btn" href="/planners/vendors/">Preferred vendors</a></div>
     
   </div>
@@ -166,7 +167,7 @@
     <div class="eyebrow">Trade enquiries</div>
     <h2>Come and walk it without a couple.</h2>
     <p>Planner site visits are welcome on their own, and are a good deal more useful than a floor plan. Bring a timeline and we will tell you what it actually takes here.</p>
-    <a class="btn" href="/book-a-tour/">Register as a planner</a>
+    <a class="btn" href="/planners/register/">Register as a planner</a>
   </div>
 </section>
 
@@ -195,6 +196,7 @@
           <ul>
             <li><a href="/planners/">For Planners</a></li>
             <li><a href="/planners/vendors/">Preferred Vendors</a></li>
+            <li><a href="/planners/register/">Register as a Planner</a></li>
           </ul>
         </div>
         <div>
@@ -219,5 +221,6 @@
   </div>
 </footer>
 
+<script src="/assets/forms.js" defer></script>
 </body>
 </html>

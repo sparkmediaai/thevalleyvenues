@@ -24,11 +24,12 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Libre+Franklin:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/assets/motion.css">
+<link rel="stylesheet" href="/assets/forms.css">
 <link rel="stylesheet" href="/assets/home.css">
 <link rel="preload" as="image" href="/assets/img/hero-1.webp"
       imagesrcset="/assets/img/hero-1-sm.webp 1100w, /assets/img/hero-1.webp 2200w"
       imagesizes="100vw">
-<script>if(/[?&]notes/.test(location.search))document.documentElement.classList.add("notes")</script>
+<script>window.FORM_ENDPOINT="";if(/[?&]notes/.test(location.search))document.documentElement.classList.add("notes")</script>
 </head>
 <body>
 
@@ -253,6 +254,7 @@
           <ul>
             <li><a href="/planners/">For Planners</a></li>
             <li><a href="/planners/vendors/">Preferred Vendors</a></li>
+            <li><a href="/planners/register/">Register as a Planner</a></li>
           </ul>
         </div>
         <div>
@@ -277,5 +279,6 @@
   </div>
 </footer>
 <script src="/assets/home.js" defer></script>
+<script src="/assets/forms.js" defer></script>
 </body>
 </html>
