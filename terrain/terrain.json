@@ -1,0 +1,14 @@
+{
+  "grid": 256,
+  "minElev": 196.28,
+  "maxElev": 269.48,
+  "relief": 73.2,
+  "bbox": {
+    "west": -85.4099,
+    "east": -85.4011,
+    "south": 34.95684,
+    "north": 34.96404
+  },
+  "metresWide": 800,
+  "source": "USGS 3DEP 1m DEM via nationalmap.gov, sampled 2026-08"
+}

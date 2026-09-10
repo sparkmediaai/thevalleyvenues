@@ -1,0 +1,62 @@
+{
+  "_comment": "Boundaries read off the contact sheets in _triage/sheets. The spine sheets sampled every 20th frame; the b1-b6 sheets resampled each seam every 4th, so these are accurate to a handful of images. Rules are tried top to bottom, so the narrow green-filtered rules must stay above the broad ones.",
+
+  "_note_on_the_mixed_stretch": "Frames 831-890 of shoot 4 are the only place a range cannot work. The reception room was being set while the bridal party was photographed in the meadow, and the photographer crossed between the two every couple of minutes. Greenness separates them: a white room full of linen is not green, a meadow is.",
+
+  "Davis Hall": [
+    {"shoot": 4, "range": [831, 890], "green_below": 4},
+    {"shoot": 4, "range": [1003, 1190]}
+  ],
+
+  "Details & decor": [
+    {"shoot": 4, "range": [1, 35]},
+    {"shoot": 2, "range": [71, 108]},
+    {"shoot": 2, "range": [151, 199]},
+    {"shoot": 6, "range": [1, 16]},
+    {"shoot": 1, "range": [1, 9]}
+  ],
+
+  "Getting ready": [
+    {"shoot": 4, "range": [36, 186]},
+    {"shoot": 2, "range": [10, 70]},
+    {"shoot": 6, "range": [17, 48]},
+    {"shoot": 6, "range": [57, 88]},
+    {"shoot": 1, "range": [10, 12]}
+  ],
+
+  "Magnolia House": [
+    {"shoot": 4, "range": [187, 320]},
+    {"shoot": 2, "range": [1, 9]},
+    {"shoot": 6, "range": [137, 400]}
+  ],
+
+  "People & candid": [
+    {"shoot": 4, "range": [321, 510]},
+    {"shoot": 4, "range": [1271, 1420]},
+    {"shoot": 1, "range": [13, 43]}
+  ],
+
+  "The Valley": [
+    {"shoot": 4, "range": [511, 890]},
+    {"shoot": 6, "range": [49, 56]},
+    {"shoot": 6, "range": [105, 136]}
+  ],
+
+  "Mountain & landscape": [
+    {"shoot": 4, "range": [891, 1002]},
+    {"shoot": 2, "range": [109, 117]},
+    {"shoot": 6, "range": [89, 104]}
+  ],
+
+  "Lookout Deck": [
+    {"shoot": 4, "range": [1191, 1270]}
+  ],
+
+  "Food & catering": [
+    {"shoot": 2, "range": [118, 150]}
+  ],
+
+  "Lodging & cottages": [
+    {"shoot": 2, "range": [200, 400]}
+  ]
+}

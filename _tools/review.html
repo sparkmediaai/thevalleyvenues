@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Photo triage</title>
+<style>
+:root{
+  --ground:#141712; --panel:#1C211A; --raised:#242A22;
+  --ink:#E9E7DD; --soft:#A8AE9E; --faint:#767E6B;
+  --line:rgba(233,231,221,.14);
+  --accent:#8FB0A0; --warn:#C4A585; --bad:#C77B6B;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--ground);color:var(--ink);
+  font:400 14px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif}
+header{position:sticky;top:0;z-index:10;background:var(--panel);
+  border-bottom:1px solid var(--line);padding:.8rem 1rem;
+  display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
+h1{font-size:1rem;font-weight:600;margin:0;white-space:nowrap}
+.counts{font-size:.8rem;color:var(--soft);display:flex;gap:.9rem;flex-wrap:wrap}
+.counts b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
+.spacer{flex:1}
+button{font:inherit;font-size:.78rem;background:var(--raised);color:var(--soft);
+  border:1px solid var(--line);padding:.4rem .7rem;cursor:pointer;border-radius:0}
+button:hover{color:var(--ink);border-color:var(--accent)}
+button[aria-pressed="true"]{background:var(--accent);color:var(--ground);
+  border-color:var(--accent);font-weight:600}
+button:focus-visible,select:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+select{font:inherit;font-size:.78rem;background:var(--raised);color:var(--soft);
+  border:1px solid var(--line);padding:.4rem .5rem}
+
+.bar{padding:.6rem 1rem;border-bottom:1px solid var(--line);background:var(--panel);
+  display:flex;gap:.4rem;flex-wrap:wrap;align-items:center}
+.bar .lbl{font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--faint);margin-right:.3rem}
+
+.grid{display:grid;gap:2px;padding:2px;
+  grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+figure{margin:0;position:relative;background:var(--panel);cursor:pointer;
+  outline:2px solid transparent}
+figure.sel{outline-color:var(--accent);z-index:2}
+figure img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:var(--raised)}
+figcaption{padding:.4rem .5rem;font-size:.7rem;color:var(--faint);
+  display:flex;justify-content:space-between;gap:.5rem}
+figcaption .px{font-variant-numeric:tabular-nums}
+.tagchip{position:absolute;left:0;top:0;background:var(--accent);color:var(--ground);
+  font-size:.66rem;font-weight:600;padding:.2rem .45rem;max-width:100%;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hero-flag{position:absolute;right:0;top:0;background:rgba(20,23,18,.8);
+  color:var(--warn);font-size:.62rem;padding:.2rem .4rem;letter-spacing:.06em}
+
+.empty{padding:3rem 1rem;color:var(--soft);max-width:44rem}
+.empty code{background:var(--panel);padding:.15rem .4rem;color:var(--ink)}
+kbd{background:var(--raised);border:1px solid var(--line);padding:.1rem .35rem;
+  font:inherit;font-size:.72rem;color:var(--ink)}
+
+#lightbox{position:fixed;inset:0;background:rgba(10,12,9,.94);z-index:50;
+  display:none;align-items:center;justify-content:center;flex-direction:column;gap:1rem;padding:1rem}
+#lightbox.on{display:flex}
+#lightbox img{max-width:92vw;max-height:78vh;object-fit:contain}
+#lightbox .meta{font-size:.8rem;color:var(--soft);text-align:center;max-width:60rem;word-break:break-all}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Photo triage</h1>
+  <div class="counts" id="counts"></div>
+  <span class="spacer"></span>
+  <button id="onlyUntagged" aria-pressed="false">Untagged only</button>
+  <select id="tier" title="Filter by what the frame is big enough for"><option value="">Any size</option></select>
+  <button id="export">Export picks</button>
+</header>
+
+<div class="bar" id="verdicts"><span class="lbl">Show</span></div>
+<div class="bar" id="cats"><span class="lbl">Tag</span></div>
+
+<div class="grid" id="grid"></div>
+<div class="empty" id="empty" hidden></div>
+
+<div id="lightbox"><img alt=""><div class="meta"></div></div>
+
+<script>
+/* The second pass. The first one has already thrown out what cannot be used, so
+   this is only ever asked one question per image: what is it a picture of?
+   Click a thumbnail to select, then press a number to tag it — the selection
+   advances on its own, which is what makes a few hundred images take minutes
+   rather than an afternoon. Tags live in this browser until exported. */
+var DATA = null, rows = [], view = [], sel = 0;
+var show = {keep:true, duplicate:false, soft:false, "too-small":false,
+            blown:false, dark:false, stale:false, unreadable:false};
+var onlyUntagged = false, tier = "";
+var STORE = "vv-triage-tags";
+var tags = {};
+try { tags = JSON.parse(localStorage.getItem(STORE) || "{}"); } catch(e){ tags = {}; }
+
+function save(){ try { localStorage.setItem(STORE, JSON.stringify(tags)); } catch(e){} }
+
+fetch("data.json").then(function(r){ return r.json(); }).then(function(d){
+  DATA = d; rows = d.rows;
+  buildBars();
+  render();
+}).catch(function(){
+  document.getElementById("empty").hidden = false;
+  document.getElementById("empty").innerHTML =
+    "<p>No <code>data.json</code> beside this page. Run the triage script first:</p>" +
+    "<p><code>python thevalley/_tools/triage.py \"D:/path/to/photos\" --out \"D:/triage\"</code></p>";
+});
+
+function buildBars(){
+  var ts = document.getElementById("tier");
+  DATA.tiers.forEach(function(t){
+    var n = rows.filter(function(r){ return r.use === t; }).length;
+    if (!n) return;
+    var o = document.createElement("option");
+    o.value = t; o.textContent = t + " and up (" + n + ")";
+    ts.appendChild(o);
+  });
+  ts.onchange = function(){ tier = this.value; sel = 0; render(); };
+
+  var vb = document.getElementById("verdicts");
+  var order = ["keep","duplicate","soft","too-small","blown","dark","stale","unreadable"];
+  order.forEach(function(v){
+    var n = rows.filter(function(r){ return r.verdict === v; }).length;
+    if (!n) return;
+    var b = document.createElement("button");
+    b.textContent = v + " (" + n + ")";
+    b.setAttribute("aria-pressed", show[v] ? "true" : "false");
+    b.onclick = function(){
+      show[v] = !show[v];
+      b.setAttribute("aria-pressed", show[v] ? "true" : "false");
+      render();
+    };
+    vb.appendChild(b);
+  });
+
+  var cb = document.getElementById("cats");
+  DATA.categories.forEach(function(c, i){
+    var b = document.createElement("button");
+    b.textContent = (i + 1 < 10 ? (i + 1) : (i + 1 === 10 ? "0" : "")) + " " + c;
+    b.onclick = function(){ tagSelected(c); };
+    cb.appendChild(b);
+  });
+  var b = document.createElement("button");
+  b.textContent = "\u2190 clear";
+  b.onclick = function(){ tagSelected(null); };
+  cb.appendChild(b);
+}
+
+function visible(){
+  return rows.filter(function(r){
+    if (!show[r.verdict]) return false;
+    if (onlyUntagged && tags[r.rel]) return false;
+    if (tier){
+      var order = DATA.tiers;
+      if (order.indexOf(r.use) > order.indexOf(tier)) return false;   /* smaller than asked */
+    }
+    return true;
+  });
+}
+
+function render(){
+  view = visible();
+  var g = document.getElementById("grid");
+  g.textContent = "";
+  view.forEach(function(r, i){
+    var f = document.createElement("figure");
+    if (i === sel) f.className = "sel";
+    var img = document.createElement("img");
+    img.loading = "lazy";
+    img.src = r.thumb || "";
+    img.alt = r.name;
+    f.appendChild(img);
+    if (tags[r.rel]){
+      var t = document.createElement("span");
+      t.className = "tagchip";
+      t.textContent = tags[r.rel];
+      f.appendChild(t);
+    }
+    var h = document.createElement("span");
+    h.className = "hero-flag";
+    h.textContent = r.use;
+    f.appendChild(h);
+    var cap = document.createElement("figcaption");
+    cap.innerHTML = "<span>" + (r.shoot ? "shoot " + r.shoot : (r.why || "")) +
+      "</span><span class='px'>" + r.w + "\u00d7" + r.h + "</span>";
+    f.appendChild(cap);
+    f.onclick = function(e){
+      sel = i;
+      if (e.shiftKey) lightbox(r); else render();
+    };
+    g.appendChild(f);
+  });
+  counts();
+  var e = document.getElementById("empty");
+  e.hidden = view.length > 0;
+  if (!view.length) e.textContent = "Nothing matches those filters.";
+}
+
+function counts(){
+  var tagged = Object.keys(tags).length;
+  var byCat = {};
+  Object.keys(tags).forEach(function(k){ byCat[tags[k]] = (byCat[tags[k]] || 0) + 1; });
+  var top = Object.keys(byCat).sort(function(a,b){ return byCat[b]-byCat[a]; }).slice(0,4)
+    .map(function(c){ return c + " <b>" + byCat[c] + "</b>"; }).join(" &middot; ");
+  document.getElementById("counts").innerHTML =
+    "showing <b>" + view.length + "</b> of <b>" + rows.length + "</b>" +
+    " &middot; tagged <b>" + tagged + "</b>" + (top ? " &middot; " + top : "");
+}
+
+function tagSelected(cat){
+  var r = view[sel];
+  if (!r) return;
+  if (cat) tags[r.rel] = cat; else delete tags[r.rel];
+  save();
+  if (cat && sel < view.length - 1) sel++;
+  render();
+  var el = document.querySelectorAll("#grid figure")[sel];
+  if (el) el.scrollIntoView({block:"nearest"});
+}
+
+function lightbox(r){
+  var lb = document.getElementById("lightbox");
+  lb.querySelector("img").src = r.thumb || "";
+  lb.querySelector(".meta").textContent =
+    r.rel + "  \u2014  " + r.w + "\u00d7" + r.h + "  \u2014  " +
+    (r.shot ? r.shot.replace("T", " ") : "no capture date") +
+    (r.camera ? "  \u2014  " + r.camera : "") + "  \u2014  " + r.path;
+  lb.classList.add("on");
+}
+document.getElementById("lightbox").onclick = function(){ this.classList.remove("on"); };
+
+document.addEventListener("keydown", function(e){
+  if (e.target.tagName === "INPUT") return;
+  var lb = document.getElementById("lightbox");
+  if (e.key === "Escape"){ lb.classList.remove("on"); return; }
+  var n = "1234567890".indexOf(e.key);
+  if (n >= 0 && DATA && DATA.categories[n]){ tagSelected(DATA.categories[n]); e.preventDefault(); return; }
+  if (e.key === "Backspace"){ tagSelected(null); e.preventDefault(); return; }
+  var cols = Math.max(1, Math.floor(document.getElementById("grid").clientWidth / 192));
+  var step = {ArrowRight:1, ArrowLeft:-1, ArrowDown:cols, ArrowUp:-cols}[e.key];
+  if (step){
+    sel = Math.max(0, Math.min(view.length - 1, sel + step));
+    render();
+    var el = document.querySelectorAll("#grid figure")[sel];
+    if (el) el.scrollIntoView({block:"nearest"});
+    e.preventDefault();
+  }
+  if (e.key === " " && view[sel]){ lightbox(view[sel]); e.preventDefault(); }
+});
+
+document.getElementById("onlyUntagged").onclick = function(){
+  onlyUntagged = !onlyUntagged;
+  this.setAttribute("aria-pressed", onlyUntagged ? "true" : "false");
+  sel = 0; render();
+};
+document.getElementById("export").onclick = function(){
+  var out = {};
+  rows.forEach(function(r){ if (tags[r.rel]) (out[tags[r.rel]] = out[tags[r.rel]] || []).push(r.path); });
+  var blob = new Blob([JSON.stringify(out, null, 2)], {type:"application/json"});
+  var a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "picks.json";
+  a.click();
+};
+</script>
+</body>
+</html>

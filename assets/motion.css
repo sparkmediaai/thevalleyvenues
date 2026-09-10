@@ -1,0 +1,281 @@
+@charset "UTF-8";
+/* ============================================================================
+   The motion vocabulary, shared by every page.
+
+   This began as a block at the foot of home.css. It is a separate sheet now
+   because the other ten pages want the same words: things arrive, photographs
+   move against their frames, and a claim can assemble itself.
+
+   Everything here runs on a view timeline -- the animation's clock is the
+   element's own travel through the viewport, not wall time. That matters for
+   two reasons. It cannot fire early or late, and it degrades correctly: a
+   browser without `animation-timeline` never enters the @supports block and
+   simply shows finished content, whereas an IntersectionObserver that fails to
+   fire leaves a page of invisible text.
+
+   Scroll timelines ignore `animation-delay`, so a stagger is expressed as a
+   different `animation-range` per item rather than as a delay.
+
+   Ranges use `entry` almost everywhere. `entry` spans exactly the subject's own
+   height, so it always completes -- an element already sitting in view reads as
+   finished. A `cover` range can leave the last block on a short page stuck
+   half-faded, because the page runs out of scroll before cover does.
+   ========================================================================== */
+
+/* ------------------------------------------------------------- the reveal
+   The default arrival. Applied by class where a page wants to be explicit,
+   and by selector to the handful of blocks every page is built from, so ten
+   pages of markup did not have to grow a class attribute each. */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .reveal,
+    main .lede,
+    main .card,
+    main .split,
+    main .step,
+    main .note,
+    main .named li,
+    main .form .field{
+      animation:reveal-in linear both;
+      animation-timeline:view();
+      animation-range:entry 6% entry 88%;
+    }
+    /* A list of names is a sequence; four at a time is enough of one. */
+    main .named li:nth-child(2n){animation-range:entry 12% entry 94%}
+    main .named li:nth-child(3n){animation-range:entry 18% entry 100%}
+    main .form .field:nth-child(2n){animation-range:entry 12% entry 94%}
+  }
+}
+@keyframes reveal-in{from{opacity:0;transform:translateY(22px)}
+                     to{opacity:1;transform:none}}
+
+/* ------------------------------------------------- a headline, word by word
+   For the one sentence on a page that the rest of the page is evidence for.
+   Used sparingly -- if two headlines do this, neither is the claim. */
+.rise-words span{display:inline-block}
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .rise-words span{
+      animation:word-rise linear both;
+      animation-timeline:view();animation-range:entry 14% entry 74%;
+    }
+    .rise-words span:nth-child(2){animation-range:entry 18% entry 78%}
+    .rise-words span:nth-child(3){animation-range:entry 22% entry 82%}
+    .rise-words span:nth-child(4){animation-range:entry 26% entry 86%}
+    .rise-words span:nth-child(5){animation-range:entry 30% entry 90%}
+    .rise-words span:nth-child(6){animation-range:entry 34% entry 94%}
+    .rise-words span:nth-child(7){animation-range:entry 38% entry 98%}
+    .rise-words span:nth-child(8){animation-range:entry 42% entry 100%}
+  }
+}
+@keyframes word-rise{
+  from{opacity:0;transform:translateY(.42em) rotate(1.5deg)}
+  to{opacity:1;transform:none}
+}
+
+/* --------------------------------------------------------------- the wipe
+   Photographs uncover rather than fade. clip-path clips the element it is on,
+   so .wipe goes on the img or the figure itself and needs no help from a
+   parent. Do not put it on a card: it would clip the words too. */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .wipe{
+      animation:wipe-in linear both;
+      animation-timeline:view();animation-range:entry 8% entry 82%;
+    }
+  }
+}
+@keyframes wipe-in{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+
+/* ------------------------------------------------------------ the parallax
+   Photographs move slightly against their frames as the page scrolls, at
+   three different rates so a cluster has depth rather than sliding as one
+   board. The scale is what buys the travel: without it the translate would
+   drag empty frame into view at the edges -- which also means .par only ever
+   goes on something inside a .frame, or it grows past its own box and over
+   whatever is beside it. */
+
+/* The clipping container .par needs. Nothing else. */
+.frame{margin:0;overflow:hidden;background:var(--ground-2)}
+.frame img{display:block;width:100%;height:auto}
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .par{
+      animation:par-slow linear both;
+      animation-timeline:view();animation-range:cover 0% cover 100%;
+    }
+    .par-mid{animation-name:par-mid}
+    .par-fast{animation-name:par-fast}
+    /* A cluster is always three frames in a fixed order, so it does not need
+       the classes spelled out in the markup three times. */
+    .cluster img{
+      animation:par-slow linear both;
+      animation-timeline:view();animation-range:cover 0% cover 100%;
+    }
+    .cl-2 img{animation-name:par-fast}
+    .cl-3 img{animation-name:par-mid}
+  }
+}
+@keyframes par-slow{from{transform:scale(1.1) translateY(2.4%)}
+                    to{transform:scale(1.1) translateY(-2.4%)}}
+@keyframes par-mid {from{transform:scale(1.12) translateY(4%)}
+                    to{transform:scale(1.12) translateY(-4%)}}
+@keyframes par-fast{from{transform:scale(1.14) translateY(5.5%)}
+                    to{transform:scale(1.14) translateY(-5.5%)}}
+
+/* ---------------------------------------------- words beside a cluster
+   Words on one side, a staggered mosaic of frames on the other.
+
+   The first version had one frame span both rows and stretch to fill them. At
+   this column width that came to 269x809 -- a 1:3 sliver that cropped the
+   people out of a photograph of people. Every frame keeps its own 3:4 now and
+   the second column is dropped down the page instead, which gives the same
+   broken grid without asking any image to be a shape it is not. */
+.stakes{display:grid;gap:clamp(1.8rem,4vw,3.5rem);align-items:start}
+@media (min-width:900px){
+  .stakes{grid-template-columns:minmax(0,1fr) minmax(0,1.15fr)}
+  .stakes.flip > *:first-child{order:2}
+}
+.cluster{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:clamp(.7rem,1.8vw,1.2rem);align-items:start;
+}
+.cluster figure{margin:0;overflow:hidden;background:var(--ground-2)}
+.cluster img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover}
+.cluster.wide img{aspect-ratio:4/3}
+.cl-1{grid-column:1;grid-row:1}
+.cl-3{grid-column:1;grid-row:2}
+/* Spanning both rows, not sitting in the first one: a margin on a single-row
+   item grows that row and opens a matching hole in the other column. And it
+   needs .cluster in front of it, because .cluster figure{margin:0} outranks a
+   bare .cl-2 on specificity and the offset silently does nothing. */
+.cluster .cl-2{grid-column:2;grid-row:1/3;align-self:start;
+  margin-top:clamp(2rem,9vw,6.5rem)}
+
+/* ---------------------------------------------------------------- the band
+   One wide photograph with one line over it, for the point in a page where
+   the eye has read four text blocks and needs somewhere to rest.
+
+   The image is deliberately taller than the band and hangs over both edges, so
+   it has room to travel without ever showing the ground behind it. */
+.band{
+  position:relative;margin:var(--gap) calc(var(--pad) * -1);
+  min-height:clamp(19rem,40vw,30rem);
+  display:grid;place-items:center;overflow:hidden;background:#141a13;
+  padding:0;border-bottom:0;
+}
+.band-img{
+  position:absolute;top:-11%;left:0;width:100%;height:122%;
+  object-fit:cover;max-width:none;
+}
+.band::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(16,20,14,.30),rgba(16,20,14,.52));
+}
+.band p{
+  position:relative;z-index:2;margin:0;color:#fff;text-align:center;
+  font-family:var(--display);font-weight:400;line-height:1.18;
+  font-size:clamp(1.55rem,4.4vw,3rem);
+  max-width:26ch;padding:clamp(3rem,8vw,5rem) var(--pad);
+  text-wrap:balance;
+}
+.band cite{display:block;font-family:var(--sans);font-style:normal;
+  font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--ivory);margin-top:1.4rem}
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .band-img{animation:band-pan linear both;
+      animation-timeline:view();animation-range:cover 0% cover 100%}
+    .band p{animation:band-word linear both;
+      animation-timeline:view();animation-range:entry 30% entry 96%}
+  }
+}
+@keyframes band-pan{from{transform:translateY(-9%)}to{transform:translateY(9%)}}
+@keyframes band-word{from{opacity:0;letter-spacing:.06em}
+                     to{opacity:1;letter-spacing:normal}}
+
+/* --------------------------------------------------------------- the names
+   For lists whose charm is that they are names and not numbers. A slow drift
+   lets them read as a place rather than as inventory. Hidden from assistive
+   tech -- the duplicated track would read twice -- with the real list carried
+   in a visually hidden paragraph beside it. */
+.names{
+  margin:calc(var(--gap) * .7) calc(var(--pad) * -1) 0;
+  padding:clamp(1rem,2.5vw,1.6rem) 0;overflow:hidden;
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+          mask-image:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+}
+.names-track{display:flex;width:max-content}
+.names-track span{
+  font-family:var(--display);font-size:clamp(1.25rem,3vw,2rem);
+  color:var(--ink-faint);white-space:nowrap;display:flex;align-items:center;
+  padding:0 clamp(1rem,2.6vw,2.2rem);gap:clamp(1rem,2.6vw,2.2rem);
+}
+.names-track span::after{
+  content:"";width:4px;height:4px;border-radius:50%;background:var(--taupe);
+  flex:none;opacity:.6;
+}
+@media (prefers-reduced-motion:no-preference){
+  /* The track holds the list twice, so -50% is one seamless lap. */
+  .names-track{animation:lap 52s linear infinite}
+}
+@keyframes lap{to{transform:translateX(-50%)}}
+
+/* ------------------------------------------------------------- the gallery
+   A wall of frames, uncovering a row at a time. Deliberately not a lightbox:
+   the point of a gallery on this site is to be scrolled past, not opened. */
+.gallery{
+  display:grid;gap:clamp(.6rem,1.6vw,1.1rem);margin-top:2.4rem;
+  grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+}
+/* The aspect lives on the frame, not on the img.
+
+   With it on the img, the wide frame's 16:9 was taller than its 4:3 neighbours
+   and grid stretched them to match, leaving a hundred pixels of empty ground
+   under each. The frames are all 4:3 now and set the row height between them;
+   the wide one takes whatever that comes to and crops a panorama out of it. */
+.gallery figure{
+  margin:0;overflow:hidden;background:var(--ground-2);aspect-ratio:4/3;
+}
+.gallery img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 1.2s cubic-bezier(.2,.7,.2,1);
+}
+.gallery figure:hover img{transform:scale(1.05)}
+/* One frame in four gets the width of two, so the wall has a rhythm instead of
+   reading as a spreadsheet. It keeps a definite aspect rather than taking
+   `auto`: a grid item with aspect-ratio:auto sizes from its content, which
+   made the wide frame 396 tall against its neighbours' 191 and left a hole
+   under each of them. 11/4 is two columns and the gap between them over one
+   row of the others -- near enough that the rows read as level. */
+.gallery figure:nth-child(4n+1){grid-column:span 2;aspect-ratio:11/4}
+@media (max-width:640px){
+  .gallery figure:nth-child(4n+1){grid-column:auto;aspect-ratio:4/3}
+}
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .gallery figure{
+      animation:wipe-in linear both;
+      animation-timeline:view();animation-range:entry 6% entry 80%;
+    }
+    .gallery figure:nth-child(2n){animation-range:entry 12% entry 88%}
+    .gallery figure:nth-child(3n){animation-range:entry 18% entry 96%}
+  }
+}
+
+/* ----------------------------------------------------------------- the hero
+   The copy lets go as it leaves, rather than scrolling away rigidly. Applies
+   only where the hero carries a photograph -- on a plain hero there is nothing
+   for it to let go of. */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .hero-photo .hero-body,
+    .hero-clock .hero-body{
+      animation:hero-out linear both;
+      animation-timeline:view();animation-range:exit 10% exit 100%;
+    }
+  }
+}
+@keyframes hero-out{from{opacity:1;transform:none}
+                    to{opacity:0;transform:translateY(-3rem)}}

@@ -1,0 +1,158 @@
+@charset "UTF-8";
+/* ============================================================================
+   The walk.
+
+   The Estate page argues that there are not four venues, there is one property.
+   Photographs cannot make that argument -- each one shows a single place, which
+   is exactly what the old four-item dropdown did. Distance is the argument, so
+   the page puts a plan of the ground beside the places and holds it there while
+   you walk through them.
+
+   The plan is drawn from the estate's own survey (see _build/make_plan.py). As
+   each place scrolls past, its mark comes up on the map and the leg from the
+   last one draws itself, labelled with how far it is. By the bottom of the page
+   the whole weekend is on the drawing and it comes to under a kilometre.
+
+   No JavaScript. Each step names a view timeline, the section brings those
+   names into scope, and the marks and legs on the map animate on their
+   neighbours' timelines. The base styles are the FINISHED state -- every mark
+   lit, every leg drawn -- so a browser that cannot resolve a named timeline
+   shows a complete map rather than an empty one.
+   ========================================================================== */
+
+.walk{position:relative}
+.walk-grid{display:grid;gap:clamp(1.5rem,4vw,3.5rem)}
+@media (min-width:900px){
+  .walk-grid{grid-template-columns:minmax(0,1.02fr) minmax(0,1fr);align-items:start}
+  .walk-map{position:sticky;top:5.5rem}
+}
+
+/* margin:0 because a <figure> carries 40px of default side margin, which took
+   80px out of the map's column and went unnoticed on a wide screen. */
+.walk-map{margin:0}
+/* overflow:hidden, not visible. Visible let the contours draw outside the
+   figure and straight over the copy underneath it on a narrow screen. */
+.plan{width:100%;height:auto;display:block;overflow:hidden}
+.walk-map figcaption{
+  margin-top:.9rem;font-size:.72rem;letter-spacing:.04em;color:var(--ink-faint);
+  border-top:1px solid var(--line-soft);padding-top:.7rem;
+}
+.walk-map figcaption b{font-weight:600;color:var(--ink-soft)}
+
+/* ------------------------------------------------------------- the drawing */
+.contours path{
+  fill:none;stroke:rgba(35,41,31,.15);stroke-width:1.1;
+  vector-effect:non-scaling-stroke;
+}
+.c-index path{stroke:rgba(35,41,31,.32);stroke-width:1.7}
+
+.leg{
+  fill:none;stroke:var(--taupe);stroke-width:2.2;
+  stroke-linecap:round;vector-effect:non-scaling-stroke;
+}
+/* Both label kinds are drawn stroke-first in the page's own ground colour, so
+   each one carves a little clearing in the contours it sits on. It is the same
+   trick a printed map uses and it is the difference between a legible name and
+   a name with a 20-metre contour running through it. */
+.leg-m,.pl-name{paint-order:stroke fill;stroke:var(--ground);stroke-width:5px;
+  stroke-linejoin:round}
+.leg-m{
+  font-family:var(--sans);font-size:15px;font-weight:600;letter-spacing:.08em;
+  fill:var(--warm);text-anchor:middle;dominant-baseline:middle;
+}
+
+.pl-halo{fill:rgba(95,121,108,.10);transform-box:fill-box;transform-origin:center}
+.pl-ring{fill:none;stroke:var(--forest);stroke-width:1.3;opacity:.45;
+  vector-effect:non-scaling-stroke}
+.pl-dot{fill:var(--forest)}
+.pl-name{
+  font-family:var(--sans);font-size:16px;font-weight:600;letter-spacing:.05em;
+  fill:var(--ink);dominant-baseline:middle;
+}
+
+/* -------------------------------------------------------------- the steps */
+.wstep{
+  display:flex;flex-direction:column;gap:.9rem;align-items:flex-start;
+  padding:clamp(2.5rem,7vh,4.5rem) 0;
+  border-top:1px solid var(--line-soft);
+}
+.wstep:first-child{border-top:0;padding-top:0}
+.wstep .eyebrow{display:flex;gap:.7rem;align-items:baseline}
+.wstep .dist{color:var(--ink-faint);letter-spacing:.12em}
+.wstep h3{font-family:var(--display);font-size:clamp(1.6rem,3.4vw,2.3rem);
+  font-weight:400;line-height:1.15}
+.wstep p{font-size:.98rem;color:var(--ink-soft)}
+.wstep .frame{width:100%;margin-top:.4rem}
+.wstep .frame img{aspect-ratio:3/2;object-fit:cover}
+
+/* ------------------------------------------------------ wiring the two up
+   Each step publishes a timeline under its own name; .walk pulls those names
+   into scope so the map, which is a sibling rather than a descendant, can
+   animate on them. Everything is inside the @supports, so an unsupported
+   browser never enters any of it and keeps the finished base styles. */
+@media (min-width:900px){
+ @supports (animation-timeline:view()) and (timeline-scope:--a){
+  @media (prefers-reduced-motion:no-preference){
+    .walk{timeline-scope:--s1,--s2,--s3,--s4,--s5,--s6}
+    .ws-1{view-timeline-name:--s1}
+    .ws-2{view-timeline-name:--s2}
+    .ws-3{view-timeline-name:--s3}
+    .ws-4{view-timeline-name:--s4}
+    .ws-5{view-timeline-name:--s5}
+    .ws-6{view-timeline-name:--s6}
+
+    /* A mark is at full strength while its step is near the middle of the
+       screen and quiet either side of that, which is why these keyframes hold
+       in the middle rather than ramping straight through. */
+    .pl{animation:pl-wake linear both;animation-range:cover 0% cover 100%}
+    .pl .pl-halo{animation:halo-wake linear both;animation-range:cover 0% cover 100%}
+    .pl-arrival, .pl-arrival  .pl-halo{animation-timeline:--s1}
+    .pl-magnolia,.pl-magnolia .pl-halo{animation-timeline:--s2}
+    .pl-valley,  .pl-valley   .pl-halo{animation-timeline:--s3}
+    .pl-deck,    .pl-deck     .pl-halo{animation-timeline:--s4}
+    .pl-hall,    .pl-hall     .pl-halo{animation-timeline:--s5}
+    .pl-village, .pl-village  .pl-halo{animation-timeline:--s6}
+
+    /* Leg n arrives with place n+1: the line is how you got there, so it is
+       drawn by the step you are arriving at rather than the one you left. */
+    .leg-g .leg{
+      stroke-dasharray:var(--len);
+      animation:leg-draw linear both;animation-range:cover 5% cover 46%;
+    }
+    .leg-g .leg-m{animation:leg-label linear both;animation-range:cover 22% cover 52%}
+    .lg-1 .leg,.lg-1 .leg-m{animation-timeline:--s2}
+    .lg-2 .leg,.lg-2 .leg-m{animation-timeline:--s3}
+    .lg-3 .leg,.lg-3 .leg-m{animation-timeline:--s4}
+    .lg-4 .leg,.lg-4 .leg-m{animation-timeline:--s5}
+    .lg-5 .leg,.lg-5 .leg-m{animation-timeline:--s6}
+  }
+ }
+}
+@keyframes pl-wake{
+  0%{opacity:.3}
+  26%,74%{opacity:1}
+  100%{opacity:.3}
+}
+@keyframes halo-wake{
+  0%{transform:scale(.25)}
+  30%,72%{transform:scale(1)}
+  100%{transform:scale(.35)}
+}
+@keyframes leg-draw{from{stroke-dashoffset:var(--len)}to{stroke-dashoffset:0}}
+@keyframes leg-label{from{opacity:0}to{opacity:1}}
+
+/* One column is not enough room to hold a map open beside anything. The first
+   attempt stuck it to the top of the screen, where it was 258px of drawing
+   competing with the words underneath it and winning neither argument.
+
+   So on a narrow screen it does not stick and it does not animate: the plan is
+   shown once, complete, with the whole walk already drawn on it, and then the
+   six places follow underneath. Same information, read rather than watched. */
+@media (max-width:899px){
+  .walk-map{margin-bottom:clamp(1.5rem,5vw,2.5rem)}
+  .pl-name{font-size:26px}
+  .leg-m{font-size:23px}
+  .pl-ring{stroke-width:2}
+  .contours path{stroke-width:1}
+  .c-index path{stroke-width:1.5}
+}

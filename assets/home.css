@@ -1,0 +1,197 @@
+@charset "UTF-8";
+/* ============================================================================
+   The home page.
+
+   The rest of the site is deliberately plain because the visual direction has
+   not been chosen. This page is the exception: it has to carry the pitch, so it
+   gets the one signature idea and everything around it stays quiet.
+
+   The signature is the hero, and it reads as a clock. Five frames from one
+   property across one day — the morning, the house, the meadow set and waiting,
+   golden hour, after dark. The estate's whole claim is time: one family, two
+   days, nothing shared. A carousel of venues would argue the opposite, so the
+   hero moves through hours instead.
+
+   The shared motion vocabulary is in motion.css, which every page loads. This
+   sheet holds only what is unique to this page: the clock itself, the weekend,
+   and the closing band.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- the hero
+   The copy decides the height and the photograph fills whatever that comes to.
+   Anchoring words to a fixed-aspect box is what breaks a hero on a narrow
+   screen: at 384px the copy wants 1184px and the box is 512px, so it spills
+   out of the top. Here the body sits in normal flow, the stage is underneath
+   it at inset 0, and the two cannot disagree. */
+.hero{
+  position:relative;display:grid;align-items:end;
+  min-height:clamp(30rem,52vw,44rem);overflow:hidden;
+}
+.hero-stage{
+  position:absolute;inset:0;z-index:0;overflow:hidden;background:var(--ground-2);
+  /* the same transition name the inner pages give their hero photograph, so
+     arriving from here grows this frame into that one */
+  view-transition-name:hero-frame;
+}
+
+/* The scrim is sized by measurement, not by eye. The five frames put pure white
+   under the words — a white house, a lit window, white chairs — and white type
+   on white is 1:1. Reaching 7:1 on the worst of them needs about 70% ink, so it
+   is spent only where the words are: nothing in the top third, then a ramp that
+   is already deep by the time the headline starts. 68% is the number: on the
+   brightest frame that puts white type at 7.9:1, and anything heavier only
+   costs photograph for contrast nobody needs. Ink rather than black, because
+   black goes cold and the brand is explicit that it should not. */
+.hero-stage::after{
+  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:
+    /* across: deep where the column of words is, gone by two thirds */
+    linear-gradient(90deg,
+      rgba(16,20,14,.76) 0%,
+      rgba(16,20,14,.68) 54%,
+      rgba(16,20,14,.22) 70%,
+      rgba(16,20,14,0) 82%),
+    /* down: a light weight at the foot, to seat the clock marks */
+    linear-gradient(180deg,
+      rgba(16,20,14,0) 55%,
+      rgba(16,20,14,.34) 100%);
+}
+@media (max-width:760px){
+  /* A portrait crop has no clean right-hand side to protect, so the scrim goes
+     back to a single downward ramp and simply gets deep enough. */
+  .hero{min-height:34rem}
+  .hero-stage::after{background:linear-gradient(180deg,
+    rgba(16,20,14,.08) 0%, rgba(16,20,14,.38) 30%,
+    rgba(16,20,14,.64) 55%, rgba(16,20,14,.74) 100%)}
+}
+
+.slide{
+  position:absolute;inset:0;margin:0;opacity:0;
+  transition:opacity 1.6s ease-in-out;
+  will-change:opacity;
+}
+.slide.is-on{opacity:1}
+.slide img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* Ken Burns, but barely. The frames are already still photographs of a still
+   place; anything faster reads as a screensaver rather than as weather. */
+@media (prefers-reduced-motion:no-preference){
+  .slide.is-on img{animation:drift 9s linear forwards}
+  .slide:nth-child(even).is-on img{animation-name:drift-alt}
+}
+@keyframes drift{from{transform:scale(1.045) translate3d(0,0,0)}
+                 to{transform:scale(1) translate3d(0,-.6%,0)}}
+@keyframes drift-alt{from{transform:scale(1) translate3d(-.8%,0,0)}
+                     to{transform:scale(1.045) translate3d(0,0,0)}}
+
+/* The copy sits over the frame, bottom left, where the scrim is deepest. It
+   stays in normal flow so it can never be taller than the box that holds it. */
+.hero-body{
+  position:relative;z-index:3;
+  /* Full width so the auto margins inherited from site.css cannot centre it
+     (an auto margin on a grid item absorbs free space rather than stretching),
+     and 44rem on the words themselves -- not 52, because they have to finish
+     before the scrim starts fading or the end of a long line ends up on an
+     unprotected patch of sky. */
+  width:100%;max-width:82rem;
+  padding-top:clamp(6rem,22vh,12rem);
+  padding-bottom:clamp(3.75rem,9vh,5.5rem);
+}
+.hero-body > *{max-width:44rem}
+.hero-body .eyebrow{color:var(--ivory)}
+.hero-body h1{color:#fff}
+.hero-body p{color:rgba(255,255,255,.94)}
+.hero-body .btn-ghost,.hero-body .btn:not(.btn-solid){border-color:#fff;color:#fff}
+.hero-body .btn:not(.btn-solid):hover,
+.hero-body .btn:not(.btn-solid):focus-visible{background:#fff;color:var(--ink)}
+
+/* The clock marks move out of the way of the words, to the opposite corner. */
+.hero-marks{
+  position:absolute;right:0;bottom:0;z-index:4;
+  display:flex;align-items:center;gap:1rem;
+  padding:1rem clamp(1.15rem,5vw,3.5rem);
+}
+.hero-hour{
+  margin:0;color:#fff;font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;
+  font-weight:600;white-space:nowrap;
+}
+.hero-dots{display:flex;gap:.5rem}
+@media (max-width:600px){
+  .hero-marks{left:0;justify-content:space-between}
+}
+.hero-dots button{
+  width:2.2rem;height:2px;padding:0;border:0;cursor:pointer;
+  background:rgba(255,255,255,.42);transition:background .4s;
+}
+.hero-dots button[aria-current="true"]{background:#fff}
+.hero-dots button:hover{background:rgba(255,255,255,.8)}
+.hero-dots button:focus-visible{outline:2px solid #fff;outline-offset:3px}
+
+/* ------------------------------------------------- the load, once, in order */
+@media (prefers-reduced-motion:no-preference){
+  .js .hero-body > *{opacity:0;transform:translateY(14px);
+    animation:rise .9s cubic-bezier(.16,.8,.24,1) forwards}
+  .js .hero-body > *:nth-child(1){animation-delay:.15s}
+  .js .hero-body > *:nth-child(2){animation-delay:.28s}
+  .js .hero-body > *:nth-child(3){animation-delay:.42s}
+  .js .hero-body > *:nth-child(4){animation-delay:.56s}
+}
+@keyframes rise{to{opacity:1;transform:none}}
+
+/* ------------------------------------------------------------- the weekend */
+.weekend{
+  list-style:none;margin:2.4rem 0 0;padding:0;
+  display:grid;gap:clamp(1.6rem,3vw,2.4rem);
+  grid-template-columns:repeat(auto-fit,minmax(15rem,1fr));
+  counter-reset:none;
+}
+.wk{display:flex;flex-direction:column;gap:.7rem}
+.wk figure{margin:0;overflow:hidden}
+/* height:auto is not optional here. The img carries width and height
+   attributes so the page reserves space and nothing shifts as it loads — but
+   those attributes also set a presentational height, and a presentational
+   height silently defeats aspect-ratio. Without this the frames render 900px
+   tall in a 280px column. */
+.wk img{
+  width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;display:block;
+  background:var(--ground-2);transition:transform 1.1s cubic-bezier(.2,.7,.2,1);
+}
+.wk:hover img{transform:scale(1.04)}
+.wk-when{
+  font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
+  font-weight:600;color:var(--taupe);
+  border-top:1px solid var(--line);padding-top:.8rem;margin-top:.3rem;
+}
+.wk b{font-family:var(--display);font-weight:400;font-size:1.28rem;line-height:1.2}
+.wk p{font-size:.93rem;color:var(--ink-soft)}
+
+/* ============================================================================
+   Staggers for the two sequences this page owns.
+
+   The vocabulary itself lives in motion.css -- reveal-in, wipe-in and the
+   ranges that drive them. What is left here is the ordering, because only this
+   page has four denials under one claim and four movements of one weekend, and
+   in both cases they should arrive in the order they are read.
+   ========================================================================== */
+@supports (animation-timeline:view()){
+  @media (prefers-reduced-motion:no-preference){
+    .nots li{
+      animation:reveal-in linear both;
+      animation-timeline:view();animation-range:entry 30% entry 88%;
+    }
+    .nots li:nth-child(2){animation-range:entry 36% entry 92%}
+    .nots li:nth-child(3){animation-range:entry 42% entry 96%}
+    .nots li:nth-child(4){animation-range:entry 48% entry 100%}
+
+    .weekend .wk figure{
+      animation:wipe-in linear both;
+      animation-timeline:view();animation-range:entry 8% entry 80%;
+    }
+    .weekend .wk:nth-child(2) figure{animation-range:entry 14% entry 86%}
+    .weekend .wk:nth-child(3) figure{animation-range:entry 20% entry 92%}
+    .weekend .wk:nth-child(4) figure{animation-range:entry 26% entry 98%}
+    .weekend .wk:nth-child(2){animation-range:entry 11% entry 84%}
+    .weekend .wk:nth-child(3){animation-range:entry 17% entry 90%}
+    .weekend .wk:nth-child(4){animation-range:entry 23% entry 96%}
+  }
+}

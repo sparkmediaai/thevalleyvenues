@@ -1,0 +1,719 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The Estate in Relief — The Valley Venues</title>
+<meta name="description" content="Seventy-four acres of Lookout Valley, modelled from survey elevation data and draped with aerial photography. Drag to turn the land.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script>document.documentElement.className+=' js';</script>
+<style>
+/* ============================================================
+   THE ESTATE IN RELIEF
+   Terrain: USGS 3DEP 1m LiDAR. Texture: USGS NAIP aerial, same footprint, so
+   the photograph lands on the ground it was taken of.
+
+   Three ways to look at it, all the same model — only the skin changes.
+   PHOTOGRAPHIC drapes the raw aerial over the surface. ILLUSTRATED drapes a
+   version of that photograph reclassified into the estate's palette — truthful
+   about the land but far better looking than a satellite frame. ENGRAVED
+   throws the image away and draws the land as profile lines.
+   ============================================================ */
+:root{
+  --paper:#F4F0E6;
+  --paper-2:#E9E3D4;
+  --ink:#2A3326;
+  --ink-soft:#48533F;
+  --gold:#6B5310;
+  --sky-1:#DCE4E6;
+  --sky-2:#EFEADC;
+  --display:'Cormorant Garamond',Georgia,serif;
+  --sans:'Montserrat',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --pad:clamp(1.25rem,5vw,4rem);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:var(--sans);font-weight:400;line-height:1.7;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden}
+h1,h2{font-family:var(--display);font-weight:300;line-height:1.08;margin:0}
+p{margin:0 0 1.1em}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+header{padding:clamp(2.2rem,6vh,4rem) var(--pad) clamp(1.2rem,3vh,2rem);max-width:52rem}
+.eyebrow{font-size:.74rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{font-size:clamp(2.2rem,6vw,4.2rem);margin-top:1rem}
+header p{color:var(--ink-soft);margin-top:1.1rem;max-width:44rem}
+
+.stage{position:relative;margin:0 auto;max-width:78rem;padding:0 var(--pad)}
+.frame{position:relative;border:1px solid rgba(42,51,38,.18);aspect-ratio:16/11;
+  overflow:hidden;touch-action:none;cursor:grab;
+  background:linear-gradient(180deg,var(--sky-1) 0%,var(--sky-2) 62%,var(--paper) 100%)}
+.frame.dragging{cursor:grabbing}
+#view{position:absolute;inset:0;width:100%;height:100%;display:block}
+
+.hud{position:absolute;left:1rem;top:1rem;z-index:3;display:flex;gap:.4rem;flex-wrap:wrap;max-width:calc(100% - 2rem)}
+.hud button{font-family:var(--sans);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  font-weight:600;padding:.45rem .8rem;border:1px solid rgba(42,51,38,.3);background:rgba(244,240,230,.92);
+  color:var(--ink);cursor:pointer;transition:background .3s,border-color .3s,color .3s}
+.hud button:hover{border-color:var(--ink)}
+.hud button[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+.scalebar{position:absolute;right:1rem;bottom:1rem;z-index:3;text-align:right;
+  font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;color:var(--ink);
+  text-shadow:0 1px 3px rgba(244,240,230,.9)}
+.scalebar i{display:block;height:2px;background:var(--ink);margin-bottom:.35rem}
+.readout{position:absolute;left:1rem;bottom:1rem;z-index:3;font-size:.7rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink);font-variant-numeric:tabular-nums;
+  text-shadow:0 1px 3px rgba(244,240,230,.9)}
+.grab{position:absolute;right:1rem;top:1rem;z-index:3;font-size:.68rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--ink);transition:opacity .6s;text-shadow:0 1px 3px rgba(244,240,230,.9)}
+.grab.gone{opacity:0}
+
+.card{position:absolute;z-index:5;width:min(15rem,52vw);background:var(--paper);
+  border:1px solid rgba(42,51,38,.28);box-shadow:0 18px 40px -18px rgba(20,28,22,.55);
+  opacity:0;visibility:hidden;transform:translate(-50%,-108%) scale(.97);
+  transition:opacity .22s ease,transform .22s ease,visibility .22s;pointer-events:none}
+.card.on{opacity:1;visibility:visible;transform:translate(-50%,-108%) scale(1)}
+.card img{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:var(--paper-2)}
+.card-b{padding:.6rem .75rem .7rem}
+.card-b b{display:block;font-family:var(--display);font-weight:400;font-size:1.15rem;line-height:1.15}
+.card-b span{display:block;font-size:.76rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--ink-soft);margin-top:.2rem}
+
+.nojs{display:none}
+html:not(.js) .nojs{display:block;width:100%}
+html:not(.js) .frame{aspect-ratio:auto}
+html:not(.js) #view,html:not(.js) .hud,html:not(.js) .grab,html:not(.js) .readout,html:not(.js) .scalebar{display:none}
+
+.caption{max-width:78rem;margin:1rem auto 0;padding:0 var(--pad);font-size:.86rem;color:var(--ink-soft)}
+
+section{padding:clamp(3.5rem,9vh,6rem) var(--pad);max-width:64rem;margin:0 auto}
+.grid{display:grid;gap:clamp(1.5rem,4vw,3rem);margin-top:2rem}
+@media(min-width:820px){.grid{grid-template-columns:1fr 1fr}}
+h2{font-size:clamp(1.6rem,3.4vw,2.4rem);max-width:22ch}
+.grid h3{font-family:var(--display);font-weight:400;font-size:1.3rem;margin:0 0 .5rem}
+.grid p{color:var(--ink-soft);font-size:.97rem;margin:0}
+.facts{display:grid;gap:1px;background:rgba(42,51,38,.16);border:1px solid rgba(42,51,38,.16);
+  grid-template-columns:repeat(auto-fit,minmax(10rem,1fr));margin-top:2.5rem}
+.facts div{background:var(--paper);padding:1.6rem 1.2rem}
+.facts b{display:block;font-family:var(--display);font-size:2rem;line-height:1;color:var(--gold);margin-bottom:.3rem}
+.facts span{font-size:.86rem;color:var(--ink-soft)}
+footer{padding:2.5rem var(--pad);border-top:1px solid rgba(42,51,38,.16);font-size:.84rem;color:var(--ink-soft)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="eyebrow">The Valley Venues · Wildwood, Georgia</div>
+  <h1>The estate, in relief</h1>
+  <p>Seventy-four acres of Lookout Valley, modelled from survey elevation data. The ground you see is the real ground — every ridge and hollow measured, then skinned three ways. Drag to turn the land, and hover a place to see it.</p>
+</header>
+
+<div class="stage">
+  <div class="frame" id="frame">
+    <canvas id="view"></canvas>
+    <img class="nojs" src="contour-fallback.webp" alt="Contour map of the estate">
+    <div class="hud">
+      <button id="bPhoto" aria-pressed="false">Photographic</button>
+      <button id="bIllus" aria-pressed="true">Illustrated</button>
+      <button id="bLines" aria-pressed="false">Engraved</button>
+      <button id="bCont"  aria-pressed="false">Contours</button>
+      <button id="bPins"  aria-pressed="true">Places</button>
+      <button id="bSpin"  aria-pressed="true">Turning</button>
+    </div>
+    <div class="card" id="card" aria-hidden="true">
+      <img id="cardImg" alt="">
+      <div class="card-b"><b id="cardName"></b><span id="cardNote"></span></div>
+    </div>
+    <div class="grab" id="grab">Drag to turn</div>
+    <div class="readout" id="readout">—</div>
+    <div class="scalebar"><i id="scaleRule" style="width:80px"></i><span>200 m</span></div>
+  </div>
+  <p class="caption">Elevation: USGS 3DEP 1-metre LiDAR. Imagery: USGS NAIP, October 2023, 0.57&thinsp;m per pixel, same footprint. The illustrated skin is that photograph reclassified into the estate palette — woodland, mown grass, track, water — so it is drawn from the land rather than merely of it. Vertical scale exaggerated 2.2&times;.</p>
+</div>
+
+<section>
+  <h2>What the ground actually does</h2>
+  <div class="grid">
+    <div>
+      <h3>The meadow sits in a bowl</h3>
+      <p>The flat, open ground through the middle is where the ceremonies happen. Everything around it climbs. That is why sound stays in it, why the wind drops, and why the hills hold the last half-hour of light after it has left the grass.</p>
+    </div>
+    <div>
+      <h3>Seventy-three metres of relief</h3>
+      <p>From the low ground to the high ridge inside this frame is a 240-foot climb. A flat plan cannot show that, which is the entire reason this exists.</p>
+    </div>
+  </div>
+  <div class="facts">
+    <div><b>73 m</b><span>Relief across the frame</span></div>
+    <div><b>206 m</b><span>Elevation at the gate</span></div>
+    <div><b>800 m</b><span>Width of the model</span></div>
+    <div><b>1 m</b><span>Source data resolution</span></div>
+  </div>
+</section>
+
+<footer>
+  Concept · The Estate in Relief. Terrain and imagery are real public survey data; the marked places are positioned provisionally from the aerial and will be corrected against the owners' own plan.
+</footer>
+
+<script>
+(function(){
+  var rm = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cv = document.getElementById('view'), frame = document.getElementById('frame');
+  if (!cv || !cv.getContext) return;
+  var ctx = cv.getContext('2d');
+
+  /* PROVISIONAL — read off the October 2023 aerial, not the owners' plan. */
+  /* Photographs are the venue's own, taken from thevalleyvenues.com — so each
+     pin shows the actual room or view rather than a stand-in. */
+  var IMG = 'places/';
+  var PLACES = [
+    {u:.727, v:.561, name:'The Valley',       note:'Ceremony · one at a time',  mark:'arch',   img:IMG+'the-valley.webp'},
+    {u:.597, v:.499, name:'Davis Hall',       note:'Reception · seated dining', mark:'hall',   img:IMG+'davis-hall.webp'},
+    {u:.506, v:.415, name:'Overlook Village', note:'Cottages · stay the weekend', mark:'cottages', img:IMG+'overlook-village.webp'},
+    {u:.398, v:.547, name:'Magnolia House',   note:'Columns, glass, the ridge',           mark:'bloom',  img:IMG+'magnolia-house.webp'},
+    {u:.352, v:.450, name:'Lookout Deck',     note:'Cocktails · Lookout Mountain',    mark:'deck',   img:IMG+'lookout-deck.webp'},
+    {u:.443, v:.596, name:'Arrival',          note:'The drive in',          mark:'drive',  img:IMG+'arrival.webp'}
+  ];
+  /* Warm the images so the first hover is never a blank frame. */
+  PLACES.forEach(function(p){ var w = new Image(); w.src = p.img; });
+
+  var N = 0, hm = null, tex = null, texIll = null, TN = 0;
+  var RELIEF = 73.2, METRES = 800, VEX = 2.2;
+  var az = -0.62, tilt = 0.68;
+  var mode = 'illus', showCont = false, showPins = true, spin = !rm;
+  var dragging = false, lastX = 0, lastY = 0, idle = 0, ready = 0;
+  var quality = 2, refineTimer = null;
+
+  /* Paint now at whatever quality is cheap, then quietly sharpen. A 255-square
+     mesh is the sharpest but costs ~850ms a frame — a visible freeze. */
+  function drawThenRefine(){
+    quality = 3;
+    draw();
+    clearTimeout(refineTimer);
+    refineTimer = setTimeout(function(){ if (!dragging) startFine(); }, 60);
+  }
+
+  function sizeCanvas(){
+    var r = frame.getBoundingClientRect(), dpr = Math.min(devicePixelRatio || 1, 1.75);
+    cv.width = Math.round(r.width * dpr);
+    cv.height = Math.round(r.height * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return r;
+  }
+
+  function loadImg(src, cb){
+    var im = new Image();
+    im.onload = function(){ cb(im); };
+    im.onerror = function(){ cb(null); };
+    im.src = src;
+  }
+
+  /* Every quad is filled with a single colour, so the picture can never carry
+     more than one colour per cell of the mesh. Reading one pixel out of a
+     1400px image to stand for all of them is point-sampling, and point-sampling
+     an image with hard edges in it is precisely what produces jagged, stepped
+     boundaries. Scaling the texture down to the density of the mesh first makes
+     each quad the *average* of the ground it covers, so an edge crossing a cell
+     comes out as a blend rather than a staircase. It is the same trick as a
+     mipmap, for the same reason. */
+  var TEXN = 256;               /* matches the terrain grid */
+
+  function pixels(im, size){
+    var w = size || im.width, h = size || im.height;
+    var c = document.createElement('canvas');
+    c.width = w; c.height = h;
+    var g = c.getContext('2d');
+    g.imageSmoothingEnabled = true;
+    g.imageSmoothingQuality = 'high';
+    g.drawImage(im, 0, 0, w, h);
+    return g.getImageData(0, 0, w, h).data;
+  }
+
+  loadImg('terrain.png', function(im){
+    if (!im){ fail(); return; }
+    N = im.width;
+    var d = pixels(im);
+    hm = new Float32Array(N * N);
+    for (var i = 0; i < N * N; i++) hm[i] = d[i * 4] / 255;
+    if (++ready === 3) draw();
+  });
+  loadImg('aerial.webp', function(im){
+    if (im){ TN = TEXN; tex = pixels(im, TEXN); }
+    if (++ready === 3) drawThenRefine();
+  });
+  loadImg('illustrated.webp', function(im){
+    if (im){ TN = TEXN; texIll = pixels(im, TEXN); }
+    else if (!tex) { mode = 'lines'; }     /* no imagery at all? use the engraving */
+    if (++ready === 3) drawThenRefine();
+  });
+
+  function fail(){
+    cv.style.display = 'none';
+    frame.querySelector('.nojs').style.display = 'block';
+  }
+
+  /* Callers sample at half-cell offsets (the centre of a quad), so round to the
+     nearest sample before indexing — a fractional index reads undefined, and the
+     NaN that follows paints the facet black. */
+  function h(i, j){
+    i = Math.round(i); j = Math.round(j);
+    i = i < 0 ? 0 : (i > N - 1 ? N - 1 : i);
+    j = j < 0 ? 0 : (j > N - 1 ? N - 1 : j);
+    return hm[j * N + i];
+  }
+
+  /* colour of the aerial at grid position (i,j) */
+  function texel(i, j){
+    var t = (mode === 'illus' && texIll) ? texIll : tex;
+    if (!t) return [150, 158, 132];
+    var tx = Math.round(i / (N - 1) * (TN - 1)), ty = Math.round(j / (N - 1) * (TN - 1));
+    var k = (ty * TN + tx) * 4;
+    return [t[k], t[k + 1], t[k + 2]];
+  }
+
+  /* Surface normal dotted with a low western sun. This is what turns a flat
+     photograph into something with form — without it the drape reads as a
+     sticker rather than as land. */
+  /* The six places sit within the middle third of the property, so the whole
+     74 acres in frame puts them on top of each other. Closer in crops the
+     outlying woodland — which carries no information — and lets the venues
+     stand apart from one another. */
+  var ZOOM = 1.45;
+
+  var LX = -0.62, LY = -0.34, LZ = 0.70;
+  var cellM = METRES / (N - 1);
+  function shade(i, j){
+    var dzdx = (h(i + 1, j) - h(i - 1, j)) * RELIEF / (2 * cellM);
+    var dzdy = (h(i, j + 1) - h(i, j - 1)) * RELIEF / (2 * cellM);
+    var nx = -dzdx, ny = -dzdy, nz = 1;
+    var len = Math.sqrt(nx * nx + ny * ny + 1);
+    var dot = (nx * LX + ny * LY + nz * LZ) / len;
+    if (dot < 0) dot = 0;
+    return 0.42 + 0.78 * dot;               /* ambient + direct */
+  }
+
+  function project(x, y, z, S, cx, cy){
+    var ca = Math.cos(az), sa = Math.sin(az);
+    var xr = x * ca - y * sa, yr = x * sa + y * ca;
+    var ct = Math.cos(tilt), st = Math.sin(tilt);
+    return [cx + xr * S, cy + (yr * ct - z * st) * S, yr];
+  }
+
+  function draw(){
+    if (!hm) return;
+    var r = sizeCanvas(), W = r.width, H = r.height;
+    ctx.clearRect(0, 0, W, H);
+
+    var S = Math.min(W, H) * 0.95 * ZOOM, cx = W / 2, cy = H * 0.52;
+    var zScale = (RELIEF * VEX) / METRES;
+    /* One flat colour per quad is what made this look low-resolution — the
+       source imagery was never the limit. Facets are ~6m when still, ~16m while
+       dragging, and the release refines a beat later. */
+    var step = dragging ? 5 : quality;
+
+    if (mode !== 'lines') drawSurface(S, cx, cy, zScale, step);
+    else drawLines(S, cx, cy, zScale, step);
+
+    if (showCont) drawContours(S, cx, cy, zScale);
+    if (showPins) drawPins(S, cx, cy, zScale);
+
+    document.getElementById('scaleRule').style.width = Math.round((200 / METRES) * S) + 'px';
+    document.getElementById('readout').textContent =
+      'Bearing ' + Math.round(((-az * 180 / Math.PI) % 360 + 360) % 360) + '°  ·  73 m relief';
+  }
+
+  /* ---- textured surface ----
+     Heightfield painter's algorithm: iterate each axis in whichever direction
+     runs away from the camera, so quads are laid down back to front and near
+     ground covers far ground. No sorting needed. */
+  /* A cut edge below the surface, so the model reads as a block of land lifted
+     out of the map rather than a sheet floating in the air. Drawn before the
+     surface: the terrain then covers whichever walls are behind it. */
+  function drawSkirt(S, cx, cy, zScale, step){
+    var BASE = -0.055;
+    function wall(i0, j0, i1, j1, tone){
+      var a = project(i0 / (N - 1) - 0.5, j0 / (N - 1) - 0.5, h(i0, j0) * zScale, S, cx, cy);
+      var b = project(i1 / (N - 1) - 0.5, j1 / (N - 1) - 0.5, h(i1, j1) * zScale, S, cx, cy);
+      var c = project(i1 / (N - 1) - 0.5, j1 / (N - 1) - 0.5, BASE, S, cx, cy);
+      var d = project(i0 / (N - 1) - 0.5, j0 / (N - 1) - 0.5, BASE, S, cx, cy);
+      ctx.beginPath();
+      ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
+      ctx.lineTo(c[0], c[1]); ctx.lineTo(d[0], d[1]);
+      ctx.closePath();
+      ctx.fillStyle = tone; ctx.fill();
+      ctx.strokeStyle = tone; ctx.lineWidth = 1; ctx.stroke();
+    }
+    for (var k = 0; k < N - 1 - step; k += step){
+      wall(k, 0, k + step, 0, '#6E6047');                 /* north */
+      wall(k, N - 1, k + step, N - 1, '#847356');         /* south */
+      wall(0, k, 0, k + step, '#5E5340');                  /* west  */
+      wall(N - 1, k, N - 1, k + step, '#8E7C5E');          /* east  */
+    }
+  }
+
+  /* Row order for the painter's algorithm: each axis walks in whichever
+     direction runs away from the camera, so quads land back to front. */
+  function rowOrder(step){
+    var jFwd = Math.cos(az) >= 0, out = [];
+    if (jFwd){ for (var j = 0; j <= N - 1 - step; j += step) out.push(j); }
+    else     { for (var j2 = N - 1 - step; j2 >= 0; j2 -= step) out.push(j2); }
+    return out;
+  }
+
+  function drawSurface(S, cx, cy, zScale, step, rows){
+    if (!rows){ drawSkirt(S, cx, cy, zScale, step); rows = rowOrder(step); }
+    var sa = Math.sin(az);
+    var iFwd = sa >= 0;
+    var iStart = iFwd ? 0 : N - 1 - step, iEnd = iFwd ? N - 1 - step : 0, iStep = iFwd ? step : -step;
+
+    for (var ri = 0; ri < rows.length; ri++){
+      var j = rows[ri];
+      for (var i = iStart; iFwd ? i <= iEnd : i >= iEnd; i += iStep){
+        var x0 = i / (N - 1) - 0.5, x1 = (i + step) / (N - 1) - 0.5;
+        var y0 = j / (N - 1) - 0.5, y1 = (j + step) / (N - 1) - 0.5;
+        var a = project(x0, y0, h(i, j) * zScale, S, cx, cy);
+        var b = project(x1, y0, h(i + step, j) * zScale, S, cx, cy);
+        var c = project(x1, y1, h(i + step, j + step) * zScale, S, cx, cy);
+        var d = project(x0, y1, h(i, j + step) * zScale, S, cx, cy);
+
+        var col = texel(i + step / 2, j + step / 2);
+        var s = shade(i + step / 2, j + step / 2);
+        var fill = 'rgb(' + Math.min(255, col[0] * s | 0) + ',' +
+                            Math.min(255, col[1] * s | 0) + ',' +
+                            Math.min(255, col[2] * s | 0) + ')';
+        ctx.beginPath();
+        ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]);
+        ctx.lineTo(c[0], c[1]); ctx.lineTo(d[0], d[1]);
+        ctx.closePath();
+        ctx.fillStyle = fill;
+        ctx.fill();
+        ctx.strokeStyle = fill;   /* hides hairline seams between quads */
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+    }
+  }
+
+  /* ---- progressive sharpening ----
+     The finest mesh is what kills the faceted look, but drawing all of it in
+     one go costs the best part of a second. So it is painted in bands, over
+     the top of the coarse render, in the same depth order — the picture simply
+     resolves. Any interaction cancels it.
+
+     The bands are scheduled with setTimeout rather than requestAnimationFrame.
+     rAF only fires while the page is actually being composited, so in a
+     background tab, an inactive window or an embedded frame the chain stops
+     dead after a single band and the model is left permanently coarse. This is
+     not an animation — it is the picture finishing — so it must not be tied to
+     whether anyone happens to be looking. */
+  var fineToken = 0;
+  function startFine(){
+    if (mode === 'lines') return;
+    var token = ++fineToken;
+    var r = frame.getBoundingClientRect();
+    var S = Math.min(r.width, r.height) * 0.95 * ZOOM, cx = r.width / 2, cy = r.height * 0.52;
+    var zScale = (RELIEF * VEX) / METRES;
+    var rows = rowOrder(1), at = 0, BAND = 26;
+    (function band(){
+      if (token !== fineToken || dragging || spin) return;
+      var slice = rows.slice(at, at + BAND);
+      if (!slice.length) return;
+      drawSurface(S, cx, cy, zScale, 1, slice);
+      at += BAND;
+      if (at < rows.length) setTimeout(band, 0);
+      else { if (showCont) drawContours(S, cx, cy, zScale); if (showPins) drawPins(S, cx, cy, zScale); }
+    })();
+  }
+
+  /* ---- engraved profile lines ---- */
+  function drawLines(S, cx, cy, zScale, step){
+    var order = [], j;
+    for (j = 0; j < N; j += step) order.push([j, ((j / (N - 1)) - 0.5) * Math.cos(az)]);
+    order.sort(function(p, q){ return p[1] - q[1]; });
+    var H = cv.height;
+    for (var k = 0; k < order.length; k++){
+      j = order[k][0];
+      var pts = [], i;
+      for (i = 0; i < N; i += step){
+        pts.push(project(i / (N - 1) - 0.5, j / (N - 1) - 0.5, h(i, j) * zScale, S, cx, cy));
+      }
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], pts[0][1]);
+      for (i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+      ctx.lineTo(pts[pts.length - 1][0], H + 400);
+      ctx.lineTo(pts[0][0], H + 400);
+      ctx.closePath();
+      ctx.fillStyle = '#F4F0E6';
+      ctx.fill();
+      ctx.beginPath();
+      ctx.moveTo(pts[0][0], pts[0][1]);
+      for (i = 1; i < pts.length; i++) ctx.lineTo(pts[i][0], pts[i][1]);
+      var mean = 0, n = 0;
+      for (i = 0; i < N; i += step){ mean += h(i, j); n++; }
+      mean /= n;
+      ctx.strokeStyle = 'rgba(42,51,38,' + (0.30 + mean * 0.55).toFixed(2) + ')';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+  }
+
+  /* ---- contour overlay, drawn on the 3D surface ---- */
+  function drawContours(S, cx, cy, zScale){
+    var levels = 14, step = 2;
+    ctx.lineWidth = 1;
+    for (var L = 1; L < levels; L++){
+      var lv = L / levels;
+      ctx.strokeStyle = (L % 4 === 0) ? 'rgba(28,34,24,.7)' : 'rgba(28,34,24,.34)';
+      ctx.beginPath();
+      for (var j = 0; j < N - step; j += step){
+        for (var i = 0; i < N - step; i += step){
+          var v = [h(i, j), h(i + step, j), h(i + step, j + step), h(i, j + step)];
+          if (Math.min.apply(null, v) > lv || Math.max.apply(null, v) < lv) continue;
+          var cs = [[i, j], [i + step, j], [i + step, j + step], [i, j + step]], seg = [];
+          for (var e = 0; e < 4; e++){
+            var p = e, q = (e + 1) % 4;
+            if ((v[p] < lv) !== (v[q] < lv)){
+              var t = (lv - v[p]) / (v[q] - v[p]);
+              var gi = cs[p][0] + (cs[q][0] - cs[p][0]) * t;
+              var gj = cs[p][1] + (cs[q][1] - cs[p][1]) * t;
+              seg.push(project(gi / (N - 1) - 0.5, gj / (N - 1) - 0.5, lv * zScale, S, cx, cy));
+            }
+          }
+          if (seg.length >= 2){
+            ctx.moveTo(seg[0][0], seg[0][1]);
+            ctx.lineTo(seg[1][0], seg[1][1]);
+          }
+        }
+      }
+      ctx.stroke();
+    }
+  }
+
+  var hits = [];   /* pin screen positions, refreshed every draw, for hover */
+
+
+  /* ---- the marks ----
+     A dot says a place is here; a mark says what it is. These are drawn rather
+     than set in a font so they stay crisp at any pixel ratio and share the
+     map's ink. Each is described in a box running -1..1 about its own centre,
+     then scaled, so the whole set resizes from one number.
+
+     They read as a legend even before the labels: an arbour, a hall, cottages on
+     a ridge, a magnolia in flower, a rail with the ridges beyond it, the drive
+     winding in between its posts. Each is only about fifteen pixels across on
+     the map, so they are cut to a handful of strokes — anything finer turns to
+     mush at size, and they have to differ in silhouette rather than in detail. */
+  function mark(kind, x, y, s){
+    function M(a, b){ ctx.moveTo(x + a * s, y + b * s); }
+    function L(a, b){ ctx.lineTo(x + a * s, y + b * s); }
+    function Q(a, b, c, d){ ctx.quadraticCurveTo(x + a * s, y + b * s, x + c * s, y + d * s); }
+    function A(a, b, r, f, t){ ctx.arc(x + a * s, y + b * s, r * s, f, t); }
+
+    ctx.beginPath();
+    switch (kind){
+      case 'arch':                                   /* the ceremony arbour */
+        M(-0.72, 0.9); L(-0.72, 0.02);
+        A(0, 0.02, 0.72, Math.PI, 0);
+        ctx.moveTo(x + 0.72 * s, y + 0.02 * s); L(0.72, 0.9);
+        break;
+
+      case 'hall':                                   /* the long room */
+        M(-0.92, -0.12); L(0, -0.78); L(0.92, -0.12);
+        M(-0.72, -0.12); L(-0.72, 0.8); L(0.72, 0.8); L(0.72, -0.12);
+        M(-0.2, 0.8); L(-0.2, 0.26); L(0.2, 0.26); L(0.2, 0.8);
+        break;
+
+      case 'cottages':                               /* a cluster to stay in */
+        M(-0.98, 0.04); L(-0.5, -0.52); L(-0.02, 0.04);
+        M(-0.82, 0.04); L(-0.82, 0.6);
+        M(-0.18, 0.04); L(-0.18, 0.6);
+        M(0.02, 0.04); L(0.5, -0.52); L(0.98, 0.04);
+        M(0.18, 0.04); L(0.18, 0.6);
+        M(0.82, 0.04); L(0.82, 0.6);
+        M(-1, 0.6); L(1, 0.6);
+        break;
+
+      case 'deck':                                   /* a rail, and the view */
+        M(-0.95, -0.26); L(-0.45, -0.76); L(-0.05, -0.32); L(0.4, -0.8); L(0.95, -0.26);
+        M(-0.95, 0.24); L(0.95, 0.24);
+        M(-0.6, 0.24); L(-0.6, 0.8);
+        M(0.6, 0.24); L(0.6, 0.8);
+        M(-0.95, 0.8); L(0.95, 0.8);
+        break;
+
+      case 'drive':                                  /* the way in */
+        M(-0.9, 0.56); L(-0.9, 0.96);
+        M(-0.22, 0.56); L(-0.22, 0.96);
+        M(-0.56, 0.9);
+        Q(-0.56, 0.2, 0, 0.02);
+        Q(0.56, -0.16, 0.56, -0.9);
+        break;
+    }
+    ctx.stroke();
+
+    /* The magnolia is petals, so it wants its own pass rather than one path. */
+    if (kind === 'bloom'){
+      for (var k = 0; k < 5; k++){
+        var a = k * 2 * Math.PI / 5 - Math.PI / 2;
+        ctx.beginPath();
+        ctx.ellipse(x + Math.cos(a) * 0.5 * s, y + Math.sin(a) * 0.5 * s,
+                    0.46 * s, 0.27 * s, a, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+      ctx.beginPath();
+      ctx.arc(x, y, 0.18 * s, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+  }
+
+  function drawPins(S, cx, cy, zScale){
+    hits = PLACES.map(function(p){
+      var i = Math.round(p.u * (N - 1)), j = Math.round(p.v * (N - 1));
+      var g = project(p.u - 0.5, p.v - 0.5, h(i, j) * zScale, S, cx, cy);
+      return {p:p, sx:g[0], sy:g[1], depth:g[2]};
+    });
+    var R = 13;                       /* radius of the paper disc */
+    var named = frame.getBoundingClientRect().width >= 560;
+    hits.slice().sort(function(a, b){ return a.depth - b.depth; }).forEach(function(s){
+      /* A disc of paper under each mark. The land runs from deep canopy to
+         pale field, so nothing drawn straight onto it stays legible in both
+         places — the disc is what makes the ink readable anywhere. */
+      ctx.beginPath();
+      ctx.arc(s.sx, s.sy, R, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(244,240,230,.95)';
+      ctx.fill();
+      ctx.strokeStyle = '#2A3326';
+      ctx.lineWidth = 1.1;
+      ctx.stroke();
+
+      ctx.lineWidth = 1.35;
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      mark(s.p.mark, s.sx, s.sy, R * 0.58);
+
+      /* On a narrow frame six labels sit on top of one another and the map
+         becomes unreadable. The marks carry the meaning on their own, and a
+         tap still brings up the card, so below this width the names come off. */
+      if (!named) return;
+      ctx.font = '600 11px Montserrat, system-ui, sans-serif';
+      ctx.textAlign = 'center';
+      var label = s.p.name.toUpperCase(), w = ctx.measureText(label).width;
+      ctx.fillStyle = 'rgba(244,240,230,.94)';
+      ctx.fillRect(s.sx - w / 2 - 6, s.sy - R - 21, w + 12, 16);
+      ctx.fillStyle = '#2A3326';
+      ctx.fillText(label, s.sx, s.sy - R - 9);
+    });
+  }
+
+  /* ---- interaction ---- */
+  frame.addEventListener('pointerdown', function(e){
+    /* The controls sit over the model, so their clicks arrive here too. Without
+       this the Turning button appears dead: pointerdown switches the turn off,
+       and the button's own handler then toggles it straight back on. */
+    if (e.target.closest('button')) return;
+    dragging = true; idle = 0;
+    if (spin){ spin = false; press('bSpin', false); }
+    frame.classList.add('dragging');
+    document.getElementById('grab').classList.add('gone');
+    lastX = e.clientX; lastY = e.clientY;
+    if (frame.setPointerCapture) frame.setPointerCapture(e.pointerId);
+  });
+  var card = document.getElementById('card'),
+      cardImg = document.getElementById('cardImg'),
+      cardName = document.getElementById('cardName'),
+      cardNote = document.getElementById('cardNote'),
+      hovered = null;
+
+  function hoverAt(clientX, clientY){
+    if (!showPins || !hits.length) return hideCard();
+    var r = frame.getBoundingClientRect(), mx = clientX - r.left, my = clientY - r.top;
+    var best = null, bestD = 34;
+    for (var i = 0; i < hits.length; i++){
+      var dx = hits[i].sx - mx, dy = hits[i].sy - my;
+      var d = Math.sqrt(dx * dx + dy * dy);
+      if (d < bestD){ bestD = d; best = hits[i]; }
+    }
+    if (!best) return hideCard();
+    if (hovered !== best.p){
+      hovered = best.p;
+      cardImg.src = best.p.img;
+      cardImg.alt = best.p.name;
+      cardName.textContent = best.p.name;
+      cardNote.textContent = best.p.note;
+    }
+    card.style.left = best.sx + 'px';
+    card.style.top  = (best.sy - 14) + 'px';
+    card.classList.add('on');
+    card.setAttribute('aria-hidden', 'false');
+    frame.style.cursor = 'pointer';
+  }
+  function hideCard(){
+    hovered = null;
+    card.classList.remove('on');
+    card.setAttribute('aria-hidden', 'true');
+    if (!dragging) frame.style.cursor = '';
+  }
+  frame.addEventListener('pointerleave', hideCard);
+
+  frame.addEventListener('pointermove', function(e){
+    if (!dragging){ hoverAt(e.clientX, e.clientY); return; }
+    hideCard();
+    fineToken++;                      /* abandon any refinement in progress */
+    az   += (e.clientX - lastX) * 0.008;
+    tilt += (e.clientY - lastY) * 0.004;
+    tilt = Math.max(0.2, Math.min(1.2, tilt));
+    lastX = e.clientX; lastY = e.clientY;
+    draw();
+  });
+  function up(){ if (dragging){ dragging = false; frame.classList.remove('dragging'); drawThenRefine(); } }
+  addEventListener('pointerup', up);
+  addEventListener('pointercancel', up);
+  addEventListener('resize', draw, {passive:true});
+
+  function press(id, on){ var b = document.getElementById(id); b.setAttribute('aria-pressed', on ? 'true' : 'false'); }
+  function setMode(m){
+    mode = m;
+    press('bPhoto', m === 'photo');
+    press('bIllus', m === 'illus');
+    press('bLines', m === 'lines');
+    drawThenRefine();
+  }
+  document.getElementById('bPhoto').addEventListener('click', function(){ setMode('photo'); });
+  document.getElementById('bIllus').addEventListener('click', function(){ setMode('illus'); });
+  document.getElementById('bLines').addEventListener('click', function(){ setMode('lines'); });
+  document.getElementById('bCont').addEventListener('click', function(){
+    showCont = !showCont; press('bCont', showCont); draw();
+  });
+  document.getElementById('bPins').addEventListener('click', function(){
+    showPins = !showPins; press('bPins', showPins); draw();
+  });
+  document.getElementById('bSpin').addEventListener('click', function(){
+    spin = !spin; press('bSpin', spin);
+    if (spin){ spun = 0; idle = 46; fineToken++; }   /* abandon any refinement */
+    else drawThenRefine();
+  });
+
+  /* The turn is an introduction, not a state. It runs briefly so the model
+     announces itself as three-dimensional, then stops and hands over to the
+     sharpening pass — which it would otherwise overwrite every frame. */
+  var spun = 0;
+  (function tick(){
+    if (spin && !dragging && !rm && hm){
+      idle++;
+      if (idle > 45){
+        az += 0.0016; draw(); spun++;
+        if (spun > 300){ spin = false; press('bSpin', false); drawThenRefine(); }
+      }
+    }
+    requestAnimationFrame(tick);
+  })();
+})();
+</script>
+</body>
+</html>

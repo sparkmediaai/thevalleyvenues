@@ -1,0 +1,11 @@
+# Crawling is allowed on purpose, and every page carries noindex,nofollow.
+#
+# That pairing is deliberate. "Disallow: /" would stop a crawler fetching the
+# pages, which also stops it reading the noindex meta tag -- and a URL somebody
+# links to can then be indexed anyway, with no snippet and no way to remove it.
+# Letting the crawler in to read "do not index me" is what actually keeps the
+# site out of search results.
+#
+# At launch: drop the noindex from _build/build.py, add a sitemap here.
+User-agent: *
+Allow: /

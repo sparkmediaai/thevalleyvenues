@@ -1,0 +1,12 @@
+# Local Claude Code settings. The launch config is committed; the rest is not.
+.claude/*
+!.claude/launch.json
+
+# Photo triage output -- the client's photography, and this repo is public.
+_triage*/
+**/_triage/
+picks.json
+
+# Python
+__pycache__/
+*.pyc
