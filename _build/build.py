@@ -197,7 +197,7 @@ def shell(page, path="index.html"):
 <link rel="stylesheet" href="%(root)sassets/site.css">
 <link rel="stylesheet" href="%(root)sassets/motion.css">
 <link rel="stylesheet" href="%(root)sassets/forms.css">
-%(head)s<script>window.FORM_ENDPOINT=%(endpoint)s;if(/[?&]notes\b/.test(location.search))document.documentElement.classList.add("notes")</script>
+%(head)s<script>document.documentElement.classList.add("js");window.FORM_ENDPOINT=%(endpoint)s;if(/[?&]notes\b/.test(location.search))document.documentElement.classList.add("notes")</script>
 </head>
 <body>
 
@@ -214,7 +214,7 @@ def shell(page, path="index.html"):
     <a class="btn btn-solid" href="%(cta_href)s">%(cta_text)s</a>
   </div>
 </header>
-
+%(banner)s
 <header class="hero %(hero_class)s">
 %(hero)s  <div class="hero-body">
     <div class="eyebrow">%(eyebrow)s</div>
@@ -257,6 +257,7 @@ def shell(page, path="index.html"):
         "standfirst": page["standfirst"], "actions": actions,
         "body": expand(page["body"]), "foot": foot,
         "hero_class": hero_class,
+        "banner": page.get("banner", ""),
         "head": page.get("head", ""), "foot_js": page.get("foot_js", ""),
     }
 
@@ -266,7 +267,9 @@ PAGES = {}
 
 PAGES["index.html"] = dict(
     nav=None, title="%s | %s" % (SITE, TAGLINE), desc=TAGLINE,
-    head='<link rel="stylesheet" href="/assets/home.css">\n'
+    banner='\n<aside class="opening" id="opening" data-until="2026-09-13T20:00:00Z"\n       data-through="2026-09-13T23:00:00Z">\n  <div class="opening-inner">\n    <div class="opening-what">\n      <span class="eyebrow">Grand opening</span>\n      <p><b>Magnolia House</b> opens Sunday 13 September, 4&ndash;7pm EDT</p>\n      <p class="opening-with">Free food and drink &middot; Live music &middot; Estate tours</p>\n    </div>\n    <p class="opening-count" aria-hidden="true"></p>\n  </div>\n</aside>\n',
+    head='<link rel="stylesheet" href="/assets/opening.css">\n'
+         '<link rel="stylesheet" href="/assets/home.css">\n'
          '<link rel="preload" as="image" href="/assets/img/hero-1.webp"\n'
          '      imagesrcset="/assets/img/hero-1-sm.webp 1100w, /assets/img/hero-1.webp 2200w"\n'
          '      imagesizes="100vw">\n',

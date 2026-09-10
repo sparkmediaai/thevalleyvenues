@@ -124,3 +124,73 @@
   });
   still.addEventListener("change", function () { still.matches ? stop() : play(); });
 })();
+
+/* The opening band.
+
+   One announcement with an expiry. The two instants on the element are UTC,
+   because 4pm EDT is 20:00Z and a browser in Denver has to count to the same
+   moment rather than to four o'clock wherever it happens to be.
+
+   Three states and the third is the one that matters:
+
+     before  days, hours and minutes to the doors opening
+     during  it says so, and stops counting
+     after   the band removes itself
+
+   A countdown that has gone negative is worse than no countdown, and a grand
+   opening still being advertised in October says more about the agency than it
+   does about the estate. Nobody is going to remember to take this down, so it
+   takes itself down.
+
+   No seconds. A digit flickering once a second is the cheapest-looking element
+   on the web, and it would be the only thing on this site raising its voice.
+   Minutes are enough, so it wakes twice a minute and sleeps the rest. */
+(function () {
+  var band = document.getElementById("opening");
+  if (!band) return;
+
+  var out = band.querySelector(".opening-count");
+  var until = Date.parse(band.getAttribute("data-until"));
+  var through = Date.parse(band.getAttribute("data-through"));
+  if (!out || isNaN(until) || isNaN(through)) return;
+
+  var MIN = 60000, HOUR = 60 * MIN, DAY = 24 * HOUR;
+
+  function unit(n, one, many) {
+    return '<span><b>' + n + '</b> ' + (n === 1 ? one : many) + '</span>';
+  }
+
+  var timer = null;
+
+  function tick() {
+    var left = until - Date.now();
+
+    if (Date.now() >= through) {          // it has been and gone
+      band.remove();
+      if (timer) clearInterval(timer);
+      return;
+    }
+    if (left <= 0) {                      // the doors are open
+      out.className = "opening-count is-now";
+      out.textContent = "Happening now";
+      return;
+    }
+
+    var d = Math.floor(left / DAY);
+    var h = Math.floor((left % DAY) / HOUR);
+    var m = Math.floor((left % HOUR) / MIN);
+    var parts = [];
+    if (d) parts.push(unit(d, "day", "days"));
+    parts.push(unit(h, "hour", "hours"));
+    // Once it is inside a day, minutes are the useful number; before that they
+    // are noise beside "two days".
+    if (!d) parts.push(unit(m, "min", "min"));
+    out.className = "opening-count";
+    out.innerHTML = parts.join("");
+  }
+
+  // Called once before any timer exists, so an event that is already over is
+  // removed without one ever starting.
+  tick();
+  if (document.getElementById("opening")) timer = setInterval(tick, 30000);
+})();
