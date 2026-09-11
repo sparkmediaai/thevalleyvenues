@@ -885,14 +885,17 @@ PAGES["the-estate/index.html"] = dict(
     <p>The drawing is the estate&rsquo;s own survey &mdash; contours every sixteen feet, off the same LiDAR the county holds. Six places, and the walk
        between them, at the size it actually is.</p>
   </div>
+  <figure class="walk-map">
+    {{inline:map.svg}}
+    <figcaption>Every drive on the estate, and the six places they reach. Touch or
+      click any of them to go there.</figcaption>
+  </figure>
   <div class="walk-grid">
-    <figure class="walk-map">
-      {{inline:plan.svg}}
-      <figcaption>Contours every 16 ft. The whole weekend is
-        <b>3,045 ft</b> of walking &mdash; 0.58 miles, spread over two days.</figcaption>
-    </figure>
   <div class="note">
-    <p><b>Survey note.</b> Elevation is USGS 3DEP one-metre LiDAR; place positions are read from aerial imagery and want confirming against a site plan.</p>
+    <p><b>Drawing note.</b> The layout follows the estate&rsquo;s own site plan: the one-way
+       loop, the vendor drop-off, the parking and the way in off Pope Creek Road are all
+       as drawn there. It is a map of how the property is arranged and travelled, not a
+       survey &mdash; nothing on it is to scale.</p>
   </div>
     <div class="walk-steps">
     <div class="wstep ws-1">
