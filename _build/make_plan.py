@@ -63,6 +63,10 @@ PLACES = [
 # The order of a weekend, which is the order the page moves through them.
 ROUTE = ["arrival", "magnolia", "valley", "deck", "hall", "village"]
 
+# Which places have a page of their own under /the-estate/.
+PAGE_FOR = {"magnolia": "magnolia-house", "valley": "the-valley",
+            "deck": "lookout-deck", "hall": "davis-hall", "village": "overlook-village"}
+
 
 # ---------------------------------------------------------------- contours
 def marching_squares(f, n, level):
@@ -317,14 +321,19 @@ def main():
     for k, name, u, v in PLACES:
         x, y = u * VIEW, v * VIEW
         anchor, lx, ly = LABELS[k]
-        marks.append(
-            '<g class="pl pl-%s">'
-            '<circle class="pl-halo" cx="%.1f" cy="%.1f" r="30"/>'
-            '<circle class="pl-ring" cx="%.1f" cy="%.1f" r="13"/>'
-            '<circle class="pl-dot" cx="%.1f" cy="%.1f" r="5.5"/>'
-            '<text class="pl-name" x="%.1f" y="%.1f" text-anchor="%s">%s</text>'
-            '</g>'
-            % (k, x, y, x, y, x, y, x + lx, y + ly, anchor, name))
+        # Each place is a door to its own page. The plan is inlined, so SVG's own
+        # <a> works and the group keeps its class for the scroll animation.
+        # Arrival is a moment, not a place, and gets no link.
+        g = ('<g class="pl pl-%s">'
+             '<circle class="pl-halo" cx="%.1f" cy="%.1f" r="30"/>'
+             '<circle class="pl-ring" cx="%.1f" cy="%.1f" r="13"/>'
+             '<circle class="pl-dot" cx="%.1f" cy="%.1f" r="5.5"/>'
+             '<text class="pl-name" x="%.1f" y="%.1f" text-anchor="%s">%s</text>'
+             '</g>' % (k, x, y, x, y, x, y, x + lx, y + ly, anchor, name))
+        if k in PAGE_FOR:
+            g = '<a class="pl-link" href="/the-estate/%s/"><title>%s</title>%s</a>' % (
+                PAGE_FOR[k], name, g)
+        marks.append(g)
 
     svg = (
         '<svg class="plan" viewBox="%d %d %d %d" xmlns="http://www.w3.org/2000/svg" '
