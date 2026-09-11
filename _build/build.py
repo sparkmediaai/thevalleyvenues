@@ -1703,10 +1703,27 @@ PAGES["404.html"] = dict(
 
 
 # --------------------------------------------------------------------- write
+# Every stylesheet and script link carries a short hash of the file it points
+# at. GitHub Pages serves assets with a ten-minute cache; without this a fix
+# to opening.css is invisible to anyone who looked at the site in the last ten
+# minutes, and during launch week that is everyone who matters. The hash only
+# changes when the file does, so unchanged assets stay cached.
+import hashlib
+ASSET_LINK = re.compile(r'((?:href|src)="/assets/[a-z0-9-]+\.(?:css|js))"')
+_digest = {}
+def version_assets(html):
+    def stamp(m):
+        rel = m.group(1).split('"')[1]
+        if rel not in _digest:
+            with open(os.path.join(ROOT, rel.lstrip("/")), "rb") as f:
+                _digest[rel] = hashlib.md5(f.read()).hexdigest()[:8]
+        return '%s?v=%s"' % (m.group(1), _digest[rel])
+    return ASSET_LINK.sub(stamp, html)
+
 for path, page in PAGES.items():
     dest = os.path.join(ROOT, path)
     os.makedirs(os.path.dirname(dest), exist_ok=True)
-    html = shell(page, path)
+    html = version_assets(shell(page, path))
     open(dest, "w", encoding="utf-8").write(html)
     print("%-44s %5d bytes" % (path, len(html)))
 
