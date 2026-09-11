@@ -115,10 +115,11 @@ NAV = [
     ("Planners", "/planners/"),
     ("About", "/about/"),
 ]
-CTA = ("Speak with us", "/inquire/")
+CTA = ("View Pricing", "/pricing/")
 
 FOOTER = [
     ("Celebrate", [
+        ("Pricing &amp; the Welcome Book", "/pricing/"),
         ("The Difference", "/the-difference/"),
         ("The Estate Weekend", "/weddings/"),
         ("What's Included", "/weddings/whats-included/"),
@@ -143,6 +144,7 @@ FOOTER = [
     ("The Valley Venues", [
         ("About &amp; Kobi", "/about/"),
         ("Speak with our team", "/inquire/"),
+        ("Pricing", "/pricing/"),
     ]),
 ]
 
@@ -297,7 +299,7 @@ PAGES["index.html"] = dict(
     standfirst="Seventy-four private acres beneath Lookout Mountain, fifteen minutes from "
                "downtown Chattanooga. One wedding at a time, ever. For your two days the gate closes "
                "behind one family, and every field, every porch and every bed is yours.",
-    actions=[("Speak with our team", "/inquire/"),
+    actions=[("View Pricing", "/pricing/"),
              ("Walk the Estate", "/the-estate/")],
     body="""
 <section>
@@ -531,43 +533,11 @@ PAGES["weddings/index.html"] = dict(
 <section id="investment">
   <div class="lede">
     <div class="eyebrow">Investment</div>
-    <h2>What it costs.</h2>
-    <p>Each figure below is the lowest in its experience: a weekday in the quieter
-       months. A Saturday costs more and the spring and autumn cost more again, so
-       the Saturday range is beside it rather than buried.</p>
-  </div>
-  <ul class="rates">
-    <li>
-      <div class="rate-head"><b>Single Day Celebration</b><span>from $8,000</span></div>
-      <p>Fifteen hours of the whole property, two getting ready suites, tables,
-         chairs, linens, the decor library, the staff who set it all up and two
-         chauffeured golf carts. <b>Saturdays $16,400&ndash;19,600.</b></p>
-    </li>
-    <li>
-      <div class="rate-head"><b>The Estate Weekend</b><span>from $16,800</span></div>
-      <p>Everything above, plus the estate from one o&rsquo;clock the day before, the
-         rehearsal dinner or welcome party set up for you, and two nights at
-         Overlook Village and The Lodge &mdash; thirty-two beds.
-         <b>Friday to Sunday $27,200&ndash;30,400.</b></p>
-    </li>
-    <li>
-      <div class="rate-head"><b>All-Inclusive Estate Experience</b><span>from $35,800</span></div>
-      <p>Everything above, plus an event designer and team, a wedding coordinator,
-         catering and a dessert bar for a hundred, the DJ and sound, lighting design
-         and a five-hour signature cocktail bar.
-         <b>Friday to Sunday $46,200&ndash;49,400.</b></p>
-    </li>
-    <li>
-      <div class="rate-head"><b>Micro Weddings</b><span>from $3,850</span></div>
-      <p>Six hours for up to fifty-six guests, with the ceremony and reception
-         spaces of your choice, the getting ready suites and an arbor.
-         <b>Weekends from $4,450</b>, and bookable six months out or less.</p>
-    </li>
-  </ul>
-  <div class="lede" style="margin-top:2.2rem">
-    <p>Tell us your date and your count and the exact figure comes back with it, in
-       the first reply.</p>
-    <a class="btn btn-solid" href="/inquire/">Start there</a>
+    <h2>What it costs is in the Welcome Book.</h2>
+    <p>Every figure, for all four experiences, alongside what each one includes &mdash;
+       and the rest of it too: every space, every lodging option, the catering and the
+       bar. It comes to your email and your phone in about a minute.</p>
+    <a class="btn btn-solid" href="/pricing/">View pricing</a>
   </div>
 </section>
 
@@ -1722,6 +1692,90 @@ PAGES["the-difference/index.html"] = dict(
     <div class="eyebrow">When you are ready</div>
     <h2>Let&rsquo;s talk about yours.</h2>
     <p>Tell us a little about the two of you and the day you are imagining. A person writes back, by name, and the visit comes whenever it suits you.</p>
+    <a class="btn" href="/inquire/">Speak with our team</a>
+  </div>
+</section>
+""")
+
+PAGES["pricing/index.html"] = dict(
+    nav=None, title="Pricing | %s" % SITE,
+    desc="The Welcome Book: every space on the estate, what comes with it, and what "
+         "each experience costs. Sent to you by text and email.",
+    hero_img="band-ground.webp",
+    hero_alt="The arch standing alone in the open meadow, the ridge beyond it",
+    eyebrow="Pricing",
+    h1="The Welcome Book.",
+    standfirst="Every space on the estate, everything that comes with it, and what each "
+               "experience costs. Tell us where to send it and it is with you in a minute.",
+    body="""
+<section>
+  <div class="split">
+    <div class="split-text">
+      <div class="eyebrow">What is in it</div>
+      <h2>The whole thing, not a teaser.</h2>
+      <p>Each of the six places and what it holds. The getting ready suites. Every
+         lodging option and what it sleeps. What is included before you have hired
+         anybody &mdash; tables, chairs, linens, the decor library, the staff who set
+         it all up. The catering and bar menus. And the figures: a single day, the
+         estate weekend, the all-inclusive experience, and micro weddings.</p>
+      <p>It goes to your email and your phone, so it is still there when you are
+         standing in a kitchen explaining it to somebody else.</p>
+    </div>
+    {{img:inc-glass.webp|The conservatory at Magnolia House from inside, chandeliers over the floor}}
+  </div>
+</section>
+
+<section>
+  <form class="form inquiry" id="pricing" data-inquiry-type="Couple" novalidate>
+    <div class="field-row">
+      <div class="field">
+        <label for="pr_first_name">First name <b aria-hidden="true">*</b></label>
+        <input id="pr_first_name" name="first_name" type="text" autocomplete="given-name" required>
+      </div>
+      <div class="field">
+        <label for="pr_last_name">Last name</label>
+        <input id="pr_last_name" name="last_name" type="text" autocomplete="family-name">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="pr_email">Email <b aria-hidden="true">*</b></label>
+        <input id="pr_email" name="email" type="email" autocomplete="email" required>
+      </div>
+      <div class="field">
+        <label for="pr_phone">Phone <b aria-hidden="true">*</b></label>
+        <input id="pr_phone" name="phone" type="tel" autocomplete="tel" required>
+      </div>
+    </div>
+    <p class="form-privacy">The book comes by text as well as email, which is why we
+       ask for both. Only ever used to send it and to write back.</p>
+
+    <div class="hp" aria-hidden="true">
+      <label for="pr_website">Website</label>
+      <input id="pr_website" name="_hp" type="text" tabindex="-1" autocomplete="off">
+    </div>
+
+    <button class="btn btn-solid" type="submit">Send me the Welcome Book</button>
+    <p class="form-error" id="pricing-error" role="alert" hidden></p>
+  </form>
+
+  <div class="form-done" id="pricing-done" role="status" hidden>
+    <div class="eyebrow">On its way</div>
+    <h2>Check your phone.</h2>
+    <p>The Welcome Book is in your inbox and a link is on its way to your phone. If
+       neither arrives in the next few minutes, email
+       <a href="mailto:Info@thevalleyvenues.com">Info@thevalleyvenues.com</a> and it
+       will reach the same person.</p>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="closing-img" role="img" aria-label="A couple at the rail of the Lookout Deck, the ridge behind"
+       style="background-image:url('/assets/img/close-planners.webp')"></div>
+  <div class="closing-body">
+    <div class="eyebrow">Or skip ahead</div>
+    <h2>You can just ask.</h2>
+    <p>If you would rather describe the day than read about it, tell us what you are imagining and a person writes back with what actually fits.</p>
     <a class="btn" href="/inquire/">Speak with our team</a>
   </div>
 </section>
