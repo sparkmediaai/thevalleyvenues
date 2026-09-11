@@ -44,9 +44,11 @@
     referral_source: ["Instagram", "TikTok", "Google", "Planner referral",
                       "Past couple", "Wedding site", "Other"],
     working_with_planner: ["Yes", "No", "Looking for one"],
-    estimated_venue_budget: ["Under $15,000", "$15,000–$25,000", "$25,000–$40,000",
-                   "$40,000–$60,000", "$60,000–$100,000", "$100,000+",
-                   "Not sure yet"],
+    // Plain hyphens, matching the option values rather than the labels. See the
+    // note on the select in build.py: the en dash is display only.
+    estimated_venue_budget: ["Under $15,000", "$15,000-$25,000", "$25,000-$40,000",
+                             "$40,000-$60,000", "$60,000-$100,000", "$100,000+",
+                             "Not sure yet"],
   };
 
   /* Where they came from, remembered from the first page they landed on.

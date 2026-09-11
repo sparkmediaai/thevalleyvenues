@@ -1511,14 +1511,19 @@ PAGES["pricing/index.html"] = dict(
            question on the form and it should not be the thing that stops
            somebody sending it, so nobody has to answer it to get the book --
            they only have to correct it if they know better. -->
+      <!-- The label and the value differ on purpose. An en dash is the correct
+           character for a range and it is what a visitor should see, but it is
+           also the kind of character that survives a stylesheet and dies in a
+           CSV export, a picklist somebody retyped, or an SMS merge tag. So the
+           dash is display only and what leaves the browser is plain ASCII. -->
       <select id="pr_estimated_venue_budget" name="estimated_venue_budget" required>
-        <option>Under $15,000</option>
-        <option>$15,000&ndash;$25,000</option>
-        <option>$25,000&ndash;$40,000</option>
-        <option>$40,000&ndash;$60,000</option>
-        <option>$60,000&ndash;$100,000</option>
-        <option>$100,000+</option>
-        <option selected>Not sure yet</option>
+        <option value="Under $15,000">Under $15,000</option>
+        <option value="$15,000-$25,000">$15,000&ndash;$25,000</option>
+        <option value="$25,000-$40,000">$25,000&ndash;$40,000</option>
+        <option value="$40,000-$60,000">$40,000&ndash;$60,000</option>
+        <option value="$60,000-$100,000">$60,000&ndash;$100,000</option>
+        <option value="$100,000+">$100,000+</option>
+        <option value="Not sure yet" selected>Not sure yet</option>
       </select>
     </div>
     <p class="form-privacy">The book comes by text as well as email, which is why we ask
