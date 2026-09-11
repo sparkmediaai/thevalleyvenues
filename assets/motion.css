@@ -6,46 +6,23 @@
    because the other ten pages want the same words: things arrive, photographs
    move against their frames, and a claim can assemble itself.
 
-   Everything here runs on a view timeline -- the animation's clock is the
-   element's own travel through the viewport, not wall time. That matters for
-   two reasons. It cannot fire early or late, and it degrades correctly: a
-   browser without `animation-timeline` never enters the @supports block and
-   simply shows finished content, whereas an IntersectionObserver that fails to
-   fire leaves a page of invisible text.
+   Two kinds of motion live here, and they run on different clocks.
 
-   Scroll timelines ignore `animation-delay`, so a stagger is expressed as a
-   different `animation-range` per item rather than as a delay.
+   Arrivals -- the reveal, the wipe, the words, the frames opening -- play once
+   on wall time when a thing comes into view, and stay. reveal.js watches for
+   the entry and adds `in`; the stylesheet only ever hides something under
+   html.io, which the head script sets before first paint and takes back if
+   reveal.js never arrives. Under reduced motion none of it runs.
 
-   Ranges use `entry` almost everywhere. `entry` spans exactly the subject's own
-   height, so it always completes -- an element already sitting in view reads as
-   finished. A `cover` range can leave the last block on a short page stuck
-   half-faded, because the page runs out of scroll before cover does.
+   Travel -- the parallax, the band's pan, the hero copy letting go -- is
+   scrubbed by the scroll position on a view timeline, because that is what
+   it is. A browser without `animation-timeline` skips it and loses nothing.
    ========================================================================== */
 
 /* ------------------------------------------------------------- the reveal
    The default arrival. Applied by class where a page wants to be explicit,
    and by selector to the handful of blocks every page is built from, so ten
    pages of markup did not have to grow a class attribute each. */
-@supports (animation-timeline:view()){
-  @media (prefers-reduced-motion:no-preference){
-    .reveal,
-    main .lede,
-    main .card,
-    main .split,
-    main .step,
-    main .note,
-    main .named li,
-    main .form .field{
-      animation:reveal-in linear both;
-      animation-timeline:view();
-      animation-range:entry 6% entry 88%;
-    }
-    /* A list of names is a sequence; four at a time is enough of one. */
-    main .named li:nth-child(2n){animation-range:entry 12% entry 94%}
-    main .named li:nth-child(3n){animation-range:entry 18% entry 100%}
-    main .form .field:nth-child(2n){animation-range:entry 12% entry 94%}
-  }
-}
 @keyframes reveal-in{from{opacity:0;transform:translateY(22px)}
                      to{opacity:1;transform:none}}
 
@@ -53,21 +30,6 @@
    For the one sentence on a page that the rest of the page is evidence for.
    Used sparingly -- if two headlines do this, neither is the claim. */
 .rise-words span{display:inline-block}
-@supports (animation-timeline:view()){
-  @media (prefers-reduced-motion:no-preference){
-    .rise-words span{
-      animation:word-rise linear both;
-      animation-timeline:view();animation-range:entry 14% entry 74%;
-    }
-    .rise-words span:nth-child(2){animation-range:entry 18% entry 78%}
-    .rise-words span:nth-child(3){animation-range:entry 22% entry 82%}
-    .rise-words span:nth-child(4){animation-range:entry 26% entry 86%}
-    .rise-words span:nth-child(5){animation-range:entry 30% entry 90%}
-    .rise-words span:nth-child(6){animation-range:entry 34% entry 94%}
-    .rise-words span:nth-child(7){animation-range:entry 38% entry 98%}
-    .rise-words span:nth-child(8){animation-range:entry 42% entry 100%}
-  }
-}
 @keyframes word-rise{
   from{opacity:0;transform:translateY(.42em) rotate(1.5deg)}
   to{opacity:1;transform:none}
@@ -77,14 +39,6 @@
    Photographs uncover rather than fade. clip-path clips the element it is on,
    so .wipe goes on the img or the figure itself and needs no help from a
    parent. Do not put it on a card: it would clip the words too. */
-@supports (animation-timeline:view()){
-  @media (prefers-reduced-motion:no-preference){
-    .wipe{
-      animation:wipe-in linear both;
-      animation-timeline:view();animation-range:entry 8% entry 82%;
-    }
-  }
-}
 @keyframes wipe-in{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
 
 /* ------------------------------------------------------------ the parallax
@@ -114,20 +68,6 @@
     }
     .cl-2 img{animation-name:par-fast}
     .cl-3 img{animation-name:par-mid}
-
-    /* And the frames themselves open, rather than simply being there.
-
-       The photograph is uncovered upward while the frame settles up to size,
-       so the picture appears through a widening window instead of sliding in.
-       Two elements are doing the work: the figure carries the clip and the
-       scale, the img inside carries the parallax, so neither is fighting the
-       other for the transform property. */
-    .cluster figure{
-      animation:frame-open linear both;
-      animation-timeline:view();animation-range:entry 12% entry 84%;
-    }
-    .cluster .cl-2{animation-range:entry 19% entry 91%}
-    .cluster .cl-3{animation-range:entry 26% entry 98%}
   }
 }
 @keyframes frame-open{
@@ -204,8 +144,6 @@
   @media (prefers-reduced-motion:no-preference){
     .band-img{animation:band-pan linear both;
       animation-timeline:view();animation-range:cover 0% cover 100%}
-    .band p{animation:band-word linear both;
-      animation-timeline:view();animation-range:entry 30% entry 96%}
   }
 }
 @keyframes band-pan{from{transform:translateY(-9%)}to{transform:translateY(9%)}}
@@ -271,17 +209,6 @@
 @media (max-width:640px){
   .gallery figure:nth-child(4n+1){grid-column:auto;aspect-ratio:4/3}
 }
-@supports (animation-timeline:view()){
-  @media (prefers-reduced-motion:no-preference){
-    .gallery figure{
-      animation:wipe-in linear both;
-      animation-timeline:view();animation-range:entry 6% entry 80%;
-    }
-    .gallery figure:nth-child(2n){animation-range:entry 12% entry 88%}
-    .gallery figure:nth-child(3n){animation-range:entry 18% entry 96%}
-  }
-}
-
 /* ----------------------------------------------------------------- the hero
    The copy lets go as it leaves, rather than scrolling away rigidly. Applies
    only where the hero carries a photograph -- on a plain hero there is nothing
@@ -297,3 +224,79 @@
 }
 @keyframes hero-out{from{opacity:1;transform:none}
                     to{opacity:0;transform:translateY(-3rem)}}
+
+/* ============================================================================
+   Arrivals. Each plays once, on entry, at its own pace.
+
+   The hidden state is always `.io <thing>:not(.in)` -- so with no `io` on the
+   root nothing is hidden, and adding `in` is the whole trigger. Staggers are
+   transition delays, keyed off the parent for the things that arrive as one.
+   ========================================================================== */
+:root{--arrive:cubic-bezier(.16,.8,.24,1)}
+
+/* ---- the reveal: up and in */
+.io .reveal, .io main .lede, .io main .card, .io main .split, .io main .step,
+.io main .note, .io main .named li, .io main .form .field, .io main .statement,
+.io main .closing-body, .io main .facts li, .io main .onward, .io .wk{
+  transition:opacity 1s var(--arrive),transform 1s var(--arrive);
+}
+.io .reveal:not(.in), .io main .lede:not(.in), .io main .card:not(.in),
+.io main .split:not(.in), .io main .step:not(.in), .io main .note:not(.in),
+.io main .named li:not(.in), .io main .form .field:not(.in),
+.io main .statement:not(.in), .io main .closing-body:not(.in),
+.io main .facts li:not(.in), .io main .onward:not(.in), .io .wk:not(.in){
+  opacity:0;transform:translateY(26px);
+}
+/* Things that sit in a row arrive in the order they are read. */
+.io main .card:nth-child(2), .io main .named li:nth-child(2),
+.io main .form .field:nth-child(2), .io main .facts li:nth-child(2), .io .wk:nth-child(2){transition-delay:.12s}
+.io main .card:nth-child(3), .io main .named li:nth-child(3),
+.io main .form .field:nth-child(3), .io main .facts li:nth-child(3), .io .wk:nth-child(3){transition-delay:.24s}
+.io main .card:nth-child(4), .io main .named li:nth-child(4),
+.io main .facts li:nth-child(4), .io .wk:nth-child(4){transition-delay:.36s}
+.io main .facts li:nth-child(5){transition-delay:.48s}
+.io main .facts li:nth-child(6){transition-delay:.6s}
+
+/* ---- a headline, word by word */
+.io .rise-words span{transition:opacity .8s var(--arrive),transform .8s var(--arrive)}
+.io .rise-words:not(.in) span{opacity:0;transform:translateY(.42em) rotate(1.5deg)}
+.io .rise-words span:nth-child(2){transition-delay:.07s}
+.io .rise-words span:nth-child(3){transition-delay:.14s}
+.io .rise-words span:nth-child(4){transition-delay:.21s}
+.io .rise-words span:nth-child(5){transition-delay:.28s}
+.io .rise-words span:nth-child(6){transition-delay:.35s}
+.io .rise-words span:nth-child(7){transition-delay:.42s}
+.io .rise-words span:nth-child(8){transition-delay:.49s}
+.io .rise-words span:nth-child(9){transition-delay:.56s}
+.io .rise-words span:nth-child(10){transition-delay:.63s}
+.io .rise-words span:nth-child(11){transition-delay:.7s}
+
+/* ---- the denials, one at a time */
+.io .nots li{transition:opacity .9s var(--arrive),transform .9s var(--arrive)}
+.io .nots:not(.in) li{opacity:0;transform:translateY(18px)}
+.io .nots li:nth-child(2){transition-delay:.1s}
+.io .nots li:nth-child(3){transition-delay:.2s}
+.io .nots li:nth-child(4){transition-delay:.3s}
+.io .nots li:nth-child(5){transition-delay:.4s}
+.io .nots li:nth-child(6){transition-delay:.5s}
+
+/* ---- the wipe: photographs uncover rather than fade */
+.io .wipe, .io .wk figure, .io .gallery figure{transition:clip-path 1.1s var(--arrive)}
+.io .wipe:not(.in), .io .wk:not(.in) figure, .io .gallery:not(.in) figure{clip-path:inset(0 0 100% 0)}
+.io .gallery figure:nth-child(2){transition-delay:.09s}
+.io .gallery figure:nth-child(3){transition-delay:.18s}
+.io .gallery figure:nth-child(4){transition-delay:.27s}
+.io .gallery figure:nth-child(5){transition-delay:.09s}
+.io .gallery figure:nth-child(6){transition-delay:.18s}
+.io .gallery figure:nth-child(7){transition-delay:.27s}
+.io .gallery figure:nth-child(8){transition-delay:.36s}
+
+/* ---- the frames open: uncovered upward while settling up to size */
+.io .cluster figure{transition:clip-path 1.1s var(--arrive),transform 1.1s var(--arrive)}
+.io .cluster:not(.in) figure{clip-path:inset(0 0 100% 0);transform:scale(.93)}
+.io .cluster .cl-2{transition-delay:.16s}
+.io .cluster .cl-3{transition-delay:.32s}
+
+/* ---- the band's line settles into place */
+.io .band p{transition:opacity 1.2s var(--arrive),letter-spacing 1.2s var(--arrive)}
+.io .band:not(.in) p{opacity:0;letter-spacing:.06em}

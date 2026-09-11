@@ -11,9 +11,9 @@
    3. It never runs at all under prefers-reduced-motion, and with JavaScript off
       the first frame simply stays put. The page reads either way.
    4. It can be driven. Arrows, marks, arrow keys and swipe all do the same
-      thing, and any of them holds the timer -- being carried off a frame you
-      were looking at because six seconds elapsed is the whole reason the first
-      version felt hard to use. */
+      thing, and each restarts the six seconds. It holds only while the pointer
+      is on the controls: being carried off a frame you were choosing is the
+      one thing worse than a show that never moves. */
 (function () {
   var stage = document.querySelector(".hero-stage");
   if (!stage) return;
@@ -74,11 +74,16 @@
     });
   });
 
-  hero.addEventListener("pointerenter", function () { hold(true); });
-  hero.addEventListener("pointerleave", function () { hold(false); });
-  hero.addEventListener("focusin", function () { hold(true); });
-  hero.addEventListener("focusout", function (e) {
-    if (!hero.contains(e.relatedTarget)) hold(false);
+  /* Held only while the pointer is on the controls, or a control has focus.
+     The first version held on any hover over the hero -- and the hero fills
+     the first screen, so a mouse resting anywhere on it froze the show on
+     frame one; on a phone a tap's pointerenter never got its pointerleave. */
+  var marks = stage.querySelector(".hero-marks") || stage;
+  marks.addEventListener("pointerenter", function (e) { if (e.pointerType !== "touch") hold(true); });
+  marks.addEventListener("pointerleave", function (e) { if (e.pointerType !== "touch") hold(false); });
+  marks.addEventListener("focusin", function () { hold(true); });
+  marks.addEventListener("focusout", function (e) {
+    if (!marks.contains(e.relatedTarget)) hold(false);
   });
 
   hero.addEventListener("keydown", function (e) {

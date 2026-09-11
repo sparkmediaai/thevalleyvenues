@@ -210,7 +210,7 @@ def shell(page, path="index.html"):
 <link rel="stylesheet" href="%(root)sassets/motion.css">
 <link rel="stylesheet" href="%(root)sassets/opening.css">
 <link rel="stylesheet" href="%(root)sassets/forms.css">
-%(head)s<script>document.documentElement.classList.add("js");window.FORM_ENDPOINT=%(endpoint)s;if(/[?&]notes\b/.test(location.search))document.documentElement.classList.add("notes")</script>
+%(head)s<script>document.documentElement.classList.add("js");if("IntersectionObserver" in window&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("io");setTimeout(function(){if(!window.__reveal)document.documentElement.classList.remove("io")},3000)}window.FORM_ENDPOINT=%(endpoint)s;if(/[?&]notes\b/.test(location.search))document.documentElement.classList.add("notes")</script>
 </head>
 <body>
 
@@ -262,6 +262,7 @@ def shell(page, path="index.html"):
   </div>
 </footer>
 %(foot_js)s
+<script src="%(root)sassets/reveal.js" defer></script>
 <script src="%(root)sassets/opening.js" defer></script>
 <script src="%(root)sassets/forms.js" defer></script>
 </body>

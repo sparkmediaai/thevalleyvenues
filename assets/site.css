@@ -448,14 +448,14 @@ section:last-of-type{border-bottom:0}
   @media (prefers-reduced-motion:no-preference){
     /* Each rule draws across as its line is read. Staggered, because they are
        read in order and arriving together would look like a table loading. */
-    .claim .nots li::after{
-      transform:scaleX(0);
-      animation:strike linear both;
-      animation-timeline:view();animation-range:entry 34% entry 82%;
+    .io .claim .nots:not(.in) li::after{transform:scaleX(0)}
+.claim .nots li::after{
+      
+      transition:transform .9s var(--arrive) .35s;
     }
-    .claim .nots li:nth-child(2)::after{animation-range:entry 40% entry 88%}
-    .claim .nots li:nth-child(3)::after{animation-range:entry 46% entry 94%}
-    .claim .nots li:nth-child(4)::after{animation-range:entry 52% entry 100%}
+    .claim .nots li:nth-child(2)::after{transition-delay:0.47s}
+    .claim .nots li:nth-child(3)::after{transition-delay:0.59s}
+    .claim .nots li:nth-child(4)::after{transition-delay:0.71s}
 
     /* The land drifts against its letterbox, very slightly. It is a still
        aerial of an empty field; anything faster would be a screensaver. */
