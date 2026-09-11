@@ -24,41 +24,57 @@
   border-bottom:1px solid rgba(247,231,206,.18);
 }
 .opening-inner{
-  max-width:82rem;margin:0 auto;padding:.85rem var(--pad);
+  max-width:82rem;margin:0 auto;padding:1.15rem var(--pad);
   display:flex;align-items:center;justify-content:space-between;
   gap:1rem clamp(1.2rem,4vw,3rem);flex-wrap:wrap;
 }
 
 .opening .eyebrow{color:var(--ivory);display:block;margin-bottom:.25rem}
-.opening-what p{margin:0;max-width:none;font-size:.95rem;line-height:1.45}
+.opening-what p{margin:0;max-width:none;font-size:clamp(1rem,1.5vw,1.15rem);line-height:1.45}
 .opening-what b{font-weight:600}
-.opening-with{color:rgba(247,231,206,.85);font-size:.85rem !important}
+.opening-with{color:rgba(247,231,206,.88);font-size:.92rem !important;margin-top:.2rem !important}
 
-/* The numerals. Cormorant, because everything else that carries weight on this
-   site is Cormorant, and tabular so the line does not jitter as it counts. */
+/* The numerals.
+
+   Seconds are in, and the objection to them was never really about seconds --
+   it was that a flickering digit usually looks cheap. It looks cheap when it
+   jitters, when it is set in the same face as the body copy, and when nothing
+   acknowledges the change. So: tabular figures, so the row never shifts width;
+   Cormorant at display size, so it belongs to this site rather than to a
+   shopping cart; and each numeral lifts very slightly as it turns over, which
+   is the difference between a clock running and a number being replaced.
+
+   This is the one place the site is allowed to be excited. Everything else
+   here is about being unhurried, but a grand opening is a date you count to. */
 .opening-count{
-  margin:0;display:flex;align-items:baseline;gap:clamp(.9rem,2.4vw,1.6rem);
-  white-space:nowrap;
+  margin:0;display:flex;align-items:flex-start;
+  gap:clamp(.8rem,2.6vw,1.9rem);white-space:nowrap;
 }
-.opening-count span{
-  display:flex;align-items:baseline;gap:.4rem;
-  font-size:.66rem;letter-spacing:.18em;text-transform:uppercase;
-  color:rgba(247,231,206,.85);
+.opening-unit{
+  display:flex;flex-direction:column;align-items:center;gap:.15rem;
 }
-.opening-count b{
+.opening-unit b{
   font-family:var(--display);font-weight:400;
-  font-size:clamp(1.6rem,3.4vw,2.1rem);line-height:1;color:#fff;
-  font-variant-numeric:tabular-nums;
+  font-size:clamp(2.1rem,6vw,3.2rem);line-height:.95;color:#fff;
+  font-variant-numeric:tabular-nums;letter-spacing:.01em;
+}
+.opening-unit span{
+  font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(247,231,206,.8);
 }
 /* Once it has started, the numbers give way to saying so. */
 .opening-count.is-now{
-  font-family:var(--display);font-size:clamp(1.2rem,2.6vw,1.5rem);
-  color:#fff;letter-spacing:normal;text-transform:none;
+  font-family:var(--display);font-size:clamp(1.5rem,3.4vw,2.1rem);
+  color:#fff;letter-spacing:normal;text-transform:none;align-items:center;
+}
+@keyframes turn{
+  from{opacity:.25;transform:translateY(.16em)}
+  to{opacity:1;transform:none}
 }
 
 @media (max-width:640px){
-  .opening-inner{flex-direction:column;align-items:flex-start;gap:.6rem}
-  .opening-count b{font-size:1.5rem}
+  .opening-inner{flex-direction:column;align-items:flex-start;gap:.9rem}
+  .opening-count{gap:1.4rem}
 }
 
 /* It arrives with the page rather than on scroll -- it is above the fold and
