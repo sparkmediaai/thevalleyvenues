@@ -168,8 +168,6 @@ SLOTS = [
     ("w-night",        "10 Getting ready",        "WeddingDay-105.jpg",              900, 1200, 0.45),
     ("w-morning",      "10 Getting ready",        "WeddingDay-37.jpg",               900, 1200, 0.40),
     ("w-after",        "06 Lodging & cottages",   "Valley-Venues-Wedding-Day-1-10.jpg", 900, 1200, 0.50),
-    # Beside the figure: what the figure actually buys.
-    ("w-alone",        "01 Mountain & landscape", "ValleyVenuesStyledShoot-063.jpg", 1400, 1050, 0.50),
     ("band-quiet", "10 Getting ready",  "ValleyVenuesStyledShoot-056.jpg", 1800,  900, 0.50),
 ]
 
