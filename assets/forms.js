@@ -291,13 +291,38 @@
       }
 
       post(1).then(function (res) {
-        if (!res.ok) throw new Error("HTTP " + res.status);
-        succeed(form, done);
-      }).catch(function () {
-        // Never swallow it. Somebody has just typed out what they want their
-        // wedding to feel like; losing that silently is the worst thing this
-        // page could do.
+        if (res.ok) { succeed(form, done); return; }
+        // A status code came back, so nothing was blocked: the endpoint simply
+        // refused. A 4xx is us and must not be repeated; a 5xx has already had
+        // its one retry inside post().
         fail(form, box, button, "Something went wrong sending that.");
+      }).catch(function () {
+        /* Nothing came back at all, which is the network or a CORS preflight
+           refusing rather than the endpoint answering.
+
+           A simple request -- text/plain, no custom headers -- is not
+           preflighted, so it can still get through. The cost is mode:"no-cors",
+           which makes the response opaque: we cannot read a status and have to
+           treat it as delivered. That is a deliberate trade the spec asks for,
+           and it is only reached once the readable path has already failed.
+
+           It has never fired in testing: the endpoint answers a preflight with
+           Access-Control-Allow-Origin: * and returns a readable 200. It is here
+           for the day that stops being true. */
+        fetch(endpoint, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "text/plain" },
+          credentials: "omit",
+          body: body,
+        }).then(function () {
+          succeed(form, done);
+        }).catch(function () {
+          // Never swallow it. Somebody has just typed out what they want their
+          // wedding to feel like; losing that silently is the worst thing this
+          // page could do.
+          fail(form, box, button, "Something went wrong sending that.");
+        });
       });
     });
   }
