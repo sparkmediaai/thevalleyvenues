@@ -1506,12 +1506,12 @@ PAGES["pricing/index.html"] = dict(
       </div>
     </div>
     <div class="field">
-      <label for="pr_venue_budget">Estimated venue budget</label>
+      <label for="pr_estimated_venue_budget">Estimated venue budget</label>
       <!-- Answered by default rather than left blank. It is the one qualifying
            question on the form and it should not be the thing that stops
            somebody sending it, so nobody has to answer it to get the book --
            they only have to correct it if they know better. -->
-      <select id="pr_venue_budget" name="venue_budget" required>
+      <select id="pr_estimated_venue_budget" name="estimated_venue_budget" required>
         <option>Under $15,000</option>
         <option>$15,000&ndash;$25,000</option>
         <option>$25,000&ndash;$40,000</option>

@@ -44,10 +44,39 @@
     referral_source: ["Instagram", "TikTok", "Google", "Planner referral",
                       "Past couple", "Wedding site", "Other"],
     working_with_planner: ["Yes", "No", "Looking for one"],
-    venue_budget: ["Under $15,000", "$15,000–$25,000", "$25,000–$40,000",
+    estimated_venue_budget: ["Under $15,000", "$15,000–$25,000", "$25,000–$40,000",
                    "$40,000–$60,000", "$60,000–$100,000", "$100,000+",
                    "Not sure yet"],
   };
+
+  /* Where they came from, remembered from the first page they landed on.
+     Somebody who arrives from an ad and then reads three pages before asking
+     for the pamphlet is still that ad's lead, so the first values win and
+     later pages cannot overwrite them. Session storage rather than local:
+     attribution belongs to this visit, not to this browser forever.
+
+     Only ever sent when present, which is why the sample payload that
+     registers these keys with the CRM has to carry all of them at once. */
+  var TRACK = ["utm_source", "utm_medium", "utm_campaign", "utm_content",
+               "utm_term", "gclid", "fbclid", "ttclid"];
+
+  function attribution() {
+    var store = {};
+    try { store = JSON.parse(sessionStorage.getItem("vv_attr") || "{}"); } catch (e) {}
+    var q, dirty = false;
+    try { q = new URLSearchParams(location.search); } catch (e) { return store; }
+    TRACK.forEach(function (k) {
+      var v = q.get(k);
+      if (v && !store[k]) { store[k] = v.slice(0, 200); dirty = true; }
+    });
+    if (dirty) {
+      try { sessionStorage.setItem("vv_attr", JSON.stringify(store)); } catch (e) {}
+    }
+    return store;
+  }
+
+  // Run on every page, not only the one with the form on it.
+  attribution();
 
   function el(id) { return document.getElementById(id); }
   function fieldOf(input) { return input.closest(".field") || input.parentNode; }
@@ -147,7 +176,11 @@
       out[key] = value;
     });
 
+    var from = attribution();
+    Object.keys(from).forEach(function (k) { out[k] = from[k]; });
+
     // Not location.href: ?notes and any other query would end up in the CRM.
+    // The tracking parameters that matter are carried deliberately, above.
     out.page_url = location.origin + location.pathname;
     out.submitted_at = new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
     return out;
