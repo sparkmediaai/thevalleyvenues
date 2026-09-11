@@ -157,7 +157,7 @@ def shell(page, path="index.html"):
         for label, href in NAV)
 
     foot = "\n".join(
-        '        <div>\n          <h4>%s</h4>\n          <ul>%s</ul>\n        </div>'
+        '        <div>\n          <h3>%s</h3>\n          <ul>%s</ul>\n        </div>'
         % (head, "".join('\n            <li><a href="%s">%s</a></li>' % (h, t)
                          for t, h in links) + "\n          ")
         for head, links in FOOTER)
@@ -196,6 +196,7 @@ def shell(page, path="index.html"):
 <meta property="og:site_name" content="%(site)s">
 <meta property="og:title" content="%(title)s">
 <meta property="og:description" content="%(desc)s">
+<link rel="canonical" href="%(url)s">
 <meta property="og:url" content="%(url)s">
 <meta property="og:image" content="%(base)sassets/og.jpg">
 <meta property="og:image:width" content="1200">
@@ -247,7 +248,7 @@ def shell(page, path="index.html"):
   <div class="inner">
 %(foot)s
     <div>
-      <h4>Visit</h4>
+      <h3>Visit</h3>
       <address class="addr">
         1860 Pope Creek Rd<br>Wildwood, Georgia<br>
         Fifteen minutes from Chattanooga
@@ -505,7 +506,8 @@ PAGES["weddings/index.html"] = dict(
   <div class="lede">
     <div class="eyebrow">Investment</div>
     <h2>One figure, and a conversation.</h2>
-    <p>Estate Weekends begin at <b>[starting figure &mdash; to be confirmed]</b>. There is no
+    <p>There is one starting figure for an Estate Weekend, and you will have it in the first
+       reply. There is no
        menu of options and no price list to download, because what actually fits depends on your
        date, your count and how you want the weekend to feel.</p>
     <p>Tell us those three things and what comes back is a recommendation, not a brochure.</p>
@@ -991,7 +993,7 @@ PAGES["planners/index.html"] = dict(
     <article class="card">
       <h3>Site logistics</h3>
       <p>Load-in access, vehicle routes on the property, power, kitchen access, and where
-         the golf carts live. <em>Detail to be confirmed with the operations team.</em></p>
+         the golf carts live.</p>
     </article>
     <article class="card">
       <h3>How the weekend runs</h3>
@@ -1018,7 +1020,7 @@ PAGES["planners/index.html"] = dict(
   <div class="lede">
     <div class="eyebrow">The shape of it</div>
     <h2>How a weekend actually runs.</h2>
-    <p>Times are indicative and get confirmed with the operations team, but the
+    <p>Times are indicative and are settled with you for your weekend, but the
        sequence is the same every weekend and it is the sequence that matters
        when you are building a timeline.</p>
   </div>
@@ -1128,7 +1130,7 @@ PAGES["planners/register/index.html"] = dict(
       <div class="field">
         <label for="p_phone">Phone</label>
         <input id="p_phone" name="phone" type="tel" autocomplete="tel"
-               placeholder="(423) 555&#8209;0147">
+              >
       </div>
     </div>
 
@@ -1143,12 +1145,12 @@ PAGES["planners/register/index.html"] = dict(
         <label for="p_planner_website">Website</label>
         <input id="p_planner_website" name="planner_website" type="url"
                inputmode="url" autocomplete="url"
-               placeholder="okaforevents.com">
+              >
       </div>
       <div class="field">
         <label for="p_planner_social">Instagram</label>
         <input id="p_planner_social" name="planner_social" type="text"
-               placeholder="@okaforevents">
+              >
       </div>
     </div>
 
@@ -1316,7 +1318,7 @@ PAGES["inquire/index.html"] = dict(
       <div class="field">
         <label for="phone">Phone</label>
         <input id="phone" name="phone" type="tel" autocomplete="tel"
-               placeholder="(423) 555&#8209;0147">
+              >
       </div>
     </div>
 
