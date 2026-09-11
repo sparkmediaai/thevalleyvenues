@@ -98,7 +98,7 @@
   padding-bottom:clamp(3.75rem,9vh,5.5rem);
 }
 .hero-body > *{max-width:44rem}
-.hero-body .eyebrow{color:var(--ivory)}
+.hero-body .eyebrow{color:var(--cream)}
 .hero-body h1{color:#fff}
 .hero-body p{color:rgba(255,255,255,.94)}
 .hero-body .btn-ghost,.hero-body .btn:not(.btn-solid){border-color:#fff;color:#fff}
@@ -206,7 +206,7 @@
 .wk:hover img{transform:scale(1.04)}
 .wk-when{
   font-size:.66rem;letter-spacing:.22em;text-transform:uppercase;
-  font-weight:600;color:var(--taupe);
+  font-weight:600;color:var(--label);
   border-top:1px solid var(--line);padding-top:.8rem;margin-top:.3rem;
 }
 .wk b{font-family:var(--display);font-weight:400;font-size:1.28rem;line-height:1.2}

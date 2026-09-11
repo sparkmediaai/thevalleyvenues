@@ -16,7 +16,7 @@
 
 /* The starred fields are starred because the CRM will not start Kobi's
    sequence without them, not to be officious about it. */
-.form label b{color:var(--taupe);font-weight:600;margin-left:.15rem}
+.form label b{color:var(--label);font-weight:600;margin-left:.15rem}
 
 .field-row{display:grid;gap:1.5rem}
 @media (min-width:34rem){.field-row{grid-template-columns:1fr 1fr}}
@@ -27,7 +27,7 @@
 }
 .field-set legend{
   padding:0 .7rem 0 0;font-size:.68rem;font-weight:600;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--taupe);
+  text-transform:uppercase;color:var(--label);
 }
 
 /* A field the visitor has been told about is wrong. */
@@ -51,7 +51,7 @@
 .form.is-sending button[type="submit"]{cursor:progress}
 
 .form-done{
-  border-left:2px solid var(--forest);padding:.2rem 0 .2rem 1.4rem;
+  border-left:2px solid var(--accent);padding:.2rem 0 .2rem 1.4rem;
   display:flex;flex-direction:column;gap:.9rem;align-items:flex-start;
   max-width:40rem;margin-top:1rem;
 }

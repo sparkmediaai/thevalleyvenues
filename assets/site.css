@@ -15,24 +15,40 @@
    ========================================================================== */
 
 :root{
-  /* estate palette */
-  --forest:#5F796C;
-  --sage:#93B0A1;
-  --taupe:#B09880;
-  --warm:#B0977E;
-  --ivory:#F7E7CE;
-  --stone:#F7F7F7;
-  --charcoal:#2E2E2E;
+  /* ------------------------------------------------------------ the palette
+     Seven colours, as given. Five carry the brand; the blue and the pale sage
+     are for moments rather than for structure. */
+  --ivory:#F5F1EA;   /* the page */
+  --cream:#FFF0DA;   /* panels, and the warm light on dark grounds */
+  --olive:#9A9F83;   /* the brand accent, at the weight it was given */
+  --clay:#B38A64;    /* the secondary accent, likewise */
+  --deep:#34372F;    /* the dark anchor */
+  --blue:#679AA7;    /* sparingly */
+  --sage:#AABEB3;    /* sparingly */
 
-  /* working neutrals, biased warm-green so they sit with the palette */
-  --ground:#FCFBF8;
-  --ground-2:#F3F1EB;
-  --ink:#23291F;
-  --ink-soft:#5C6455;
-  --ink-faint:#8A9182;
-  --line:rgba(35,41,31,.14);
-  --line-soft:rgba(35,41,31,.07);
-  --accent:var(--forest);
+  /* ------------------------------------------------------ the reading values
+     Olive and clay are the two the brand is built on and neither can carry
+     text: on the ivory page they measure 2.4:1 and 2.9:1 against a 4.5:1
+     floor. So each keeps its given weight for rules, dots and fills, and gets
+     a darkened sibling in its own hue for anything that has to be read --
+     found by mixing toward the anchor until it cleared 4.6:1, which took 46%
+     of the way for the olive and 40% for the clay.
+
+     Both soft inks carry small text somewhere (captions, the footer, the
+     colophon, the privacy line), so both clear the floor too. The old
+     --ink-faint never did: #8A9182 was 2.9:1 on the old ground.
+
+     python _tools/contrast.py re-measures every pairing against this block. */
+  --ground:var(--ivory);
+  --ground-2:var(--cream);
+  --ground-dark:#22241F;   /* behind photographs: the anchor, deeper */
+  --ink:var(--deep);
+  --ink-soft:#4F5149;
+  --ink-faint:#6C6D65;
+  --accent:#6B6F5C;        /* olive that can be read: links, buttons, focus */
+  --label:#80694F;         /* clay that can be read: eyebrows and labels */
+  --line:rgba(52,55,47,.16);
+  --line-soft:rgba(52,55,47,.07);
 
   --display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
   /* Libre Franklin, not Montserrat. Montserrat came out of the brand framework
@@ -73,7 +89,7 @@ p{margin:0;max-width:var(--measure)}
 
 .eyebrow{
   font-size:.68rem;font-weight:600;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--taupe);
+  color:var(--label);
 }
 
 /* ---------------------------------------------------------------- masthead */
@@ -209,7 +225,7 @@ p{margin:0;max-width:var(--measure)}
   padding-top:clamp(5rem,18vh,8rem);
   padding-bottom:clamp(2.5rem,7vh,4rem);
 }
-.hero-photo .eyebrow{color:var(--ivory)}
+.hero-photo .eyebrow{color:var(--cream)}
 .hero-photo h1{color:#fff}
 .hero-photo .hero-body p{color:rgba(255,255,255,.94)}
 .hero-photo .btn-solid{background:#fff;color:var(--ink);border-color:#fff}
@@ -260,7 +276,7 @@ section:last-of-type{border-bottom:0}
 .steps{display:flex;flex-direction:column;margin-top:2rem;border-top:1px solid var(--line)}
 .step{display:grid;grid-template-columns:5rem 1fr;gap:.4rem 1.5rem;
   padding:1.4rem 0;border-bottom:1px solid var(--line-soft);align-items:baseline}
-.step .when{font-family:var(--display);font-size:1.5rem;color:var(--taupe);
+.step .when{font-family:var(--display);font-size:1.5rem;color:var(--label);
   font-variant-numeric:tabular-nums}
 .step b{font-weight:500}
 .step p{font-size:.94rem;color:var(--ink-soft);margin-top:.25rem}
@@ -273,7 +289,7 @@ section:last-of-type{border-bottom:0}
 .named li span{display:block;font-size:.84rem;color:var(--ink-faint)}
 
 /* callout used for prototype notes and open questions */
-.note{border-left:2px solid var(--taupe);padding:.2rem 0 .2rem 1.2rem;
+.note{border-left:2px solid var(--clay);padding:.2rem 0 .2rem 1.2rem;
   display:flex;flex-direction:column;gap:.5rem;margin-top:2rem}
 .note p{font-size:.9rem;color:var(--ink-soft)}
 .note b{font-weight:600;color:var(--ink)}
@@ -304,7 +320,7 @@ section:last-of-type{border-bottom:0}
 @media (max-width:620px){.nots{grid-template-columns:1fr}}
 .nots li::before{
   content:"";flex:none;display:inline-block;
-  width:.95rem;height:1px;background:var(--taupe);transform:translateY(-.35em);
+  width:.95rem;height:1px;background:var(--clay);transform:translateY(-.35em);
 }
 
 /* ------------------------------------------------------------- the closing
@@ -321,7 +337,7 @@ section:last-of-type{border-bottom:0}
   min-height:26rem;display:grid;align-items:end;overflow:hidden;
   border-top:1px solid var(--line);
 }
-.closing-img{position:absolute;inset:0;background:#141a13 center/cover no-repeat}
+.closing-img{position:absolute;inset:0;background:var(--ground-dark) center/cover no-repeat}
 /* The same two-axis ramp as the photograph heroes, and for the same reason.
 
    A single downward gradient was tuned against one frame -- a cottage at night
@@ -357,12 +373,12 @@ section:last-of-type{border-bottom:0}
   display:flex;flex-direction:column;gap:1rem;align-items:flex-start;
   max-width:46rem;
 }
-.closing-body .eyebrow{color:var(--ivory)}
+.closing-body .eyebrow{color:var(--cream)}
 .closing-body h2{color:#fff}
 .closing-body p{color:rgba(255,255,255,.88)}
-.closing-body .btn{border-color:var(--ivory);color:var(--ivory)}
+.closing-body .btn{border-color:var(--cream);color:var(--cream)}
 .closing-body .btn:hover,.closing-body .btn:focus-visible{
-  background:var(--ivory);color:#1b2118}
+  background:var(--cream);color:var(--ground-dark)}
 
 /* ============================================================================
    The claim.
@@ -392,7 +408,7 @@ section:last-of-type{border-bottom:0}
    ========================================================================== */
 .claim{
   position:relative;margin:var(--gap) calc(var(--pad) * -1);
-  background:#141a13;padding:0;border-bottom:0;overflow:hidden;
+  background:var(--ground-dark);padding:0;border-bottom:0;overflow:hidden;
 }
 .claim-img{
   display:block;width:100%;height:auto;max-width:none;
@@ -405,7 +421,7 @@ section:last-of-type{border-bottom:0}
 .claim-fade{
   height:clamp(4rem,9vw,8rem);margin-top:calc(clamp(4rem,9vw,8rem) * -1);
   position:relative;z-index:1;pointer-events:none;
-  background:linear-gradient(180deg,rgba(20,26,19,0),#141a13);
+  background:linear-gradient(180deg,rgba(34,36,31,0),var(--ground-dark));
 }
 .claim-body{
   position:relative;z-index:2;width:100%;max-width:82rem;margin:0 auto;
@@ -413,7 +429,7 @@ section:last-of-type{border-bottom:0}
   display:flex;flex-direction:column;align-items:flex-start;gap:1.2rem;
 }
 .claim-body > *{max-width:44rem}
-.claim-body .eyebrow{color:var(--ivory)}
+.claim-body .eyebrow{color:var(--cream)}
 .claim-body h2{
   color:#fff;max-width:13ch;
   font-size:clamp(2.4rem,6vw,4rem);line-height:1.04;
@@ -423,23 +439,23 @@ section:last-of-type{border-bottom:0}
   color:#fff;font-family:var(--display);font-size:clamp(1.3rem,2.6vw,1.9rem);
   line-height:1.25;max-width:26ch;margin-top:.4rem;
 }
-.claim-body .btn{border-color:var(--ivory);color:var(--ivory);margin-top:.6rem}
+.claim-body .btn{border-color:var(--cream);color:var(--cream);margin-top:.6rem}
 .claim-body .btn:hover,.claim-body .btn:focus-visible{
-  background:var(--ivory);color:#1b2118}
+  background:var(--cream);color:var(--ground-dark)}
 
 /* the four denials */
 .claim .nots{
-  border-top:1px solid rgba(247,231,206,.28);
+  border-top:1px solid rgba(255,240,218,.28);
   margin-top:1.2rem;max-width:44rem;
 }
 .claim .nots li{
   position:relative;border-bottom:0;color:rgba(255,255,255,.92);
   padding:.95rem 0;
 }
-.claim .nots li::before{background:var(--ivory);opacity:.75}
+.claim .nots li::before{background:var(--cream);opacity:.75}
 .claim .nots li::after{
   content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
-  background:rgba(247,231,206,.3);transform-origin:left;
+  background:rgba(255,240,218,.3);transform-origin:left;
 }
 @media (min-width:620px){.claim .nots{grid-template-columns:1fr 1fr}}
 @media (max-width:620px){.claim-img{aspect-ratio:16/10}}
@@ -482,7 +498,7 @@ section:last-of-type{border-bottom:0}
 .card-door img{transition:transform .9s cubic-bezier(.2,.7,.2,1)}
 .card-door:hover img,.card-door:focus-within img{transform:scale(1.05)}
 .card-door h3{transition:color .3s}
-.card-door:hover h3,.card-door:focus-within h3{color:var(--forest)}
+.card-door:hover h3,.card-door:focus-within h3{color:var(--accent)}
 .card-door .btn{transition:background .3s,color .3s,border-color .3s}
 .card-door:hover .btn,.card-door:focus-within .btn{
   background:var(--accent);color:var(--ground)}

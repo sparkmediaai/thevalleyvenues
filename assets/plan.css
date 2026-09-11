@@ -41,13 +41,13 @@
 
 /* ------------------------------------------------------------- the drawing */
 .contours path{
-  fill:none;stroke:rgba(35,41,31,.15);stroke-width:1.1;
+  fill:none;stroke:rgba(52,55,47,.15);stroke-width:1.1;
   vector-effect:non-scaling-stroke;
 }
-.c-index path{stroke:rgba(35,41,31,.32);stroke-width:1.7}
+.c-index path{stroke:rgba(52,55,47,.32);stroke-width:1.7}
 
 .leg{
-  fill:none;stroke:var(--taupe);stroke-width:2.2;
+  fill:none;stroke:var(--clay);stroke-width:2.2;
   stroke-linecap:round;vector-effect:non-scaling-stroke;
 }
 /* Both label kinds are drawn stroke-first in the page's own ground colour, so
@@ -58,13 +58,13 @@
   stroke-linejoin:round}
 .leg-m{
   font-family:var(--sans);font-size:15px;font-weight:600;letter-spacing:.08em;
-  fill:var(--warm);text-anchor:middle;dominant-baseline:middle;
+  fill:var(--clay);text-anchor:middle;dominant-baseline:middle;
 }
 
-.pl-halo{fill:rgba(95,121,108,.10);transform-box:fill-box;transform-origin:center}
-.pl-ring{fill:none;stroke:var(--forest);stroke-width:1.3;opacity:.45;
+.pl-halo{fill:rgba(107,111,92,.10);transform-box:fill-box;transform-origin:center}
+.pl-ring{fill:none;stroke:var(--accent);stroke-width:1.3;opacity:.45;
   vector-effect:non-scaling-stroke}
-.pl-dot{fill:var(--forest)}
+.pl-dot{fill:var(--accent)}
 .pl-name{
   font-family:var(--sans);font-size:16px;font-weight:600;letter-spacing:.05em;
   fill:var(--ink);dominant-baseline:middle;
@@ -169,10 +169,10 @@
 .wstep h3 .place-link{color:inherit;text-decoration:none;
   border-bottom:1px solid transparent;transition:border-color .3s,color .3s}
 .wstep h3 .place-link:hover,.wstep h3 .place-link:focus-visible{
-  color:var(--forest);border-bottom-color:var(--taupe);outline:none}
+  color:var(--accent);border-bottom-color:var(--accent);outline:none}
 .pl-link{cursor:pointer}
-.pl-link:hover .pl-halo,.pl-link:focus-visible .pl-halo{fill:rgba(95,121,108,.22)}
-.pl-link:hover .pl-name{fill:var(--forest)}
+.pl-link:hover .pl-halo,.pl-link:focus-visible .pl-halo{fill:rgba(107,111,92,.22)}
+.pl-link:hover .pl-name{fill:var(--accent)}
 .pl-link:focus-visible .pl-ring{stroke-width:2.4;opacity:1}
 
 /* ----------------------------------------------------------- a place page
@@ -186,7 +186,7 @@
 }
 .facts li{padding:.85rem 0;border-bottom:1px solid var(--line-soft);font-size:.95rem}
 .facts li span{display:block;font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;
-  font-weight:600;color:var(--taupe);margin-bottom:.15rem}
+  font-weight:600;color:var(--label);margin-bottom:.15rem}
 @media (max-width:560px){.facts{grid-template-columns:1fr}}
 .credit{font-size:.78rem;color:var(--ink-faint);margin-top:1rem}
 
@@ -196,9 +196,9 @@
   padding:1.4rem 0;margin-top:var(--gap);
 }
 .onward a{text-decoration:none;color:var(--ink);display:flex;flex-direction:column;gap:.2rem}
-.onward a span{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--taupe);font-weight:600}
+.onward a span{font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:var(--label);font-weight:600}
 .onward a b{font-family:var(--display);font-weight:400;font-size:1.35rem;line-height:1.15}
-.onward a:hover b,.onward a:focus-visible b{color:var(--forest)}
+.onward a:hover b,.onward a:focus-visible b{color:var(--accent)}
 .onward .next{text-align:right;align-items:flex-end}
 .onward .up{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);
   text-decoration:none;padding:.35rem 0;border-bottom:1px solid var(--line)}

@@ -14,14 +14,14 @@
    face so it reads as part of the site rather than something bolted to the top
    of it.
 
-   Ground is #3A4D45, a deeper cut of the brand's forest. Measured: white on it
+   Ground is #575A4B, the brand olive taken down. Measured: white on it
    is 9.0:1 and ivory is 7.4:1, so both clear AAA. The brand forest itself
-   (#5F796C) only manages 4.7:1 with white, which is thin for something meant
+   as given (#9A9F83) manages 2.0:1 with white, nowhere near enough for something meant
    to be read at a glance on the way past.
    ========================================================================== */
 .opening{
-  background:#3A4D45;color:#fff;
-  border-bottom:1px solid rgba(247,231,206,.18);
+  background:#575A4B;color:#fff;
+  border-bottom:1px solid rgba(255,240,218,.18);
 }
 .opening-inner{
   max-width:82rem;margin:0 auto;padding:1.15rem var(--pad);
@@ -29,10 +29,10 @@
   gap:1rem clamp(1.2rem,4vw,3rem);flex-wrap:wrap;
 }
 
-.opening .eyebrow{color:var(--ivory);display:block;margin-bottom:.25rem}
+.opening .eyebrow{color:var(--cream);display:block;margin-bottom:.25rem}
 .opening-what p{margin:0;max-width:none;font-size:clamp(1rem,1.5vw,1.15rem);line-height:1.45}
 .opening-what b{font-weight:600}
-.opening-with{color:rgba(247,231,206,.88);font-size:.92rem !important;margin-top:.2rem !important}
+.opening-with{color:rgba(255,240,218,.88);font-size:.92rem !important;margin-top:.2rem !important}
 
 /* The numerals.
 
@@ -60,7 +60,7 @@
 }
 .opening-unit span{
   font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(247,231,206,.8);
+  color:rgba(255,240,218,.8);
 }
 /* Once it has started, the numbers give way to saying so. */
 .opening-count.is-now{

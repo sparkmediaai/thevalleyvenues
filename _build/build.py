@@ -191,7 +191,7 @@ def shell(page, path="index.html"):
 <meta name="robots" content="noindex,nofollow">
 <link rel="icon" href="%(root)sassets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="%(root)sassets/icon-180.png">
-<meta name="theme-color" content="#23291F">
+<meta name="theme-color" content="#34372F">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="%(site)s">
 <meta property="og:title" content="%(title)s">
