@@ -81,6 +81,11 @@
    there is no scroll to trigger it. */
 @media (prefers-reduced-motion:no-preference){
   .js .opening-inner{
-    opacity:0;animation:rise .7s cubic-bezier(.16,.8,.24,1) .1s forwards;
+    opacity:0;transform:translateY(.4rem);
+    animation:opening-rise .7s cubic-bezier(.16,.8,.24,1) .1s forwards;
   }
+  /* Its own keyframes. The band is on every page, and the only other `rise`
+     lives in home.css: on any other page an animation with no keyframes never
+     runs, and the content stays at the opacity it starts from. */
+  @keyframes opening-rise{to{opacity:1;transform:none}}
 }
