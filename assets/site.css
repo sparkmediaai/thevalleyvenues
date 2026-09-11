@@ -409,7 +409,7 @@ section:last-of-type{border-bottom:0}
     }
   }
 }
-@keyframes strike{to{transform:scaleX(1)}}
+}
 @keyframes claim-drift{
   from{transform:scale(1.07) translate3d(0,-1.4%,0)}
   to{transform:scale(1.07) translate3d(0,1.4%,0)}

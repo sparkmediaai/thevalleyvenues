@@ -251,7 +251,7 @@ def shell(page, path="index.html"):
       <h3>Visit</h3>
       <address class="addr">
         1860 Pope Creek Rd<br>Wildwood, Georgia<br>
-        Fifteen minutes from Chattanooga
+        Fifteen minutes from downtown Chattanooga
       </address>
     </div>
   </div>
@@ -292,10 +292,10 @@ PAGES["index.html"] = dict(
          '      imagesizes="100vw">\n',
     foot_js='<script src="/assets/home.js" defer></script>',
     hero_html='  <div class="hero-stage">\n    <figure class="slide is-on" data-moment="The arrival"><img src="/assets/img/hero-1.webp" srcset="/assets/img/hero-1-sm.webp 1100w, /assets/img/hero-1.webp 2200w" sizes="100vw" alt="Magnolia House, white columns above the lawn" width="2200" height="1100" fetchpriority="high" decoding="async"></figure>\n    <figure class="slide" data-moment="The morning"><img data-src="/assets/img/hero-2.webp" data-srcset="/assets/img/hero-2-sm.webp 1100w, /assets/img/hero-2.webp 2200w" sizes="100vw" alt="A groom having his bow tie straightened, both of them laughing" width="2200" height="1100" decoding="async"></figure>\n    <figure class="slide" data-moment="The meadow, set"><img data-src="/assets/img/hero-3.webp" data-srcset="/assets/img/hero-3-sm.webp 1100w, /assets/img/hero-3.webp 2200w" sizes="100vw" alt="The ceremony aisle set out, the ridge behind it" width="2200" height="1100" decoding="async"></figure>\n    <figure class="slide" data-moment="Golden hour"><img data-src="/assets/img/hero-4.webp" data-srcset="/assets/img/hero-4-sm.webp 1100w, /assets/img/hero-4.webp 2200w" sizes="100vw" alt="A couple in the meadow as the light goes" width="2200" height="1100" decoding="async"></figure>\n    <figure class="slide" data-moment="After dark"><img data-src="/assets/img/hero-5.webp" data-srcset="/assets/img/hero-5-sm.webp 1100w, /assets/img/hero-5.webp 2200w" sizes="100vw" alt="The conservatory at Magnolia House, lit for dinner" width="2200" height="1100" decoding="async"></figure>\n    <div class="hero-marks">\n      <button type="button" class="hero-step" data-step="-1" aria-label="Previous moment"><svg viewBox="0 0 12 20" aria-hidden="true" focusable="false"><path d="M9 1 2 10 9 19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>\n      <p class="hero-hour"><span>The arrival</span></p>\n      <div class="hero-dots" role="group" aria-label="Choose a moment">\n        <button type="button" aria-current="true"><span class="skip">The arrival</span><i></i></button>\n        <button type="button" aria-current="false"><span class="skip">The morning</span><i></i></button>\n        <button type="button" aria-current="false"><span class="skip">The meadow, set</span><i></i></button>\n        <button type="button" aria-current="false"><span class="skip">Golden hour</span><i></i></button>\n        <button type="button" aria-current="false"><span class="skip">After dark</span><i></i></button>\n      </div>\n      <button type="button" class="hero-step" data-step="1" aria-label="Next moment"><svg viewBox="0 0 12 20" aria-hidden="true" focusable="false"><path d="M3 1 10 10 3 19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>\n    </div>\n  </div>\n',
-    eyebrow="Wildwood, Georgia &middot; Fifteen minutes from Chattanooga",
+    eyebrow="Wildwood, Georgia &middot; Fifteen minutes from downtown Chattanooga",
     h1="One Private Mountain Estate. All for You.",
     standfirst="Seventy-four private acres beneath Lookout Mountain, fifteen minutes from "
-               "Chattanooga. One wedding at a time, ever. For your two days the gate closes "
+               "downtown Chattanooga. One wedding at a time, ever. For your two days the gate closes "
                "behind one family, and every field, every porch and every bed is yours.",
     actions=[("Speak with our team", "/inquire/"),
              ("Walk the Estate", "/the-estate/")],
@@ -360,28 +360,28 @@ PAGES["index.html"] = dict(
   <ol class="weekend">
     <li class="wk reveal">
       <figure><img src="/assets/img/wk-fri.webp" alt="Groomsmen in the clubhouse, late" width="1200" height="900" loading="lazy" decoding="async"></figure>
-      <span class="wk-when">Friday</span>
+      <span class="wk-when">Arriving</span>
       <b>You arrive once</b>
       <p>Through the gate, and for the next two days this is simply where you are. The
          rehearsal happens where the vows will, and nobody goes back to a hotel.</p>
     </li>
     <li class="wk reveal">
       <figure><img src="/assets/img/wk-dawn.webp" alt="A suite on the estate in the morning" width="1200" height="900" loading="lazy" decoding="async"></figure>
-      <span class="wk-when">Saturday, early</span>
+      <span class="wk-when">The morning</span>
       <b>Sunrise comes with the room</b>
       <p>Light comes up over Lookout Mountain and fills the room you are already standing
          in. Hair can start at five. There is no commute in a wedding dress.</p>
     </li>
     <li class="wk reveal">
       <figure><img src="/assets/img/wk-gold.webp" alt="A couple dancing on the deck as the light goes" width="1200" height="900" loading="lazy" decoding="async"></figure>
-      <span class="wk-when">Saturday, six</span>
+      <span class="wk-when">Golden hour</span>
       <b>The mountain turns gold</b>
       <p>Guests walk from the ceremony to the overlook. Nobody drives, nobody follows
          directions, and nobody starts looking for their keys at eleven.</p>
     </li>
     <li class="wk reveal">
       <figure><img src="/assets/img/wk-sun.webp" alt="The cottages on the hill at dusk" width="1200" height="900" loading="lazy" decoding="async"></figure>
-      <span class="wk-when">Sunday</span>
+      <span class="wk-when">The morning after</span>
       <b>Goodnight instead of goodbye</b>
       <p>Two nights means three mornings, and the last thing you do together is breakfast
          rather than a parking lot.</p>
@@ -517,7 +517,7 @@ PAGES["weddings/index.html"] = dict(
       <a class="btn" href="/stay/">Where everyone sleeps</a>
     </div>
     <div class="cluster">
-      <figure class="cl-1">{{img:w-night.webp|Two friends in the bridal suite the night before, laughing}}</figure>
+      <figure class="cl-1">{{img:w-night.webp|Two friends in a getting ready suite the night before, laughing}}</figure>
       <figure class="cl-2">{{img:w-morning.webp|The bride in a robe in the quiet of the morning}}</figure>
       <figure class="cl-3">{{img:w-after.webp|A table laid on the porch of a cottage the morning after}}</figure>
     </div>
@@ -902,12 +902,12 @@ PAGES["the-estate/index.html"] = dict(
   </div>
     <div class="walk-steps">
     <div class="wstep ws-1">
-      <div class="eyebrow"><span>Friday</span></div>
+      <div class="eyebrow"><span>The way in</span></div>
       <h3>Arrival</h3>
       <p>You turn off Pope Creek Road and the gate closes behind you. For the next two days nothing arrives that you did not invite, and nothing leaves until you do. This is the only drive anybody makes all weekend.</p>
     </div>
     <div class="wstep ws-2">
-      <div class="eyebrow"><span>Friday</span><span class="dist">175 ft from the gate</span></div>
+      <div class="eyebrow"><span>Where you arrive</span><span class="dist">175 ft from the gate</span></div>
       <h3><a class="place-link" href="/the-estate/magnolia-house/">Magnolia House</a></h3>
       <p>White columns and glass against the ridge, at the top of the drive. It is the first photograph almost every guest takes, through the windshield on the way up. The conservatory behind it is also the weather plan that costs nothing.</p>
       <a class="door frame" href="/the-estate/magnolia-house/" aria-label="Magnolia House: see the page">
@@ -915,7 +915,7 @@ PAGES["the-estate/index.html"] = dict(
       </a>
     </div>
     <div class="wstep ws-3">
-      <div class="eyebrow"><span>Saturday, four</span><span class="dist">860 ft from the front door</span></div>
+      <div class="eyebrow"><span>Where you marry</span><span class="dist">860 ft from the front door</span></div>
       <h3><a class="place-link" href="/the-estate/the-valley/">The Valley</a></h3>
       <p>An open meadow held on three sides by ridgeline, with Lookout Mountain beyond. Sound stays in it and the wind drops in it. Nothing is visible from it that the estate does not own.</p>
       <a class="door frame" href="/the-estate/the-valley/" aria-label="The Valley: see the page">
@@ -923,7 +923,7 @@ PAGES["the-estate/index.html"] = dict(
       </a>
     </div>
     <div class="wstep ws-4">
-      <div class="eyebrow"><span>Saturday, six</span><span class="dist">1,030 ft &mdash; the longest walk of the weekend</span></div>
+      <div class="eyebrow"><span>Where the light goes</span><span class="dist">1,030 ft &mdash; the longest walk of the weekend</span></div>
       <h3><a class="place-link" href="/the-estate/lookout-deck/">The Lookout Deck</a></h3>
       <p>A railed deck out over the valley, facing the mountain. It turns gold at six, tip to tip, and everyone stops talking. Guests walk here from the ceremony; there is no shuttle because there is nothing to shuttle across.</p>
       <a class="door frame" href="/the-estate/lookout-deck/" aria-label="The Lookout Deck: see the page">
@@ -931,7 +931,7 @@ PAGES["the-estate/index.html"] = dict(
       </a>
     </div>
     <div class="wstep ws-5">
-      <div class="eyebrow"><span>Saturday, eight</span><span class="dist">650 ft from the deck</span></div>
+      <div class="eyebrow"><span>Where you dine and dance</span><span class="dist">650 ft from the deck</span></div>
       <h3><a class="place-link" href="/the-estate/davis-hall/">Davis Hall</a></h3>
       <p>Drapery, chandeliers, and the room where the dancing happens. It carries the largest receptions on the property, and nobody has to find their car to get to it.</p>
       <a class="door frame" href="/the-estate/davis-hall/" aria-label="Davis Hall: see the page">
@@ -939,7 +939,7 @@ PAGES["the-estate/index.html"] = dict(
       </a>
     </div>
     <div class="wstep ws-6">
-      <div class="eyebrow"><span>Saturday, late</span><span class="dist">325 ft, and then bed</span></div>
+      <div class="eyebrow"><span>Where everyone sleeps</span><span class="dist">325 ft, and then bed</span></div>
       <h3><a class="place-link" href="/the-estate/overlook-village/">Overlook Village</a></h3>
       <p>Cottages along the hill, thirty-four beds, and the end of the evening about a minute from the end of the party. This is the leg that every other venue replaces with a line of taxis.</p>
       <a class="door frame" href="/the-estate/overlook-village/" aria-label="Overlook Village: see the page">
@@ -1297,8 +1297,8 @@ PAGES["about/index.html"] = dict(
   <div class="closing-img" role="img" aria-label="A mother settling her daughter's veil before the ceremony"
        style="background-image:url('/assets/img/close-about.webp')"></div>
   <div class="closing-body">
-    <div class="eyebrow">Come and meet them</div>
-    <h2>You will be dealing with the family.</h2>
+    <div class="eyebrow">Come and meet her</div>
+    <h2>Kobi answers, and Kobi is there on the night.</h2>
     <p>Not a sales office. The people who answer the inquiry are the people who will be on the property at eleven at night on your Saturday.</p>
     <a class="btn" href="/inquire/">Speak with our team</a>
   </div>
@@ -1483,7 +1483,8 @@ PAGES["inquire/index.html"] = dict(
     <div class="eyebrow">When you are ready</div>
     <h2>Come and stand in it.</h2>
     <p>More than half of the couples who walk this property choose it. When it suits
-       you, come and see it for yourself &mdash; fifteen minutes from Chattanooga, and
+       you, come and see it for yourself &mdash; fifteen minutes from downtown
+       Chattanooga, and
        the visit is free.</p>
     <a class="btn" href="#main">Speak with our team</a>
   </div>
@@ -1510,7 +1511,7 @@ PAGES["the-estate/the-valley/index.html"] = dict(
     head='<link rel="stylesheet" href="/assets/plan.css">\n',
     hero_img='the-valley.webp',
     hero_alt='The processional crossing the meadow toward the arch',
-    eyebrow='The Estate &middot; The Valley &middot; Saturday, four',
+    eyebrow='The Estate &middot; The Valley &middot; Where you marry',
     h1='The meadow where it happens.',
     standfirst='An open meadow held on three sides by ridgeline, with Lookout Mountain beyond. Sound stays in it, the wind drops in it, and nothing is visible from it that the estate does not own.',
     actions=[("Speak with our team", "/inquire/"),
@@ -1523,7 +1524,7 @@ PAGES["the-estate/lookout-deck/index.html"] = dict(
     head='<link rel="stylesheet" href="/assets/plan.css">\n',
     hero_img='lookout-deck.webp',
     hero_alt='A couple dancing on the Lookout Deck, the ridge behind them',
-    eyebrow='The Estate &middot; Lookout Deck &middot; Saturday, six',
+    eyebrow='The Estate &middot; Lookout Deck &middot; Where the light goes',
     h1='Where the mountain turns gold.',
     standfirst='A railed deck out over the valley, facing Lookout Mountain. At six the light goes across it tip to tip, and everyone stops talking.',
     actions=[("Speak with our team", "/inquire/"),
@@ -1536,7 +1537,7 @@ PAGES["the-estate/davis-hall/index.html"] = dict(
     head='<link rel="stylesheet" href="/assets/plan.css">\n',
     hero_img='davis-hall.webp',
     hero_alt='Davis Hall under its drapery, lit for the first dance',
-    eyebrow='The Estate &middot; Davis Hall &middot; Saturday, eight',
+    eyebrow='The Estate &middot; Davis Hall &middot; Where you dine and dance',
     h1='The room where the dancing happens.',
     standfirst='Drapery, chandeliers, and the largest floor on the property. Dinner, the first dance, and everything after it &mdash; six hundred and fifty feet from the deck and a minute from bed.',
     actions=[("Speak with our team", "/inquire/"),
@@ -1549,7 +1550,7 @@ PAGES["the-estate/overlook-village/index.html"] = dict(
     head='<link rel="stylesheet" href="/assets/plan.css">\n',
     hero_img='stay-village.webp',
     hero_alt='The cottages of Overlook Village along the hillside',
-    eyebrow='The Estate &middot; Overlook Village &middot; Saturday, late',
+    eyebrow='The Estate &middot; Overlook Village &middot; Where everyone sleeps',
     h1='Where everyone sleeps.',
     standfirst='Four cottages along the hill, a lodge for the largest party, and one cottage in the woods for the two of you. Thirty-four beds, a minute from the end of the evening.',
     actions=[("Speak with our team", "/inquire/"),
