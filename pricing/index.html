@@ -98,29 +98,45 @@
         <input id="pr_first_name" name="first_name" type="text" autocomplete="given-name" required>
       </div>
       <div class="field">
-        <label for="pr_last_name">Last name</label>
-        <input id="pr_last_name" name="last_name" type="text" autocomplete="family-name">
+        <label for="pr_email">Email <b aria-hidden="true">*</b></label>
+        <input id="pr_email" name="email" type="email" autocomplete="email" required>
       </div>
     </div>
     <div class="field-row">
       <div class="field">
-        <label for="pr_email">Email <b aria-hidden="true">*</b></label>
-        <input id="pr_email" name="email" type="email" autocomplete="email" required>
-      </div>
-      <div class="field">
-        <label for="pr_phone">Phone <b aria-hidden="true">*</b></label>
+        <label for="pr_phone">Mobile <b aria-hidden="true">*</b></label>
         <input id="pr_phone" name="phone" type="tel" autocomplete="tel" required>
       </div>
+      <div class="field">
+        <label for="pr_event_date">Your date, if you have one</label>
+        <input id="pr_event_date" name="event_date" type="date">
+      </div>
     </div>
-    <p class="form-privacy">The book comes by text as well as email, which is why we
-       ask for both. Only ever used to send it and to write back.</p>
+    <div class="field">
+      <label for="pr_venue_budget">Estimated venue budget</label>
+      <!-- Answered by default rather than left blank. It is the one qualifying
+           question on the form and it should not be the thing that stops
+           somebody sending it, so nobody has to answer it to get the book --
+           they only have to correct it if they know better. -->
+      <select id="pr_venue_budget" name="venue_budget" required>
+        <option>Under $15,000</option>
+        <option>$15,000&ndash;$25,000</option>
+        <option>$25,000&ndash;$40,000</option>
+        <option>$40,000&ndash;$60,000</option>
+        <option>$60,000&ndash;$100,000</option>
+        <option>$100,000+</option>
+        <option selected>Not sure yet</option>
+      </select>
+    </div>
+    <p class="form-privacy">The book comes by text as well as email, which is why we ask
+       for both. Only ever used to send it and to write back.</p>
 
     <div class="hp" aria-hidden="true">
       <label for="pr_website">Website</label>
       <input id="pr_website" name="_hp" type="text" tabindex="-1" autocomplete="off">
     </div>
 
-    <button class="btn btn-solid" type="submit">Send me the Welcome Book</button>
+    <button class="btn btn-solid" type="submit">View the Welcome Book</button>
     <p class="form-error" id="pricing-error" role="alert" hidden></p>
   </form>
 
@@ -213,6 +229,6 @@
 
 <script src="/assets/reveal.js?v=bd6dff79" defer></script>
 <script src="/assets/opening.js?v=c7e2e87f" defer></script>
-<script src="/assets/forms.js?v=76935e39" defer></script>
+<script src="/assets/forms.js?v=670da588" defer></script>
 </body>
 </html>
