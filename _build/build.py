@@ -111,7 +111,7 @@ NAV = [
     ("Planners", "/planners/"),
     ("About", "/about/"),
 ]
-CTA = ("Book a Tour", "/book-a-tour/")
+CTA = ("Speak with us", "/inquire/")
 
 FOOTER = [
     ("Celebrate", [
@@ -130,7 +130,7 @@ FOOTER = [
     ]),
     ("The Valley Venues", [
         ("About &amp; Kobi", "/about/"),
-        ("Book a Tour", "/book-a-tour/"),
+        ("Speak with our team", "/inquire/"),
     ]),
 ]
 
@@ -283,7 +283,7 @@ PAGES["index.html"] = dict(
     standfirst="Seventy-four private acres beneath Lookout Mountain, fifteen minutes from "
                "Chattanooga. One wedding at a time, ever. For your two days the gate closes "
                "behind one family, and every field, every porch and every bed is yours.",
-    actions=[("Book a Tour", "/book-a-tour/"),
+    actions=[("Speak with our team", "/inquire/"),
              ("Walk the Estate", "/the-estate/")],
     body="""
 <section>
@@ -421,7 +421,7 @@ PAGES["index.html"] = dict(
     <h2>You disappear, without leaving.</h2>
     <p>A cottage in the woods at the far edge of the property, a short ride from the music.
        Married, alone, and thirty seconds from everyone you love.</p>
-    <a class="btn" href="/book-a-tour/">Book a tour</a>
+    <a class="btn" href="/inquire/">Speak with our team</a>
   </div>
 </section>
 """)
@@ -434,7 +434,7 @@ PAGES["weddings/index.html"] = dict(
     h1="More Than a Wedding Day",
     standfirst="There will be a ceremony. There will be dinner. There will be dancing. "
                "And then there is everything around it.",
-    actions=[("Book a Tour", "/book-a-tour/"),
+    actions=[("Speak with our team", "/inquire/"),
              ("What's Included", "/weddings/whats-included/")],
     body="""
 <section>
@@ -497,7 +497,7 @@ PAGES["weddings/index.html"] = dict(
        package grid and no price list to download, because what actually fits depends on your
        date, your count and how you want the weekend to feel.</p>
     <p>Tell us those three things and what comes back is a recommendation, not a brochure.</p>
-    <a class="btn btn-solid" href="/book-a-tour/">Start there</a>
+    <a class="btn btn-solid" href="/inquire/">Start there</a>
   </div>
   <div class="note">
     <p><b>Prototype note.</b> The published starting figure is one of the decisions still
@@ -513,7 +513,7 @@ PAGES["weddings/index.html"] = dict(
     <div class="eyebrow">One weekend at a time</div>
     <h2>Most Saturdays are already spoken for.</h2>
     <p>The estate holds one wedding at a time, which means the calendar is shorter than it looks. Walking the property is how most couples decide, and it costs nothing but an afternoon.</p>
-    <a class="btn" href="/book-a-tour/">Book a tour</a>
+    <a class="btn" href="/inquire/">Speak with our team</a>
   </div>
 </section>
 """)
@@ -608,7 +608,7 @@ PAGES["weddings/whats-included/index.html"] = dict(
     <div class="eyebrow">Still counting</div>
     <h2>The rest of the answers take about an hour.</h2>
     <p>Bring the questions your mother has been asking. They are usually the sharpest ones, and they are easier to answer standing in the room.</p>
-    <a class="btn" href="/book-a-tour/">Book a tour</a>
+    <a class="btn" href="/inquire/">Speak with our team</a>
   </div>
 </section>
 """)
@@ -669,7 +669,7 @@ PAGES["weddings/real-weddings/index.html"] = dict(
     <div class="eyebrow">Yours next</div>
     <h2>Every one of these was somebody&rsquo;s ordinary Saturday.</h2>
     <p>Until it was not. Come and walk the property, and we will show you where each of these was standing.</p>
-    <a class="btn" href="/book-a-tour/">Book a tour</a>
+    <a class="btn" href="/inquire/">Speak with our team</a>
   </div>
 </section>
 """)
@@ -731,7 +731,7 @@ PAGES["weddings/single-day/index.html"] = dict(
     <div class="eyebrow">Either way</div>
     <h2>Come and see which one it wants to be.</h2>
     <p>Most couples arrive certain they want the day and leave having worked out what the weekend would cost. It is an easier conversation on the property than off it.</p>
-    <a class="btn" href="/book-a-tour/">Book a tour</a>
+    <a class="btn" href="/inquire/">Speak with our team</a>
   </div>
 </section>
 """)
@@ -745,7 +745,7 @@ PAGES["stay/index.html"] = dict(
     standfirst="The cottages are open when there is no wedding on the property. A creek, a "
                "waterfall, two and a half miles of trails, and the oldest mountain range on "
                "earth outside the door.",
-    actions=[("Enquire about a stay", "/book-a-tour/")],
+    actions=[("Enquire about a stay", "/inquire/")],
     body="""
 <section>
   <div class="lede">
@@ -819,7 +819,7 @@ PAGES["stay/index.html"] = dict(
     <div class="eyebrow">Stay first</div>
     <h2>Book two nights before you book a wedding.</h2>
     <p>A guest who has slept here has already seen the property at six in the morning and at eleven at night, which is more than any tour can show you.</p>
-    <a class="btn" href="/book-a-tour/">Enquire about a stay</a>
+    <a class="btn" href="/inquire/">Enquire about a stay</a>
   </div>
 </section>
 """)
@@ -943,7 +943,7 @@ PAGES["the-estate/index.html"] = dict(
     <div class="eyebrow">The whole of it</div>
     <h2>Seventy-four acres does not photograph.</h2>
     <p>You can see the four places on this page. What you cannot see from a screen is how far apart they are, how quiet the meadow is, or how the deck turns at six.</p>
-    <a class="btn" href="/book-a-tour/">Book a tour</a>
+    <a class="btn" href="/inquire/">Speak with our team</a>
   </div>
 </section>
 """)
@@ -1263,21 +1263,22 @@ PAGES["about/index.html"] = dict(
     <div class="eyebrow">Come and meet them</div>
     <h2>You will be dealing with the family.</h2>
     <p>Not a sales office. The people who answer the enquiry are the people who will be on the property at eleven at night on your Saturday.</p>
-    <a class="btn" href="/book-a-tour/">Book a tour</a>
+    <a class="btn" href="/inquire/">Speak with our team</a>
   </div>
 </section>
 """)
 
-PAGES["book-a-tour/index.html"] = dict(
-    nav=None, title="Book a Tour | %s" % SITE,
-    desc="Reserve a tour of the estate.",
+PAGES["inquire/index.html"] = dict(
+    nav=None, title="Speak with Our Team | %s" % SITE,
+    desc="Tell us about the weekend you are imagining, and a person will write back.",
     hero_img="tour.webp",
     hero_alt="A couple turning together in the open meadow, the ridge beyond",
-    eyebrow="Book a tour",
-    h1="Come and stand in it.",
-    standfirst="More than half of the couples who walk this property book it. Tell us a "
-               "little about the weekend you are imagining and we will tell you what "
-               "actually fits.",
+    eyebrow="Speak with our team",
+    h1="Start with a conversation.",
+    standfirst="You do not have to be nearby to start. Tell us a little about the "
+               "weekend you are imagining and a person will write back with what "
+               "actually fits &mdash; not a brochure. The visit comes after, when it "
+               "suits you.",
     body="""
 
 <section>
@@ -1407,7 +1408,7 @@ PAGES["book-a-tour/index.html"] = dict(
     </div>
 
     <p class="form-error" id="inquiry-couple-error" role="alert" hidden></p>
-    <button class="btn btn-solid" type="submit">Request a tour</button>
+    <button class="btn btn-solid" type="submit">Start the conversation</button>
     <p class="form-privacy">We will only use this to answer you. No list, no
        drip, nothing sold.</p>
   </form>
@@ -1416,8 +1417,9 @@ PAGES["book-a-tour/index.html"] = dict(
     <div class="eyebrow">Thank you</div>
     <h2>That is with Kobi.</h2>
     <p>You will get a reply from a person, naming the two or three
-       configurations that actually fit what you described. If it has not
-       arrived within a day or so, email
+       configurations that actually fit what you described. If you would rather
+       talk it through than read it, say so and we will find a time. If nothing
+       has arrived within a day or so, email
        <a href="mailto:Info@thevalleyvenues.com">Info@thevalleyvenues.com</a>
        and we will find out why.</p>
   </div>
@@ -1432,9 +1434,11 @@ PAGES["book-a-tour/index.html"] = dict(
       that actually fit what you described, with figures. Not a brochure and not
       a price list.</p></div></div>
     <div class="step"><span class="when">Two</span>
-      <div><b>An afternoon on the property</b><p>An hour and a half, on foot,
-      including the parts most tours skip. Bring whoever is going to ask the
-      hard questions.</p></div></div>
+      <div><b>A conversation, and then a visit when you can</b><p>A call to
+      answer whatever the reply raised &mdash; the mother&rsquo;s questions as much as
+      yours. Then, when it suits you, an afternoon on the property: an hour and a
+      half on foot, including the parts most tours skip. Nobody has to fly in to
+      get started.</p></div></div>
     <div class="step"><span class="when">Three</span>
       <div><b>A date held while you think</b><p>Nothing on this property is
       shared, which means a date either is yours or it is not. We will tell you
@@ -1442,10 +1446,14 @@ PAGES["book-a-tour/index.html"] = dict(
   </div>
 
   <div class="note">
-    <p><b>Prototype note.</b> The form posts to a Cloudflare worker, which holds the
-       GoHighLevel webhook URL as a secret and forwards the inquiry. Until that worker is
-       deployed the form validates and then tells the visitor to email instead. Note what it
-       does not ask: your total
+    <p><b>Why this is not called Book a Tour.</b> The direction document measures the
+       site on tours booked, and the framework says the tour is &ldquo;something a couple
+       is fortunate to be offered.&rdquo; Both are served better by a conversation on the
+       door than a tour on it: the audience is Atlanta, Nashville, Knoxville and, the
+       document hopes, Chicago and New York, and a tour is a flight for most of them. The
+       conversation is the intake; the tour is what the right couple is offered afterward.</p>
+    <p><b>Prototype note.</b> The form posts straight to GoHighLevel from the browser.
+       Note what it does not ask: your total
        budget. That question closes more doors than it filters, and guest count arrives
        naturally here anyway &mdash; after you have described what you want, rather than as
        the price of entry.</p>
@@ -1463,10 +1471,12 @@ PAGES["book-a-tour/index.html"] = dict(
   <div class="closing-img" role="img" aria-label="Magnolia House at the top of the drive, the ridge behind it"
        style="background-image:url('/assets/img/close-tour.webp')"></div>
   <div class="closing-body">
-    <div class="eyebrow">The drive up</div>
+    <div class="eyebrow">When you are ready</div>
     <h2>More than half of the couples who walk it book it.</h2>
-    <p>That is not a sales line, it is a description of what the property does to people. It is fifteen minutes from Chattanooga and the tour is free.</p>
-    <a class="btn" href="#main">Request a tour</a>
+    <p>That is not a sales line; it is what the property does to people. So when it
+       suits you, come and stand in it &mdash; fifteen minutes from Chattanooga, and the
+       visit is free. Until then, the conversation starts here.</p>
+    <a class="btn" href="#main">Speak with our team</a>
   </div>
 </section>
 """)
@@ -1482,7 +1492,7 @@ PAGES["404.html"] = dict(
     standfirst="Which is rather the point of the place, but not what you were "
                "looking for. Everything on the estate is one of these.",
     actions=[("Back to the beginning", "/"),
-             ("Book a Tour", "/book-a-tour/")],
+             ("Speak with our team", "/inquire/")],
     body="""
 <section>
   <div class="lede">
@@ -1496,7 +1506,7 @@ PAGES["404.html"] = dict(
     <li><a href="/the-estate/">The Estate</a> <span>Six places and the walk between them</span></li>
     <li><a href="/planners/">For planners</a> <span>How a weekend runs</span></li>
     <li><a href="/about/">About</a> <span>The family, and the question behind every room</span></li>
-    <li><a href="/book-a-tour/">Book a tour</a> <span>Come and stand in it</span></li>
+    <li><a href="/inquire/">Speak with our team</a> <span>Start with a conversation</span></li>
   </ul>
 </section>
 """)
