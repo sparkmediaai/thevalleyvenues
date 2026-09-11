@@ -23,47 +23,19 @@
    screen: at 384px the copy wants 1184px and the box is 512px, so it spills
    out of the top. Here the body sits in normal flow, the stage is underneath
    it at inset 0, and the two cannot disagree. */
-.hero{
-  position:relative;display:grid;align-items:end;
-  min-height:clamp(30rem,52vw,44rem);overflow:hidden;
-}
+/* The five frames are a photograph, not a backdrop. They run the width of the
+   page at their own aspect and the copy follows underneath on ivory -- the
+   scrim that used to make white type readable over them is gone, because the
+   direction is that the photography is not darkened. */
+.hero{position:relative;display:block;background:var(--ivory)}
 .hero-stage{
-  position:absolute;inset:0;z-index:0;overflow:hidden;background:var(--ground-2);
+  position:relative;width:100%;aspect-ratio:2/1;overflow:hidden;
+  background:var(--cream);
   /* the same transition name the inner pages give their hero photograph, so
      arriving from here grows this frame into that one */
   view-transition-name:hero-frame;
 }
-
-/* The scrim is sized by measurement, not by eye. The five frames put pure white
-   under the words — a white house, a lit window, white chairs — and white type
-   on white is 1:1. Reaching 7:1 on the worst of them needs about 70% ink, so it
-   is spent only where the words are: nothing in the top third, then a ramp that
-   is already deep by the time the headline starts. 68% is the number: on the
-   brightest frame that puts white type at 7.9:1, and anything heavier only
-   costs photograph for contrast nobody needs. Ink rather than black, because
-   black goes cold and the brand is explicit that it should not. */
-.hero-stage::after{
-  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:
-    /* across: deep where the column of words is, gone by two thirds */
-    linear-gradient(90deg,
-      rgba(16,20,14,.76) 0%,
-      rgba(16,20,14,.68) 54%,
-      rgba(16,20,14,.22) 70%,
-      rgba(16,20,14,0) 82%),
-    /* down: a light weight at the foot, to seat the clock marks */
-    linear-gradient(180deg,
-      rgba(16,20,14,0) 55%,
-      rgba(16,20,14,.34) 100%);
-}
-@media (max-width:760px){
-  /* A portrait crop has no clean right-hand side to protect, so the scrim goes
-     back to a single downward ramp and simply gets deep enough. */
-  .hero{min-height:34rem}
-  .hero-stage::after{background:linear-gradient(180deg,
-    rgba(16,20,14,.08) 0%, rgba(16,20,14,.38) 30%,
-    rgba(16,20,14,.64) 55%, rgba(16,20,14,.74) 100%)}
-}
+@media (max-width:760px){.hero-stage{aspect-ratio:4/3}}
 
 .slide{
   position:absolute;inset:0;margin:0;opacity:0;
@@ -84,26 +56,14 @@
 @keyframes drift-alt{from{transform:scale(1) translate3d(-.8%,0,0)}
                      to{transform:scale(1.045) translate3d(0,0,0)}}
 
-/* The copy sits over the frame, bottom left, where the scrim is deepest. It
-   stays in normal flow so it can never be taller than the box that holds it. */
+/* Under the picture, in normal flow, on the page's own ivory. */
 .hero-body{
-  position:relative;z-index:3;
-  /* Full width so the auto margins inherited from site.css cannot centre it
-     (an auto margin on a grid item absorbs free space rather than stretching),
-     and 44rem on the words themselves -- not 52, because they have to finish
-     before the scrim starts fading or the end of a long line ends up on an
-     unprotected patch of sky. */
-  width:100%;max-width:82rem;
-  padding-top:clamp(6rem,22vh,12rem);
-  padding-bottom:clamp(3.75rem,9vh,5.5rem);
+  position:relative;z-index:3;width:100%;max-width:82rem;
+  padding-top:clamp(2rem,5vh,3.25rem);
+  padding-bottom:clamp(2.5rem,7vh,4rem);
 }
 .hero-body > *{max-width:44rem}
 .hero-body .eyebrow{color:var(--cream)}
-.hero-body h1{color:#fff}
-.hero-body p{color:rgba(255,255,255,.94)}
-.hero-body .btn-ghost,.hero-body .btn:not(.btn-solid){border-color:#fff;color:#fff}
-.hero-body .btn:not(.btn-solid):hover,
-.hero-body .btn:not(.btn-solid):focus-visible{background:#fff;color:var(--ink)}
 
 /* ---------------------------------------------------- driving the hero
    The first version gave five 2.2rem-by-2px lines and nothing else. Two pixels
@@ -119,19 +79,22 @@
 .hero-marks{
   position:absolute;right:0;bottom:0;z-index:4;
   display:flex;align-items:center;gap:clamp(.5rem,1.4vw,1rem);
-  padding:.6rem clamp(1.15rem,5vw,3.5rem) .9rem;
+  padding:.45rem clamp(1.15rem,5vw,3.5rem) .6rem;
+  /* The marks used to sit in the foot of the scrim. With the picture left
+     alone they need a ground of their own, so they get a cream one. */
+  background:var(--cream);
 }
 
 .hero-step{
   flex:none;width:2.4rem;height:2.4rem;padding:0;
   display:grid;place-items:center;cursor:pointer;
-  background:transparent;border:1px solid rgba(255,255,255,.34);color:#fff;
+  background:transparent;border:1px solid var(--deep);color:var(--deep);
   transition:background .25s,border-color .25s;
 }
 .hero-step svg{width:.62rem;height:1.05rem;display:block}
 .hero-step:hover,.hero-step:focus-visible{
-  background:rgba(255,255,255,.16);border-color:rgba(255,255,255,.8)}
-.hero-step:focus-visible{outline:2px solid #fff;outline-offset:3px}
+  background:var(--ivory);border-color:var(--deep)}
+.hero-step:focus-visible{outline:2px solid var(--deep);outline-offset:3px}
 
 .hero-dots{display:flex;gap:.15rem}
 /* The button is the hit area and the <i> is the mark, so one can be finger
@@ -141,14 +104,14 @@
 }
 .hero-dots button i{
   display:block;width:clamp(1.5rem,3.4vw,2.2rem);height:2px;
-  background:rgba(255,255,255,.38);position:relative;overflow:hidden;
+  background:var(--olive);position:relative;overflow:hidden;
   transition:background .3s;
 }
-.hero-dots button:hover i{background:rgba(255,255,255,.72)}
-.hero-dots button:focus-visible i{background:#fff}
-.hero-dots button:focus-visible{outline:2px solid #fff;outline-offset:1px}
+.hero-dots button:hover i{background:var(--clay)}
+.hero-dots button:focus-visible i{background:var(--deep)}
+.hero-dots button:focus-visible{outline:2px solid var(--deep);outline-offset:1px}
 .hero-dots button i::after{
-  content:"";position:absolute;inset:0;background:#fff;
+  content:"";position:absolute;inset:0;background:var(--deep);
   transform:scaleX(0);transform-origin:left;
 }
 /* Filled instantly when motion is off, so the current moment is still marked. */

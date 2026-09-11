@@ -117,36 +117,25 @@
    The image is deliberately taller than the band and hangs over both edges, so
    it has room to travel without ever showing the ground behind it. */
 .band{
-  position:relative;margin:var(--gap) calc(var(--pad) * -1);
-  min-height:clamp(19rem,40vw,30rem);
-  display:grid;place-items:center;overflow:hidden;background:var(--ground-dark);
+  margin:var(--gap) calc(var(--pad) * -1);
+  display:block;overflow:hidden;background:var(--cream);
   padding:0;border-bottom:0;
 }
 .band-img{
-  position:absolute;top:-11%;left:0;width:100%;height:122%;
-  object-fit:cover;max-width:none;
-}
-.band::after{
-  content:"";position:absolute;inset:0;
-  background:linear-gradient(180deg,rgba(16,20,14,.30),rgba(16,20,14,.52));
+  display:block;width:100%;height:auto;max-width:none;
+  aspect-ratio:21/9;object-fit:cover;
 }
 .band p{
-  position:relative;z-index:2;margin:0;color:#fff;text-align:center;
+  margin:0;color:var(--ink);text-align:center;
   font-family:var(--display);font-weight:400;line-height:1.18;
   font-size:clamp(1.55rem,4.4vw,3rem);
-  max-width:26ch;padding:clamp(3rem,8vw,5rem) var(--pad);
-  text-wrap:balance;
+  max-width:26ch;padding:clamp(2.4rem,6vw,4rem) var(--pad);
+  margin-inline:auto;text-wrap:balance;
 }
 .band cite{display:block;font-family:var(--sans);font-style:normal;
   font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--cream);margin-top:1.4rem}
-@supports (animation-timeline:view()){
-  @media (prefers-reduced-motion:no-preference){
-    .band-img{animation:band-pan linear both;
-      animation-timeline:view();animation-range:cover 0% cover 100%}
-  }
-}
-@keyframes band-pan{from{transform:translateY(-9%)}to{transform:translateY(9%)}}
+  color:var(--ink);margin-top:1.4rem}
+@media (max-width:620px){.band-img{aspect-ratio:16/10}}
 @keyframes band-word{from{opacity:0;letter-spacing:.06em}
                      to{opacity:1;letter-spacing:normal}}
 

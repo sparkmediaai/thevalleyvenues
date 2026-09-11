@@ -41,10 +41,11 @@ def tokens():
 
 
 def band():
-    """The opening band sets its ground inline rather than as a token."""
-    s = open(OPENING, encoding="utf-8").read()
-    m = re.search(r"\.opening\{[^}]*background:(#[0-9a-fA-F]{6})", s, re.S)
-    return m.group(1).upper() if m else None
+    """The opening band names a token rather than a literal."""
+    t = tokens()
+    src = open(OPENING, encoding="utf-8").read()
+    m = re.search(r"\.opening\{[^}]*background:var\(--([a-z0-9-]+)\)", src, re.S)
+    return t.get(m.group(1)) if m else None
 
 
 def lum(h):
@@ -67,31 +68,29 @@ def main():
     t["white"] = "#FFFFFF"
     FLOOR = {"body": 4.5, "large": 3.0, "ui": 3.0, "deco": None}
     PAIRS = [
-        ("body text on the page",        "ink",       "ground",      "body"),
-        ("body text on a panel",         "ink",       "ground-2",    "body"),
-        ("body text on white",           "ink",       "paper",       "body"),
-        ("nav link on the masthead",     "ink-soft",  "paper",       "body"),
-        ("what you type in a field",     "ink",       "paper",       "body"),
-        ("a field's placeholder",        "ink-faint", "paper",       "body"),
-        ("eyebrow on white",             "label",     "paper",       "body"),
-        ("link / button on white",       "accent",    "paper",       "body"),
-        ("secondary text on the page",   "ink-soft",  "ground",      "body"),
-        ("caption / footer / colophon",  "ink-faint", "ground",      "body"),
-        ("caption on a panel",           "ink-faint", "ground-2",    "body"),
-        ("eyebrow on the page",          "label",     "ground",      "body"),
-        ("eyebrow on a panel",           "label",     "ground-2",    "body"),
-        ("link / outline button",        "accent",    "ground",      "body"),
-        ("outline button on a panel",    "accent",    "ground-2",    "body"),
-        ("solid button label",           "ground",    "accent",      "body"),
-        ("white on a dark ground",       "white",     "ground-dark", "body"),
-        ("cream eyebrow on dark",        "cream",     "ground-dark", "body"),
-        ("dark label on a cream button", "ground-dark", "cream",     "body"),
-        ("white on the opening band",    "white",     "band",        "body"),
-        ("cream on the opening band",    "cream",     "band",        "body"),
-        ("sage on a dark ground",        "sage",      "ground-dark", "ui"),
-        ("hairline rule",                "olive",     "ground",      "deco"),
-        ("ivory page beside white",      "ground",    "paper",       "deco"),
-        ("blue accent",                  "blue",      "ground",      "deco"),
+        # Deep olive is the only one of the seven that can carry text on a
+        # light ground, so almost every row is the same ink on a different
+        # surface. That is the palette, not a shortcut.
+        ("body text on the page",        "ink",    "ground",   "body"),
+        ("body text on a panel",         "ink",    "ground-2", "body"),
+        ("body text on white",           "ink",    "paper",    "body"),
+        ("a caption, the footer",        "ink",    "ground",   "body"),
+        ("an eyebrow",                   "ink",    "ground",   "body"),
+        ("what you type in a field",     "ink",    "paper",    "body"),
+        # Soft on purpose: see the note in site.css. A visible label sits
+        # above every field, so the placeholder conveys nothing alone.
+        ("a field's placeholder",        "olive",  "paper",    "deco"),
+        ("an outline button",            "accent", "ground",   "body"),
+        ("an outline button on cream",   "accent", "ground-2", "body"),
+        ("a solid button's label",       "ground", "accent",   "body"),
+        ("the opening band",             "ink",    "band",     "body"),
+        ("the band's own eyebrow",       "ink",    "band",     "body"),
+        # Rules and marks. Soft on purpose, and none of them carries meaning
+        # that the type beside it does not already carry.
+        ("a hairline rule",              "line",      "ground", "deco"),
+        ("a softer hairline",            "line-soft", "ground", "deco"),
+        ("the dash before a denial",     "clay",      "ground-2", "deco"),
+        ("the ivory page beside white",  "ground",    "paper",  "deco"),
     ]
     print("%-30s %-9s %-9s %8s" % ("pairing", "fore", "back", "ratio"))
     bad = 0

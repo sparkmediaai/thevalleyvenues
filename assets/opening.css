@@ -14,14 +14,14 @@
    face so it reads as part of the site rather than something bolted to the top
    of it.
 
-   Ground is #575A4B, the brand olive taken down. Measured: white on it
+   Ground is the palette sage. Measured: the deep olive on it
    is 9.0:1 and ivory is 7.4:1, so both clear AAA. The brand forest itself
    as given (#9A9F83) manages 2.0:1 with white, nowhere near enough for something meant
    to be read at a glance on the way past.
    ========================================================================== */
 .opening{
-  background:#575A4B;color:#fff;
-  border-bottom:1px solid rgba(255,240,218,.18);
+  background:var(--sage);color:var(--deep);
+  border-bottom:1px solid var(--olive);
 }
 .opening-inner{
   max-width:82rem;margin:0 auto;padding:1.15rem var(--pad);
@@ -29,10 +29,10 @@
   gap:1rem clamp(1.2rem,4vw,3rem);flex-wrap:wrap;
 }
 
-.opening .eyebrow{color:var(--cream);display:block;margin-bottom:.25rem}
+.opening .eyebrow{color:var(--deep);display:block;margin-bottom:.25rem}
 .opening-what p{margin:0;max-width:none;font-size:clamp(1rem,1.5vw,1.15rem);line-height:1.45}
 .opening-what b{font-weight:600}
-.opening-with{color:rgba(255,240,218,.88);font-size:.92rem !important;margin-top:.2rem !important}
+.opening-with{color:var(--deep);font-size:.92rem !important;margin-top:.2rem !important}
 
 /* The numerals.
 
@@ -55,17 +55,17 @@
 }
 .opening-unit b{
   font-family:var(--display);font-weight:400;
-  font-size:clamp(2.1rem,6vw,3.2rem);line-height:.95;color:#fff;
+  font-size:clamp(2.1rem,6vw,3.2rem);line-height:.95;color:var(--deep);
   font-variant-numeric:tabular-nums;letter-spacing:.01em;
 }
 .opening-unit span{
   font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
-  color:rgba(255,240,218,.8);
+  color:var(--deep);
 }
 /* Once it has started, the numbers give way to saying so. */
 .opening-count.is-now{
   font-family:var(--display);font-size:clamp(1.5rem,3.4vw,2.1rem);
-  color:#fff;letter-spacing:normal;text-transform:none;align-items:center;
+  color:var(--deep);letter-spacing:normal;text-transform:none;align-items:center;
 }
 @keyframes turn{
   from{opacity:.25;transform:translateY(.16em)}

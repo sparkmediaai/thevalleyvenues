@@ -16,40 +16,35 @@
 
 :root{
   /* ------------------------------------------------------------ the palette
-     Seven colours, as given. Five carry the brand; the blue and the pale sage
-     are for moments rather than for structure. */
-  --ivory:#F5F1EA;   /* the page */
-  --cream:#FFF0DA;   /* panels, and the warm light on dark grounds */
-  --olive:#9A9F83;   /* the brand accent, at the weight it was given */
-  --clay:#B38A64;    /* the secondary accent, likewise */
-  --deep:#34372F;    /* the dark anchor */
-  --blue:#679AA7;    /* sparingly */
-  --sage:#AABEB3;    /* sparingly */
+     Exactly as the client gave it. Nothing here is mixed, tinted or derived:
+     every colour on this site is one of these seven, plus white. */
+  --ivory:#F5F1EA;
+  --cream:#FFF0DA;
+  --olive:#9A9F83;
+  --clay:#B38A64;
+  --blue:#679AA7;
+  --sage:#AABEB3;
+  --deep:#34372F;
+  --paper:#FFFFFF;
 
-  /* ------------------------------------------------------ the reading values
-     Olive and clay are the two the brand is built on and neither can carry
-     text: on the ivory page they measure 2.4:1 and 2.9:1 against a 4.5:1
-     floor. So each keeps its given weight for rules, dots and fills, and gets
-     a darkened sibling in its own hue for anything that has to be read --
-     found by mixing toward the anchor until it cleared 4.6:1, which took 46%
-     of the way for the olive and 40% for the clay.
+  /* ------------------------------------------------------------- the jobs
+     Of the seven, only the deep olive can carry text on a light ground: it
+     reads 10.8:1 on ivory and on cream, where the olive manages 2.4:1 and the
+     clay 2.9:1 against a 4.5:1 floor. So it is the only ink, and hierarchy
+     comes from size, weight and space rather than from three greys.
 
-     Both soft inks carry small text somewhere (captions, the footer, the
-     colophon, the privacy line), so both clear the floor too. The old
-     --ink-faint never did: #8A9182 was 2.9:1 on the old ground.
+     The olive and the sage do the ruling, which is what they were given for.
 
-     python _tools/contrast.py re-measures every pairing against this block. */
+     python _tools/contrast.py measures every pairing against this block. */
   --ground:var(--ivory);
   --ground-2:var(--cream);
-  --paper:#FFFFFF;         /* where a photograph or an input sits */
-  --ground-dark:#22241F;   /* behind photographs: the anchor, deeper */
   --ink:var(--deep);
-  --ink-soft:#4F5149;
-  --ink-faint:#6C6D65;
-  --accent:#6B6F5C;        /* olive that can be read: links, buttons, focus */
-  --label:#80694F;         /* clay that can be read: eyebrows and labels */
-  --line:rgba(52,55,47,.16);
-  --line-soft:rgba(52,55,47,.07);
+  --ink-soft:var(--deep);
+  --ink-faint:var(--deep);
+  --accent:var(--deep);
+  --label:var(--deep);
+  --line:var(--olive);
+  --line-soft:var(--sage);
 
   --display:"Cormorant Garamond",Georgia,"Times New Roman",serif;
   /* Libre Franklin, not Montserrat. Montserrat came out of the brand framework
@@ -184,64 +179,28 @@ p{margin:0;max-width:var(--measure)}
    present. Left edge at the top of the copy: .72 ink, which puts white type at
    7.4:1. Bottom left, where the two ramps overlap: about .79, or 10:1. The
    right third of the photograph is untouched. */
+/* The photograph is not a background and nothing is laid over it. It runs the
+   width of the page at its own aspect, and the words follow underneath on
+   ivory. Every scrim on this site existed so white type could sit on a
+   picture; the direction is that the photography is not to be darkened, so
+   the type moved instead. */
 .hero-photo{
-  position:relative;display:grid;align-items:end;overflow:hidden;
-  border-bottom:0;background:var(--ground-2);
-  min-height:clamp(24rem,44vw,34rem);
+  position:relative;display:block;overflow:hidden;
+  border-bottom:1px solid var(--line);background:var(--ivory);
 }
 .hero-photo .hero-bg{
-  position:absolute;inset:0;z-index:0;
-  width:100%;height:100%;max-width:none;object-fit:cover;
+  position:static;display:block;width:100%;height:auto;max-width:none;
+  aspect-ratio:2/1;object-fit:cover;
 }
-.hero-photo::after{
-  content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:
-    /* Five stops rather than three. Falling .74 to .30 across a fifth of the
-       frame is a steep enough ramp to band visibly on a smooth sky, and the
-       edge of it reads as a vertical seam down the photograph. */
-    linear-gradient(90deg,
-      rgba(16,20,14,.79) 0%,
-      rgba(16,20,14,.75) 46%,
-      rgba(16,20,14,.62) 62%,
-      rgba(16,20,14,.34) 76%,
-      rgba(16,20,14,.12) 88%,
-      rgba(16,20,14,0) 97%),
-    linear-gradient(180deg,
-      rgba(16,20,14,0) 25%,
-      rgba(16,20,14,.45) 100%);
-}
-/* The ramp only protects the left of the frame, so the words have to finish
-   inside it. Left to the site-wide 18ch, a headline at 4.2rem runs to about
-   two thirds of the width and its last word lands on unprotected sky --
-   measured at 3.0:1, which is a headline you cannot read. */
-.hero-photo h1{max-width:13ch}
-.hero-photo .hero-body p{max-width:32rem}
 .hero-photo .hero-body{
-  position:relative;z-index:2;
-  /* width:100% or the auto margins centre it. .hero-body carries margin:0 auto
-     for the 82rem container, and an auto margin on a grid item absorbs the
-     free space instead of stretching -- so the copy drifted to the middle of
-     the frame, which is exactly where the scrim is not. */
-  width:100%;
-  padding-top:clamp(5rem,18vh,8rem);
+  position:relative;z-index:2;width:100%;
+  padding-top:clamp(2rem,5vh,3.25rem);
   padding-bottom:clamp(2.5rem,7vh,4rem);
 }
-.hero-photo .eyebrow{color:var(--cream)}
-.hero-photo h1{color:#fff}
-.hero-photo .hero-body p{color:rgba(255,255,255,.94)}
-.hero-photo .btn-solid{background:#fff;color:var(--ink);border-color:#fff}
-.hero-photo .btn-solid:hover,.hero-photo .btn-solid:focus-visible{
-  background:transparent;color:#fff}
-.hero-photo .btn:not(.btn-solid){border-color:#fff;color:#fff}
-.hero-photo .btn:not(.btn-solid):hover,
-.hero-photo .btn:not(.btn-solid):focus-visible{background:#fff;color:var(--ink)}
+.hero-photo h1{max-width:18ch}
+.hero-photo .hero-body p{max-width:38rem}
 @media (max-width:760px){
-  /* A portrait crop has no clean right-hand side to protect, so the sideways
-     ramp is dropped and the downward one simply gets deep enough on its own. */
-  .hero-photo{min-height:30rem}
-  .hero-photo::after{background:linear-gradient(180deg,
-    rgba(16,20,14,.10) 0%, rgba(16,20,14,.40) 34%,
-    rgba(16,20,14,.68) 62%, rgba(16,20,14,.80) 100%)}
+  .hero-photo .hero-bg{aspect-ratio:4/3}
 }
 
 /* --------------------------------------------------------------- sections */
@@ -334,52 +293,21 @@ section:last-of-type{border-bottom:0}
    should already be low-key. A bright frame under this much ink reads as a
    bright frame that has been spoiled. */
 .closing{
-  position:relative;margin:var(--gap) calc(var(--pad) * -1) 0;
-  min-height:26rem;display:grid;align-items:end;overflow:hidden;
-  border-top:1px solid var(--line);
+  margin:var(--gap) calc(var(--pad) * -1) 0;
+  display:grid;grid-template-rows:auto auto;overflow:hidden;
+  background:var(--cream);border-top:1px solid var(--line);
 }
-.closing-img{position:absolute;inset:0;background:var(--ground-dark) center/cover no-repeat}
-/* The same two-axis ramp as the photograph heroes, and for the same reason.
-
-   A single downward gradient was tuned against one frame -- a cottage at night
-   -- and measured 3.9:1 under its own copy once it was checked properly, which
-   is under the AA floor. Spread across eleven photographs it ranged 3.7 to 5.8,
-   because the copy block starts high in the band and every frame has a white
-   dress or a sparkler somewhere in it.
-
-   Spending the ink sideways instead protects the column the words are in and
-   leaves the right of the frame alone. Measured against all eleven closing
-   frames: 9.5:1 at worst, on close-real. */
-.closing::after{
-  content:"";position:absolute;inset:0;
-  background:
-    linear-gradient(90deg,
-      rgba(16,20,14,.82) 0%,
-      rgba(16,20,14,.78) 62%,
-      rgba(16,20,14,.34) 80%,
-      rgba(16,20,14,0) 94%),
-    linear-gradient(180deg,
-      rgba(16,20,14,.06) 0%,
-      rgba(16,20,14,.10) 20%,
-      rgba(16,20,14,.52) 100%);
-}
-@media (max-width:760px){
-  /* No right-hand side to protect on one column, so it goes back to a single
-     ramp that is deep by the time the words start. */
-  .closing::after{background:linear-gradient(180deg,
-    rgba(16,20,14,.24) 0%, rgba(16,20,14,.74) 35%, rgba(16,20,14,.88) 100%)}
+.closing-img{
+  width:100%;aspect-ratio:2.6/1;
+  background:var(--cream) center/cover no-repeat;
 }
 .closing-body{
-  position:relative;z-index:2;padding:clamp(2.5rem,7vh,5rem) var(--pad);
+  width:100%;max-width:82rem;margin:0 auto;
+  padding:clamp(2.5rem,7vh,4.5rem) var(--pad);
   display:flex;flex-direction:column;gap:1rem;align-items:flex-start;
-  max-width:46rem;
 }
-.closing-body .eyebrow{color:var(--cream)}
-.closing-body h2{color:#fff}
-.closing-body p{color:rgba(255,255,255,.88)}
-.closing-body .btn{border-color:var(--cream);color:var(--cream)}
-.closing-body .btn:hover,.closing-body .btn:focus-visible{
-  background:var(--cream);color:var(--ground-dark)}
+.closing-body > *{max-width:46rem}
+@media (max-width:620px){.closing-img{aspect-ratio:16/10}}
 
 /* ============================================================================
    The claim.
@@ -409,7 +337,7 @@ section:last-of-type{border-bottom:0}
    ========================================================================== */
 .claim{
   position:relative;margin:var(--gap) calc(var(--pad) * -1);
-  background:var(--ground-dark);padding:0;border-bottom:0;overflow:hidden;
+  background:var(--cream);padding:0;border-bottom:0;overflow:hidden;
 }
 .claim-img{
   display:block;width:100%;height:auto;max-width:none;
@@ -422,7 +350,7 @@ section:last-of-type{border-bottom:0}
 .claim-fade{
   height:clamp(4rem,9vw,8rem);margin-top:calc(clamp(4rem,9vw,8rem) * -1);
   position:relative;z-index:1;pointer-events:none;
-  background:linear-gradient(180deg,rgba(34,36,31,0),var(--ground-dark));
+  background:linear-gradient(180deg,rgba(255,240,218,0),var(--cream));
 }
 .claim-body{
   position:relative;z-index:2;width:100%;max-width:82rem;margin:0 auto;
@@ -430,33 +358,32 @@ section:last-of-type{border-bottom:0}
   display:flex;flex-direction:column;align-items:flex-start;gap:1.2rem;
 }
 .claim-body > *{max-width:44rem}
-.claim-body .eyebrow{color:var(--cream)}
+.claim-body .eyebrow{color:var(--ink)}
 .claim-body h2{
-  color:#fff;max-width:13ch;
+  color:var(--ink);max-width:13ch;
   font-size:clamp(2.4rem,6vw,4rem);line-height:1.04;
 }
-.claim-body p{color:rgba(255,255,255,.88)}
+.claim-body p{color:var(--ink)}
 .claim-body .close{
-  color:#fff;font-family:var(--display);font-size:clamp(1.3rem,2.6vw,1.9rem);
+  color:var(--ink);font-family:var(--display);font-size:clamp(1.3rem,2.6vw,1.9rem);
   line-height:1.25;max-width:26ch;margin-top:.4rem;
 }
-.claim-body .btn{border-color:var(--cream);color:var(--cream);margin-top:.6rem}
-.claim-body .btn:hover,.claim-body .btn:focus-visible{
-  background:var(--cream);color:var(--ground-dark)}
+.claim-body .btn{margin-top:.6rem}
+
 
 /* the four denials */
 .claim .nots{
-  border-top:1px solid rgba(255,240,218,.28);
+  border-top:1px solid var(--line);
   margin-top:1.2rem;max-width:44rem;
 }
 .claim .nots li{
-  position:relative;border-bottom:0;color:rgba(255,255,255,.92);
+  position:relative;border-bottom:0;color:var(--ink);
   padding:.95rem 0;
 }
-.claim .nots li::before{background:var(--cream);opacity:.75}
+.claim .nots li::before{background:var(--clay);opacity:1}
 .claim .nots li::after{
   content:"";position:absolute;left:0;right:0;bottom:0;height:1px;
-  background:rgba(255,240,218,.3);transform-origin:left;
+  background:var(--olive);transform-origin:left;
 }
 @media (min-width:620px){.claim .nots{grid-template-columns:1fr 1fr}}
 @media (max-width:620px){.claim-img{aspect-ratio:16/10}}
@@ -519,10 +446,13 @@ section:last-of-type{border-bottom:0}
 .field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{
   outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
 .field textarea{min-height:7rem;resize:vertical}
-/* Left to the browser this lands somewhere near 54% grey, which on white is
-   under the floor. Named, so contrast.py can measure it. */
+/* The one place a softer value is worth its contrast. With a single ink a
+   placeholder renders identically to a typed value, and a field that looks
+   filled when it is empty is the bug we already fixed once. Olive is clearly
+   a hint rather than an entry; every field carries a visible label above it,
+   so nothing is conveyed by the placeholder alone. */
 .field ::placeholder,.field input::placeholder,.field textarea::placeholder{
-  color:var(--ink-faint);opacity:1}
+  color:var(--olive);opacity:1}
 
 /* ----------------------------------------------------------------- footer */
 .site-foot{
