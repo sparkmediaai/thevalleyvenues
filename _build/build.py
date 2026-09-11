@@ -126,7 +126,6 @@ FOOTER = [
     ]),
     ("Trade", [
         ("For Planners", "/planners/"),
-        ("Preferred Vendors", "/planners/vendors/"),
         ("Register as a Planner", "/planners/register/"),
     ]),
     ("The Valley Venues", [
@@ -205,7 +204,7 @@ def shell(page, path="index.html"):
 
 <header class="site-head">
   <div class="inner">
-    <a class="wordmark" href="%(root)s">%(site)s</a>
+    <a class="wordmark" href="%(root)s"><img src="%(root)sassets/logo-mark.webp" alt="" width="240" height="240" decoding="async"><span>%(site)s</span></a>
     <nav class="site-nav" aria-label="Primary">
       <ul>
 %(nav)s
@@ -228,6 +227,10 @@ def shell(page, path="index.html"):
 </main>
 
 <footer class="site-foot">
+  <a class="foot-mark" href="%(root)s" aria-label="%(site)s, home">
+    <img src="%(root)sassets/logo.webp" alt="" width="460" height="304"
+         loading="lazy" decoding="async">
+  </a>
   <div class="inner">
 %(foot)s
     <div>
@@ -641,9 +644,8 @@ PAGES["weddings/real-weddings/index.html"] = dict(
        page needs a first set of six to eight weddings with the couple&rsquo;s permission,
        the planner and vendor credits under each, and photography from the current season.
        Nothing from before the property changed.</p>
-    <p>The credits are not a courtesy. A vendor who is named here has a reason to name the
-       estate on her own site, which is the whole mechanism of the
-       <a href="/planners/vendors/">preferred vendor list</a>.</p>
+    <p>The credits are not a courtesy. A vendor who is named here has a reason to name
+       the estate on her own site, and that referral runs both ways.</p>
   </div>
 </section>
 
@@ -752,32 +754,30 @@ PAGES["stay/index.html"] = dict(
        two nights has seen the whole estate &mdash; which is how a good many weddings here
        begin.</p>
   </div>
-  <div class="names" aria-hidden="true">
-    <div class="names-track"><span>Phoenix</span><span>Bluebird</span><span>Goldfinch</span><span>Hummingbird</span><span>Willow</span><span>Mahogany</span><span>Overlook Village</span><span>The Lodge</span><span>Phoenix</span><span>Bluebird</span><span>Goldfinch</span><span>Hummingbird</span><span>Willow</span><span>Mahogany</span><span>Overlook Village</span><span>The Lodge</span></div>
-  </div>
-  <ul class="named">
-    <li>Phoenix <span>Cottage</span></li>
-    <li>Bluebird <span>Cottage</span></li>
-    <li>Goldfinch <span>Cottage</span></li>
-    <li>Hummingbird <span>Cottage</span></li>
-    <li>Willow <span>Cottage</span></li>
-    <li>Mahogany <span>Cottage</span></li>
-    <li>Overlook Village <span>Cottages on the hill</span></li>
-    <li>The Lodge <span>The larger house</span></li>
-  </ul>
   <div class="grid">
     <article class="card">
-      {{img:stay-village.webp|The cottages of Overlook Village along the hillside|class="wipe"}}
+      <figure class="frame">{{img:stay-village.webp|The cottages of Overlook Village along the hillside|class="wipe"}}</figure>
       <div class="eyebrow">Overlook Village</div>
-      <p>A row of cottages along the hill, each one facing out rather than at the next.</p>
+      <h3>Six cottages along the hill</h3>
+      <p>Phoenix, Bluebird, Goldfinch, Hummingbird, Willow and Mahogany &mdash; each one
+         turned to face out rather than at the next, so nobody is looking into
+         anybody else&rsquo;s morning.</p>
     </article>
     <article class="card">
-      {{img:stay-inside.webp|A cottage bathroom in timber, twin basins under twin mirrors|class="wipe"}}
-      <div class="eyebrow">Inside</div>
-      <p>Timber, glass and quiet. Built to be lived in for two nights, not checked into.</p>
+      <figure class="frame">{{img:stay-inside.webp|A cottage bathroom in timber, twin basins under twin mirrors|class="wipe"}}</figure>
+      <div class="eyebrow">The Lodge, and inside</div>
+      <h3>Thirty-four beds in all</h3>
+      <p>The Lodge takes the largest group and the cottages take the rest. Timber,
+         glass and quiet throughout &mdash; built to be lived in for two nights
+         rather than checked into for one.</p>
     </article>
   </div>
   <div class="note">
+    <p><b>What would make this page worth visiting twice.</b> How many each cottage
+       sleeps, which has the bath under the window, which is nearest the creek. That is
+       what somebody choosing between them actually wants, it is the only thing that
+       would justify a page per cottage, and none of it exists yet on the client side.
+       Until it does, a list of names is decoration.</p>
     <p><b>Deliberately not listed here:</b> Lost in the Woods. The framework folds it into
        the Estate Weekend as the emotional close, rather than offering it as a separate
        bookable stay.</p>
@@ -802,7 +802,7 @@ PAGES["stay/index.html"] = dict(
 <section>
   <div class="statement">
     <div class="eyebrow">Why an events estate has beds in it</div>
-    <h2 class="rise-words"><span>Nobody</span> <span>drives</span> <span>home.</span> <span>That</span> <span>is</span> <span>the</span> <span>whole</span> <span>idea.</span></h2>
+    <h2 class="rise-words"><span>Thirty-four</span> <span>beds</span> <span>are</span> <span>why</span> <span>the</span> <span>weekend</span> <span>works.</span></h2>
     <p>Thirty-four people sleeping on the property is not a convenience that
        was added afterwards. It is the reason the weekend works at all: the
        rehearsal can run late, the morning can start slowly, and nobody spends
@@ -956,9 +956,24 @@ PAGES["planners/index.html"] = dict(
     h1="Bring your vision. We know the estate.",
     standfirst="Planners send couples here repeatedly once they trust the operation. This "
                "page is written to your lens rather than the bride's.",
-    actions=[("Register as a planner", "/planners/register/"),
-             ("Preferred vendors", "/planners/vendors/")],
+    actions=[("Register as a planner", "/planners/register/")],
     body="""
+<section>
+  <div class="stakes">
+    <div class="lede">
+      <div class="eyebrow">Working here</div>
+      <h2>What you will want to know before you quote.</h2>
+      <p>The questions a planner asks on a first site visit, answered in the order
+         you would ask them rather than the order they suit us.</p>
+      <p>Most of the decor is already on the property, which shortens your rentals
+         list and your load-in both.</p>
+    </div>
+    <figure class="frame">
+      {{img:vend-table.webp|Glassware and candles down the length of a laid table|class="par"}}
+    </figure>
+  </div>
+</section>
+
 <section>
   <div class="grid">
     <article class="card">
@@ -983,11 +998,6 @@ PAGES["planners/index.html"] = dict(
     <article class="card">
       <h3>Parking and guest movement</h3>
       <p>Arrival flow, level walking routes, and transport between spaces.</p>
-    </article>
-    <article class="card">
-      <h3>We would rather support your plan</h3>
-      <p>Than replace it. The estate has an in-house team, and it is used to working
-         alongside a planner rather than instead of one.</p>
     </article>
   </div>
 </section>
@@ -1046,14 +1056,17 @@ PAGES["planners/index.html"] = dict(
 
 <section>
   <div class="statement">
-    <div class="eyebrow">The part that matters to you</div>
-    <h2 class="rise-words"><span>A</span> <span>weekend</span> <span>here</span> <span>has</span> <span>one</span> <span>moving</span> <span>part,</span> <span>and</span> <span>it</span> <span>is</span> <span>yours.</span></h2>
-    <p>One load-in. One site. One team, on the property overnight, who have run
-       this weekend before and know which door the kitchen is behind. No shared
-       loading bay, no other planner&rsquo;s truck in the way, no negotiation
-       over who gets the ceremony lawn at four.</p>
-    <p class="close">You are not competing for the venue&rsquo;s attention,
-       because there is nobody else to give it to.</p>
+    <div class="eyebrow">How we work with you</div>
+    <h2 class="rise-words"><span>We</span> <span>are</span> <span>an</span> <span>extension</span> <span>of</span> <span>your</span> <span>team.</span></h2>
+    <p>Not a replacement for it. The estate has its own in-house crew and they are
+       used to working alongside a planner rather than instead of one &mdash; your
+       design, your timeline, your client relationship, and people who know where
+       the power is and which door the kitchen is behind.</p>
+    <p>One load-in. One site. One crew, on the property overnight. No shared loading
+       bay, no other planner&rsquo;s truck in the way, no negotiation over who gets
+       the ceremony lawn at four.</p>
+    <p class="close">You are not competing for the venue&rsquo;s attention, because
+       there is nobody else here to give it to.</p>
   </div>
 </section>
 
@@ -1065,74 +1078,6 @@ PAGES["planners/index.html"] = dict(
     <h2>Come and walk it without a couple.</h2>
     <p>Planner site visits are welcome on their own, and are a good deal more useful than a floor plan. Bring a timeline and we will tell you what it actually takes here.</p>
     <a class="btn" href="/planners/register/">Register as a planner</a>
-  </div>
-</section>
-""")
-
-PAGES["planners/vendors/index.html"] = dict(
-    nav="Planners", title="Preferred Vendors | %s" % SITE,
-    desc="Planners and vendors who know the estate.",
-    hero_img="vendors.webp", hero_alt="An invitation suite and two rings",
-    eyebrow="For planners &middot; Preferred vendors",
-    h1="The people who know this property.",
-    standfirst="Most couples reach this site before they have hired a planner. This list "
-               "puts one in front of a couple who has already chosen the estate.",
-    body="""
-<section>
-  <div class="lede">
-    <h2>Planners</h2>
-    <p>Each entry carries a name, a studio, a website and a social handle.</p>
-  </div>
-  <ul class="named">
-    <li>Planner name <span>Studio &middot; website &middot; social</span></li>
-    <li>Planner name <span>Studio &middot; website &middot; social</span></li>
-    <li>Planner name <span>Studio &middot; website &middot; social</span></li>
-  </ul>
-  <div class="split flip" style="margin-top:3rem">
-    <div class="split-text">
-      <h2>Vendors</h2>
-      <p>Photography, florals, music, hair and makeup, rentals, officiants.</p>
-      <p>Rentals is the shortest list, because the tables, the chairs, the linens and a
-         good deal of the decor are already on the property.</p>
-    </div>
-    <figure class="frame">
-      {{img:vend-table.webp|Glassware and candles down the length of a laid table|class="par par-mid"}}
-    </figure>
-  </div>
-  <ul class="named">
-    <li>Vendor name <span>Category &middot; website &middot; social</span></li>
-    <li>Vendor name <span>Category &middot; website &middot; social</span></li>
-    <li>Vendor name <span>Category &middot; website &middot; social</span></li>
-  </ul>
-  <div class="note">
-    <p><b>Why this page exists.</b> Being listed here gives a planner cause to name the estate
-       on her own site and in her guides. The referral runs both directions, and the estate
-       holds the list.</p>
-  </div>
-</section>
-
-<section>
-  <div class="statement">
-    <div class="eyebrow">How this list is meant to work</div>
-    <h2 class="rise-words"><span>A</span> <span>referral</span> <span>is</span> <span>worth</span> <span>more</span> <span>than</span> <span>an</span> <span>advertisement.</span></h2>
-    <p>Most couples find a venue before they find a planner. By the time
-       somebody is reading this page they have already decided where the wedding
-       is, which makes it the least competitive introduction a planner will get
-       all year.</p>
-    <p class="close">In return, the estate gets named on a dozen other sites by
-       people with no reason to flatter it. That is the entire mechanism, and it
-       only works if the list stays short and honest.</p>
-  </div>
-</section>
-
-<section class="closing">
-  <div class="closing-img" role="img" aria-label="Candles and low light on a dressed table"
-       style="background-image:url('/assets/img/close-vendors.webp')"></div>
-  <div class="closing-body">
-    <div class="eyebrow">For vendors</div>
-    <h2>Worked here before?</h2>
-    <p>If you have run a wedding on this property and it went well, tell us. The list is built from people the team has actually stood beside at one in the morning.</p>
-    <a class="btn" href="/book-a-tour/">Get in touch</a>
   </div>
 </section>
 """)

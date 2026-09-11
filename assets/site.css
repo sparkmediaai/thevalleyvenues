@@ -85,10 +85,32 @@ p{margin:0;max-width:var(--measure)}
   max-width:82rem;margin:0 auto;padding:1rem var(--pad);
   display:flex;align-items:center;justify-content:space-between;gap:1.5rem;
 }
+/* The client's mark, then the name. The supplied artwork is one stacked
+   lockup and it is half again as tall as it is wide -- in a sticky header that
+   is either a 6rem bar following you down every page, or a wordmark four
+   pixels tall. So the masthead takes the bloom on its own and the name is set
+   beside it; the full lockup goes in the footer, where there is room. */
 .wordmark{
   font-family:var(--display);font-size:1.35rem;letter-spacing:.02em;
   text-decoration:none;white-space:nowrap;
+  display:flex;align-items:center;gap:.6rem;
 }
+.wordmark img{
+  width:2.35rem;height:2.35rem;flex:none;
+  /* The artwork is pure black and the site's ink is a warm near-black. A hair
+     of transparency settles it into the palette without touching the file. */
+  opacity:.88;
+}
+@media (max-width:400px){
+  .wordmark{font-size:1.15rem;gap:.45rem}
+  .wordmark img{width:2rem;height:2rem}
+}
+
+.foot-mark{
+  display:block;max-width:82rem;margin:0 auto;
+  padding:clamp(2.5rem,6vh,4rem) var(--pad) 0;
+}
+.foot-mark img{width:clamp(9rem,16vw,11.5rem);height:auto;opacity:.85}
 .site-nav ul{display:flex;gap:1.7rem;list-style:none;margin:0;padding:0;flex-wrap:wrap}
 .site-nav a{
   font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
