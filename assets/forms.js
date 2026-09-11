@@ -33,10 +33,11 @@
   "use strict";
 
   var MAILTO = "Info@thevalleyvenues.com";
+  var LOADED_AT = Date.now();
 
   // Straight from the CRM spec. Character for character.
   var EXACT = {
-    inquiry_type: ["Couple", "Planner", "Other"],
+    inquiry_type: ["Pricing Pamphlet", "Couple", "Planner", "Other"],
     season: ["Spring", "Summer", "Fall", "Winter", "Not sure"],
     date_flexible: ["Yes", "No"],
     experience_type: ["Estate Weekend", "Single Day", "Undecided"],
@@ -59,17 +60,21 @@
 
      Only ever sent when present, which is why the sample payload that
      registers these keys with the CRM has to carry all of them at once. */
-  var TRACK = ["utm_source", "utm_medium", "utm_campaign", "utm_content",
-               "utm_term", "gclid", "fbclid", "ttclid"];
+  var TRACK = ["utm_source", "utm_campaign", "utm_ad"];
+  // utm_content is what most ad platforms actually emit; it lands on utm_ad.
+  var FROM = { utm_source: "utm_source", utm_campaign: "utm_campaign",
+               utm_ad: "utm_ad", utm_content: "utm_ad" };
 
   function attribution() {
     var store = {};
     try { store = JSON.parse(sessionStorage.getItem("vv_attr") || "{}"); } catch (e) {}
     var q, dirty = false;
     try { q = new URLSearchParams(location.search); } catch (e) { return store; }
-    TRACK.forEach(function (k) {
-      var v = q.get(k);
-      if (v && !store[k]) { store[k] = v.slice(0, 200); dirty = true; }
+    Object.keys(FROM).forEach(function (param) {
+      var key = FROM[param], v = q.get(param);
+      // First touch wins: an explicit utm_ad is not overwritten by utm_content,
+      // and a later page cannot overwrite the page they arrived on.
+      if (v && !store[key]) { store[key] = v.toLowerCase().slice(0, 200); dirty = true; }
     });
     if (dirty) {
       try { sessionStorage.setItem("vv_attr", JSON.stringify(store)); } catch (e) {}
@@ -105,11 +110,10 @@
   /* North American numbers arrive in every shape a person can type one, and
      the CRM wants E.164. Anything already international is left alone. */
   function e164(raw) {
-    var d = raw.replace(/[^\d+]/g, "");
-    if (d.charAt(0) === "+") return d;
+    var d = String(raw).replace(/\D/g, "");
     if (d.length === 10) return "+1" + d;
     if (d.length === 11 && d.charAt(0) === "1") return "+" + d;
-    return d;
+    return "+" + d;
   }
 
   /* The CRM only starts Kobi's sequence for an inquiry that has an experience
@@ -148,15 +152,20 @@
 
     Array.prototype.forEach.call(form.elements, function (input) {
       var key = input.name;
-      if (!key || key === "_hp" || input.type === "submit") return;
+      // `company` is the honeypot and never leaves the browser.
+      if (!key || key === "company" || input.type === "submit") return;
       var value = (input.value || "").trim();
-      if (!value) return;
+
+      // The brief is explicit: send an empty string rather than leaving the
+      // key out. A workflow can test a blank; it cannot test a key that is
+      // not there, and the trigger only ever learns keys it has actually seen.
+      if (!value) { out[key] = ""; return; }
 
       if (key === "guest_count") {
         // A JSON number, not a quoted string. Quoted, the CRM field stays
         // empty and says nothing about why.
         var n = parseInt(value, 10);
-        if (!isNaN(n) && n >= 0) out.guest_count = n;
+        out.guest_count = (!isNaN(n) && n >= 0) ? n : "";
         return;
       }
 
@@ -165,10 +174,11 @@
       if (EXACT[key]) {
         if (EXACT[key].indexOf(value) === -1) {
           // Only reachable if the markup and this list have drifted apart.
-          // Dropping it leaves the CRM field blank; sending it would file the
+          // Blanking it leaves the CRM field empty; sending it would file the
           // contact wrongly and tell nobody.
-          if (window.console) console.warn("dropping " + key + "=" + value +
+          if (window.console) console.warn("blanking " + key + "=" + value +
             " — not one of: " + EXACT[key].join(", "));
+          out[key] = "";
           return;
         }
         out[key] = value;
@@ -178,13 +188,14 @@
       out[key] = value;
     });
 
+    // Always present, blank when the visit carried no campaign.
     var from = attribution();
-    Object.keys(from).forEach(function (k) { out[k] = from[k]; });
+    TRACK.forEach(function (k) { out[k] = from[k] || ""; });
 
-    // Not location.href: ?notes and any other query would end up in the CRM.
-    // The tracking parameters that matter are carried deliberately, above.
-    out.page_url = location.origin + location.pathname;
-    out.submitted_at = new Date().toISOString().replace(/\.\d{3}Z$/, "Z");
+    // The full URL, per the brief. On the prototype that means ?notes can
+    // reach the CRM; it is a prototype-only toggle and goes before launch.
+    out.page_url = location.href;
+    out.submitted_at = new Date().toISOString();
     return out;
   }
 
@@ -231,8 +242,17 @@
       // same thank-you as everyone else. Telling it that it failed only
       // teaches it to try again differently, and every post that does go
       // through is billable.
-      var hp = form.elements._hp;
+      var hp = form.elements.company;
       if (hp && hp.value.trim() !== "") {
+        succeed(form, done);
+        return;
+      }
+
+      // Nobody reads four fields and fills them in inside two seconds. A bot
+      // does. Same silent fake success as the honeypot: telling it that it
+      // failed only teaches it to wait, and every post that does go through
+      // is billable.
+      if (Date.now() - LOADED_AT < 2000) {
         succeed(form, done);
         return;
       }
@@ -250,16 +270,27 @@
       form.classList.add("is-sending");
       if (button) { button.disabled = true; button.textContent = "Sending…"; }
 
-      fetch(endpoint, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        // The endpoint answers with Access-Control-Allow-Origin: * AND
-        // Access-Control-Allow-Credentials: true, which a browser refuses to
-        // accept together if credentials are in play. Omitting them keeps the
-        // response readable, which is what makes the failure branch work.
-        credentials: "omit",
-        body: JSON.stringify(payload(form)),
-      }).then(function (res) {
+      var body = JSON.stringify(payload(form));
+
+      // A 5xx is the endpoint having a moment; a 4xx is us, and repeating it
+      // only bills the account twice for the same mistake.
+      function post(attempt) {
+        return fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          // The endpoint answers with Access-Control-Allow-Origin: * AND
+          // Access-Control-Allow-Credentials: true, which a browser refuses to
+          // accept together if credentials are in play. Omitting them keeps the
+          // response readable, which is what makes the failure branch work.
+          credentials: "omit",
+          body: body,
+        }).then(function (res) {
+          if (res.status >= 500 && attempt === 1) return post(2);
+          return res;
+        });
+      }
+
+      post(1).then(function (res) {
         if (!res.ok) throw new Error("HTTP " + res.status);
         succeed(form, done);
       }).catch(function () {

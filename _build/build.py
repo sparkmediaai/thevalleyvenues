@@ -1195,8 +1195,8 @@ PAGES["inquire/index.html"] = dict(
     </div>
 
     <div class="hp" aria-hidden="true">
-      <label for="c_website">Website</label>
-      <input id="c_website" name="_hp" type="text" tabindex="-1" autocomplete="off">
+      <label for="c_company">Company</label>
+      <input id="c_company" name="company" type="text" tabindex="-1" autocomplete="off">
     </div>
 
     <p class="form-error" id="inquiry-couple-error" role="alert" hidden></p>
@@ -1484,7 +1484,7 @@ PAGES["pricing/index.html"] = dict(
 </section>
 
 <section>
-  <form class="form inquiry" id="pricing" data-inquiry-type="Couple" novalidate>
+  <form class="form inquiry" id="pricing" data-inquiry-type="Pricing Pamphlet" novalidate>
     <div class="field-row">
       <div class="field">
         <label for="pr_first_name">First name <b aria-hidden="true">*</b></label>
@@ -1500,10 +1500,6 @@ PAGES["pricing/index.html"] = dict(
         <label for="pr_phone">Mobile <b aria-hidden="true">*</b></label>
         <input id="pr_phone" name="phone" type="tel" autocomplete="tel" required>
       </div>
-      <div class="field">
-        <label for="pr_event_date">Your date, if you have one</label>
-        <input id="pr_event_date" name="event_date" type="date">
-      </div>
     </div>
     <div class="field">
       <label for="pr_estimated_venue_budget">Estimated venue budget</label>
@@ -1511,27 +1507,27 @@ PAGES["pricing/index.html"] = dict(
            question on the form and it should not be the thing that stops
            somebody sending it, so nobody has to answer it to get the book --
            they only have to correct it if they know better. -->
-      <!-- The label and the value differ on purpose. An en dash is the correct
-           character for a range and it is what a visitor should see, but it is
-           also the kind of character that survives a stylesheet and dies in a
-           CSV export, a picklist somebody retyped, or an SMS merge tag. So the
-           dash is display only and what leaves the browser is plain ASCII. -->
+      <!-- No value attributes: the option text is the value, which is the only
+           way to guarantee what the brief requires -- that the two are equal
+           character for character. Plain ASCII hyphen, no spaces around it.
+           These strings are compared exactly against the CRM options and a
+           mismatch fails silently, so do not prettify the dashes. -->
       <select id="pr_estimated_venue_budget" name="estimated_venue_budget" required>
-        <option value="Under $15,000">Under $15,000</option>
-        <option value="$15,000-$25,000">$15,000&ndash;$25,000</option>
-        <option value="$25,000-$40,000">$25,000&ndash;$40,000</option>
-        <option value="$40,000-$60,000">$40,000&ndash;$60,000</option>
-        <option value="$60,000-$100,000">$60,000&ndash;$100,000</option>
-        <option value="$100,000+">$100,000+</option>
-        <option value="Not sure yet" selected>Not sure yet</option>
+        <option>Under $15,000</option>
+        <option>$15,000-$25,000</option>
+        <option>$25,000-$40,000</option>
+        <option>$40,000-$60,000</option>
+        <option>$60,000-$100,000</option>
+        <option>$100,000+</option>
+        <option selected>Not sure yet</option>
       </select>
     </div>
     <p class="form-privacy">The book comes by text as well as email, which is why we ask
        for both. Only ever used to send it and to write back.</p>
 
     <div class="hp" aria-hidden="true">
-      <label for="pr_website">Website</label>
-      <input id="pr_website" name="_hp" type="text" tabindex="-1" autocomplete="off">
+      <label for="pr_company">Company</label>
+      <input id="pr_company" name="company" type="text" tabindex="-1" autocomplete="off">
     </div>
 
     <button class="btn btn-solid" type="submit">Send it to me</button>
