@@ -163,6 +163,13 @@ SLOTS = [
     ("inc-glass",  "03 Magnolia House", "ValleyVenuesStyledShoot-240.jpg", 1600, 1200, 0.50),
     # The meadow from above with the arch small in the middle of it. Almost
     # nothing in the frame, which is what a band carrying one line wants.
+    # --- weddings: the hours nobody schedules ---------------------------
+    # A cluster is three 3:4 frames, so all three are cut portrait.
+    ("w-night",        "10 Getting ready",        "WeddingDay-105.jpg",              900, 1200, 0.45),
+    ("w-morning",      "10 Getting ready",        "WeddingDay-37.jpg",               900, 1200, 0.40),
+    ("w-after",        "06 Lodging & cottages",   "Valley-Venues-Wedding-Day-1-10.jpg", 900, 1200, 0.50),
+    # Beside the figure: what the figure actually buys.
+    ("w-alone",        "01 Mountain & landscape", "ValleyVenuesStyledShoot-063.jpg", 1400, 1050, 0.50),
     ("band-quiet", "10 Getting ready",  "ValleyVenuesStyledShoot-056.jpg", 1800,  900, 0.50),
 ]
 
@@ -183,8 +190,14 @@ def find(cat, name):
     return None
 
 
+import sys
+# `python _tools/place.py w-night w-alone` cuts only those. Without it every
+# slot is rebuilt, which is right after a library change and wasteful otherwise.
+only = set(sys.argv[1:])
 total = 0
 for dest, cat, name, W, H, bias in SLOTS:
+    if only and dest not in only:
+        continue
     src = find(cat, name)
     if not src:
         print("MISSING  %-16s %s / %s" % (dest, cat, name))

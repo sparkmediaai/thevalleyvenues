@@ -503,16 +503,41 @@ PAGES["weddings/index.html"] = dict(
   </div>
 </section>
 
+<section>
+  <div class="stakes flip">
+    <div class="lede">
+      <div class="eyebrow">The hours nobody schedules</div>
+      <h2>Most of the weekend is not on the timeline.</h2>
+      <p>A wedding timeline covers about eight hours. What couples describe to us
+         afterwards is almost never in them: the friends still up at one in the
+         morning, the half hour before anyone else is awake, the long breakfast on
+         Sunday that nobody had to drive to.</p>
+      <p>Those hours exist here because there is nowhere else anybody has to be.
+         That is the whole of what the second night buys.</p>
+      <a class="btn" href="/stay/">Where everyone sleeps</a>
+    </div>
+    <div class="cluster">
+      <figure class="cl-1">{{img:w-night.webp|Two friends in the bridal suite the night before, laughing}}</figure>
+      <figure class="cl-2">{{img:w-morning.webp|The bride in a robe in the quiet of the morning}}</figure>
+      <figure class="cl-3">{{img:w-after.webp|A table laid on the porch of a cottage the morning after}}</figure>
+    </div>
+  </div>
+</section>
+
 <section id="investment">
-  <div class="lede">
-    <div class="eyebrow">Investment</div>
-    <h2>One figure, and a conversation.</h2>
-    <p>There is one starting figure for an Estate Weekend, and you will have it in the first
-       reply. There is no
-       menu of options and no price list to download, because what actually fits depends on your
-       date, your count and how you want the weekend to feel.</p>
-    <p>Tell us those three things and what comes back is a recommendation, not a brochure.</p>
-    <a class="btn btn-solid" href="/inquire/">Start there</a>
+  <div class="split">
+    <div class="split-text">
+      <div class="eyebrow">Investment</div>
+      <h2>One figure, and a conversation.</h2>
+      <p>There is one starting figure for an Estate Weekend, and you will have it in
+         the first reply. There is no menu of options and no price list to download,
+         because what actually fits depends on your date, your count and how you want
+         the weekend to feel.</p>
+      <p>Tell us those three things and what comes back is a recommendation, not a
+         brochure.</p>
+      <a class="btn btn-solid" href="/inquire/">Start there</a>
+    </div>
+    {{img:w-alone.webp|The couple alone in the tall grass of the meadow}}
   </div>
   <div class="note">
     <p><b>Prototype note.</b> The published starting figure is one of the decisions still
