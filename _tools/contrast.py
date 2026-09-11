@@ -69,6 +69,12 @@ def main():
     PAIRS = [
         ("body text on the page",        "ink",       "ground",      "body"),
         ("body text on a panel",         "ink",       "ground-2",    "body"),
+        ("body text on white",           "ink",       "paper",       "body"),
+        ("nav link on the masthead",     "ink-soft",  "paper",       "body"),
+        ("what you type in a field",     "ink",       "paper",       "body"),
+        ("a field's placeholder",        "ink-faint", "paper",       "body"),
+        ("eyebrow on white",             "label",     "paper",       "body"),
+        ("link / button on white",       "accent",    "paper",       "body"),
         ("secondary text on the page",   "ink-soft",  "ground",      "body"),
         ("caption / footer / colophon",  "ink-faint", "ground",      "body"),
         ("caption on a panel",           "ink-faint", "ground-2",    "body"),
@@ -84,6 +90,7 @@ def main():
         ("cream on the opening band",    "cream",     "band",        "body"),
         ("sage on a dark ground",        "sage",      "ground-dark", "ui"),
         ("hairline rule",                "olive",     "ground",      "deco"),
+        ("ivory page beside white",      "ground",    "paper",       "deco"),
         ("blue accent",                  "blue",      "ground",      "deco"),
     ]
     print("%-30s %-9s %-9s %8s" % ("pairing", "fore", "back", "ratio"))

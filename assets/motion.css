@@ -50,7 +50,7 @@
    whatever is beside it. */
 
 /* The clipping container .par needs. Nothing else. */
-.frame{margin:0;overflow:hidden;background:var(--ground-2)}
+.frame{margin:0;overflow:hidden;background:var(--paper)}
 .frame img{display:block;width:100%;height:auto}
 @supports (animation-timeline:view()){
   @media (prefers-reduced-motion:no-preference){
@@ -98,7 +98,7 @@
   display:grid;grid-template-columns:1fr 1fr;
   gap:clamp(.7rem,1.8vw,1.2rem);align-items:start;
 }
-.cluster figure{margin:0;overflow:hidden;background:var(--ground-2)}
+.cluster figure{margin:0;overflow:hidden;background:var(--paper)}
 .cluster img{width:100%;height:auto;aspect-ratio:3/4;object-fit:cover}
 .cluster.wide img{aspect-ratio:4/3}
 .cl-1{grid-column:1;grid-row:1}
@@ -192,7 +192,7 @@
    under each. The frames are all 4:3 now and set the row height between them;
    the wide one takes whatever that comes to and crops a panorama out of it. */
 .gallery figure{
-  margin:0;overflow:hidden;background:var(--ground-2);aspect-ratio:4/3;
+  margin:0;overflow:hidden;background:var(--paper);aspect-ratio:4/3;
 }
 .gallery img{
   width:100%;height:100%;object-fit:cover;display:block;

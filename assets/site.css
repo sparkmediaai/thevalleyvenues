@@ -41,6 +41,7 @@
      python _tools/contrast.py re-measures every pairing against this block. */
   --ground:var(--ivory);
   --ground-2:var(--cream);
+  --paper:#FFFFFF;         /* where a photograph or an input sits */
   --ground-dark:#22241F;   /* behind photographs: the anchor, deeper */
   --ink:var(--deep);
   --ink-soft:#4F5149;
@@ -94,7 +95,7 @@ p{margin:0;max-width:var(--measure)}
 
 /* ---------------------------------------------------------------- masthead */
 .site-head{
-  position:sticky;top:0;z-index:20;background:var(--ground);
+  position:sticky;top:0;z-index:20;background:var(--paper);
   border-bottom:1px solid var(--line);
 }
 .site-head .inner{
@@ -268,7 +269,7 @@ section:last-of-type{border-bottom:0}
 .card{display:flex;flex-direction:column;gap:.7rem}
 /* height:auto because the imgs carry width and height attributes, and a
    presentational height defeats aspect-ratio. */
-.card img{aspect-ratio:3/2;object-fit:cover;width:100%;height:auto;background:var(--ground-2)}
+.card img{aspect-ratio:3/2;object-fit:cover;width:100%;height:auto;background:var(--paper)}
 .card .eyebrow{margin-top:.2rem}
 .card p{font-size:.94rem;color:var(--ink-soft)}
 
@@ -512,12 +513,16 @@ section:last-of-type{border-bottom:0}
 .field label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;
   font-weight:600;color:var(--ink-soft)}
 .field input,.field select,.field textarea{
-  font:400 1rem/1.5 var(--sans);color:var(--ink);background:var(--ground);
+  font:400 1rem/1.5 var(--sans);color:var(--ink);background:var(--paper);
   border:1px solid var(--line);padding:.75rem .85rem;width:100%;
 }
 .field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{
   outline:2px solid var(--accent);outline-offset:1px;border-color:transparent}
 .field textarea{min-height:7rem;resize:vertical}
+/* Left to the browser this lands somewhere near 54% grey, which on white is
+   under the floor. Named, so contrast.py can measure it. */
+.field ::placeholder,.field input::placeholder,.field textarea::placeholder{
+  color:var(--ink-faint);opacity:1}
 
 /* ----------------------------------------------------------------- footer */
 .site-foot{
