@@ -77,6 +77,9 @@ SITE = "The Valley Venues"
 # The site sits at a domain root now, which is why URL_ROOT is "/". It spent its
 # first weeks as a folder inside the agency site at "/", and when
 # thevalleyvenues.com is pointed here the only change is BASE.
+# The opening band, above the hero on every page until it takes itself down.
+OPENING = '\n<aside class="opening" id="opening" data-until="2026-09-13T20:00:00Z"\n       data-through="2026-09-13T23:00:00Z">\n  <div class="opening-inner">\n    <div class="opening-what">\n      <span class="eyebrow">Grand opening</span>\n      <p><b>Magnolia House</b> opens Sunday 13 September, 4&ndash;7pm EDT</p>\n      <p class="opening-with">Free food and drink &middot; Live music &middot; Estate tours</p>\n    </div>\n    <p class="opening-count" aria-hidden="true"></p>\n  </div>\n</aside>\n'
+
 URL_ROOT = "/"
 BASE = "https://thevalley.sparkmedia.ai/"
 
@@ -202,6 +205,7 @@ def shell(page, path="index.html"):
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Libre+Franklin:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="%(root)sassets/site.css">
 <link rel="stylesheet" href="%(root)sassets/motion.css">
+<link rel="stylesheet" href="%(root)sassets/opening.css">
 <link rel="stylesheet" href="%(root)sassets/forms.css">
 %(head)s<script>document.documentElement.classList.add("js");window.FORM_ENDPOINT=%(endpoint)s;if(/[?&]notes\b/.test(location.search))document.documentElement.classList.add("notes")</script>
 </head>
@@ -255,6 +259,7 @@ def shell(page, path="index.html"):
   </div>
 </footer>
 %(foot_js)s
+<script src="%(root)sassets/opening.js" defer></script>
 <script src="%(root)sassets/forms.js" defer></script>
 </body>
 </html>
@@ -267,7 +272,7 @@ def shell(page, path="index.html"):
         "standfirst": page["standfirst"], "actions": actions,
         "body": expand(page["body"]), "foot": foot,
         "hero_class": hero_class,
-        "banner": page.get("banner", ""),
+        "banner": page.get("banner", OPENING),
         "head": page.get("head", ""), "foot_js": page.get("foot_js", ""),
     }
 
@@ -277,9 +282,7 @@ PAGES = {}
 
 PAGES["index.html"] = dict(
     nav=None, title="%s | %s" % (SITE, TAGLINE), desc=TAGLINE,
-    banner='\n<aside class="opening" id="opening" data-until="2026-09-13T20:00:00Z"\n       data-through="2026-09-13T23:00:00Z">\n  <div class="opening-inner">\n    <div class="opening-what">\n      <span class="eyebrow">Grand opening</span>\n      <p><b>Magnolia House</b> opens Sunday 13 September, 4&ndash;7pm EDT</p>\n      <p class="opening-with">Free food and drink &middot; Live music &middot; Estate tours</p>\n    </div>\n    <p class="opening-count" aria-hidden="true"></p>\n  </div>\n</aside>\n',
-    head='<link rel="stylesheet" href="/assets/opening.css">\n'
-         '<link rel="stylesheet" href="/assets/home.css">\n'
+    head=         '<link rel="stylesheet" href="/assets/home.css">\n'
          '<link rel="preload" as="image" href="/assets/img/hero-1.webp"\n'
          '      imagesrcset="/assets/img/hero-1-sm.webp 1100w, /assets/img/hero-1.webp 2200w"\n'
          '      imagesizes="100vw">\n',
@@ -1282,18 +1285,16 @@ PAGES["inquire/index.html"] = dict(
     hero_img="tour.webp",
     hero_alt="A couple turning together in the open meadow, the ridge beyond",
     eyebrow="Speak with our team",
-    h1="Start with a conversation.",
-    standfirst="You do not have to be nearby to start. Tell us a little about the "
-               "weekend you are imagining and a person will write back with what "
-               "actually fits &mdash; not a brochure. The visit comes after, when it "
-               "suits you.",
+    h1="Let&rsquo;s create one of the best days of your life.",
+    standfirst="It begins here, with a conversation. Tell us a little about the two of "
+               "you and the day you are imagining, and a person will write back.",
     body="""
 
 <section>
   <form class="form inquiry" id="inquiry-couple" novalidate
         data-inquiry-type="Couple" data-kind="couple">
-    <p class="form-intro">Everything except your name and email is optional,
-       but the more you tell us the more useful the reply is.</p>
+    <p class="form-intro">Everything except your name and email is optional.
+       Tell us as much or as little as you like.</p>
 
     <div class="field-row">
       <div class="field">
@@ -1416,41 +1417,16 @@ PAGES["inquire/index.html"] = dict(
     </div>
 
     <p class="form-error" id="inquiry-couple-error" role="alert" hidden></p>
-    <button class="btn btn-solid" type="submit">Start the conversation</button>
-    <p class="form-privacy">We will only use this to answer you. No list, no
-       drip, nothing sold.</p>
+    <button class="btn btn-solid" type="submit">Let&rsquo;s begin</button>
+    <p class="form-privacy">Only ever used to write back to you.</p>
   </form>
 
   <div class="form-done" id="inquiry-couple-done" role="status" hidden>
     <div class="eyebrow">Thank you</div>
-    <h2>That is with Kobi.</h2>
-    <p>You will get a reply from a person, naming the two or three
-       configurations that actually fit what you described. If you would rather
-       talk it through than read it, say so and we will find a time. If nothing
-       has arrived within a day or so, email
-       <a href="mailto:Info@thevalleyvenues.com">Info@thevalleyvenues.com</a>
-       and we will find out why.</p>
-  </div>
-
-  <div class="lede" style="margin-top:3rem">
-    <div class="eyebrow">What happens next</div>
-    <h2>Three things, in this order.</h2>
-  </div>
-  <div class="steps">
-    <div class="step"><span class="when">One</span>
-      <div><b>A reply from a person</b><p>Naming the two or three configurations
-      that actually fit what you described, with figures. Not a brochure and not
-      a price list.</p></div></div>
-    <div class="step"><span class="when">Two</span>
-      <div><b>A conversation, and then a visit when you can</b><p>A call to
-      answer whatever the reply raised &mdash; the mother&rsquo;s questions as much as
-      yours. Then, when it suits you, an afternoon on the property: an hour and a
-      half on foot, including the parts most tours skip. Nobody has to fly in to
-      get started.</p></div></div>
-    <div class="step"><span class="when">Three</span>
-      <div><b>A date held while you think</b><p>Nothing on this property is
-      shared, which means a date either is yours or it is not. We will tell you
-      plainly which ones are still open.</p></div></div>
+    <h2>And so it begins.</h2>
+    <p>A person will write back soon. If you would rather talk it through, say so
+       and we will find a time. If you have not heard from us within a day or so,
+       email <a href="mailto:Info@thevalleyvenues.com">Info@thevalleyvenues.com</a>.</p>
   </div>
 
   <div class="note">
@@ -1480,10 +1456,10 @@ PAGES["inquire/index.html"] = dict(
        style="background-image:url('/assets/img/close-tour.webp')"></div>
   <div class="closing-body">
     <div class="eyebrow">When you are ready</div>
-    <h2>More than half of the couples who walk it book it.</h2>
-    <p>That is not a sales line; it is what the property does to people. So when it
-       suits you, come and stand in it &mdash; fifteen minutes from Chattanooga, and the
-       visit is free. Until then, the conversation starts here.</p>
+    <h2>Come and stand in it.</h2>
+    <p>More than half of the couples who walk this property choose it. When it suits
+       you, come and see it for yourself &mdash; fifteen minutes from Chattanooga, and
+       the visit is free.</p>
     <a class="btn" href="#main">Speak with our team</a>
   </div>
 </section>

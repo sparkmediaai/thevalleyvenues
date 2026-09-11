@@ -24,6 +24,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Libre+Franklin:wght@400;500;600&display=swap">
 <link rel="stylesheet" href="/assets/site.css">
 <link rel="stylesheet" href="/assets/motion.css">
+<link rel="stylesheet" href="/assets/opening.css">
 <link rel="stylesheet" href="/assets/forms.css">
 <script>document.documentElement.classList.add("js");window.FORM_ENDPOINT="https://services.leadconnectorhq.com/hooks/oDcqfZdwDgTOXwK0GS98/webhook-trigger/53fd0129-80af-4311-bfb2-e0955fb2ebe0";if(/[?&]notes/.test(location.search))document.documentElement.classList.add("notes")</script>
 </head>
@@ -47,12 +48,24 @@
   </div>
 </header>
 
+<aside class="opening" id="opening" data-until="2026-09-13T20:00:00Z"
+       data-through="2026-09-13T23:00:00Z">
+  <div class="opening-inner">
+    <div class="opening-what">
+      <span class="eyebrow">Grand opening</span>
+      <p><b>Magnolia House</b> opens Sunday 13 September, 4&ndash;7pm EDT</p>
+      <p class="opening-with">Free food and drink &middot; Live music &middot; Estate tours</p>
+    </div>
+    <p class="opening-count" aria-hidden="true"></p>
+  </div>
+</aside>
+
 <header class="hero hero-photo">
   <img class="hero-bg" src="/assets/img/tour.webp" alt="A couple turning together in the open meadow, the ridge beyond" width="2000" height="1000" fetchpriority="high" decoding="async">
   <div class="hero-body">
     <div class="eyebrow">Speak with our team</div>
-    <h1>Start with a conversation.</h1>
-    <p>You do not have to be nearby to start. Tell us a little about the weekend you are imagining and a person will write back with what actually fits &mdash; not a brochure. The visit comes after, when it suits you.</p>
+    <h1>Let&rsquo;s create one of the best days of your life.</h1>
+    <p>It begins here, with a conversation. Tell us a little about the two of you and the day you are imagining, and a person will write back.</p>
   </div>
 </header>
 
@@ -62,8 +75,8 @@
 <section>
   <form class="form inquiry" id="inquiry-couple" novalidate
         data-inquiry-type="Couple" data-kind="couple">
-    <p class="form-intro">Everything except your name and email is optional,
-       but the more you tell us the more useful the reply is.</p>
+    <p class="form-intro">Everything except your name and email is optional.
+       Tell us as much or as little as you like.</p>
 
     <div class="field-row">
       <div class="field">
@@ -186,41 +199,16 @@
     </div>
 
     <p class="form-error" id="inquiry-couple-error" role="alert" hidden></p>
-    <button class="btn btn-solid" type="submit">Start the conversation</button>
-    <p class="form-privacy">We will only use this to answer you. No list, no
-       drip, nothing sold.</p>
+    <button class="btn btn-solid" type="submit">Let&rsquo;s begin</button>
+    <p class="form-privacy">Only ever used to write back to you.</p>
   </form>
 
   <div class="form-done" id="inquiry-couple-done" role="status" hidden>
     <div class="eyebrow">Thank you</div>
-    <h2>That is with Kobi.</h2>
-    <p>You will get a reply from a person, naming the two or three
-       configurations that actually fit what you described. If you would rather
-       talk it through than read it, say so and we will find a time. If nothing
-       has arrived within a day or so, email
-       <a href="mailto:Info@thevalleyvenues.com">Info@thevalleyvenues.com</a>
-       and we will find out why.</p>
-  </div>
-
-  <div class="lede" style="margin-top:3rem">
-    <div class="eyebrow">What happens next</div>
-    <h2>Three things, in this order.</h2>
-  </div>
-  <div class="steps">
-    <div class="step"><span class="when">One</span>
-      <div><b>A reply from a person</b><p>Naming the two or three configurations
-      that actually fit what you described, with figures. Not a brochure and not
-      a price list.</p></div></div>
-    <div class="step"><span class="when">Two</span>
-      <div><b>A conversation, and then a visit when you can</b><p>A call to
-      answer whatever the reply raised &mdash; the mother&rsquo;s questions as much as
-      yours. Then, when it suits you, an afternoon on the property: an hour and a
-      half on foot, including the parts most tours skip. Nobody has to fly in to
-      get started.</p></div></div>
-    <div class="step"><span class="when">Three</span>
-      <div><b>A date held while you think</b><p>Nothing on this property is
-      shared, which means a date either is yours or it is not. We will tell you
-      plainly which ones are still open.</p></div></div>
+    <h2>And so it begins.</h2>
+    <p>A person will write back soon. If you would rather talk it through, say so
+       and we will find a time. If you have not heard from us within a day or so,
+       email <a href="mailto:Info@thevalleyvenues.com">Info@thevalleyvenues.com</a>.</p>
   </div>
 
   <div class="note">
@@ -250,10 +238,10 @@
        style="background-image:url('/assets/img/close-tour.webp')"></div>
   <div class="closing-body">
     <div class="eyebrow">When you are ready</div>
-    <h2>More than half of the couples who walk it book it.</h2>
-    <p>That is not a sales line; it is what the property does to people. So when it
-       suits you, come and stand in it &mdash; fifteen minutes from Chattanooga, and the
-       visit is free. Until then, the conversation starts here.</p>
+    <h2>Come and stand in it.</h2>
+    <p>More than half of the couples who walk this property choose it. When it suits
+       you, come and see it for yourself &mdash; fifteen minutes from Chattanooga, and
+       the visit is free.</p>
     <a class="btn" href="#main">Speak with our team</a>
   </div>
 </section>
@@ -321,6 +309,7 @@
   </div>
 </footer>
 
+<script src="/assets/opening.js" defer></script>
 <script src="/assets/forms.js" defer></script>
 </body>
 </html>
