@@ -371,8 +371,17 @@ DRAW = {"magnolia": magnolia, "village": village, "hall": hall,
         "deck": deck, "valley": valley, "woods": woods}
 
 
-def main():
-    rng = random.Random(SEED)
+def build(**opt):
+    """Return the map as markup.
+
+    Options exist so the lab can ask for variants without a second copy of the
+    drawing: `ground`/`ink`/`wood`/`road` override palette slots, `labels=False`
+    leaves the naming to HTML, and `seed` replants the woodland."""
+    rng = random.Random(opt.get("seed", SEED))
+    ground = opt.get("ground", CREAM)
+    wood = opt.get("wood", OLIVE)
+    wood2 = opt.get("wood2", SAGE)
+    road = opt.get("road", CLAY)
 
     # Everything a tree has to keep away from.
     keep = []
@@ -410,7 +419,7 @@ def main():
              'aria-label="An illustrated map of the estate: six places, the drives between '
              'them, and the way in from Pope Creek Road">' % (W, H))
 
-    p.append('<rect class="map-ground" width="%d" height="%d" fill="%s"/>' % (W, H, CREAM))
+    p.append('<rect class="map-ground" width="%d" height="%d" fill="%s"/>' % (W, H, ground))
 
     # the creek
     p.append('<path class="map-creek" d="%s" fill="none" stroke="%s" stroke-width="5" '
@@ -426,7 +435,7 @@ def main():
     for d, kind in DRIVES:
         w = 15 if kind == "drive" else 9
         p.append('<path d="%s" fill="none" stroke="%s" stroke-width="%d" stroke-linecap="round"/>'
-                 % (d, CLAY, w))
+                 % (d, road, w))
     for d, kind in DRIVES:
         if kind == "drive":
             p.append('<path d="%s" fill="none" stroke="%s" stroke-width="1.6" '
@@ -440,7 +449,7 @@ def main():
     buckets = {}
     for y, x, sc, t in trees:
         near = max(0.0, min(1.0, (y - 60) / float(H)))
-        fill = SAGE if t > .82 else OLIVE
+        fill = wood2 if t > .82 else wood
         step = round(.58 + .42 * near, 1)
         buckets.setdefault((fill, step), []).append((x, y, sc))
     p.append('<g class="map-woods">')
@@ -477,12 +486,13 @@ def main():
     # the places themselves, each a link
     p.append('<g class="map-places">')
     for key, pl in PLACES.items():
-        p.append('<a class="map-place map-%s" href="%s" xlink:href="%s" '
-                 'aria-label="%s">' % (key, pl["href"], pl["href"], pl["label"]))
+        p.append('<a class="map-place map-%s" data-place="%s" href="%s" xlink:href="%s" '
+                 'aria-label="%s">' % (key, key, pl["href"], pl["href"], pl["label"]))
         p.append('<circle class="map-halo" cx="%d" cy="%d" r="74"/>' % (pl["x"], pl["y"]))
         p.append('<g class="map-art">%s</g>' % DRAW[key](pl["x"], pl["y"]))
-        p.append('<text class="map-label" x="%d" y="%d" text-anchor="middle">%s</text>'
-                 % (pl.get("lx", pl["x"]), pl["ly"], pl["label"]))
+        if opt.get("labels", True):
+            p.append('<text class="map-label" x="%d" y="%d" text-anchor="middle">%s</text>'
+                     % (pl.get("lx", pl["x"]), pl["ly"], pl["label"]))
         p.append('</a>')
     p.append('</g>')
 
@@ -492,13 +502,33 @@ def main():
              '<path d="M 1840 644 L 1868 596 L 1898 644 L 1870 660 Z" fill="%s"/>'
              '</g>' % (OLIVE, CREAM))
 
+    # An optional line through the places in the order a weekend meets them,
+    # for the variations that walk a marker along it.
+    if opt.get("route"):
+        order = ["magnolia", "valley", "deck", "hall", "village"]
+        pts = [(PLACES[k]["x"], PLACES[k]["y"]) for k in order]
+        d = "M %d %d" % pts[0]
+        for i in range(1, len(pts)):
+            (x0, y0), (x1, y1) = pts[i - 1], pts[i]
+            # bowed, so the line reads as a walk rather than a ruler
+            cx, cy = (x0 + x1) / 2.0, (y0 + y1) / 2.0 - 46
+            d += " Q %.0f %.0f %d %d" % (cx, cy, x1, y1)
+        p.append('<path class="map-route" d="%s" fill="none"/>' % d)
+        for i, k in enumerate(order):
+            p.append('<circle class="map-stop" data-stop="%d" data-place="%s" '
+                     'cx="%d" cy="%d" r="9"/>' % (i, k, PLACES[k]["x"], PLACES[k]["y"]))
+
     p.append('</svg>')
 
-    svg = "".join(p)
+    return "".join(p), len(trees)
+
+
+def main():
+    svg, n = build()
     with open(OUT, "w", encoding="utf-8") as f:
         f.write(svg)
     print("%s  %d trees, %d places, %.0f KB"
-          % (os.path.relpath(OUT), len(trees), len(PLACES), len(svg) / 1024.0))
+          % (os.path.relpath(OUT), n, len(PLACES), len(svg) / 1024.0))
 
 
 if __name__ == "__main__":

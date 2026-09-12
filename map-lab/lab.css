@@ -1,0 +1,69 @@
+/* Shared chrome for every variation. The map itself is styled per page. */
+:root{
+  --ivory:#F5F1EA; --cream:#FFF0DA; --olive:#9A9F83; --clay:#B38A64;
+  --blue:#679AA7; --sage:#AABEB3; --deep:#34372F;
+  --sans:"Libre Franklin",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --display:"Cormorant Garamond",Georgia,serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body.lab{background:var(--ivory);color:var(--deep);font:400 16px/1.6 var(--sans)}
+
+.lab-head{
+  display:flex;align-items:flex-start;gap:clamp(1rem,3vw,2.5rem);flex-wrap:wrap;
+  padding:clamp(1.1rem,3vw,2rem) clamp(1.1rem,4vw,3rem);
+  border-bottom:1px solid var(--olive);
+}
+.lab-back{
+  font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;font-weight:600;
+  color:var(--deep);text-decoration:none;padding-top:.55rem;white-space:nowrap;
+}
+.lab-back:hover{text-decoration:underline}
+.lab-n{
+  font-size:.7rem;letter-spacing:.2em;font-weight:600;color:var(--clay);
+  display:block;margin-bottom:.15rem;
+}
+.lab-head h1{font-family:var(--display);font-weight:400;font-size:clamp(1.5rem,3.4vw,2.2rem);margin:0;line-height:1.1}
+.lab-head p{margin:.3rem 0 0;color:var(--deep);opacity:.72;max-width:46rem;font-size:.94rem}
+.lab-jump{margin-left:auto;display:flex;gap:.3rem;flex-wrap:wrap;padding-top:.4rem}
+.lab-jump a{
+  font:600 .7rem/1 var(--sans);letter-spacing:.06em;color:var(--deep);
+  text-decoration:none;border:1px solid var(--olive);padding:.38rem .5rem;border-radius:2px;
+}
+.lab-jump a:hover{background:var(--cream)}
+.lab-jump a[aria-current]{background:var(--deep);color:var(--cream);border-color:var(--deep)}
+
+.lab-stage{position:relative;overflow:hidden}
+.estate-map{display:block;width:100%;height:auto}
+
+/* The map's own type, shared. */
+.map-label{
+  font-family:var(--sans);font-size:19px;font-weight:600;letter-spacing:.09em;
+  text-transform:uppercase;fill:var(--deep);
+  paint-order:stroke fill;stroke:var(--cream);stroke-width:5px;stroke-linejoin:round;
+}
+.map-sign{
+  font-family:var(--sans);font-size:13px;font-weight:500;letter-spacing:.05em;
+  fill:var(--deep);opacity:.7;
+  paint-order:stroke fill;stroke:var(--cream);stroke-width:4px;stroke-linejoin:round;
+}
+.map-halo{fill:var(--olive);opacity:0;transition:opacity .3s ease}
+.map-place{cursor:pointer}
+
+/* The photograph that a hover reveals. Shared by most of the ten. */
+.peek{
+  position:absolute;z-index:40;pointer-events:none;width:clamp(200px,22vw,320px);
+  opacity:0;transform:translate(-50%,-108%) scale(.96);
+  transition:opacity .32s ease,transform .32s cubic-bezier(.16,.8,.24,1);
+}
+.peek.on{opacity:1;transform:translate(-50%,-104%) scale(1)}
+.peek figure{margin:0;background:var(--cream);padding:.5rem .5rem .1rem;
+  box-shadow:0 18px 40px rgba(52,55,47,.28);border-radius:2px}
+.peek img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}
+.peek figcaption{padding:.5rem .15rem .55rem}
+.peek b{display:block;font-family:var(--display);font-weight:400;font-size:1.15rem;line-height:1.15}
+.peek span{display:block;font-size:.78rem;opacity:.75;margin-top:.15rem}
+
+@media (prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+}
