@@ -12,6 +12,13 @@
 <style>.lab-stage{background:var(--cream);position:relative}
 .map-place:hover .map-halo,.map-place:focus-visible .map-halo{opacity:.3}
 .map-place.lit .map-halo{opacity:.34}
+/* The labels are drawn in map units, so a zoom magnifies them with everything
+   else and OVERLOOK VILLAGE arrives four inches tall. --k is the current frame
+   width over the full width, which holds the type at a constant size on screen
+   however far in the frame travels. */
+.map-label{font-size:calc(19px * var(--k,1))}
+.map-sign{font-size:calc(13px * var(--k,1))}
+.map-label,.map-sign{stroke-width:calc(5px * var(--k,1))}
 .card{position:absolute;left:clamp(1rem,4vw,3rem);bottom:clamp(1rem,4vw,3rem);z-index:30;
   width:clamp(230px,26vw,340px);background:var(--cream);padding:.55rem .55rem .2rem;
   box-shadow:0 20px 44px rgba(52,55,47,.3);opacity:0;transform:translateY(12px);
@@ -99,6 +106,7 @@ var cur=full.slice(), want=full.slice(), i=-1, running=true, wait=0;
 function frame(){
   for(var k=0;k<4;k++) cur[k]+=(want[k]-cur[k])*0.075;
   svg.setAttribute('viewBox',cur.map(function(v){return v.toFixed(1);}).join(' '));
+  svg.style.setProperty('--k', (cur[2]/2000).toFixed(3));
   requestAnimationFrame(frame);
 }
 frame();

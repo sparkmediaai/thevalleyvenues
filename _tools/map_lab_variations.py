@@ -346,6 +346,13 @@ again.addEventListener('click',function(){
 .lab-stage{background:var(--cream);position:relative}
 .map-place:hover .map-halo,.map-place:focus-visible .map-halo{opacity:.3}
 .map-place.lit .map-halo{opacity:.34}
+/* The labels are drawn in map units, so a zoom magnifies them with everything
+   else and OVERLOOK VILLAGE arrives four inches tall. --k is the current frame
+   width over the full width, which holds the type at a constant size on screen
+   however far in the frame travels. */
+.map-label{font-size:calc(19px * var(--k,1))}
+.map-sign{font-size:calc(13px * var(--k,1))}
+.map-label,.map-sign{stroke-width:calc(5px * var(--k,1))}
 .card{position:absolute;left:clamp(1rem,4vw,3rem);bottom:clamp(1rem,4vw,3rem);z-index:30;
   width:clamp(230px,26vw,340px);background:var(--cream);padding:.55rem .55rem .2rem;
   box-shadow:0 20px 44px rgba(52,55,47,.3);opacity:0;transform:translateY(12px);
@@ -374,6 +381,7 @@ var cur=full.slice(), want=full.slice(), i=-1, running=true, wait=0;
 function frame(){
   for(var k=0;k<4;k++) cur[k]+=(want[k]-cur[k])*0.075;
   svg.setAttribute('viewBox',cur.map(function(v){return v.toFixed(1);}).join(' '));
+  svg.style.setProperty('--k', (cur[2]/2000).toFixed(3));
   requestAnimationFrame(frame);
 }
 frame();
@@ -416,7 +424,7 @@ hold.addEventListener('click',function(){
 @keyframes trail{to{stroke-dashoffset:-220}}
 .map-stop{fill:var(--clay);stroke:var(--cream);stroke-width:3}
 .plate10{position:absolute;transform:translate(-50%,-50%) rotate(var(--r));z-index:10;
-  width:clamp(120px,13vw,196px);text-decoration:none;color:var(--deep);
+  width:clamp(108px,11.5vw,168px);text-decoration:none;color:var(--deep);
   transition:transform .45s cubic-bezier(.16,.8,.24,1)}
 .plate10 figure{margin:0;background:#fff;padding:.42rem .42rem .1rem;
   box-shadow:0 10px 26px rgba(52,55,47,.22)}
@@ -428,7 +436,10 @@ hold.addEventListener('click',function(){
         js="""
 var stage=document.querySelector('.lab-stage'), svg=stage.querySelector('svg');
 var vb=svg.viewBox.baseVal;
-var NUDGE={hall:[-90,-70],deck:[100,56],valley:[0,40],magnolia:[0,-30]};
+// Spread by hand against the plate size: two of these places are one building
+// and a third sits hard against the bottom edge of the drawing.
+var NUDGE={magnolia:[0,-40],valley:[-30,10],hall:[-70,-40],
+           deck:[120,70],village:[-130,50],woods:[60,-80]};
 var TILT={magnolia:'-2.2deg',valley:'1.8deg',hall:'-1.4deg',deck:'2.4deg',
           village:'-1.8deg',woods:'2deg'};
 svg.querySelectorAll('.map-place').forEach(function(a){
