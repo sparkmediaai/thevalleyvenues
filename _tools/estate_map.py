@@ -107,7 +107,7 @@ SIGNS = [
     (286, 452, "Exit only", "middle"),
     (640, 512, "One way", "middle"),
     (896, 456, "One way", "middle"),
-    (852, 618, "Entrance", "middle"),
+    (962, 648, "Entrance", "end"),
     (416, 326, "Vendor drop-off", "middle"),
 ]
 
@@ -119,9 +119,28 @@ WOODS = [
     [(420, 500), (900, 480), (980, 700), (700, 760), (440, 700)],
     [(1040, 470), (1300, 440), (1340, 560), (1150, 640), (1040, 580)],
     [(1180, 600), (1700, 590), (1980, 640), (1980, 780), (1300, 780)],
-    [(1400, 180), (1760, 170), (1800, 280), (1500, 300)],
-    [(1840, 300), (1980, 300), (1980, 520), (1860, 500)],
+    [(1400, 180), (1760, 170), (1800, 300), (1500, 320)],
+    [(1770, 250), (2000, 230), (2000, 600), (1800, 560)],
+    [(1000, 150), (1330, 120), (1380, 300), (1060, 330)],
+    [(1420, 460), (1620, 470), (1660, 570), (1440, 580)],
 ]
+
+# Which way the one-ways run. (index into DRIVES, fraction along it, flip)
+ARROWS = [
+    # The path is drawn from the road upward and that is the way the traffic
+    # goes, so this one is not flipped.
+    (0, .52, False),   # in off Pope Creek Road
+    (1, .34, False),   # east toward the hall
+    (1, .78, False),
+    (2, .18, False),   # round the loop, anticlockwise
+    (2, .56, False),
+    (2, .86, False),
+    (3, .55, False),   # out west
+    (5, .50, False),   # exit only
+    (6, .42, False),   # up to the village
+    (7, .55, False),   # down to the woods
+]
+
 
 # Nothing is planted within this of a drive, the creek or a building.
 CLEAR_ROAD = 34
@@ -168,6 +187,18 @@ def flatten(d, steps=26):
         pos = (x3, y3)
         i += 6
     return out
+
+
+def arrow_at(path, t, flip=False):
+    """A chevron sitting on the path, pointing the way the traffic goes."""
+    pts = flatten(path)
+    i = max(1, min(len(pts) - 1, int(t * (len(pts) - 1))))
+    (x0, y0), (x1, y1) = pts[i - 1], pts[i]
+    a = math.degrees(math.atan2(y1 - y0, x1 - x0)) + (180 if flip else 0)
+    return ('<g class="map-arrow" transform="translate(%.0f %.0f) rotate(%.1f)">'
+            '<path d="M -5 -5 L 4 0 L -5 5" fill="none" stroke="%s" stroke-width="2.4" '
+            'stroke-linecap="round" stroke-linejoin="round"/></g>'
+            % (x1, y1, a, CREAM))
 
 
 def inside(poly, x, y):
@@ -419,6 +450,12 @@ def main():
             p.append('<use href="#vv-fir" transform="translate(%.0f %.0f) scale(%.2f)"/>'
                      % (x, y, sc))
         p.append('</g>')
+    p.append('</g>')
+
+    # which way round
+    p.append('<g class="map-arrows">')
+    for idx, t, flip in ARROWS:
+        p.append(arrow_at(DRIVES[idx][0], t, flip))
     p.append('</g>')
 
     # parking, over the woodland rather than under it
