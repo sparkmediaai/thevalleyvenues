@@ -259,6 +259,26 @@ def extras(v, svg):
         return (svg + '<div class="rail"><button id="play">Pause</button>'
                 '<span class="now" id="now">&mdash;</span>'
                 '<input id="bar" type="range" min="0" max="100" step="0.1" value="0"></div>')
+    if v["slug"] == "07":
+        keys = [("spring", "Spring"), ("summer", "Summer"),
+                ("autumn", "Autumn"), ("winter", "Winter")]
+        return (svg + '<div class="seasons">%s</div>' % "".join(
+            '<button data-s="%s" aria-pressed="false">%s</button>' % k for k in keys))
+    if v["slug"] == "08":
+        # Three panels, each showing a third of the same drawing. It has to be
+        # three copies: a panel cannot show a slice of an element it does not
+        # contain, and the creases have to fall between real edges.
+        # The fir symbol's id has to differ per copy. Three elements answering
+        # to #vv-fir is invalid, and every <use> in panels two and three would
+        # quietly resolve against panel one's.
+        panels = "".join(
+            '<div class="panel">%s</div>' % svg.replace("vv-fir", "vv-fir-%d" % i)
+            for i in range(3))
+        return ('<button class="again">Fold it again</button>'
+                '<div class="fold">%s</div>' % panels)
+    if v["slug"] == "09":
+        return (svg + '<button class="hold">Stop the tour</button>'
+                '<div class="card"><img alt=""><b></b><span></span></div>')
     return svg
 
 
