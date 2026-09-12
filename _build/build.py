@@ -83,6 +83,14 @@ OPENING = '\n<aside class="opening" id="opening" data-until="2026-09-13T20:00:00
 URL_ROOT = "/"
 BASE = "https://thevalley.sparkmedia.ai/"
 
+# The address the site is actually for. While BASE is anything else this is a
+# staging copy of a real business's website, sitting on a public host with its
+# real prices and its real phone number on it, and it asks search engines to
+# stay away. Point BASE at the line below and that request disappears on its
+# own -- which is the point, because "remember to take the noindex off" is not
+# a plan, it is a thing somebody forgets on launch day.
+PRODUCTION = "https://thevalleyvenues.com/"
+
 # Where the inquiry forms post: GoHighLevel, straight from the browser.
 #
 # This is a decision taken against the CRM spec's own advice, which says to
@@ -185,8 +193,7 @@ def shell(page, path="index.html"):
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>%(title)s</title>
 <meta name="description" content="%(desc)s">
-<meta name="robots" content="noindex,nofollow">
-<link rel="icon" href="%(root)sassets/favicon.svg" type="image/svg+xml">
+%(robots)s<link rel="icon" href="%(root)sassets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="%(root)sassets/icon-180.png">
 <meta name="theme-color" content="#34372F">
 <meta property="og:type" content="website">
@@ -268,6 +275,8 @@ def shell(page, path="index.html"):
         "title": page["title"], "desc": page["desc"], "root": depth_root,
         "url": url, "base": BASE,
         "endpoint": json_str(FORM_ENDPOINT),
+        "robots": "" if BASE == PRODUCTION else
+                  '<meta name="robots" content="noindex,nofollow">' + chr(10),
         "site": SITE, "nav": nav, "cta_href": CTA[1], "cta_text": CTA[0],
         "hero": hero, "eyebrow": page["eyebrow"], "h1": page["h1"],
         "standfirst": page["standfirst"], "actions": actions,
