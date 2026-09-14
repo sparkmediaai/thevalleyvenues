@@ -1,0 +1,185 @@
+@charset "UTF-8";
+/* ============================================================================
+   The gallery.
+
+   A justified wall: every row runs the full width, every photograph keeps its
+   own proportions, and the row height adjusts so they fit. It is done in CSS
+   alone -- each tile grows in proportion to its aspect ratio -- so it needs no
+   script to lay out, reflows as the window changes, and survives filtering by
+   simply hiding tiles. The last row does not stretch.
+
+   Nothing is darkened. Credits sit on cream chips, and the viewer opens on the
+   page's own ivory rather than the black box every other gallery uses.
+   ========================================================================== */
+
+.gx-intro{padding-bottom:clamp(1rem,3vh,2rem);border-bottom:0}
+.gx-intro h2{max-width:22ch}
+.gx-intro p{max-width:44rem}
+
+/* ------------------------------------------------------------ the filters */
+.gx-section{padding-top:0}
+/* Sticks under the site header (whose height gallery.js measures) on wide
+   screens. On a phone the header already takes a fifth of the screen, so the
+   bar scrolls away with the page rather than stacking on top of it. */
+.gx-bar{
+  position:sticky;top:var(--head,0px);z-index:19;
+  display:flex;align-items:center;gap:.8rem 1.4rem;flex-wrap:wrap;
+  margin:0 calc(var(--pad) * -1);padding:.8rem var(--pad);
+  background:var(--ivory);border-bottom:1px solid var(--line-soft);
+}
+.gx-chips{display:flex;gap:.45rem;flex-wrap:wrap}
+.gx-chip{
+  font:500 .8rem/1 var(--sans);letter-spacing:.02em;color:var(--deep);
+  background:var(--paper);border:1px solid var(--sage);border-radius:999px;
+  padding:.62rem .95rem;cursor:pointer;white-space:nowrap;
+  transition:background .25s,border-color .25s,color .25s;
+}
+.gx-chip span{font-size:.72rem;opacity:.65;margin-left:.2rem}
+.gx-chip:hover{border-color:var(--olive);background:var(--cream)}
+.gx-chip[aria-pressed="true"]{background:var(--sage);border-color:var(--sage)}
+.gx-chip[aria-pressed="true"] span{opacity:.9}
+.gx-chip:focus-visible,.gx-select:focus-visible{outline:2px solid var(--deep);outline-offset:2px}
+.gx-by{display:flex;align-items:center;gap:.55rem;margin-left:auto;
+  font:600 .68rem/1 var(--sans);letter-spacing:.14em;text-transform:uppercase}
+.gx-select{
+  font:500 .85rem/1.2 var(--sans);color:var(--deep);background:var(--paper);
+  border:1px solid var(--sage);border-radius:999px;padding:.55rem 2rem .55rem .9rem;
+  appearance:none;-webkit-appearance:none;cursor:pointer;
+  background-image:linear-gradient(45deg,transparent 50%,var(--deep) 50%),
+                   linear-gradient(135deg,var(--deep) 50%,transparent 50%);
+  background-position:calc(100% - 1rem) 55%,calc(100% - .7rem) 55%;
+  background-size:.3rem .3rem;background-repeat:no-repeat;
+}
+
+/* Phones: the chips scroll sideways in one line rather than stacking into a
+   wall of buttons above the photographs. */
+@media (max-width:700px){
+  .gx-bar{position:static;flex-wrap:nowrap;flex-direction:column;align-items:stretch;gap:.6rem}
+  .gx-chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;
+    margin:0 calc(var(--pad) * -1);padding:0 var(--pad);
+    -webkit-mask-image:linear-gradient(90deg,#000 88%,transparent)}
+  .gx-chips::-webkit-scrollbar{display:none}
+  .gx-by{margin-left:0;justify-content:space-between}
+  .gx-select{flex:1}
+}
+
+.gx-count{margin:1.1rem 0 .9rem;font:600 .68rem/1 var(--sans);letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-soft)}
+
+/* --------------------------------------------------------------- the wall */
+.gx{
+  --h:300px;--gap:.55rem;
+  display:flex;flex-wrap:wrap;gap:var(--gap);
+}
+/* An invisible last tile soaks up the leftover space, so the final row keeps
+   its natural height instead of blowing a lone portrait up to full width. */
+.gx::after{content:"";flex-grow:1000000}
+@media (max-width:1100px){.gx{--h:240px}}
+@media (max-width:760px){.gx{--h:170px;--gap:.4rem}}
+@media (max-width:420px){.gx{--h:130px;--gap:.35rem}}
+
+.gx-item{
+  position:relative;display:block;overflow:hidden;
+  flex-grow:calc(var(--r) * 100);
+  width:calc(var(--r) * var(--h));
+  background:var(--tone,var(--cream));
+  border-radius:4px;
+}
+.gx-item[hidden]{display:none}
+.gx-item img{
+  display:block;width:100%;height:auto;aspect-ratio:var(--r);object-fit:cover;
+  transition:transform .9s cubic-bezier(.16,.8,.24,1),opacity .6s ease;
+}
+/* Fade in once loaded, over the photograph's own average colour. Gated on
+   .js so that without a script nothing waits for an event that never fires. */
+.js .gx-item img{opacity:0}
+.js .gx-item img.is-in{opacity:1}
+
+.gx-credit{
+  position:absolute;left:.5rem;bottom:.5rem;max-width:calc(100% - 1rem);
+  font:500 .68rem/1.2 var(--sans);letter-spacing:.03em;color:var(--deep);
+  background:var(--cream);padding:.35rem .55rem;border-radius:999px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  opacity:0;transform:translateY(6px);transition:opacity .35s,transform .35s;
+  pointer-events:none;
+}
+@media (hover:hover){
+  .gx-item:hover img{transform:scale(1.045)}
+  .gx-item:hover .gx-credit,.gx-item:focus-visible .gx-credit{opacity:1;transform:none}
+}
+.gx-item:focus-visible{outline:2px solid var(--deep);outline-offset:3px}
+
+/* Filtering: tiles that stay settle in. */
+@media (prefers-reduced-motion:no-preference){
+  .gx.is-sorting .gx-item{animation:gx-in .5s cubic-bezier(.16,.8,.24,1) both}
+}
+@keyframes gx-in{from{opacity:0;transform:translateY(8px) scale(.985)}}
+
+/* ------------------------------------------------------------- credits */
+.gx-names{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:.45rem .5rem}
+.gx-names button{
+  font:500 .9rem/1.2 var(--sans);color:var(--deep);background:none;cursor:pointer;
+  border:0;border-bottom:1px solid var(--sage);padding:.3rem .1rem;margin-right:.8rem;
+}
+.gx-names button:hover,.gx-names button:focus-visible{border-color:var(--clay)}
+
+/* ----------------------------------------------------------------- viewer */
+.gv{
+  position:fixed;inset:0;z-index:100;
+  display:grid;grid-template-rows:auto 1fr auto;
+  background:var(--ivory);color:var(--deep);
+  opacity:0;visibility:hidden;transition:opacity .35s ease,visibility 0s linear .35s;
+}
+.gv.is-open{opacity:1;visibility:visible;transition:opacity .35s ease}
+.gv-top{
+  display:flex;align-items:center;gap:1rem;padding:.8rem clamp(.8rem,3vw,1.6rem);
+}
+.gv-count{font:600 .7rem/1 var(--sans);letter-spacing:.16em;text-transform:uppercase}
+.gv-place{font-family:var(--display);font-size:1.15rem;margin-left:.2rem}
+.gv-close{margin-left:auto}
+.gv-btn{
+  width:2.8rem;height:2.8rem;border-radius:50%;display:grid;place-items:center;cursor:pointer;
+  background:var(--cream);border:1px solid var(--sage);color:var(--deep);
+  transition:background .25s,border-color .25s;
+}
+.gv-btn:hover{background:var(--paper);border-color:var(--olive)}
+.gv-btn:focus-visible{outline:2px solid var(--deep);outline-offset:2px}
+.gv-btn svg{width:1rem;height:1rem}
+
+.gv-stage{position:relative;overflow:hidden;touch-action:pan-y pinch-zoom;user-select:none}
+.gv-track{position:absolute;inset:0;display:flex;will-change:transform}
+.gv-slide{
+  flex:0 0 100%;display:grid;place-items:center;
+  padding:0 clamp(.6rem,6vw,5.5rem);
+}
+.gv-slide img{
+  max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;display:block;
+  border-radius:4px;box-shadow:0 22px 60px rgba(52,55,47,.18);
+  background:var(--cream);
+}
+.gv-prev,.gv-next{position:absolute;top:50%;transform:translateY(-50%);z-index:2}
+.gv-prev{left:clamp(.5rem,2vw,1.4rem)}
+.gv-next{right:clamp(.5rem,2vw,1.4rem)}
+@media (max-width:700px){.gv-prev,.gv-next{display:none}}
+
+/* minmax(0,1fr): without it the filmstrip's full width becomes the column's
+   width, and the credit centres itself on a line far wider than the screen. */
+.gv-foot{padding:.7rem clamp(.8rem,3vw,1.6rem) 1rem;display:grid;grid-template-columns:minmax(0,1fr);gap:.7rem}
+.gv-credit{text-align:center;font:500 .8rem/1.3 var(--sans)}
+.gv-credit b{font-weight:600}
+.gv-strip{
+  display:flex;gap:.35rem;overflow-x:auto;scrollbar-width:none;justify-content:safe center;
+  padding:.2rem 0;
+}
+.gv-strip::-webkit-scrollbar{display:none}
+.gv-strip button{
+  flex:none;height:3.4rem;padding:0;border:0;border-radius:3px;overflow:hidden;cursor:pointer;
+  opacity:.5;transition:opacity .25s,outline-color .25s;outline:2px solid transparent;outline-offset:2px;
+  background:var(--cream);
+}
+.gv-strip button img{height:100%;width:auto;display:block}
+.gv-strip button:hover{opacity:.85}
+.gv-strip button[aria-current="true"]{opacity:1;outline-color:var(--clay)}
+@media (max-width:700px){.gv-strip{display:none}}
+
+body.gv-lock{overflow:hidden}

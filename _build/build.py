@@ -8,7 +8,7 @@ pages are data and the shell is code.
 
 Run:  python _build/build.py
 """
-import os, re, struct
+import json, os, re, struct
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMG = os.path.join(ROOT, "assets", "img")
@@ -120,6 +120,7 @@ NAV = [
     ("Weddings", "/weddings/"),
     ("Stay", "/stay/"),
     ("The Estate", "/the-estate/"),
+    ("Gallery", "/gallery/"),
     ("About", "/about/"),
 ]
 CTA = ("Download the Wedding Pamphlet", "/pricing/")
@@ -130,6 +131,7 @@ FOOTER = [
         ("The Difference", "/the-difference/"),
         ("The Estate Weekend", "/weddings/"),
         ("What's Included", "/weddings/whats-included/"),
+        ("The Gallery", "/gallery/"),
         ("Real Weddings", "/weddings/real-weddings/"),
         ("Single-Day Celebrations", "/weddings/single-day/"),
     ]),
@@ -1617,6 +1619,125 @@ PAGES["404.html"] = dict(
   </ul>
 </section>
 """)
+
+
+# ------------------------------------------------------------------ the gallery
+# The photographs from the estate's current gallery, brought across by
+# _tools/gallery_scrape.py with their photographers' credits and a place tag
+# each. The wall is written into the page, so it is all there without
+# JavaScript; gallery.js adds the filters' counts, the viewer and deep links.
+GALLERY_PLACES = [
+    ("valley", "The Valley"), ("magnolia", "Magnolia House"), ("deck", "Lookout Deck"),
+    ("grounds", "The Grounds"), ("ready", "Getting Ready"), ("details", "The Details"),
+    ("evening", "After Dark"),
+]
+
+
+def gallery_body():
+    with open(os.path.join(ROOT, "assets", "gallery.json"), encoding="utf-8") as f:
+        photos = json.load(f)
+    names = dict(GALLERY_PLACES)
+    counts = {}
+    for p in photos:
+        for t in p["tags"]:
+            counts[t] = counts.get(t, 0) + 1
+    credits = []
+    for p in photos:
+        if p["credit"] and p["credit"] not in credits:
+            credits.append(p["credit"])
+
+    chips = ['<button type="button" class="gx-chip" data-place="" aria-pressed="true">'
+             'All <span>%d</span></button>' % len(photos)]
+    for key, label in GALLERY_PLACES:
+        if counts.get(key):
+            chips.append('<button type="button" class="gx-chip" data-place="%s" aria-pressed="false">'
+                         '%s <span>%d</span></button>' % (key, label, counts[key]))
+    options = "".join('<option value="%s">%s</option>' % (html_attr(c), c) for c in credits)
+
+    tiles = []
+    for i, p in enumerate(photos):
+        where = " and ".join(names[t] for t in p["tags"])
+        alt = "A wedding at The Valley Venues, %s" % where if p["tags"] != ["details"] else \
+              "Wedding details at The Valley Venues"
+        tiles.append(
+            '    <a class="gx-item" href="/assets/gallery/%(id)s.webp" data-id="%(id)s" '
+            'data-tags="%(tags)s" data-credit="%(credit)s" '
+            'style="--r:%(r).4f;--tone:%(tone)s">'
+            '<img src="/assets/gallery/%(id)s-sm.webp" alt="%(alt)s, photographed by %(credit)s" '
+            'width="%(tw)d" height="%(th)d" loading="%(loading)s" decoding="async">'
+            '<span class="gx-credit">%(credit)s</span></a>' % dict(
+                id=p["id"], tags=" ".join(p["tags"]), credit=html_attr(p["credit"]),
+                r=p["w"] / float(p["h"]), tone=p["tone"], alt=html_attr(alt),
+                tw=640 if p["w"] >= p["h"] else round(640 * p["w"] / float(p["h"])),
+                th=640 if p["h"] >= p["w"] else round(640 * p["h"] / float(p["w"])),
+                loading="eager" if i < 8 else "lazy"))
+
+    return """
+<section class="gx-intro">
+  <div class="lede">
+    <div class="eyebrow">%(n)d photographs &middot; %(pn)d photographers</div>
+    <h2>The estate, as the people who photograph it see it.</h2>
+    <p>Every frame here was taken at a real wedding on this property, by a working
+       wedding photographer. Choose a place to see only that part of the estate, or a
+       photographer to see one eye across a whole day. Every photograph opens full size.</p>
+  </div>
+</section>
+
+<section class="gx-section">
+  <div class="gx-bar" role="group" aria-label="Filter the gallery">
+    <div class="gx-chips">%(chips)s</div>
+    <label class="gx-by"><span>Photographer</span>
+      <select class="gx-select"><option value="">Everyone</option>%(options)s</select>
+    </label>
+  </div>
+  <p class="gx-count" aria-live="polite"><span>%(n)d</span> photographs</p>
+  <div class="gx">
+%(tiles)s
+  </div>
+</section>
+
+<section class="gx-credits">
+  <div class="lede">
+    <div class="eyebrow">Photographed by</div>
+    <ul class="gx-names">%(names)s</ul>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="closing-img" role="img" aria-label="The wedding party on the steps of Magnolia House"
+       style="background-image:url('/assets/gallery/%(close)s.webp')"></div>
+  <div class="closing-body">
+    <div class="eyebrow">The pamphlet</div>
+    <h2>Every place in these photographs, and what it holds.</h2>
+    <p>The Wedding Pamphlet has the spaces, the lodging, what is included and the figures.
+       It comes to your email and your phone.</p>
+    <a class="btn" href="/pricing/">Download the Wedding Pamphlet</a>
+  </div>
+</section>
+""" % dict(n=len(photos), pn=len(credits), chips="".join(chips), options=options,
+           tiles="\n".join(tiles),
+           names="".join('<li><button type="button" data-credit="%s">%s</button></li>' % (html_attr(c), c)
+                         for c in credits),
+           close=photos[145]["id"])
+
+
+def html_attr(s):
+    return s.replace("&", "&amp;").replace('"', "&quot;").replace("<", "&lt;")
+
+
+PAGES["gallery/index.html"] = dict(
+    nav="Gallery", title="Gallery | %s" % SITE,
+    desc="Weddings at The Valley Venues, photographed by thirteen wedding photographers.",
+    hero_img="gallery-hero.webp",
+    hero_alt="A ceremony set out on the lawn in front of Magnolia House, the ridge behind",
+    eyebrow="The Gallery",
+    h1="Photographs sell this place better than we can.",
+    standfirst="Magnolia House, the meadow, the deck and the grounds, at real weddings, "
+               "each photograph credited to the person who took it.",
+    head='<link rel="stylesheet" href="/assets/gallery.css">\n',
+    foot_js='<script src="/assets/gallery.js" defer></script>',
+    body=gallery_body(),
+)
 
 
 # --------------------------------------------------------------------- write
