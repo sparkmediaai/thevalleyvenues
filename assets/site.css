@@ -65,7 +65,9 @@
 html{scroll-behavior:smooth}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  *{animation:none!important;transition:none!important}
+  /* The estate map is exempt, like the hero film: its motion is the point of
+     it, and the owner wants it to play for everyone. */
+  :where(:not(.park-stage, .park-stage *)){animation:none!important;transition:none!important}
 }
 
 body{

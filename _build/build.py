@@ -888,7 +888,9 @@ PAGES["the-estate/index.html"] = dict(
     nav="The Estate", title="The Estate | %s" % SITE,
     desc="Seventy-four acres beneath Lookout Mountain, as one property.",
     hero_img="estate.webp", hero_alt="The meadow opening beneath the ridge, the deck at its edge",
-    head='<link rel="stylesheet" href="/assets/plan.css">\n',
+    head='<link rel="stylesheet" href="/assets/plan.css">\n'
+         '<link rel="stylesheet" href="/assets/estate-park.css">\n',
+    foot_js='<script src="/assets/estate-park.js" defer></script>',
     eyebrow="One estate",
     h1="One property, one map, one path.",
     standfirst="One estate with six places in it, and a celebration here includes "
@@ -912,69 +914,84 @@ PAGES["the-estate/index.html"] = dict(
   <div class="lede">
     <div class="eyebrow">The walk</div>
     <h2>Six places, and the ground between them.</h2>
-    <p>The drawing is the estate&rsquo;s own survey &mdash; contours every sixteen feet, off the same LiDAR the county holds. Six places, and the walk
-       between them, at the size it actually is.</p>
+    <p>One estate, drawn the way it is travelled: the drive in off Pope Creek Road, the
+       loop around Magnolia House, and every place a weekend moves through. Hover a place
+       to see it, or touch it to go there.</p>
   </div>
-  <figure class="walk-map">
-    {{inline:map.svg}}
-    <figcaption>Every drive on the estate, and the six places they reach. Touch or
-      click any of them to go there.</figcaption>
+  <figure class="park-stage">
+    <div class="park-scroll">{{inline:park-map.svg}}</div>
+    <button type="button" class="park-again" hidden>Play it again</button>
   </figure>
-  <div class="walk-grid">
-  <div class="note">
-    <p><b>Drawing note.</b> The layout follows the estate&rsquo;s own site plan: the one-way
-       loop, the vendor drop-off, the parking and the way in off Pope Creek Road are all
-       as drawn there. It is a map of how the property is arranged and travelled, not a
-       survey &mdash; nothing on it is to scale.</p>
-  </div>
-    <div class="walk-steps">
-    <div class="wstep ws-1">
-      <div class="eyebrow"><span>The way in</span></div>
-      <h3>Arrival</h3>
-      <p>You turn off Pope Creek Road and the gate closes behind you. For the next two days nothing arrives that you did not invite, and nothing leaves until you do. This is the only drive anybody makes all weekend.</p>
-    </div>
-    <div class="wstep ws-2">
-      <div class="eyebrow"><span>Where you arrive</span><span class="dist">175 ft from the gate</span></div>
-      <h3><a class="place-link" href="/the-estate/magnolia-house/">Magnolia House</a></h3>
-      <p>White columns and glass against the ridge, at the top of the drive. It is the first photograph almost every guest takes, through the windshield on the way up. The conservatory behind it is also the weather plan that costs nothing.</p>
-      <a class="door frame" href="/the-estate/magnolia-house/" aria-label="Magnolia House: see the page">
-        {{img:magnolia-house.webp|Magnolia House, white columns above the lawn|class="par"}}
+
+  <ol class="places">
+    <li class="place place-arrival">
+      <div class="place-text">
+        <div class="eyebrow">01 &middot; The way in</div>
+        <h3>Arrival</h3>
+        <p>You turn off Pope Creek Road and the gate closes behind you. For the next two days nothing arrives that you did not invite, and nothing leaves until you do. This is the only drive anybody makes all weekend.</p>
+      </div>
+    </li>
+    <li class="place">
+      <a class="place-photo frame" href="/the-estate/magnolia-house/" aria-label="Magnolia House: see the page">
+        {{img:magnolia-house.webp|Magnolia House, white columns above the lawn}}
       </a>
-    </div>
-    <div class="wstep ws-3">
-      <div class="eyebrow"><span>Where you marry</span><span class="dist">860 ft from the front door</span></div>
-      <h3><a class="place-link" href="/the-estate/the-valley/">The Valley</a></h3>
-      <p>An open meadow held on three sides by ridgeline, with Lookout Mountain beyond. Sound stays in it and the wind drops in it. Nothing is visible from it that the estate does not own.</p>
-      <a class="door frame" href="/the-estate/the-valley/" aria-label="The Valley: see the page">
-        {{img:the-valley.webp|The processional crossing the meadow|class="par"}}
+      <div class="place-text">
+        <div class="eyebrow">02 &middot; Where you arrive</div>
+        <h3><a class="place-link" href="/the-estate/magnolia-house/">Magnolia House</a></h3>
+        <p class="place-dist">175 ft from the gate</p>
+        <p>White columns and glass against the ridge, at the top of the drive. It is the first photograph almost every guest takes, through the windshield on the way up. The conservatory behind it is also the weather plan that costs nothing.</p>
+        <a class="btn" href="/the-estate/magnolia-house/">See Magnolia House</a>
+      </div>
+    </li>
+    <li class="place">
+      <a class="place-photo frame" href="/the-estate/the-valley/" aria-label="The Valley: see the page">
+        {{img:the-valley.webp|The processional crossing the meadow}}
       </a>
-    </div>
-    <div class="wstep ws-4">
-      <div class="eyebrow"><span>Where the light goes</span><span class="dist">1,030 ft &mdash; the longest walk of the weekend</span></div>
-      <h3><a class="place-link" href="/the-estate/lookout-deck/">The Lookout Deck</a></h3>
-      <p>A railed deck out over the valley, facing the mountain. It turns gold at six, tip to tip, and everyone stops talking. Guests walk here from the ceremony; there is no shuttle because there is nothing to shuttle across.</p>
-      <a class="door frame" href="/the-estate/lookout-deck/" aria-label="The Lookout Deck: see the page">
-        {{img:lookout-deck.webp|A couple dancing on the Lookout Deck, the ridge behind|class="par"}}
+      <div class="place-text">
+        <div class="eyebrow">03 &middot; Where you marry</div>
+        <h3><a class="place-link" href="/the-estate/the-valley/">The Valley</a></h3>
+        <p class="place-dist">860 ft from the front door</p>
+        <p>An open meadow held on three sides by ridgeline, with Lookout Mountain beyond. Sound stays in it and the wind drops in it. Nothing is visible from it that the estate does not own.</p>
+        <a class="btn" href="/the-estate/the-valley/">See The Valley</a>
+      </div>
+    </li>
+    <li class="place">
+      <a class="place-photo frame" href="/the-estate/lookout-deck/" aria-label="The Lookout Deck: see the page">
+        {{img:lookout-deck.webp|A couple dancing on the Lookout Deck, the ridge behind}}
       </a>
-    </div>
-    <div class="wstep ws-5">
-      <div class="eyebrow"><span>Where you dine and dance</span><span class="dist">650 ft from the deck</span></div>
-      <h3><a class="place-link" href="/the-estate/davis-hall/">Davis Hall</a></h3>
-      <p>Drapery, chandeliers, and the room where the dancing happens. It carries the largest receptions on the property, and nobody has to find their car to get to it.</p>
-      <a class="door frame" href="/the-estate/davis-hall/" aria-label="Davis Hall: see the page">
-        {{img:davis-hall.webp|Davis Hall under its drapery, lit for the first dance|class="par"}}
+      <div class="place-text">
+        <div class="eyebrow">04 &middot; Where the light goes</div>
+        <h3><a class="place-link" href="/the-estate/lookout-deck/">The Lookout Deck</a></h3>
+        <p class="place-dist">1,030 ft, the longest walk of the weekend</p>
+        <p>A railed deck out over the valley, facing the mountain. It turns gold at six, tip to tip, and everyone stops talking. Guests walk here from the ceremony; there is no shuttle because there is nothing to shuttle across.</p>
+        <a class="btn" href="/the-estate/lookout-deck/">See The Lookout Deck</a>
+      </div>
+    </li>
+    <li class="place">
+      <a class="place-photo frame" href="/the-estate/davis-hall/" aria-label="Davis Hall: see the page">
+        {{img:davis-hall.webp|Davis Hall under its drapery, lit for the first dance}}
       </a>
-    </div>
-    <div class="wstep ws-6">
-      <div class="eyebrow"><span>Where everyone sleeps</span><span class="dist">325 ft, and then bed</span></div>
-      <h3><a class="place-link" href="/the-estate/overlook-village/">Overlook Village</a></h3>
-      <p>Cottages along the hill, thirty-four beds, and the end of the evening about a minute from the end of the party. This is the leg that every other venue replaces with a line of taxis.</p>
-      <a class="door frame" href="/the-estate/overlook-village/" aria-label="Overlook Village: see the page">
-        {{img:stay-village.webp|The cottages of Overlook Village along the hillside|class="par"}}
+      <div class="place-text">
+        <div class="eyebrow">05 &middot; Where you dine and dance</div>
+        <h3><a class="place-link" href="/the-estate/davis-hall/">Davis Hall</a></h3>
+        <p class="place-dist">650 ft from the deck</p>
+        <p>Drapery, chandeliers, and the room where the dancing happens. It carries the largest receptions on the property, and nobody has to find their car to get to it.</p>
+        <a class="btn" href="/the-estate/davis-hall/">See Davis Hall</a>
+      </div>
+    </li>
+    <li class="place">
+      <a class="place-photo frame" href="/the-estate/overlook-village/" aria-label="Overlook Village: see the page">
+        {{img:stay-village.webp|The cottages of Overlook Village along the hillside}}
       </a>
-    </div>
-    </div>
-  </div>
+      <div class="place-text">
+        <div class="eyebrow">06 &middot; Where everyone sleeps</div>
+        <h3><a class="place-link" href="/the-estate/overlook-village/">Overlook Village</a></h3>
+        <p class="place-dist">325 ft, and then bed</p>
+        <p>Cottages along the hill, thirty-four beds, and the end of the evening about a minute from the end of the party. This is the leg that every other venue replaces with a line of taxis.</p>
+        <a class="btn" href="/the-estate/overlook-village/">See Overlook Village</a>
+      </div>
+    </li>
+  </ol>
 </section>
 
 <section class="band">
