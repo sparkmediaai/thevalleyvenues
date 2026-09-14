@@ -8,9 +8,10 @@
       phone gets the 720px cut; a wide screen gets WebM, or MP4 where WebM is
       not supported.
    2. It fades in only once it is really playing, so there is no black frame.
-   3. It does not start by itself under prefers-reduced-motion; the still stays
-      and the button offers "Play film", so the film is still one press away.
-      With JavaScript off the still simply stays. The page reads either way.
+   3. It plays for everyone, reduced motion included -- the owner's call, since
+      the film is the pitch. The pause button is the answer for anyone who
+      wants it still, and it is always shown. With JavaScript off the still
+      simply stays.
    4. It can be stopped. Anything that moves for more than five seconds needs a
       pause control, and the choice is remembered for the visit.
    5. It rests when nobody can see it: a hidden tab, or scrolled out of view. */
@@ -20,14 +21,12 @@
   if (!video) return;
   var button = stage.querySelector(".hero-pause");
   var label = button && button.querySelector("span");
-  var still = matchMedia("(prefers-reduced-motion: reduce)");
   var small = matchMedia("(max-width: 760px)");
   var visible = true, loaded = false;
-  // Paused to begin with only if motion is reduced, unless this visit has
-  // already chosen one way or the other.
+  // Playing unless this visit has already pressed pause.
   var choice = null;
   try { choice = sessionStorage.getItem("vv_film"); } catch (e) {}
-  var paused = choice ? choice === "paused" : still.matches;
+  var paused = choice === "paused";
 
   function source() {
     if (small.matches) return video.dataset.sm;
@@ -77,10 +76,6 @@
   }
 
   document.addEventListener("visibilitychange", sync);
-  still.addEventListener("change", function () {
-    if (!choice) paused = still.matches;
-    sync();
-  });
 
   if (document.readyState === "complete") sync();
   else addEventListener("load", sync);
