@@ -186,9 +186,36 @@ body.lab{background:var(--ivory);color:var(--deep);font:400 16px/1.6 var(--sans)
 .peek b{display:block;font-family:var(--display);font-weight:400;font-size:1.15rem;line-height:1.15}
 .peek span{display:block;font-size:.78rem;opacity:.75;margin-top:.15rem}
 
+/* Reduced motion stops animation outright. Shortening the duration instead
+   made every looping flag and wing flicker at full speed. The lab offers a
+   button to play anyway, which sets html.motion-ok. */
 @media (prefers-reduced-motion:reduce){
-  *{animation-duration:.001ms !important;transition-duration:.001ms !important}
+  html:not(.motion-ok) *,html:not(.motion-ok) *::before,html:not(.motion-ok) *::after{
+    animation:none !important;transition:none !important}
 }
+.motion-note{flex-basis:100%;margin:.2rem 0 0;padding:.6rem .8rem;background:var(--cream);
+  border:1px solid var(--olive);font-size:.86rem}
+.motion-note button{margin-left:.5rem;font:600 .72rem/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;
+  color:var(--cream);background:var(--deep);border:0;padding:.5rem .75rem;border-radius:999px;cursor:pointer}
+"""
+
+# Whether this viewer gets motion. A computer set to reduce motion sees the
+# finished map and a note offering to play the intros anyway; the choice is
+# remembered, and pressing "Play the intro again" counts as asking.
+MOTION_JS = """
+var MOTION_OK=!matchMedia('(prefers-reduced-motion:reduce)').matches;
+try{if(localStorage.getItem('vvMotion')==='1')MOTION_OK=true;}catch(e){}
+function motionOn(remember){MOTION_OK=true;document.documentElement.classList.add('motion-ok');
+  if(remember){try{localStorage.setItem('vvMotion','1');}catch(e){}}
+  var n=document.querySelector('.motion-note');if(n)n.remove();}
+if(MOTION_OK)document.documentElement.classList.add('motion-ok');
+document.addEventListener('click',function(e){if(!MOTION_OK&&e.target.closest('.again'))motionOn(false);},true);
+function motionNote(){if(MOTION_OK)return;var h=document.querySelector('.lab-head'),d=document.createElement('p');
+  d.className='motion-note';
+  d.innerHTML='This computer has <b>reduce motion</b> turned on, so the intros and moving details are paused.'+
+    '<button type="button">Play them anyway</button>';
+  h.appendChild(d);
+  d.querySelector('button').addEventListener('click',function(){motionOn(true);if(typeof play==='function')play();});}
 """
 
 # The hover-to-photograph behaviour, shared by the variations that use it.
@@ -277,7 +304,7 @@ def main():
         html = SHELL % dict(
             n=v["slug"], name=v["name"], blurb=v["blurb"], jump=mine,
             css=v["css"].strip(), body=body, stage="stage-" + v["slug"],
-            js=photos_json() + PEEK_JS + v["js"].strip())
+            js=MOTION_JS + photos_json() + PEEK_JS + v["js"].strip() + "\nmotionNote();")
         d = os.path.join(OUT, v["slug"])
         os.makedirs(d, exist_ok=True)
         with open(os.path.join(d, "index.html"), "w", encoding="utf-8") as f:

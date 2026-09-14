@@ -60,7 +60,7 @@ PARK_JS = """
 peekInit();
 var st=document.querySelector('.lab-stage');
 function play(){st.classList.remove('go');void st.offsetWidth;st.classList.add('go');}
-if(!matchMedia('(prefers-reduced-motion:reduce)').matches) play();
+if(MOTION_OK) play();
 document.querySelector('.again').addEventListener('click',play);
 """
 
