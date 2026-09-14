@@ -132,13 +132,20 @@ function play(){
 }
 if(again)again.addEventListener('click',play);
 
+// On a phone the drawing is wider than the screen; start it on the middle of
+// the estate rather than its left edge.
+var sc=st.querySelector('.park-scroll');
+if(sc&&sc.scrollWidth>sc.clientWidth)sc.scrollLeft=(sc.scrollWidth-sc.clientWidth)*.42;
+
 if('IntersectionObserver' in window){
   var r=st.getBoundingClientRect();
-  // Only hide it in advance if it is not already on screen.
-  if(r.top>innerHeight*.9)cover();
+  // Hidden in advance unless it is already on screen; in the hero it always
+  // is, and the stylesheet has kept it hidden until now.
+  if(r.top>innerHeight*.9||st.classList.contains('park-hero'))cover();
+  st.classList.add('ready');
   var io=new IntersectionObserver(function(es){
     if(es[0].intersectionRatio>=.35){io.disconnect();play();}
   },{threshold:[0,.35,.6]});
   io.observe(st);
-}else if(again){again.hidden=false;}
+}else{st.classList.add('ready');if(again)again.hidden=false;}
 })();

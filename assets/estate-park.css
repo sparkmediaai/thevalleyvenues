@@ -90,3 +90,18 @@
   .park-scroll .park-map{min-width:860px}
   .park-again{bottom:auto;top:clamp(.9rem,2vw,1.6rem)}
 }
+
+/* ---- as the page's hero ---- */
+.hero-clock{background:var(--ivory)}
+.park-hero{max-width:96rem;margin:clamp(.7rem,1.6vw,1.3rem) auto 0;
+  width:calc(100% - var(--pad) * 2)}
+/* The map is on screen before the script arrives, so it waits hidden rather
+   than showing and then vanishing under the wand's mask. If the script never
+   runs, the drawing appears on its own after a moment. */
+.js .park-hero .park-map{opacity:0;animation:park-show .01s 3.5s forwards}
+.js .park-hero.ready .park-map{opacity:1;animation:none}
+@keyframes park-show{to{opacity:1}}
+.park-hero ~ .hero-body{box-shadow:none;background:none;border-radius:0}
+@media (max-width:900px){
+  .park-hero{width:calc(100% - 1.2rem)}
+}

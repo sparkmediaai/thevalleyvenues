@@ -887,14 +887,19 @@ PAGES["stay/index.html"] = dict(
 PAGES["the-estate/index.html"] = dict(
     nav="The Estate", title="The Estate | %s" % SITE,
     desc="Seventy-four acres beneath Lookout Mountain, as one property.",
-    hero_img="estate.webp", hero_alt="The meadow opening beneath the ridge, the deck at its edge",
+    # The hero is the map itself. The page's argument is that the estate is one
+    # place, and the drawing makes it before a word is read.
+    hero_html='  <figure class="park-stage park-hero">\n'
+              '    <div class="park-scroll">%s</div>\n'
+              '    <button type="button" class="park-again" hidden>Play it again</button>\n'
+              '  </figure>\n' % open(os.path.join(ROOT, "assets", "park-map.svg"), encoding="utf-8").read().strip(),
     head='<link rel="stylesheet" href="/assets/plan.css">\n'
          '<link rel="stylesheet" href="/assets/estate-park.css">\n',
     foot_js='<script src="/assets/estate-park.js" defer></script>',
-    eyebrow="One estate",
+    eyebrow="One estate &middot; Seventy-four acres",
     h1="One property, one map, one path.",
-    standfirst="One estate with six places in it, and a celebration here includes "
-               "every one of them.",
+    standfirst="Six places on one estate, and a celebration here includes every one of "
+               "them. Hover a place on the map to see it, or touch it to go there.",
     body="""
 <section>
   <div class="statement">
@@ -914,14 +919,10 @@ PAGES["the-estate/index.html"] = dict(
   <div class="lede">
     <div class="eyebrow">The walk</div>
     <h2>Six places, and the ground between them.</h2>
-    <p>One estate, drawn the way it is travelled: the drive in off Pope Creek Road, the
-       loop around Magnolia House, and every place a weekend moves through. Hover a place
-       to see it, or touch it to go there.</p>
+    <p>In the order a weekend moves through them: in off Pope Creek Road, up to the
+       house, down to the meadow, out to the deck, into the hall, and up the hill to bed.
+       Every one of them is on the map above.</p>
   </div>
-  <figure class="park-stage">
-    <div class="park-scroll">{{inline:park-map.svg}}</div>
-    <button type="button" class="park-again" hidden>Play it again</button>
-  </figure>
 
   <ol class="places">
     <li class="place place-arrival">
