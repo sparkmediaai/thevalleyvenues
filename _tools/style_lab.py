@@ -26,6 +26,8 @@ OPTIONS = [
     ("a", "A · Sage &amp; Linen", "Ivory ground, sage buttons and bands, soft rounded photographs, a sage footer."),
     ("b", "B · Morning Light", "White and airy, arched photographs like a spa's windows, blue hairlines, italic accents."),
     ("c", "C · Warm Retreat", "Warm cream ground, photographs set on sage and olive panels, generous curves and soft shadows."),
+    ("d", "D · Sage &amp; Linen, arched", "A, with B's arched photographs."),
+    ("e", "E · Sage &amp; Linen, framed", "A, with C's photographs set on panels and white cards."),
 ]
 
 BAR = """

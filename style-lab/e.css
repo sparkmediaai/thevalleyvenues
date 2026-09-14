@@ -1,0 +1,32 @@
+/* Option E · Sage & Linen with framed photographs
+   Everything from A, with C's way of setting photographs: the cluster on a
+   panel, the weekend and the doors as white cards with soft shadows, the claim
+   and closing frames inset within their bands. Panels are ivory-on-sage rather
+   than C's olive, to stay in A's palette. */
+@import url("/style-lab/a.css");
+
+:root{--lift:0 30px 70px rgba(52,55,47,.14)}
+
+.cluster{position:relative;isolation:isolate}
+.cluster::before{content:"";position:absolute;inset:-6% -6% -6% 8%;z-index:-1;
+  background:var(--sage);border-radius:48px}
+.cluster img,.cluster figure{border-radius:22px;overflow:hidden;box-shadow:var(--lift)}
+
+.wk{background:var(--paper);border-radius:28px;padding:.8rem .8rem 1.3rem;box-shadow:0 14px 34px rgba(52,55,47,.07)}
+.wk img{border-radius:20px}
+.wk-when{border-top:0;padding-top:.4rem}
+.wk > *:not(img):not(figure){padding-left:.4rem;padding-right:.4rem}
+
+.card-door{background:var(--paper);border-radius:28px;padding:.8rem .8rem 1.4rem;box-shadow:0 14px 34px rgba(52,55,47,.07)}
+.card-door .frame,.card-door img{border-radius:20px;overflow:hidden}
+.card-door > *:not(.frame){margin-left:.5rem;margin-right:.5rem}
+
+.claim{padding:clamp(1rem,2.5vw,1.8rem)}
+.claim-img{border-radius:22px}
+.claim-body{background:var(--ivory);border-radius:22px;margin-top:clamp(1rem,2.5vw,1.8rem);box-shadow:var(--lift)}
+.claim .nots{border-top-color:var(--sage)}
+.claim .nots li::before{background:var(--clay)}
+.claim .nots li::after{background:var(--sage)}
+
+.closing{padding:clamp(1rem,2.5vw,1.8rem) clamp(1rem,2.5vw,1.8rem) 0}
+.closing-img{border-radius:22px}

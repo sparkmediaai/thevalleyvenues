@@ -1,0 +1,13 @@
+/* Option D · Sage & Linen with arches
+   Everything from A, with B's arched photographs: the cluster, the weekend,
+   the two doors, and the claim and closing frames. */
+@import url("/style-lab/a.css");
+
+.cluster figure,.cluster img{border-radius:14rem 14rem 20px 20px;overflow:hidden}
+.wk img{border-radius:10rem 10rem 16px 16px}
+.card .frame,.card img{border-radius:18rem 18rem 20px 20px;overflow:hidden}
+
+.claim{padding:clamp(1rem,3vw,2rem) clamp(1rem,3vw,2rem) 0}
+.claim-img{border-radius:40rem 40rem 20px 20px}
+.closing{padding:clamp(1rem,3vw,2rem) clamp(1rem,3vw,2rem) 0}
+.closing-img{border-radius:40rem 40rem 20px 20px}
