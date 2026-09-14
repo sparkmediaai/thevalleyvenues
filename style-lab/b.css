@@ -1,0 +1,59 @@
+/* Option B · Morning Light
+   White and bright, the lightest of the three. Photographs sit in arches, the
+   shape of a spa's windows and of Magnolia House's own porch. Blue is used as
+   a thread: hairlines, the eyebrow rule, the button outline. Ivory bands give
+   the page its rhythm, and headline accents turn italic. */
+:root{--line:var(--sage);--line-soft:var(--ivory);--arch:14rem 14rem 16px 16px}
+body{background:var(--paper)}
+section{border-bottom:0}
+h1,h2{font-weight:400}
+
+.site-head{background:var(--paper);border-bottom:1px solid var(--ivory)}
+.site-nav a[aria-current="page"],.site-nav a:hover{border-bottom-color:var(--blue)}
+
+/* buttons: outlined in blue, filled with cream */
+.btn{border-radius:999px;padding:.9rem 1.7rem;letter-spacing:.13em;
+  border:1.5px solid var(--blue);background:transparent;color:var(--deep)}
+.btn:hover,.btn:focus-visible{background:var(--ivory);color:var(--deep);border-color:var(--blue)}
+.btn-solid{background:var(--cream);border-color:var(--blue);color:var(--deep)}
+.btn-solid:hover,.btn-solid:focus-visible{background:var(--paper);color:var(--deep)}
+.card-door:hover .btn,.card-door:focus-within .btn{background:var(--cream);color:var(--deep);border-color:var(--blue)}
+
+/* eyebrow: a blue thread before it */
+.eyebrow{display:inline-flex;align-items:center;gap:.7rem}
+.eyebrow::before{content:"";width:1.8rem;height:1px;background:var(--blue);flex:none}
+.hero-body .eyebrow{display:block}
+.hero-body .eyebrow::before{display:none}
+
+/* hero panel: white with a blue hairline set inside it */
+@media (min-width:1100px){
+  .hero-body{background:var(--paper);border-radius:10px;
+    box-shadow:inset 0 0 0 8px var(--paper),inset 0 0 0 9px var(--blue),0 24px 60px rgba(52,55,47,.12)}
+}
+.hero-body h1{font-style:italic}
+.hero-pause{border-color:var(--blue);background:var(--paper)}
+
+/* arches */
+.cluster figure,.cluster img{border-radius:var(--arch);overflow:hidden}
+.wk img{border-radius:10rem 10rem 12px 12px}
+.card .frame,.card img{border-radius:18rem 18rem 16px 16px;overflow:hidden}
+
+/* the claim on an ivory band, its photograph inside an arch */
+.claim{background:var(--ivory);margin-left:0;margin-right:0;border-radius:0;padding:clamp(1rem,3vw,2rem) clamp(1rem,3vw,2rem) 0}
+.claim-img{border-radius:40rem 40rem 16px 16px}
+.claim-fade{display:none}
+.claim-body h2{font-style:italic}
+.claim .nots{border-top-color:var(--blue)}
+.claim .nots li::before{background:var(--blue)}
+.claim .nots li::after{background:var(--sage)}
+
+.wk-when{border-top-color:var(--blue)}
+.statement,.names{border-color:var(--ivory)}
+
+/* closing */
+.closing{background:var(--ivory);border-top:0;margin-left:0;margin-right:0;padding:clamp(1rem,3vw,2rem) clamp(1rem,3vw,2rem) 0}
+.closing-img{border-radius:40rem 40rem 16px 16px}
+.closing-body h2{font-style:italic}
+
+.site-foot{background:var(--ivory);border-top:1px solid var(--blue)}
+.colophon{border-top-color:var(--sage)}

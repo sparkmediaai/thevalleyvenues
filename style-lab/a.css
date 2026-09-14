@@ -1,0 +1,58 @@
+/* Option A · Sage & Linen
+   Ivory linen ground, sage as the working colour: buttons, the claim band, the
+   closing band and the footer. Everything rounded, rules softened to sage,
+   headings set lighter. The calmest of the three. */
+:root{--line:var(--sage);--line-soft:var(--sage);--r:20px}
+body{background:var(--ivory)}
+h1,h2{font-weight:300}
+section{border-bottom:0}
+
+/* masthead */
+.site-head{background:var(--ivory);border-bottom:1px solid var(--sage)}
+.site-nav a[aria-current="page"],.site-nav a:hover{border-bottom-color:var(--sage)}
+
+/* buttons: sage pills */
+.btn{border-radius:999px;padding:.9rem 1.7rem;letter-spacing:.12em;
+  border:1px solid var(--sage);background:var(--paper);color:var(--deep)}
+.btn:hover,.btn:focus-visible{background:var(--sage);border-color:var(--sage);color:var(--deep)}
+.btn-solid{background:var(--sage);border-color:var(--sage);color:var(--deep)}
+.btn-solid:hover,.btn-solid:focus-visible{background:var(--paper);color:var(--deep);border-color:var(--sage)}
+.card-door:hover .btn,.card-door:focus-within .btn{background:var(--sage);border-color:var(--sage);color:var(--deep)}
+
+/* eyebrows get a sage bead */
+.eyebrow{display:inline-flex;align-items:center;gap:.6rem}
+.eyebrow::before{content:"";width:.45rem;height:.45rem;border-radius:50%;background:var(--sage);flex:none}
+.hero-body .eyebrow{display:block}
+.hero-body .eyebrow::before{display:none}
+
+/* hero */
+@media (min-width:1100px){.hero-body{border-radius:var(--r);box-shadow:0 24px 60px rgba(52,55,47,.12)}}
+.hero-pause{border-color:var(--sage)}
+
+/* photographs */
+.cluster img,.cluster figure,.wk img,.card img,.frame,.split img{border-radius:var(--r)}
+.frame{overflow:hidden}
+
+/* the claim becomes a sage band inset from the edges */
+.claim{background:var(--sage);border-radius:28px;margin-left:0;margin-right:0}
+.claim-img{border-radius:28px 28px 0 0}
+.claim-fade{display:none}
+.claim .nots{border-top-color:var(--paper)}
+.claim .nots li::after{background:var(--paper)}
+.claim .nots li::before{background:var(--paper)}
+
+/* the weekend */
+.wk-when{border-top-color:var(--sage)}
+
+/* the names */
+.names{border-color:var(--sage)!important}
+
+/* the closing, as a sage card */
+.closing{background:var(--sage);border-top:0;border-radius:28px;margin-left:0;margin-right:0}
+.closing-img{border-radius:28px 28px 0 0}
+.closing .btn{background:var(--paper);border-color:var(--paper)}
+.closing .btn:hover{background:var(--ivory)}
+
+/* footer */
+.site-foot{background:var(--sage);border-top:0}
+.colophon{border-top-color:var(--paper)}

@@ -35,7 +35,14 @@ SHOTS = [
 # to sit with its neighbours, not graded: the brief is that nothing is darkened.
 LIFT = {4: "eq=gamma=1.12"}
 FADE = 0.5
-CROP = "crop=1920:932:0:72"   # the reel's letterbox
+# The reel's letterbox. cropdetect reports the picture from y=72 to 1003, but a
+# few shots start their image as low as y=76 with a soft dark edge above it, so
+# a few pixels more come off each side: a black line along the top of the film
+# is exactly what a 72px crop left.
+CROP = "crop=1920:916:0:80"
+# The Magnolia House steps shot carries its own graded bar along the bottom as
+# the camera rises, so it is cut in a little tighter and scaled back up.
+TIGHT = {6: "crop=1760:840:80:80,scale=1920:916"}
 
 
 def ffmpeg():
@@ -54,7 +61,7 @@ def build_master(src, path):
         args += ["-ss", "%.3f" % a, "-t", "%.3f" % (b - a), "-i", src]
     f = []
     for i in range(len(shots)):
-        chain = [CROP, "fps=30", "format=yuv420p", "setsar=1"]
+        chain = [TIGHT.get(i, CROP), "fps=30", "format=yuv420p", "setsar=1"]
         if i in LIFT:
             chain.insert(1, LIFT[i])
         f.append("[%d:v]%s,settb=AVTB[v%d]" % (i, ",".join(chain), i))

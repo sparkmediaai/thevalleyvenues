@@ -1,0 +1,65 @@
+/* Option C · Warm Retreat
+   The warmest of the three. A cream ground, photographs set on soft sage and
+   olive panels as if framed on linen, generous curves, deep soft shadows, and
+   clay as the thread through the page. The claim becomes a cream card floating
+   on an olive band. */
+:root{--line:var(--clay);--line-soft:var(--sage);--r:28px;
+  --lift:0 30px 70px rgba(52,55,47,.14)}
+body{background:var(--cream)}
+section{border-bottom:0}
+h1,h2{font-weight:300;letter-spacing:-.005em}
+
+.site-head{background:var(--cream);border-bottom:1px solid var(--clay)}
+.site-nav a[aria-current="page"],.site-nav a:hover{border-bottom-color:var(--clay)}
+
+/* buttons: soft rounded rectangles, sage and white */
+.btn{border-radius:16px;padding:.95rem 1.6rem;letter-spacing:.12em;
+  border:1px solid var(--clay);background:var(--paper);color:var(--deep)}
+.btn:hover,.btn:focus-visible{background:var(--sage);border-color:var(--sage);color:var(--deep)}
+.btn-solid{background:var(--sage);border-color:var(--sage);color:var(--deep)}
+.btn-solid:hover,.btn-solid:focus-visible{background:var(--paper);border-color:var(--clay);color:var(--deep)}
+.card-door:hover .btn,.card-door:focus-within .btn{background:var(--sage);border-color:var(--sage);color:var(--deep)}
+
+.eyebrow{display:inline-flex;align-items:center;gap:.6rem}
+.eyebrow::before{content:"";width:.9rem;height:.9rem;border-radius:50% 0 50% 0;background:var(--clay);flex:none}
+.hero-body .eyebrow{display:block}
+.hero-body .eyebrow::before{display:none}
+
+@media (min-width:1100px){.hero-body{border-radius:var(--r);box-shadow:var(--lift)}}
+.hero-pause{border-color:var(--clay);background:var(--cream)}
+
+/* the cluster sits on a sage panel */
+.stakes{position:relative}
+.cluster{position:relative;isolation:isolate}
+.cluster::before{content:"";position:absolute;inset:-6% -6% -6% 8%;z-index:-1;
+  background:var(--sage);border-radius:48px}
+.cluster img,.cluster figure{border-radius:22px;overflow:hidden;box-shadow:var(--lift)}
+
+/* the weekend on white cards */
+.wk{background:var(--paper);border-radius:var(--r);padding:.8rem .8rem 1.3rem;box-shadow:0 14px 34px rgba(52,55,47,.07)}
+.wk img{border-radius:20px}
+.wk-when{border-top:0;padding-top:.4rem}
+.wk > *:not(img):not(figure){padding-left:.4rem;padding-right:.4rem}
+
+/* the claim: a cream card on an olive band */
+.claim{background:var(--olive);margin-left:0;margin-right:0;border-radius:36px;
+  padding:clamp(1rem,2.5vw,1.8rem)}
+.claim-img{border-radius:26px}
+.claim-fade{display:none}
+.claim-body{background:var(--cream);border-radius:26px;margin-top:clamp(1rem,2.5vw,1.8rem);
+  box-shadow:var(--lift)}
+.claim .nots{border-top-color:var(--clay)}
+.claim .nots li::after{background:var(--sage)}
+
+/* doors on white cards */
+.card-door{background:var(--paper);border-radius:var(--r);padding:.8rem .8rem 1.4rem;box-shadow:0 14px 34px rgba(52,55,47,.07)}
+.card-door .frame,.card-door img{border-radius:20px;overflow:hidden}
+.card-door > *:not(.frame){margin-left:.5rem;margin-right:.5rem}
+
+/* closing: a sage panel */
+.closing{background:var(--sage);border-top:0;border-radius:36px;margin-left:0;margin-right:0;
+  padding:clamp(1rem,2.5vw,1.8rem) clamp(1rem,2.5vw,1.8rem) 0}
+.closing-img{border-radius:26px}
+
+.site-foot{background:var(--sage);border-top:0}
+.colophon{border-top-color:var(--cream)}
