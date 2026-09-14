@@ -1115,8 +1115,8 @@ PAGES["inquire/index.html"] = dict(
         <input id="first_name" name="first_name" type="text" autocomplete="given-name" required>
       </div>
       <div class="field">
-        <label for="last_name">Last name</label>
-        <input id="last_name" name="last_name" type="text" autocomplete="family-name">
+        <label for="last_name">Last name <b aria-hidden="true">*</b></label>
+        <input id="last_name" name="last_name" type="text" autocomplete="family-name" required>
       </div>
     </div>
 
@@ -1521,11 +1521,15 @@ PAGES["pricing/index.html"] = dict(
         <input id="pr_first_name" name="first_name" type="text" autocomplete="given-name" required>
       </div>
       <div class="field">
-        <label for="pr_email">Email <b aria-hidden="true">*</b></label>
-        <input id="pr_email" name="email" type="email" autocomplete="email" required>
+        <label for="pr_last_name">Last name <b aria-hidden="true">*</b></label>
+        <input id="pr_last_name" name="last_name" type="text" autocomplete="family-name" required>
       </div>
     </div>
     <div class="field-row">
+      <div class="field">
+        <label for="pr_email">Email <b aria-hidden="true">*</b></label>
+        <input id="pr_email" name="email" type="email" autocomplete="email" required>
+      </div>
       <div class="field">
         <label for="pr_phone">Mobile <b aria-hidden="true">*</b></label>
         <input id="pr_phone" name="phone" type="tel" autocomplete="tel" required>
