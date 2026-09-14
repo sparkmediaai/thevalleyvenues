@@ -292,12 +292,30 @@ PAGES = {}
 
 PAGES["index.html"] = dict(
     nav=None, title="%s | %s" % (SITE, TAGLINE), desc=TAGLINE,
-    head=         '<link rel="stylesheet" href="/assets/home.css">\n'
-         '<link rel="preload" as="image" href="/assets/img/hero-1.webp"\n'
-         '      imagesrcset="/assets/img/hero-1-sm.webp 1100w, /assets/img/hero-1.webp 2200w"\n'
+    head='<link rel="stylesheet" href="/assets/home.css">\n'
+         '<link rel="preload" as="image" href="/assets/video/hero-poster.webp"\n'
+         '      imagesrcset="/assets/video/hero-poster-sm.webp 720w, /assets/video/hero-poster.webp 1600w"\n'
          '      imagesizes="100vw">\n',
     foot_js='<script src="/assets/home.js" defer></script>',
-    hero_html='  <div class="hero-stage">\n    <figure class="slide is-on" data-moment="The arrival"><img src="/assets/img/hero-1.webp" srcset="/assets/img/hero-1-sm.webp 1100w, /assets/img/hero-1.webp 2200w" sizes="100vw" alt="Magnolia House, white columns above the lawn" width="2200" height="1100" fetchpriority="high" decoding="async"></figure>\n    <figure class="slide" data-moment="The morning"><img data-src="/assets/img/hero-2.webp" data-srcset="/assets/img/hero-2-sm.webp 1100w, /assets/img/hero-2.webp 2200w" sizes="100vw" alt="A groom having his bow tie straightened, both of them laughing" width="2200" height="1100" decoding="async"></figure>\n    <figure class="slide" data-moment="The meadow, set"><img data-src="/assets/img/hero-3.webp" data-srcset="/assets/img/hero-3-sm.webp 1100w, /assets/img/hero-3.webp 2200w" sizes="100vw" alt="The ceremony aisle set out, the ridge behind it" width="2200" height="1100" decoding="async"></figure>\n    <figure class="slide" data-moment="Golden hour"><img data-src="/assets/img/hero-4.webp" data-srcset="/assets/img/hero-4-sm.webp 1100w, /assets/img/hero-4.webp 2200w" sizes="100vw" alt="A couple in the meadow as the light goes" width="2200" height="1100" decoding="async"></figure>\n    <figure class="slide" data-moment="After dark"><img data-src="/assets/img/hero-5.webp" data-srcset="/assets/img/hero-5-sm.webp 1100w, /assets/img/hero-5.webp 2200w" sizes="100vw" alt="The conservatory at Magnolia House, lit for dinner" width="2200" height="1100" decoding="async"></figure>\n    <div class="hero-marks">\n      <button type="button" class="hero-step" data-step="-1" aria-label="Previous moment"><svg viewBox="0 0 12 20" aria-hidden="true" focusable="false"><path d="M9 1 2 10 9 19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>\n      <p class="hero-hour"><span>The arrival</span></p>\n      <div class="hero-dots" role="group" aria-label="Choose a moment">\n        <button type="button" aria-current="true"><span class="skip">The arrival</span><i></i></button>\n        <button type="button" aria-current="false"><span class="skip">The morning</span><i></i></button>\n        <button type="button" aria-current="false"><span class="skip">The meadow, set</span><i></i></button>\n        <button type="button" aria-current="false"><span class="skip">Golden hour</span><i></i></button>\n        <button type="button" aria-current="false"><span class="skip">After dark</span><i></i></button>\n      </div>\n      <button type="button" class="hero-step" data-step="1" aria-label="Next moment"><svg viewBox="0 0 12 20" aria-hidden="true" focusable="false"><path d="M3 1 10 10 3 19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>\n    </div>\n  </div>\n',
+    hero_html=(
+        '  <div class="hero-stage">\n'
+        # The poster is a real image with its own srcset, so a phone fetches the
+        # small one and the page has something to paint before the video arrives.
+        '    <img class="hero-poster" src="/assets/video/hero-poster.webp" '
+        'srcset="/assets/video/hero-poster-sm.webp 720w, /assets/video/hero-poster.webp 1600w" sizes="100vw" '
+        'alt="The meadow set for a ceremony, white chairs and the arch, seen from the air" '
+        'width="1600" height="776" fetchpriority="high" decoding="async">\n'
+        # No autoplay attribute: home.js starts it, so reduced motion and no-JS
+        # both keep the still. Sources are chosen by width in the script too.
+        '    <video class="hero-video" muted loop playsinline preload="none" aria-hidden="true" '
+        'data-sm="/assets/video/hero-sm.mp4" data-webm="/assets/video/hero.webm" '
+        'data-mp4="/assets/video/hero.mp4"></video>\n'
+        '    <button type="button" class="hero-pause" aria-pressed="false" hidden>'
+        '<svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">'
+        '<path class="i-pause" d="M5 3v10M11 3v10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>'
+        '<path class="i-play" d="M5 3l8 5-8 5z" fill="currentColor"/></svg>'
+        '<span>Pause film</span></button>\n'
+        '  </div>\n'),
     eyebrow="Wildwood, Georgia &middot; Fifteen minutes from downtown Chattanooga",
     h1="One Private Mountain Estate. All for You.",
     standfirst="Seventy-four private acres beneath Lookout Mountain, fifteen minutes from "
