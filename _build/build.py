@@ -1033,7 +1033,9 @@ PAGES["the-estate/index.html"] = dict(
 PAGES["about/index.html"] = dict(
     nav="About", title="About | %s" % SITE,
     desc="The family behind the estate, and the design thinking behind the experience.",
-    hero_img="about.webp", hero_alt="Magnolia House, columns and glass against the ridge",
+    # No hero photograph: this page is about a person, and her portrait is the
+    # first picture on it.
+    head='<link rel="stylesheet" href="/assets/about.css">\n',
     eyebrow="About",
     h1="The Question Behind Every Room",
     standfirst="A family estate, and a design philosophy that starts somewhere unusual for a "
@@ -1041,7 +1043,11 @@ PAGES["about/index.html"] = dict(
                "standing in it.",
     body="""
 <section>
- <div class="stakes flip">
+ <div class="kobi">
+  <figure class="kobi-photo">
+    {{img:kobi.webp|Kobi Cummings, smiling, lighting candles on a reception table}}
+    <figcaption>Kobi Cummings</figcaption>
+  </figure>
   <div class="lede">
     <div class="eyebrow">Kobi Cummings</div>
     <h2>Co-founder, certified wedding planner, experiential designer.</h2>
@@ -1054,28 +1060,28 @@ PAGES["about/index.html"] = dict(
        around. Whoever sits closest to the dance floor is in every photograph of your first
        dance. That should be someone you love.</p>
   </div>
-  <div class="cluster wide">
-    <figure class="cl-1">{{img:ab-toast.webp|The bride and her party raising a glass together indoors}}</figure>
-    <figure class="cl-2">{{img:inc-decor.webp|A table laid with linen, chargers and greenery}}</figure>
-    <figure class="cl-3">{{img:g-3.webp|The first dance under the drapery and lights}}</figure>
-  </div>
  </div>
   <div class="note">
     <p><b>Approval required.</b> This wording follows Draft 2 of the brand framework and needs
        approving word for word before it appears publicly. Claims stay first person and
        factual, with no sole credit anywhere.</p>
-    <p><b>Missing.</b> There is no photograph of Kobi in the 2,472-image library. An About
-       page whose subject is a person needs one, and it is the single most useful frame the
-       next shoot could produce.</p>
   </div>
 </section>
 
 <section class="band">
-  {{img:band-family.webp|A couple walking together in the meadow|class="band-img"}}
+  <img class="band-img" src="/assets/gallery/copy-of-the-valley-venues-kristen-thomison-photo-225.webp"
+       alt="A couple forehead to forehead on the Lookout Deck, guests seated behind them, the ridge beyond"
+       width="1600" height="1067" loading="lazy" decoding="async">
   <p>What should the guest feel, standing in this moment?</p>
 </section>
 
 <section>
+ <div class="room">
+  <figure class="room-photo">
+    <img src="/assets/gallery/aybee-000084160025.webp"
+         alt="A bride fastening an earring in a gilded mirror in the getting ready suite"
+         width="1024" height="1545" loading="lazy" decoding="async">
+  </figure>
   <div class="statement">
     <div class="eyebrow">The working method</div>
     <h2 class="rise-words"><span>A</span> <span>room</span> <span>is</span> <span>not</span> <span>a</span> <span>look.</span> <span>It</span> <span>is</span> <span>a</span> <span>feeling</span> <span>somebody</span> <span>has</span> <span>standing</span> <span>in</span> <span>it.</span></h2>
@@ -1088,6 +1094,7 @@ PAGES["about/index.html"] = dict(
        not a shuttle, and why the last thing on the property is a cottage in the
        woods rather than a parking lot.</p>
   </div>
+ </div>
 </section>
 
 <section>
