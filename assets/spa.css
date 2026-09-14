@@ -1,0 +1,116 @@
+@charset "UTF-8";
+/* ============================================================================
+   Sage & Linen, framed.
+
+   The chosen direction, from the style lab (option E): an ivory linen ground,
+   sage as the working colour, and photographs set like prints -- rounded, on
+   white cards or sage panels, with soft shadows. Loaded last on every page, so
+   it sits over site.css and each page's own sheet.
+
+   Palette unchanged: the client's seven colours and white. Sage is the only
+   fill behind text (6.2:1 against the ink); olive, clay and blue miss 4.5:1,
+   so they stay as lines and ornament.
+   ========================================================================== */
+:root{
+  --line:var(--sage);--line-soft:var(--sage);
+  --round:20px;--round-lg:28px;
+  --lift:0 30px 70px rgba(52,55,47,.14);
+  --lift-soft:0 14px 34px rgba(52,55,47,.07);
+}
+body{background:var(--ivory)}
+h1,h2{font-weight:300}
+section{border-bottom:0}
+
+/* ---------------------------------------------------------------- masthead */
+.site-head{background:var(--ivory);border-bottom:1px solid var(--sage)}
+.site-nav a[aria-current="page"],.site-nav a:hover,.site-nav a:focus-visible{border-bottom-color:var(--sage)}
+@media (max-width:860px){.site-nav{border-top-color:var(--sage)}}
+
+/* ----------------------------------------------------------------- buttons */
+.btn{border-radius:999px;padding:.9rem 1.7rem;letter-spacing:.12em;
+  border:1px solid var(--sage);background:var(--paper);color:var(--deep)}
+.btn:hover,.btn:focus-visible{background:var(--sage);border-color:var(--sage);color:var(--deep)}
+.btn-solid{background:var(--sage);border-color:var(--sage);color:var(--deep)}
+.btn-solid:hover,.btn-solid:focus-visible{background:var(--paper);border-color:var(--sage);color:var(--deep)}
+.card-door:hover .btn,.card-door:focus-within .btn{background:var(--sage);border-color:var(--sage);color:var(--deep)}
+.card-door:focus-within{outline-color:var(--sage)}
+.site-head .btn{padding:.75rem 1.4rem}
+
+/* eyebrows carry a sage bead */
+.eyebrow{display:inline-flex;align-items:center;gap:.6rem}
+.eyebrow::before{content:"";width:.45rem;height:.45rem;border-radius:50%;background:var(--sage);flex:none}
+.hero-body .eyebrow,.opening .eyebrow,.wstep .eyebrow{display:block}
+.hero-body .eyebrow::before,.opening .eyebrow::before,.wstep .eyebrow::before{display:none}
+
+/* -------------------------------------------------------------------- hero */
+@media (min-width:1100px){.hero-clock .hero-body{border-radius:var(--round);box-shadow:0 24px 60px rgba(52,55,47,.12)}}
+.hero-pause{border-color:var(--sage)}
+.hero-photo{border-bottom:0}
+
+/* ------------------------------------------------------------ photographs */
+.split img,.card img,.frame,.wstep .frame,.gallery figure,.walk-map,.gx-item{border-radius:var(--round)}
+.frame,.gallery figure,.walk-map{overflow:hidden}
+.split img{box-shadow:var(--lift-soft)}
+
+/* the home cluster, on a sage panel */
+.cluster{position:relative;isolation:isolate}
+.cluster::before{content:"";position:absolute;inset:-6% -6% -6% 8%;z-index:-1;
+  background:var(--sage);border-radius:48px}
+.cluster img,.cluster figure{border-radius:22px;overflow:hidden;box-shadow:var(--lift)}
+/* on a phone the panel stays inside the page instead of hanging past its edge */
+@media (max-width:760px){.cluster::before{inset:-4% 0 -4% 8%}}
+
+/* the weekend, and the doors, as white cards */
+.wk,.card-door{background:var(--paper);border-radius:var(--round-lg);box-shadow:var(--lift-soft)}
+.wk{padding:.8rem .8rem 1.3rem}
+.wk img{border-radius:var(--round)}
+.wk-when{border-top:0;padding-top:.4rem}
+.wk > *:not(img):not(figure){padding-left:.4rem;padding-right:.4rem}
+.card-door{padding:.8rem .8rem 1.4rem}
+.card-door .frame,.card-door img{border-radius:var(--round);overflow:hidden}
+.card-door > *:not(.frame){margin-left:.5rem;margin-right:.5rem}
+
+/* --------------------------------------------- the claim: ivory card on sage */
+.claim{background:var(--sage);border-radius:var(--round-lg);margin-left:0;margin-right:0;
+  padding:clamp(1rem,2.5vw,1.8rem)}
+.claim-img{border-radius:22px}
+.claim-fade{display:none}
+.claim-body{background:var(--ivory);border-radius:22px;margin-top:clamp(1rem,2.5vw,1.8rem);box-shadow:var(--lift)}
+.claim .nots{border-top-color:var(--sage)}
+.claim .nots li::before{background:var(--clay)}
+.claim .nots li::after{background:var(--sage)}
+
+/* the statement panels on inner pages: the same card, on its own */
+.statement{background:var(--paper);border:0;border-radius:var(--round-lg);box-shadow:var(--lift-soft)}
+.nots{border-top-color:var(--sage)}
+
+/* the band: a framed photograph and its line, on sage */
+.band{background:var(--sage);border-radius:var(--round-lg);margin-left:0;margin-right:0;
+  padding:clamp(1rem,2.5vw,1.8rem) clamp(1rem,2.5vw,1.8rem) 0}
+.band-img{border-radius:22px}
+
+/* the closing, on sage */
+.closing{background:var(--sage);border-top:0;border-radius:var(--round-lg);margin-left:0;margin-right:0;
+  padding:clamp(1rem,2.5vw,1.8rem) clamp(1rem,2.5vw,1.8rem) 0}
+.closing-img{border-radius:22px}
+.closing .btn{background:var(--paper);border-color:var(--paper)}
+.closing .btn:hover,.closing .btn:focus-visible{background:var(--ivory);border-color:var(--ivory)}
+
+/* ---------------------------------------------------------- lists & rules */
+.names{border-color:var(--sage)}
+.facts li,.named li,.step{border-bottom-color:var(--sage)}
+.steps{border-top-color:var(--sage)}
+.onward{border-color:var(--sage)}
+
+/* ------------------------------------------------------------------ forms */
+.field input,.field select,.field textarea{border:1px solid var(--sage);border-radius:12px;background:var(--paper)}
+.field input:focus-visible,.field select:focus-visible,.field textarea:focus-visible{outline-color:var(--olive)}
+.field select{appearance:none;-webkit-appearance:none;padding-right:2.4rem;
+  background-image:linear-gradient(45deg,transparent 50%,var(--deep) 50%),linear-gradient(135deg,var(--deep) 50%,transparent 50%);
+  background-position:calc(100% - 1.2rem) 55%,calc(100% - .9rem) 55%;background-size:.3rem .3rem;background-repeat:no-repeat}
+.field-set{border-color:var(--sage);border-radius:var(--round)}
+.form-done{border-radius:var(--round);border-left:0;padding:1.4rem 1.6rem}
+
+/* ----------------------------------------------------------------- footer */
+.site-foot{background:var(--sage);border-top:0}
+.colophon{border-top-color:var(--paper)}
