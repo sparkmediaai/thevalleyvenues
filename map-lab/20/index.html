@@ -32,24 +32,24 @@
 @media (max-width:760px){.lab-stage{overflow-x:auto}.park-map{min-width:860px}}
 
 .park-map .pennant{transform-box:fill-box;transform-origin:0 50%;
-  animation:wave 1.3s ease-in-out infinite alternate;animation-delay:calc(var(--fd) * -1)}
-@keyframes wave{from{transform:skewY(-10deg) scaleX(.84)}to{transform:skewY(8deg) scaleX(1.06)}}
+  animation:wave 3.4s ease-in-out infinite alternate;animation-delay:calc(var(--fd) * -1)}
+@keyframes wave{from{transform:skewY(-5deg) scaleX(.92)}to{transform:skewY(4deg) scaleX(1.02)}}
 .park-map .tw{transform-box:fill-box;transform-origin:50% 50%;
-  animation:twinkle 3.2s ease-in-out infinite;animation-delay:calc(var(--tw) * -1)}
+  animation:twinkle 5.5s ease-in-out infinite;animation-delay:calc(var(--tw) * -1)}
 @keyframes twinkle{0%,100%{transform:scale(.2) rotate(0deg);opacity:.15}50%{transform:scale(1) rotate(90deg);opacity:1}}
-.park-map .birds{animation:fly 34s linear infinite}
+.park-map .birds{animation:fly 52s linear infinite}
 @keyframes fly{0%{transform:translate(-520px,40px)}25%{transform:translate(160px,-10px)}
   50%{transform:translate(860px,30px)}75%{transform:translate(1500px,-20px)}100%{transform:translate(2280px,10px)}}
-.park-map .wing{transform-box:fill-box;transform-origin:50% 100%;animation:flap .26s ease-in-out infinite alternate}
-.park-map .wf{animation-delay:-.13s}
-@keyframes flap{from{transform:scaleY(1)}to{transform:scaleY(-.35)}}
-.park-map .bf{animation:flutter 11s ease-in-out infinite}
-.park-map .bfly:nth-of-type(2n) .bf{animation-duration:14s;animation-direction:reverse}
+.park-map .wing{transform-box:fill-box;transform-origin:50% 100%;animation:flap .7s ease-in-out infinite alternate}
+.park-map .wf{animation-delay:-.35s}
+@keyframes flap{from{transform:scaleY(1)}to{transform:scaleY(.1)}}
+.park-map .bf{animation:flutter 24s ease-in-out infinite}
+.park-map .bfly:nth-of-type(2n) .bf{animation-duration:30s;animation-direction:reverse}
 @keyframes flutter{0%,100%{transform:translate(0,0)}25%{transform:translate(40px,-30px)}
   50%{transform:translate(-10px,-56px)}75%{transform:translate(-44px,-16px)}}
-.park-map .bw{transform-box:fill-box;transform-origin:100% 50%;animation:bwing .16s ease-in-out infinite alternate}
+.park-map .bw{transform-box:fill-box;transform-origin:100% 50%;animation:bwing .6s ease-in-out infinite alternate}
 .park-map .bw2{transform-origin:0 50%}
-@keyframes bwing{to{transform:scaleX(.25)}}
+@keyframes bwing{to{transform:scaleX(.45)}}
 
 /* sparkles thrown by the page */
 .spk{transform-box:fill-box;transform-origin:50% 50%;animation:spk 1s cubic-bezier(.2,.7,.3,1) forwards}
@@ -105,7 +105,7 @@
 .go .flight{animation:flight 3.4s cubic-bezier(.45,.05,.55,.95) .1s both}
 @keyframes flight{0%{transform:translate(-105%,30%) rotate(4deg)}50%{transform:translate(48%,-6%) rotate(-2deg)}
   100%{transform:translate(210%,-70%) rotate(-8deg)}}
-.flight .wing{transform-box:fill-box;transform-origin:50% 100%;animation:flap .24s ease-in-out infinite alternate}</style>
+.flight .wing{transform-box:fill-box;transform-origin:50% 100%;animation:flap .6s ease-in-out infinite alternate}</style>
 </head>
 <body class="lab">
 <header class="lab-head">
