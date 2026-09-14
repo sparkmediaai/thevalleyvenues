@@ -21,10 +21,16 @@ Each entry below is name, blurb, optional svg options, css and js. Adding an
 eleventh is a dict, not a file.
 """
 import os
+import re
 import shutil
 
+import park_map
+import photo_icons
 from estate_map import build, PLACES
 from map_lab_variations import VARIATIONS
+from map_lab_park import PARK
+
+VARIATIONS = VARIATIONS + PARK
 
 INDEX = """<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
@@ -52,9 +58,12 @@ INDEX = """<!doctype html>
 </style></head>
 <body class="lab"><div class="wrap">
 <div class="lead">
-<h1>Ten maps</h1>
-<p>Ten treatments of the same estate, for choosing between rather than for
+<h1>Map lab</h1>
+<p>Treatments of the same estate, for choosing between rather than for
 shipping. Every one of them hovers to a real photograph of the real place.</p>
+<p><b>11&ndash;15 are the new round:</b> one park-map drawing in the client's seven
+colours, varied by its ground (hills or the LiDAR survey), its icons (traced
+line art or screenprints of the photographs) and how it arrives.</p>
 <p>Nothing on the site links here and every page carries noindex. The map
 currently live on <b>/the-estate/</b> is closest to&nbsp;01.</p>
 </div>
@@ -98,7 +107,7 @@ SHELL = """<!doctype html>
 </head>
 <body class="lab">
 <header class="lab-head">
-  <a class="lab-back" href="/map-lab/">&larr; All ten</a>
+  <a class="lab-back" href="/map-lab/">&larr; All maps</a>
   <div>
     <span class="lab-n">%(n)s</span>
     <h1>%(name)s</h1>
@@ -247,18 +256,24 @@ def photos_json():
 
 
 def extras(v, svg):
-    """The couple of variations that need controls under the drawing."""
-    if v.get("dusk"):
-        night, _ = build(**dict(v.get("opts", {}), **v["dusk"]))
-        return ('<div class="hours"><div class="layer day">%s</div>'
-                '<div class="layer dusk">%s</div></div>'
-                '<div class="dial"><label for="t">Hour</label>'
-                '<input id="t" type="range" min="0" max="100" step="0.5" value="38">'
-                '<output id="tv">1:56 pm</output></div>' % (svg, night))
-    if v["slug"] == "03":
-        return (svg + '<div class="rail"><button id="play">Pause</button>'
-                '<span class="now" id="now">&mdash;</span>'
-                '<input id="bar" type="range" min="0" max="100" step="0.1" value="0"></div>')
+    """The variations that need more than the drawing itself."""
+    if v["slug"] == "13":
+        # A second copy, drawn as line only, sits under the coloured one. Its
+        # ids are renamed so its trees resolve against its own symbols.
+        ink = svg
+        for i in re.findall(r'id="([^"]+)"', svg):
+            ink = ink.replace('id="%s"' % i, 'id="ink-%s"' % i)
+            ink = ink.replace('#%s"' % i, '#ink-%s"' % i).replace('url(#%s)' % i, 'url(#ink-%s)' % i)
+        ink = ink.replace('role="img"', 'aria-hidden="true"', 1)
+        # Trees are <use> clones, and a stylesheet rule does not reach inside a
+        # clone reliably, so the line-only look is written into the markup.
+        ink = re.sub(r'fill="(#[0-9A-Fa-f]{6}|currentColor)"', 'fill="none"', ink)
+        ink = re.sub(r'stroke="#[0-9A-Fa-f]{6}"', 'stroke="#34372F"', ink)
+        ink = re.sub(r'stroke-width="[\d.]+"', 'stroke-width="1.1"', ink)
+        return ('<div class="inkwash"><div class="colour">%s</div><div class="ink" inert>%s</div></div>'
+                '<button class="again">Play the intro again</button>' % (svg, ink))
+    if v.get("renderer") == "park":
+        return svg + '<button class="again">Play the intro again</button>'
     if v["slug"] == "07":
         keys = [("spring", "Spring"), ("summer", "Summer"),
                 ("autumn", "Autumn"), ("winter", "Winter")]
@@ -292,8 +307,12 @@ def main():
     jump = "".join('<a href="/map-lab/%s/">%s</a>' % (v["slug"], v["slug"])
                    for v in VARIATIONS)
 
+    photo_icons.main()
     for v in VARIATIONS:
-        svg, _ = build(**v.get("opts", {}))
+        render = park_map.build if v.get("renderer") == "park" else build
+        svg, meta = render(**v.get("opts", {}))
+        if isinstance(meta, dict) and meta.get("fit_residuals"):
+            print("  terrain fit residuals (px): %s" % ", ".join("%.0f" % r for r in meta["fit_residuals"]))
         body = extras(v, svg)
         if v.get("wrap"):
             body = v["wrap"][0] + body + v["wrap"][1]
