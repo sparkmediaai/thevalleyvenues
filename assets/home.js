@@ -8,8 +8,9 @@
       phone gets the 720px cut; a wide screen gets WebM, or MP4 where WebM is
       not supported.
    2. It fades in only once it is really playing, so there is no black frame.
-   3. It never starts under prefers-reduced-motion, and with JavaScript off the
-      still simply stays. The page reads either way.
+   3. It does not start by itself under prefers-reduced-motion; the still stays
+      and the button offers "Play film", so the film is still one press away.
+      With JavaScript off the still simply stays. The page reads either way.
    4. It can be stopped. Anything that moves for more than five seconds needs a
       pause control, and the choice is remembered for the visit.
    5. It rests when nobody can see it: a hidden tab, or scrolled out of view. */
@@ -21,8 +22,12 @@
   var label = button && button.querySelector("span");
   var still = matchMedia("(prefers-reduced-motion: reduce)");
   var small = matchMedia("(max-width: 760px)");
-  var paused = false, visible = true, loaded = false;
-  try { paused = sessionStorage.getItem("vv_film") === "paused"; } catch (e) {}
+  var visible = true, loaded = false;
+  // Paused to begin with only if motion is reduced, unless this visit has
+  // already chosen one way or the other.
+  var choice = null;
+  try { choice = sessionStorage.getItem("vv_film"); } catch (e) {}
+  var paused = choice ? choice === "paused" : still.matches;
 
   function source() {
     if (small.matches) return video.dataset.sm;
@@ -36,11 +41,11 @@
     video.preload = "auto";
   }
 
-  function wanted() { return !still.matches && !paused && visible && !document.hidden; }
+  function wanted() { return !paused && visible && !document.hidden; }
 
   function sync() {
     if (button) {
-      button.hidden = still.matches;
+      button.hidden = false;
       button.setAttribute("aria-pressed", paused ? "true" : "false");
       if (label) label.textContent = paused ? "Play film" : "Pause film";
     }
@@ -58,7 +63,8 @@
   if (button) {
     button.addEventListener("click", function () {
       paused = !paused;
-      try { sessionStorage.setItem("vv_film", paused ? "paused" : "playing"); } catch (e) {}
+      choice = paused ? "paused" : "playing";
+      try { sessionStorage.setItem("vv_film", choice); } catch (e) {}
       sync();
     });
   }
@@ -71,7 +77,10 @@
   }
 
   document.addEventListener("visibilitychange", sync);
-  still.addEventListener("change", sync);
+  still.addEventListener("change", function () {
+    if (!choice) paused = still.matches;
+    sync();
+  });
 
   if (document.readyState === "complete") sync();
   else addEventListener("load", sync);
