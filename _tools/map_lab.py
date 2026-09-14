@@ -21,16 +21,14 @@ Each entry below is name, blurb, optional svg options, css and js. Adding an
 eleventh is a dict, not a file.
 """
 import os
-import re
 import shutil
 
 import park_map
-import photo_icons
-from estate_map import build, PLACES
-from map_lab_variations import VARIATIONS
+from estate_map import PLACES
 from map_lab_park import PARK
+from map_lab_fairy import FAIRY
 
-VARIATIONS = VARIATIONS + PARK
+VARIATIONS = PARK + FAIRY
 
 INDEX = """<!doctype html>
 <html lang="en"><head><meta charset="utf-8">
@@ -59,13 +57,11 @@ INDEX = """<!doctype html>
 <body class="lab"><div class="wrap">
 <div class="lead">
 <h1>Map lab</h1>
-<p>Treatments of the same estate, for choosing between rather than for
-shipping. Every one of them hovers to a real photograph of the real place.</p>
-<p><b>11&ndash;15 are the new round:</b> one park-map drawing in the client's seven
-colours, varied by its ground (hills or the LiDAR survey), its icons (traced
-line art or screenprints of the photographs) and how it arrives.</p>
-<p>Nothing on the site links here and every page carries noindex. The map
-currently live on <b>/the-estate/</b> is closest to&nbsp;01.</p>
+<p><b>11</b> is the park map as picked. <b>16&ndash;25</b> take the same drawing
+into a fairy tale: pennants on every roof, twinkles, bluebirds and butterflies,
+a sparkle when you reach for a place, and ten different ways for the map to
+arrive. Every one hovers to real photographs and replays from its corner button.</p>
+<p>Nothing on the site links here and every page carries noindex.</p>
 </div>
 <div class="grid">%s</div>
 </div></body></html>"""
@@ -256,45 +252,11 @@ def photos_json():
 
 
 def extras(v, svg):
-    """The variations that need more than the drawing itself."""
-    if v["slug"] == "13":
-        # A second copy, drawn as line only, sits under the coloured one. Its
-        # ids are renamed so its trees resolve against its own symbols.
-        ink = svg
-        for i in re.findall(r'id="([^"]+)"', svg):
-            ink = ink.replace('id="%s"' % i, 'id="ink-%s"' % i)
-            ink = ink.replace('#%s"' % i, '#ink-%s"' % i).replace('url(#%s)' % i, 'url(#ink-%s)' % i)
-        ink = ink.replace('role="img"', 'aria-hidden="true"', 1)
-        # Trees are <use> clones, and a stylesheet rule does not reach inside a
-        # clone reliably, so the line-only look is written into the markup.
-        ink = re.sub(r'fill="(#[0-9A-Fa-f]{6}|currentColor)"', 'fill="none"', ink)
-        ink = re.sub(r'stroke="#[0-9A-Fa-f]{6}"', 'stroke="#34372F"', ink)
-        ink = re.sub(r'stroke-width="[\d.]+"', 'stroke-width="1.1"', ink)
-        return ('<div class="inkwash"><div class="colour">%s</div><div class="ink" inert>%s</div></div>'
-                '<button class="again">Play the intro again</button>' % (svg, ink))
-    if v.get("renderer") == "park":
-        return svg + '<button class="again">Play the intro again</button>'
-    if v["slug"] == "07":
-        keys = [("spring", "Spring"), ("summer", "Summer"),
-                ("autumn", "Autumn"), ("winter", "Winter")]
-        return (svg + '<div class="seasons">%s</div>' % "".join(
-            '<button data-s="%s" aria-pressed="false">%s</button>' % k for k in keys))
-    if v["slug"] == "08":
-        # Three panels, each showing a third of the same drawing. It has to be
-        # three copies: a panel cannot show a slice of an element it does not
-        # contain, and the creases have to fall between real edges.
-        # The fir symbol's id has to differ per copy. Three elements answering
-        # to #vv-fir is invalid, and every <use> in panels two and three would
-        # quietly resolve against panel one's.
-        panels = "".join(
-            '<div class="panel">%s</div>' % svg.replace("vv-fir", "vv-fir-%d" % i)
-            for i in range(3))
-        return ('<button class="again">Fold it again</button>'
-                '<div class="fold">%s</div>' % panels)
-    if v["slug"] == "09":
-        return (svg + '<button class="hold">Stop the tour</button>'
-                '<div class="card"><img alt=""><b></b><span></span></div>')
-    return svg
+    """The drawing, inside whatever the variation stages it in, and the replay."""
+    body = svg
+    if v.get("wrap"):
+        body = v["wrap"][0] + body + v["wrap"][1]
+    return body + '<button class="again">Play the intro again</button>'
 
 
 def main():
@@ -307,15 +269,9 @@ def main():
     jump = "".join('<a href="/map-lab/%s/">%s</a>' % (v["slug"], v["slug"])
                    for v in VARIATIONS)
 
-    photo_icons.main()
     for v in VARIATIONS:
-        render = park_map.build if v.get("renderer") == "park" else build
-        svg, meta = render(**v.get("opts", {}))
-        if isinstance(meta, dict) and meta.get("fit_residuals"):
-            print("  terrain fit residuals (px): %s" % ", ".join("%.0f" % r for r in meta["fit_residuals"]))
+        svg, _ = park_map.build(**v.get("opts", {}))
         body = extras(v, svg)
-        if v.get("wrap"):
-            body = v["wrap"][0] + body + v["wrap"][1]
         mine = jump.replace('<a href="/map-lab/%s/"' % v["slug"],
                             '<a href="/map-lab/%s/" aria-current="page"' % v["slug"])
         html = SHELL % dict(

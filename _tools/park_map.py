@@ -479,6 +479,83 @@ def mountains():
     return "".join(m)
 
 
+# =============================================================== the fairy tale
+# Rooftop pennants, in each drawing's own units: the pediment of Magnolia House,
+# both ends of the hall, the ridge of every cabin, the pergola, the arbour.
+FLAGS = {
+    "magnolia": [(0, -180), (-130, -98), (127, -112)],
+    "hall":     [(-112, -104), (72, -104)],
+    "village":  [(-150, -92), (-48, -114), (54, -136), (156, -158)],
+    "deck":     [(-22, -98), (94, -98)],
+    "valley":   [(0, -114)],
+    "woods":    [(130, -90)],
+}
+
+STAR = "M 0 -10 Q 1.4 -1.4 10 0 Q 1.4 1.4 0 10 Q -1.4 1.4 -10 0 Q -1.4 -1.4 0 -10 Z"
+
+
+def pennant(x, y, colour, delay):
+    return ('<g class="flag"><line x1="%d" y1="%d" x2="%d" y2="%d" stroke="%s" stroke-width="3"/>'
+            '<circle cx="%d" cy="%d" r="3.6" fill="%s" stroke="%s" stroke-width="1.4"/>'
+            '<path class="pennant" style="--fd:%.2fs" d="M %d %d L %d %d L %d %d L %d %d L %d %d Z" '
+            'fill="%s" stroke="%s" stroke-width="1.8" stroke-linejoin="round"/></g>' % (
+                x, y, x, y - 44, DEEP, x, y - 46, CREAM, DEEP, delay,
+                x + 1, y - 43, x + 38, y - 38, x + 28, y - 33, x + 38, y - 28, x + 1, y - 25, colour, DEEP))
+
+
+def star(x, y, s, fill, cls="tw", delay=0.0):
+    # the position lives on the wrapper so a CSS transform on the star itself
+    # can twinkle it without throwing it to the corner of the map
+    return ('<g transform="translate(%.0f %.0f) scale(%.2f)"><path class="%s" style="--tw:%.2fs" d="%s" '
+            'fill="%s" stroke="%s" stroke-width="1.4" stroke-linejoin="round"/></g>' % (
+                x, y, s, cls, delay, STAR, fill, DEEP))
+
+
+def bird(x, y, s):
+    return ('<g class="bird" transform="translate(%d %d) scale(%.2f)">'
+            '<path class="wing wb" d="M -2 -2 Q -16 -22 -30 -12 Q -16 -10 -4 2 Z" fill="%s" stroke="%s" stroke-width="2"/>'
+            '<path d="M -22 2 Q -8 -10 12 -4 Q 22 -2 26 2 Q 14 6 0 8 Q -12 8 -22 2 Z" fill="%s" stroke="%s" stroke-width="2.2"/>'
+            '<path d="M 26 1 L 34 3 L 26 5 Z" fill="%s" stroke="%s" stroke-width="1.2"/>'
+            '<circle cx="17" cy="0" r="1.8" fill="%s"/>'
+            '<path d="M -8 2 Q 2 4 10 3" fill="none" stroke="%s" stroke-width="1.4" opacity=".6"/>'
+            '<path class="wing wf" d="M 0 -2 Q 6 -28 -14 -30 Q -6 -14 -8 0 Z" fill="%s" stroke="%s" stroke-width="2"/>'
+            '</g>' % (x, y, s, BLUE, DEEP, BLUE, DEEP, CLAY, DEEP, DEEP, CREAM, SAGE, DEEP))
+
+
+def butterfly(x, y, colour):
+    return ('<g class="bfly" transform="translate(%d %d)"><g class="bf">'
+            '<path class="bw" d="M 0 0 Q -12 -14 -14 -4 Q -14 4 0 2 Q -10 10 -6 13 Q 0 10 0 2 Z" fill="%s" stroke="%s" stroke-width="1.3"/>'
+            '<path class="bw bw2" d="M 0 0 Q 12 -14 14 -4 Q 14 4 0 2 Q 10 10 6 13 Q 0 10 0 2 Z" fill="%s" stroke="%s" stroke-width="1.3"/>'
+            '<line x1="0" y1="-4" x2="0" y2="8" stroke="%s" stroke-width="2"/></g></g>' % (
+                x, y, colour, DEEP, colour, DEEP, DEEP))
+
+
+def fairy_layer(rng, avoid, segs):
+    """Twinkles over the open ground, bluebirds, butterflies over the meadow."""
+    g = ['<g class="fairy">']
+    placed = []
+    for _ in range(3000):
+        if len(placed) >= 30:
+            break
+        x, y = rng.uniform(60, W - 60), rng.uniform(40, H - 60)
+        if any(em.inside(q, x, y) for q in em.WOODS):
+            continue
+        if any(math.hypot(x - ax, y - ay) < r * .8 for ax, ay, r in avoid):
+            continue
+        if any(math.hypot(x - px_, y - py_) < 90 for px_, py_ in placed):
+            continue
+        placed.append((x, y))
+    for n, (x, y) in enumerate(placed):
+        g.append(star(x, y, rng.uniform(.55, 1.05), rng.choice([WHITE, WHITE, CREAM, SAGE]), "tw",
+                      rng.uniform(0, 3)))
+    g.append('<g transform="translate(300 118)"><g class="birds">%s%s%s</g></g>' % (
+        bird(0, 0, .9), bird(-60, 26, .72), bird(-104, -10, .6)))
+    for x, y, c in ((760, 300, WHITE), (880, 360, CLAY), (1180, 520, BLUE), (560, 250, SAGE)):
+        g.append(butterfly(x, y, c))
+    g.append("</g>")
+    return "".join(g)
+
+
 # ================================================================== the terrain
 def fit_affine(pairs):
     """Least squares for x' = a u + b v + c, y' = d u + e v + f. Pure Python,
@@ -670,6 +747,7 @@ def build(**opt):
     rng = random.Random(opt.get("seed", 13))
     ground = opt.get("ground", "hills")
     icons = opt.get("icons", "drawn")
+    fairy = opt.get("fairy", False)
     p = []
     p.append('<svg class="park-map estate-map" viewBox="0 0 %d %d" xmlns="http://www.w3.org/2000/svg" '
              'xmlns:xlink="http://www.w3.org/1999/xlink" role="img" aria-label="An illustrated map of the '
@@ -855,11 +933,16 @@ def build(**opt):
         p.append('<g transform="translate(%d %d) scale(%.2f)"><g class="b" style="--bd:%.2fs">'
                  '<g class="map-art">' % (st["x"], st["y"] + dy, s, bd))
         p.append(photo_badge(key, photos[key]) if badge else DRAW[key]())
+        if fairy and not badge:
+            for n, (fx, fy) in enumerate(FLAGS[key]):
+                p.append(pennant(fx, fy, CLAY if n % 2 == 0 else BLUE, (i * 3 + n) * .17))
         p.append("</g></g></g>")
         p.append(banner(st["bx"], st["by"], pl["label"], bd))
         p.append("</a>")
     p.append("</g>")
 
+    if fairy:
+        p.append(fairy_layer(rng, avoid, segs))
     p.append(cartouche())
     # the frame, olive like the sketch's border
     p.append(el("rect", class_="frame", x=6, y=6, width=W - 12, height=H - 12, rx=18, fill="none",
