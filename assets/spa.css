@@ -58,7 +58,7 @@ section{border-bottom:0}
   background:var(--sage);border-radius:48px}
 .cluster img,.cluster figure{border-radius:22px;overflow:hidden;box-shadow:var(--lift)}
 /* on a phone the panel stays inside the page instead of hanging past its edge */
-@media (max-width:760px){.cluster::before{inset:-4% 0 -4% 8%}}
+@media (max-width:900px){.cluster::before{inset:-4% 0 -4% 8%}}
 
 /* the weekend, and the doors, as white cards */
 .wk,.card-door{background:var(--paper);border-radius:var(--round-lg);box-shadow:var(--lift-soft)}
@@ -114,3 +114,77 @@ section{border-bottom:0}
 /* ----------------------------------------------------------------- footer */
 .site-foot{background:var(--sage);border-top:0}
 .colophon{border-top-color:var(--paper)}
+
+/* ============================================================================
+   Phones.
+
+   Most visitors arrive on a phone, and the header was eating 221px of an
+   844px screen on every page: wordmark, then a full-width pamphlet button,
+   then two rows of links, all sticky. Now it is the wordmark and a Menu
+   button (about 64px), the links open as a panel, and the pamphlet button
+   sits in a bar at the foot of the screen where a thumb already is.
+
+   Everything here is gated on .js where the script matters, so without
+   nav.js the header falls back to listing its links as before.
+   ========================================================================== */
+.nav-toggle,.cta-bar{display:none}
+@media (max-width:860px){
+  .site-head .inner{flex-wrap:nowrap;padding:.5rem var(--pad);gap:.8rem}
+  .wordmark{min-height:44px}
+  .js .site-head .inner > .btn{display:none}
+  .js .nav-toggle{
+    display:inline-flex;align-items:center;gap:.6rem;margin-left:auto;min-height:44px;
+    padding:.5rem 1rem;border-radius:999px;border:1px solid var(--sage);background:var(--paper);
+    color:var(--deep);font:600 .78rem/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;cursor:pointer}
+  .nav-toggle:focus-visible{outline:2px solid var(--deep);outline-offset:2px}
+  .nav-bars{position:relative;width:18px;height:10px;display:block}
+  .nav-bars i{position:absolute;left:0;right:0;height:1.6px;border-radius:2px;background:currentColor;
+    transition:transform .3s ease,top .3s ease}
+  .nav-bars i:first-child{top:0}
+  .nav-bars i:last-child{top:8.4px}
+  .nav-open .nav-bars i:first-child{top:4.2px;transform:rotate(45deg)}
+  .nav-open .nav-bars i:last-child{top:4.2px;transform:rotate(-45deg)}
+  .nav-open .nav-toggle{background:var(--sage)}
+
+  .js .site-nav{display:none;position:absolute;left:0;right:0;top:100%;width:auto;order:0;
+    background:var(--ivory);border-top:1px solid var(--sage);border-bottom:1px solid var(--sage);
+    padding:.3rem var(--pad) 1.4rem;box-shadow:0 26px 50px rgba(52,55,47,.14);max-height:calc(100vh - 64px);overflow-y:auto}
+  .js .nav-open .site-nav{display:block;animation:nav-in .28s ease both}
+  @keyframes nav-in{from{transform:translateY(-8px)}}
+  .js .site-nav ul{flex-direction:column;flex-wrap:nowrap;gap:0}
+  .js .site-nav li{border-bottom:1px solid var(--sage)}
+  .js .site-nav a{display:flex;align-items:center;min-height:52px;padding:.2rem 0;border-bottom:0;
+    font-family:var(--display);font-size:1.45rem;letter-spacing:0;text-transform:none;font-weight:400}
+  .js .site-nav a[aria-current="page"]::after{content:"";width:.45rem;height:.45rem;border-radius:50%;
+    background:var(--sage);margin-left:.7rem}
+
+  /* the pamphlet, a thumb away */
+  .js .cta-bar{display:block;position:fixed;left:0;right:0;bottom:0;z-index:45;
+    padding:.6rem var(--pad) calc(.6rem + env(safe-area-inset-bottom));
+    background:var(--ivory);border-top:1px solid var(--sage);box-shadow:0 -12px 30px rgba(52,55,47,.08)}
+  .js .cta-bar .btn{display:flex;justify-content:center;align-items:center;width:100%;min-height:48px;font-size:.8rem}
+  .js body{padding-bottom:calc(4.4rem + env(safe-area-inset-bottom))}
+}
+
+/* ----------------------------------------------------- readable on a phone
+   The letterspaced capitals were set for a desktop and came out at 10.6-11.2px
+   on a phone. Nothing that carries words goes under 12px now. */
+@media (max-width:760px){
+  .eyebrow,.btn,.site-foot h3,.wk-when,.place-dist,.onward a span,.gx-count,.field label,
+  .field-set legend,.form label,.opening .eyebrow{font-size:.78rem!important}
+  .gx-credit,.wd-hours-row figcaption,.kobi-photo figcaption,.hero-pause{font-size:.76rem}
+  .wd-stamp{font-size:.72rem}
+  .facts li span,.gx-chip span,.onward .up{font-size:.76rem!important}
+  /* a long label wraps inside its pill rather than pushing past the screen */
+  .btn{padding:.95rem 1.4rem;white-space:normal;text-align:center;max-width:100%}
+  .gx-by{min-width:0}
+  .gx-select{min-width:0;width:100%}
+
+  /* tap targets: 44px or more */
+  .hero-pause{min-height:44px;padding:.6rem 1rem}
+  .gx-chip{min-height:44px;padding:.7rem 1rem}
+  .gx-select{min-height:44px;font-size:16px}
+  .gx-names button{min-height:44px}
+  .onward .up{display:inline-flex;align-items:center;min-height:44px}
+  .colophon a{display:inline-flex;align-items:center;min-height:44px}
+}

@@ -226,7 +226,8 @@ def shell(page, path="index.html"):
 <header class="site-head">
   <div class="inner">
     <a class="wordmark" href="%(root)s"><img src="%(root)sassets/logo-mark.webp" alt="" width="240" height="240" decoding="async"><span>%(site)s</span></a>
-    <nav class="site-nav" aria-label="Primary">
+    <button type="button" class="nav-toggle" aria-expanded="false" aria-controls="site-nav"><span class="nav-bars" aria-hidden="true"><i></i><i></i></span><span class="nav-word">Menu</span></button>
+    <nav class="site-nav" id="site-nav" aria-label="Primary">
       <ul>
 %(nav)s
       </ul>
@@ -268,7 +269,8 @@ def shell(page, path="index.html"):
     <a class="notes-off" href="?">Hide working notes</a>
   </div>
 </footer>
-%(foot_js)s
+%(cta_bar)s%(foot_js)s
+<script src="%(root)sassets/nav.js" defer></script>
 <script src="%(root)sassets/reveal.js" defer></script>
 <script src="%(root)sassets/opening.js" defer></script>
 <script src="%(root)sassets/forms.js" defer></script>
@@ -281,6 +283,10 @@ def shell(page, path="index.html"):
         "robots": "" if BASE == PRODUCTION else
                   '<meta name="robots" content="noindex,nofollow">' + chr(10),
         "site": SITE, "nav": nav, "cta_href": CTA[1], "cta_text": CTA[0],
+        # On a phone the pamphlet button lives in a bar at the foot of the
+        # screen instead of the header. Not on the page the button leads to.
+        "cta_bar": "" if path.startswith("pricing/") else
+                   '<div class="cta-bar"><a class="btn btn-solid" href="%s">%s</a></div>\n' % (CTA[1], CTA[0]),
         "hero": hero, "eyebrow": page["eyebrow"], "h1": page["h1"],
         "standfirst": page["standfirst"], "actions": actions,
         "body": expand(page["body"]), "foot": foot,

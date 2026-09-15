@@ -41,7 +41,9 @@
 .wd-stamp b{display:block;font:italic 400 2rem/1 var(--display);letter-spacing:0;text-transform:none;margin-bottom:.1rem}
 
 @media (max-width:900px){
-  .hero:has(> .wd-hero){grid-template-columns:minmax(0,1fr)}
+  .hero:has(> .wd-hero){grid-template-columns:minmax(0,1fr);overflow-x:clip}
+  .wd-arc{left:0}
+  .wd-gate{overflow-x:clip}
   .wd-hero{order:0;justify-self:center;max-width:30rem}
   .hero:has(> .wd-hero) h1{max-width:12ch}
 }
