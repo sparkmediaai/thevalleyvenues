@@ -356,7 +356,7 @@ h1,h2,h3{font-weight:400;margin:0;line-height:1.05}
 .book{padding-block:clamp(4rem,9vw,7rem) clamp(3rem,6vw,5rem)}
 .book h2{grid-column:1/8;font-size:clamp(2.2rem,4.4vw,3.8rem)}
 .book .side{grid-column:9/13}
-@media (max-width:820px){.g>*{grid-column:1/13!important}.way{margin-top:0!important}.hero-img img{height:56svh}
+@media (max-width:820px){.g>*{grid-column:1/13!important}.hero .side{margin-top:1.4rem}.way{margin-top:0!important}.hero-img img{height:56svh}
   .line{text-align:left}.claim-img{margin-top:2rem}}
 """
     body = """
