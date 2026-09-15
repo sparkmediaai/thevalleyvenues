@@ -1,16 +1,95 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow"><title>The Weddings page, ten ways</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Jost:wght@400;500&display=swap">
-<style>body{margin:0;background:#FFF9F3;color:#2B1B00;font:400 16px/1.6 Jost,sans-serif}
-.w{max-width:64rem;margin:0 auto;padding:clamp(2.5rem,7vw,5rem) 1.2rem}
-h1{font:300 clamp(2.4rem,6vw,4.4rem)/1 'Cormorant Garamond',serif;margin:0 0 1rem}
-p{max-width:40rem;margin:0 0 2.5rem}
-.g{display:grid;border-top:1px solid #2B1B00}
-.g a{display:grid;grid-template-columns:16rem 1fr;gap:1.5rem;padding:1.3rem 0;border-bottom:1px solid #2B1B00;text-decoration:none;color:inherit}
-.g a:hover{background:#fff}
-.g b{font:300 1.7rem/1.1 'Cormorant Garamond',serif}
-@media (max-width:640px){.g a{grid-template-columns:1fr;gap:.3rem}}</style></head>
-<body><div class="w"><h1>The Weddings page, ten ways</h1>
-<p>The same words and photographs in ten editorial directions, all in the colours from Kobi's pamphlet,
-with no rounded corners. Each is built to work on a phone first. Pick one, or the parts of several,
-and the rest of the site follows it.</p><div class="g"><a href="/wedding-lab/01/"><b>01 &middot; Aegean</b><span>The resort site: a full-screen photograph, the headline set large and light beneath it, and a great deal of empty parchment. Everything centred and quiet.</span></a><a href="/wedding-lab/02/"><b>02 &middot; Folio</b><span>A magazine spread. The headline is set enormous in a high-contrast serif beside a tall photograph; the three experiences are full-width feature spreads with a drop cap.</span></a><a href="/wedding-lab/03/"><b>03 &middot; Horizon</b><span>The estate as a sequence of wide landscapes. Each section is one panoramic photograph and one line beneath it, nothing else. The shortest page of the ten.</span></a><a href="/wedding-lab/04/"><b>04 &middot; Atelier</b><span>A design studio's precision: a strict grid, small letterspaced labels, fine olive rules, photographs set off-grid at different sizes, and a restrained serif for the words that matter.</span></a><a href="/wedding-lab/05/"><b>05 &middot; Promenade</b><span>Built for the phone. The headline sits over the bottom of a full-screen photograph on a solid parchment band, and the three experiences are full-height panels you swipe through sideways.</span></a><a href="/wedding-lab/06/"><b>06 &middot; Diptych</b><span>Two halves. A photograph holds still on the left while the words move on the right, and the photograph changes as each section arrives. On a phone the photograph sits above its words.</span></a><a href="/wedding-lab/07/"><b>07 &middot; Invitation</b><span>Stationery rather than a website: a narrow centred column, engraved capitals, fine double rules and photographs set in thin olive keylines, like the pages of a letterpress invitation.</span></a><a href="/wedding-lab/08/"><b>08 &middot; Cinema</b><span>The estate film opens the page at full screen, with nothing laid over it. The headline follows in a wide, calm band, and the three experiences are full-width stills you scroll through.</span></a><a href="/wedding-lab/09/"><b>09 &middot; Olive Grove</b><span>Colour does the work. Whole sections are laid in the owner's olive with parchment type, alternating with parchment ones, so the page reads as a few large, confident blocks.</span></a><a href="/wedding-lab/10/"><b>10 &middot; Mosaic</b><span>The type is the architecture: the headline runs the full width of the page, huge, over a tiled mosaic of real weddings. The owner's orange appears once, as a single thread.</span></a></div></div></body></html>
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<title>The Weddings page, ten ways &middot; The Valley Venues</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@400;500&display=swap">
+<style>
+*{box-sizing:border-box}html,body{margin:0}img{display:block;max-width:100%;height:auto}
+body{background:#FFF9F3;color:#2B1B00;font:400 17px/1.7 Jost,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid #FC5324;outline-offset:4px}
+.wrap{max-width:86rem;margin:0 auto;padding:clamp(2.5rem,7vw,6rem) clamp(1.2rem,4vw,3.5rem) clamp(4rem,9vw,7rem)}
+.lede{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(1.5rem,5vw,5rem);align-items:end;
+  padding-bottom:clamp(2rem,5vw,3.5rem);border-bottom:1px solid #7B7951}
+.eyebrow{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:#7B7951;margin:0 0 1.2rem}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.8rem,7vw,6rem);line-height:.98;margin:0}
+h1 em{font-style:italic}
+.lede p{margin:0 0 1rem;max-width:34rem}
+.chips{display:flex;gap:.4rem;margin-top:1.4rem}
+.chips span{width:2.2rem;height:2.2rem;border:1px solid #7B7951}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1.8rem,4vw,3.5rem);margin-top:clamp(2.5rem,6vw,4.5rem)}
+.pick{display:block}
+.pick-shot{display:block;overflow:hidden;background:#FFF7F0;border:1px solid #7B7951}
+.pick-shot img{width:100%;transition:scale 1.4s cubic-bezier(.16,1,.3,1)}
+.pick:hover .pick-shot img,.pick:focus-visible .pick-shot img{scale:1.04}
+.pick-line{display:flex;align-items:baseline;gap:1rem;margin:1.1rem 0 .3rem;
+  border-bottom:1px solid #7B7951;padding-bottom:.7rem;position:relative}
+.pick-line::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#FC5324;
+  transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.pick:hover .pick-line::after,.pick:focus-visible .pick-line::after{transform:scaleX(1)}
+.pick-line b{font:500 .72rem/1 Jost,sans-serif;letter-spacing:.22em;color:#7B7951}
+.pick-line em{font:400 clamp(1.5rem,2.6vw,2.2rem)/1 'Cormorant Garamond',serif;font-style:normal;margin-right:auto}
+.pick-idea{display:block;font-size:.98rem;max-width:44rem}
+.foot{margin-top:clamp(3rem,7vw,5rem);padding-top:1.4rem;border-top:1px solid #7B7951;
+  display:flex;flex-wrap:wrap;gap:.6rem 2rem;font-size:.92rem}
+.foot a{border-bottom:1px solid #7B7951;padding-bottom:.15rem}
+@media (max-width:860px){.lede{grid-template-columns:minmax(0,1fr)}.grid{grid-template-columns:minmax(0,1fr)}}
+</style></head>
+<body><div class="wrap">
+<div class="lede">
+  <div><p class="eyebrow">The Valley Venues &middot; for Kobi</p>
+    <h1>The Weddings page,<br><em>ten ways</em>.</h1></div>
+  <div><p>The same words and the same photographs, designed 10 ways. Every one is in your
+    colours, with nothing rounded, and every one is built for a phone first.</p>
+    <p>Open any of them and scroll. Pick the one that feels like the estate, or the parts you
+      want from several, and the rest of the site follows it.</p>
+    <div class="chips"><span style="background:#2B1B00"></span><span style="background:#FFF9F3"></span><span style="background:#7B7951"></span><span style="background:#FC5324"></span></div></div>
+</div>
+<div class="grid"><a class="pick" href="/wedding-lab/01/">
+      <span class="pick-shot"><img src="/wedding-lab/thumbs/01.webp" alt="" width="900" height="525" loading="eager" decoding="async"></span>
+      <span class="pick-line"><b>01</b><em>Aegean</em></span>
+      <span class="pick-idea">The resort site: a full-screen photograph, the headline set large and light beneath it, and a great deal of empty parchment. Everything centred and quiet.</span>
+    </a><a class="pick" href="/wedding-lab/02/">
+      <span class="pick-shot"><img src="/wedding-lab/thumbs/02.webp" alt="" width="900" height="525" loading="eager" decoding="async"></span>
+      <span class="pick-line"><b>02</b><em>Folio</em></span>
+      <span class="pick-idea">A magazine spread. The headline is set enormous in a high-contrast serif beside a tall photograph; the three experiences are full-width feature spreads with a drop cap.</span>
+    </a><a class="pick" href="/wedding-lab/03/">
+      <span class="pick-shot"><img src="/wedding-lab/thumbs/03.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
+      <span class="pick-line"><b>03</b><em>Horizon</em></span>
+      <span class="pick-idea">The estate as a sequence of wide landscapes. Each section is one panoramic photograph and one line beneath it, nothing else. The shortest page of the ten.</span>
+    </a><a class="pick" href="/wedding-lab/04/">
+      <span class="pick-shot"><img src="/wedding-lab/thumbs/04.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
+      <span class="pick-line"><b>04</b><em>Atelier</em></span>
+      <span class="pick-idea">A design studio's precision: a strict grid, small letterspaced labels, fine olive rules, photographs set off-grid at different sizes, and a restrained serif for the words that matter.</span>
+    </a><a class="pick" href="/wedding-lab/05/">
+      <span class="pick-shot"><img src="/wedding-lab/thumbs/05.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
+      <span class="pick-line"><b>05</b><em>Promenade</em></span>
+      <span class="pick-idea">Built for the phone. The headline sits over the bottom of a full-screen photograph on a solid parchment band, and the three experiences are full-height panels you swipe through sideways.</span>
+    </a><a class="pick" href="/wedding-lab/06/">
+      <span class="pick-shot"><img src="/wedding-lab/thumbs/06.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
+      <span class="pick-line"><b>06</b><em>Diptych</em></span>
+      <span class="pick-idea">Two halves. A photograph holds still on the left while the words move on the right, and the photograph changes as each section arrives. On a phone the photograph sits above its words.</span>
+    </a><a class="pick" href="/wedding-lab/07/">
+      <span class="pick-shot"><img src="/wedding-lab/thumbs/07.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
+      <span class="pick-line"><b>07</b><em>Invitation</em></span>
+      <span class="pick-idea">Stationery rather than a website: a narrow centred column, engraved capitals, fine double rules and photographs set in thin olive keylines, like the pages of a letterpress invitation.</span>
+    </a><a class="pick" href="/wedding-lab/08/">
+      <span class="pick-shot"><img src="/wedding-lab/thumbs/08.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
+      <span class="pick-line"><b>08</b><em>Cinema</em></span>
+      <span class="pick-idea">The estate film opens the page at full screen, with nothing laid over it. The headline follows in a wide, calm band, and the three experiences are full-width stills you scroll through.</span>
+    </a><a class="pick" href="/wedding-lab/09/">
+      <span class="pick-shot"><img src="/wedding-lab/thumbs/09.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
+      <span class="pick-line"><b>09</b><em>Olive Grove</em></span>
+      <span class="pick-idea">Colour does the work. Whole sections are laid in the owner's olive with parchment type, alternating with parchment ones, so the page reads as a few large, confident blocks.</span>
+    </a><a class="pick" href="/wedding-lab/10/">
+      <span class="pick-shot"><img src="/wedding-lab/thumbs/10.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
+      <span class="pick-line"><b>10</b><em>Mosaic</em></span>
+      <span class="pick-idea">The type is the architecture: the headline runs the full width of the page, huge, over a tiled mosaic of real weddings. The owner's orange appears once, as a single thread.</span>
+    </a></div>
+<div class="foot">
+  <span>Nothing here is linked from the site, and none of it is indexed.</span>
+  <a href="/weddings/">See the current Weddings page</a>
+  <a href="/gallery/">The gallery</a>
+</div>
+</div></body></html>

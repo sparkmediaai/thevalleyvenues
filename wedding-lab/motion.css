@@ -31,17 +31,6 @@
 .m-head{position:sticky;top:0;z-index:60;background:#FFF9F3;transition:transform .6s cubic-bezier(.16,1,.3,1)}
 .m-head.m-hidden{transform:translateY(-105%)}
 
-/* cursor */
-.m-cursor{position:fixed;left:0;top:0;z-index:130;pointer-events:none;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;
-  background:#2B1B00;opacity:0;transition:width .45s cubic-bezier(.16,1,.3,1),height .45s cubic-bezier(.16,1,.3,1),margin .45s cubic-bezier(.16,1,.3,1),background-color .3s,opacity .3s;
-  display:grid;place-items:center}
-.m-cur-on .m-cursor{opacity:1}
-.m-cursor.is-link{width:46px;height:46px;margin:-23px 0 0 -23px;background:#7B7951;mix-blend-mode:multiply}
-.m-cursor.is-label{width:92px;height:92px;margin:-46px 0 0 -46px;background:#FC5324;mix-blend-mode:normal}
-.m-cursor span{font:600 11px/1 system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#FFF9F3;opacity:0;transition:opacity .25s}
-.m-cursor.is-label span{opacity:1}
-@media (hover:hover) and (pointer:fine){.m-cur-on,.m-cur-on a,.m-cur-on button{cursor:none}}
-
 /* marquee */
 .mq{overflow:hidden;white-space:nowrap;padding:clamp(1.6rem,4vw,3rem) 0;border-block:1px solid #7B7951;margin:clamp(3rem,8vw,6rem) 0}
 .mq-track{display:inline-flex;align-items:center;gap:clamp(1.4rem,3vw,2.6rem);will-change:transform}

@@ -707,6 +707,73 @@ h1,h2,h3{font-family:Newsreader,serif;font-weight:300;margin:0;line-height:.95;l
 
 
 # ===================================================================== write
+INDEX = """<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<title>The Weddings page, ten ways &middot; The Valley Venues</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@400;500&display=swap">
+<style>
+*{box-sizing:border-box}html,body{margin:0}img{display:block;max-width:100%;height:auto}
+body{background:__PARCH__;color:__INK__;font:400 17px/1.7 Jost,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid __ACCENT__;outline-offset:4px}
+.wrap{max-width:86rem;margin:0 auto;padding:clamp(2.5rem,7vw,6rem) clamp(1.2rem,4vw,3.5rem) clamp(4rem,9vw,7rem)}
+.lede{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(1.5rem,5vw,5rem);align-items:end;
+  padding-bottom:clamp(2rem,5vw,3.5rem);border-bottom:1px solid __OLIVE__}
+.eyebrow{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:__OLIVE__;margin:0 0 1.2rem}
+h1{font-family:'Cormorant Garamond',serif;font-weight:300;font-size:clamp(2.8rem,7vw,6rem);line-height:.98;margin:0}
+h1 em{font-style:italic}
+.lede p{margin:0 0 1rem;max-width:34rem}
+.chips{display:flex;gap:.4rem;margin-top:1.4rem}
+.chips span{width:2.2rem;height:2.2rem;border:1px solid __OLIVE__}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1.8rem,4vw,3.5rem);margin-top:clamp(2.5rem,6vw,4.5rem)}
+.pick{display:block}
+.pick-shot{display:block;overflow:hidden;background:__CREAM__;border:1px solid __OLIVE__}
+.pick-shot img{width:100%;transition:scale 1.4s cubic-bezier(.16,1,.3,1)}
+.pick:hover .pick-shot img,.pick:focus-visible .pick-shot img{scale:1.04}
+.pick-line{display:flex;align-items:baseline;gap:1rem;margin:1.1rem 0 .3rem;
+  border-bottom:1px solid __OLIVE__;padding-bottom:.7rem;position:relative}
+.pick-line::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:2px;background:__ACCENT__;
+  transform:scaleX(0);transform-origin:left;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.pick:hover .pick-line::after,.pick:focus-visible .pick-line::after{transform:scaleX(1)}
+.pick-line b{font:500 .72rem/1 Jost,sans-serif;letter-spacing:.22em;color:__OLIVE__}
+.pick-line em{font:400 clamp(1.5rem,2.6vw,2.2rem)/1 'Cormorant Garamond',serif;font-style:normal;margin-right:auto}
+.pick-idea{display:block;font-size:.98rem;max-width:44rem}
+.foot{margin-top:clamp(3rem,7vw,5rem);padding-top:1.4rem;border-top:1px solid __OLIVE__;
+  display:flex;flex-wrap:wrap;gap:.6rem 2rem;font-size:.92rem}
+.foot a{border-bottom:1px solid __OLIVE__;padding-bottom:.15rem}
+@media (max-width:860px){.lede{grid-template-columns:minmax(0,1fr)}.grid{grid-template-columns:minmax(0,1fr)}}
+</style></head>
+<body><div class="wrap">
+<div class="lede">
+  <div><p class="eyebrow">The Valley Venues &middot; for Kobi</p>
+    <h1>The Weddings page,<br><em>ten ways</em>.</h1></div>
+  <div><p>The same words and the same photographs, designed %(n)s ways. Every one is in your
+    colours, with nothing rounded, and every one is built for a phone first.</p>
+    <p>Open any of them and scroll. Pick the one that feels like the estate, or the parts you
+      want from several, and the rest of the site follows it.</p>
+    <div class="chips">%(chips)s</div></div>
+</div>
+<div class="grid">%(cards)s</div>
+<div class="foot">
+  <span>Nothing here is linked from the site, and none of it is indexed.</span>
+  <a href="/weddings/">See the current Weddings page</a>
+  <a href="/gallery/">The gallery</a>
+</div>
+</div></body></html>
+"""
+
+
+def index_page(cards, chips, n):
+    out = INDEX
+    for token, value in (("__PARCH__", PARCH), ("__INK__", INK), ("__OLIVE__", OLIVE),
+                         ("__ACCENT__", ACCENT), ("__CREAM__", "#FFF7F0"),
+                         ("%(cards)s", cards), ("%(chips)s", chips), ("%(n)s", str(n))):
+        out = out.replace(token, value)
+    return out
+
+
 SHELL = """<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
@@ -744,24 +811,15 @@ def main():
         with open(os.path.join(path, "index.html"), "w", encoding="utf-8") as f:
             f.write(SHELL % dict(n=d["slug"], name=d["name"], fonts=d["fonts"], base=BASE_CSS, css=css, body=body, switch=switch, mv=mv))
         print("  /wedding-lab/%s/  %s" % (d["slug"], d["name"]))
-    cards = "".join('<a href="/wedding-lab/%s/"><b>%s &middot; %s</b><span>%s</span></a>' % (d["slug"], d["slug"], d["name"], d["idea"]) for d in D)
+    cards = "".join(
+        '''<a class="pick" href="/wedding-lab/%(slug)s/">
+      <span class="pick-shot"><img src="/wedding-lab/thumbs/%(slug)s.webp" alt="" width="900" height="525" loading="%(load)s" decoding="async"></span>
+      <span class="pick-line"><b>%(slug)s</b><em>%(name)s</em></span>
+      <span class="pick-idea">%(idea)s</span>
+    </a>''' % dict(d, load="eager" if i < 2 else "lazy") for i, d in enumerate(D))
+    chips = "".join('<span style="background:%s"></span>' % c for c in (INK, PARCH, OLIVE, ACCENT))
     with open(os.path.join(OUT, "index.html"), "w", encoding="utf-8") as f:
-        f.write("""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow"><title>The Weddings page, ten ways</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Jost:wght@400;500&display=swap">
-<style>body{margin:0;background:#FFF9F3;color:#2B1B00;font:400 16px/1.6 Jost,sans-serif}
-.w{max-width:64rem;margin:0 auto;padding:clamp(2.5rem,7vw,5rem) 1.2rem}
-h1{font:300 clamp(2.4rem,6vw,4.4rem)/1 'Cormorant Garamond',serif;margin:0 0 1rem}
-p{max-width:40rem;margin:0 0 2.5rem}
-.g{display:grid;border-top:1px solid #2B1B00}
-.g a{display:grid;grid-template-columns:16rem 1fr;gap:1.5rem;padding:1.3rem 0;border-bottom:1px solid #2B1B00;text-decoration:none;color:inherit}
-.g a:hover{background:#fff}
-.g b{font:300 1.7rem/1.1 'Cormorant Garamond',serif}
-@media (max-width:640px){.g a{grid-template-columns:1fr;gap:.3rem}}</style></head>
-<body><div class="w"><h1>The Weddings page, ten ways</h1>
-<p>The same words and photographs in ten editorial directions, all in the colours from Kobi's pamphlet,
-with no rounded corners. Each is built to work on a phone first. Pick one, or the parts of several,
-and the rest of the site follows it.</p><div class="g">%s</div></div></body></html>""" % cards)
+        f.write(index_page(cards, chips, len(D)))
     print("  /wedding-lab/")
 
 

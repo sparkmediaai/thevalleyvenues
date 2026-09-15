@@ -2,8 +2,8 @@
 
    One engine, ten choreographies. Every direction gets the same foundation --
    smooth scrolling on a desktop, a reading-progress thread, a header that steps
-   aside while you read, magnetic buttons, a cursor that knows what it is over,
-   and a slow zoom on every photograph you touch -- and then its own opening and
+   aside while you read, magnetic buttons, and a slow zoom on every photograph you
+   touch (the pointer itself is left alone) -- and then its own opening and
    its own way of revealing the page (see RECIPES, keyed by body[data-dir]).
 
    Two rules hold everywhere:
@@ -194,7 +194,7 @@
 
     // every photograph can be touched
     $$("img").forEach(function (img) {
-      if (img.closest(".lw-head,.m-cursor,.m-peek,.dip-img")) return;
+      if (img.closest(".lw-head,.m-peek,.dip-img")) return;
       var p = img.parentElement, cs = getComputedStyle(p);
       var padded = (parseFloat(cs.paddingTop) + parseFloat(cs.paddingLeft)) > 0;
       if (padded || p.tagName === "A" || p.children.length > 1 && getComputedStyle(img).position !== "absolute") {
@@ -214,24 +214,6 @@
       b.addEventListener("mouseleave", function () { g.to(b, { x: 0, y: 0, duration: 0.9, ease: "elastic.out(1,0.4)" }); });
     });
 
-    // the cursor
-    if (fine) {
-      var cur = document.createElement("div"); cur.className = "m-cursor"; cur.innerHTML = "<span></span>";
-      document.body.appendChild(cur);
-      var label = cur.querySelector("span");
-      var xTo = g.quickTo(cur, "x", { duration: 0.45, ease: "power3" });
-      var yTo = g.quickTo(cur, "y", { duration: 0.45, ease: "power3" });
-      addEventListener("mousemove", function (e) { xTo(e.clientX); yTo(e.clientY); docEl.classList.add("m-cur-on"); });
-      document.addEventListener("mouseleave", function () { docEl.classList.remove("m-cur-on"); });
-      document.addEventListener("mouseover", function (e) {
-        var t = e.target.closest("[data-cursor],a,button");
-        cur.classList.toggle("is-link", !!t);
-        var txt = t && t.getAttribute("data-cursor");
-        if (!txt && t && t.querySelector("img")) txt = "View";
-        cur.classList.toggle("is-label", !!txt);
-        label.textContent = txt || "";
-      });
-    }
   }
 
   /* --------------------------------------------------- defaults for the rest */
@@ -240,7 +222,7 @@
     $$("section p, figcaption p").forEach(function (p) { if (!isDone(p)) E.lift(p, { y: 22 }); });
     $$(".btn,.link").forEach(function (b) { if (!isDone(b)) E.lift(b, { y: 18 }); });
     $$("img").forEach(function (img) {
-      if (img._rev || img.closest(".lw-head,.m-cursor,.m-peek,.dip-img") || img.getBoundingClientRect().top < innerHeight * 0.9 && !img.closest(".way,.panel,.feature,.still")) return;
+      if (img._rev || img.closest(".lw-head,.m-peek,.dip-img") || img.getBoundingClientRect().top < innerHeight * 0.9 && !img.closest(".way,.panel,.feature,.still")) return;
       E.reveal(img);
     });
   }
@@ -281,7 +263,6 @@
     E.inkRead($(".pull"));
     $$(".feature").forEach(function (f, i) {
       var img = $("img", f), left = i % 2 === 0;
-      f.setAttribute("data-cursor", "Read");
       E.reveal(img, { from: left ? "inset(0% 0% 0% 100%)" : "inset(0% 100% 0% 0%)", scale: 1.25, scaleTo: 1.12, dur: 2 });
       E.drift(img, 5);
       E.softIn($(".kind", f));
@@ -351,13 +332,12 @@
     E.inkRead($(".line"));
     var rail = $(".rail");
     if (rail && wide) {
-      rail.setAttribute("data-cursor", "Scroll");
       rail.classList.add("m-pinned");
       var dist = function () { return rail.scrollWidth - rail.clientWidth; };
       g.to(rail.children, { x: function () { return -dist(); }, ease: "none",
         scrollTrigger: { trigger: rail, start: "center center", end: function () { return "+=" + dist(); },
           pin: true, scrub: 0.6, invalidateOnRefresh: true } });
-    } else if (rail) rail.setAttribute("data-cursor", "Swipe");
+    }
     $$(".panel").forEach(function (p, i) {
       E.reveal($("img", p), { from: "inset(12% 12% 12% 12%)", scale: 1.25, delay: i * 0.1 });
       E.lift($("div", p), { trigger: p, delay: 0.3 + i * 0.1 });
@@ -417,7 +397,6 @@
     E.inkRead($(".line"));
     $$(".still").forEach(function (s) {
       var img = $("img", s);
-      s.setAttribute("data-cursor", "View");
       g.fromTo(img, { clipPath: "inset(20% 0% 20% 0%)", scale: 1.3 }, { clipPath: "inset(0% 0% 0% 0%)", scale: 1.05, ease: "none",
         scrollTrigger: { trigger: s, start: "top bottom", end: "top 20%", scrub: true } });
       img._rev = true; done(img);
@@ -472,7 +451,6 @@
         row.addEventListener("mouseenter", function () { peek.style.backgroundImage = "url('" + src + "')"; peek.classList.add("on"); });
         row.addEventListener("mouseleave", function () { peek.classList.remove("on"); });
         row.addEventListener("mousemove", function (e) { px(e.clientX); py(e.clientY); });
-        row.setAttribute("data-cursor", "Open");
       });
     }
     $$(".ways .way").forEach(function (row, i) {
