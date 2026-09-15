@@ -47,9 +47,8 @@
     working_with_planner: ["Yes", "No", "Looking for one"],
     // Plain hyphens, matching the option values rather than the labels. See the
     // note on the select in build.py: the en dash is display only.
-    estimated_venue_budget: ["Under $15,000", "$15,000-$25,000", "$25,000-$40,000",
-                             "$40,000-$60,000", "$60,000-$100,000", "$100,000+",
-                             "Not sure yet"],
+    estimated_venue_budget: ["Under $25,000", "$25,000-$50,000", "$50,000-$75,000",
+                             "$75,000-$100,000", "$100,000-$150,000", "$150,000+"],
   };
 
   /* Where they came from, remembered from the first page they landed on.

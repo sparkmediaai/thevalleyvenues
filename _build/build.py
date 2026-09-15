@@ -501,11 +501,13 @@ def words(text):
     return " ".join("<span>%s</span>" % w for w in text.split())
 
 
-FILM_A = ["dji-0673", "copy-of-magnoliahouse-36", "copy-of-portraits-29", "copy-of-3i0a4588vh",
-          "katie-daisy-2o8a8905", "sarah-kristen-photo-2024-7-25-skp-195", "aybee-000084170030"]
+# No photograph of Magnolia House from before the May 2025 fire: it does not
+# look like that any more. Every gallery photograph predates the fire.
+FILM_A = ["dji-0673", "copy-of-the-valley-venues-kristen-thomison-photo-312", "copy-of-portraits-29", "copy-of-3i0a4588vh",
+          "katie-daisy-2o8a8829", "misty-lancaster-dsc04766", "aybee-000084170030"]
 FILM_B = ["4k6a0982anthonyalexa", "katie-daisy-2o8a9710", "copy-of-the-valley-venues-kristen-thomison-photo-233",
           "sarah-larae-engagement-132", "misty-lancaster-dsc04738", "copy-of-882a0160", "sarah-larae-engagement-37"]
-FAN = ["4k6a0033anthonyalexa", "aybee-000084160036", "copy-of-vintagecar-16-2",
+FAN = ["4k6a0033anthonyalexa", "copy-of-portraits-4-2", "copy-of-vintagecar-16-2",
        "copy-of-the-valley-venues-kristen-thomison-photo-96", "copy-of-thevalley-6-1"]
 
 
@@ -668,8 +670,8 @@ PAGES["weddings/index.html"] = dict(
 </section>
 
 <section class="closing">
-  <div class="closing-img" role="img" aria-label="The wedding party on the steps of Magnolia House"
-       style="background-image:url('/assets/gallery/copy-of-882a1248.webp')"></div>
+  <div class="closing-img" role="img" aria-label="The conservatory lit from within after dark"
+       style="background-image:url('/assets/img/close-weddings.webp')"></div>
   <div class="closing-body">
     <div class="eyebrow">One weekend at a time</div>
     <h2>Most Saturdays are already spoken for.</h2>
@@ -680,10 +682,10 @@ PAGES["weddings/index.html"] = dict(
 """ % dict(
         fill=words("The ceremony takes thirty minutes. The rest of it is what you will remember."),
         c1=gpic("aybee-dominy-3700", "A bride and groom walking up the aisle from the meadow ceremony"),
-        c2=gpic("sarah-kristen-photo-2024-7-25-skp-264", "A couple beside the rehearsal table laid on the Magnolia House porch"),
-        c3=gpic("sarah-kristen-photo-2024-7-25-skp-279", "A long table on the porch dressed in blue linen and tall florals"),
+        c2=gpic("4k6a1790anthonyalexa", "A long table laid on the Lookout Deck above the autumn valley"),
+        c3=gpic("copy-of-the-valley-venues-kristen-thomison-photo-63", "A reception table dressed in blue and white, with blue glassware"),
         film_a=film_row(FILM_A, "wd-film-a"), film_b=film_row(FILM_B, "wd-film-b"),
-        gate=gpic("sarah-kristen-photo-2024-7-25-skp-187", "Magnolia House from the foot of its front steps"),
+        gate='<img src="/assets/img/magnolia-house.webp" alt="Magnolia House, a couple on its front steps" width="%d" height="%d" loading="lazy" decoding="async">' % webp_size(os.path.join(IMG, "magnolia-house.webp")),
         h1=gpic("copy-of-882a2000", "Guests raising glasses at the reception", sizes="(max-width:760px) 60vw, 28vw"),
         h2=gpic("august-images-valleyvenues-1-4", "A bride getting ready on the morning of the wedding", sizes="(max-width:760px) 60vw, 28vw"),
         h3=gpic("copy-of-dsc05971-arw-1", "A couple at a picnic breakfast laid in the meadow", sizes="(max-width:760px) 60vw, 28vw"),
@@ -1012,107 +1014,86 @@ PAGES["the-estate/index.html"] = dict(
          '<link rel="stylesheet" href="/assets/estate-park.css">\n',
     foot_js='<script src="/assets/estate-park.js" defer></script>',
     eyebrow="One estate &middot; Seventy-four acres",
-    h1="One property, one map, one path.",
-    standfirst="Six places on one estate, and a celebration here includes every one of "
-               "them. Hover a place on the map to see it, or touch it to go there.",
+    h1="One property, and every space in it yours.",
+    standfirst="A celebration here includes every space on the estate. Hover a place on "
+               "the map to see it, or touch it to go there.",
     body="""
 <section>
   <div class="statement">
     <div class="eyebrow">Read this first</div>
     <h2 class="rise-words"><span>Every</span> <span>celebration</span> <span>includes</span> <span>every</span> <span>space.</span></h2>
-    <p>Ask most estates which space you are getting and they will tell you. Here
-       it is the wrong question. The six places below are not alternatives to
-       choose between and they are not separate businesses sharing a drive.
-       They are six parts of one property, and a wedding moves through all of
-       them.</p>
-    <p class="close">You arrive at the house, you marry in the meadow, you
-       drink on the deck and you dance in the hall. Nobody drives between them.</p>
+    <p>Ask most estates which space you are getting and they will tell you. Here it is the
+       wrong question. The places on this estate are not alternatives to choose between and
+       they are not separate businesses sharing a drive. They are parts of one property,
+       and every one of them is yours for the celebration.</p>
+    <p class="close">Where you marry, where you dine and how the day unfolds is up to the two
+       of you. Nobody else is on the property while you decide.</p>
   </div>
 </section>
 
 <section class="walk">
   <div class="lede">
-    <div class="eyebrow">The walk</div>
-    <h2>Six places, and the ground between them.</h2>
-    <p>In the order a weekend moves through them: in off Pope Creek Road, up to the
-       house, down to the meadow, out to the deck, into the hall, and up the hill to bed.
-       Every one of them is on the map above.</p>
+    <div class="eyebrow">The places</div>
+    <h2>Every space on the estate.</h2>
+    <p>Each one is on the map above. Choose a place to see it.</p>
   </div>
-
-  <ol class="places">
-    <li class="place place-arrival">
-      <div class="place-text">
-        <div class="eyebrow">01 &middot; The way in</div>
-        <h3>Arrival</h3>
-        <p>You turn off Pope Creek Road and the gate closes behind you. For the next two days nothing arrives that you did not invite, and nothing leaves until you do. This is the only drive anybody makes all weekend.</p>
-      </div>
-    </li>
-    <li class="place">
-      <a class="place-photo frame" href="/the-estate/magnolia-house/" aria-label="Magnolia House: see the page">
-        {{img:magnolia-house.webp|Magnolia House, white columns above the lawn}}
+  <ul class="spots">
+    <li class="spot">
+      <a class="spot-link" href="/the-estate/magnolia-house/">
+        <span class="spot-photo">{{img:magnolia-house.webp|Magnolia House, a couple on its front steps}}</span>
+        <span class="spot-text">
+          <span class="eyebrow">The historic house</span>
+          <span class="spot-name">Magnolia House</span>
+          <span class="spot-line">White columns against the ridge, and a glass conservatory behind.</span>
+        </span>
       </a>
-      <div class="place-text">
-        <div class="eyebrow">02 &middot; Where you arrive</div>
-        <h3><a class="place-link" href="/the-estate/magnolia-house/">Magnolia House</a></h3>
-        <p class="place-dist">175 ft from the gate</p>
-        <p>White columns and glass against the ridge, at the top of the drive. It is the first photograph almost every guest takes, through the windshield on the way up. The conservatory behind it is also the weather plan that costs nothing.</p>
-        <a class="btn" href="/the-estate/magnolia-house/">See Magnolia House</a>
-      </div>
     </li>
-    <li class="place">
-      <a class="place-photo frame" href="/the-estate/the-valley/" aria-label="The Valley: see the page">
-        {{img:the-valley.webp|The processional crossing the meadow}}
+    <li class="spot">
+      <a class="spot-link" href="/the-estate/the-valley/">
+        <span class="spot-photo">{{img:the-valley.webp|The processional crossing the meadow}}</span>
+        <span class="spot-text">
+          <span class="eyebrow">The open meadow</span>
+          <span class="spot-name">The Valley</span>
+          <span class="spot-line">Held on three sides by ridgeline, with Lookout Mountain beyond.</span>
+        </span>
       </a>
-      <div class="place-text">
-        <div class="eyebrow">03 &middot; Where you marry</div>
-        <h3><a class="place-link" href="/the-estate/the-valley/">The Valley</a></h3>
-        <p class="place-dist">860 ft from the front door</p>
-        <p>An open meadow held on three sides by ridgeline, with Lookout Mountain beyond. Sound stays in it and the wind drops in it. Nothing is visible from it that the estate does not own.</p>
-        <a class="btn" href="/the-estate/the-valley/">See The Valley</a>
-      </div>
     </li>
-    <li class="place">
-      <a class="place-photo frame" href="/the-estate/lookout-deck/" aria-label="The Lookout Deck: see the page">
-        {{img:lookout-deck.webp|A couple dancing on the Lookout Deck, the ridge behind}}
+    <li class="spot">
+      <a class="spot-link" href="/the-estate/lookout-deck/">
+        <span class="spot-photo">{{img:lookout-deck.webp|A couple dancing on the Lookout Deck, the ridge behind}}</span>
+        <span class="spot-text">
+          <span class="eyebrow">Davis Hall's wrap-around deck</span>
+          <span class="spot-name">The Lookout Deck</span>
+          <span class="spot-line">Out over the valley, facing the mountain, gold in the evening.</span>
+        </span>
       </a>
-      <div class="place-text">
-        <div class="eyebrow">04 &middot; Where the light goes</div>
-        <h3><a class="place-link" href="/the-estate/lookout-deck/">The Lookout Deck</a></h3>
-        <p class="place-dist">1,030 ft, the longest walk of the weekend</p>
-        <p>A railed deck out over the valley, facing the mountain. It turns gold at six, tip to tip, and everyone stops talking. Guests walk here from the ceremony; there is no shuttle because there is nothing to shuttle across.</p>
-        <a class="btn" href="/the-estate/lookout-deck/">See The Lookout Deck</a>
-      </div>
     </li>
-    <li class="place">
-      <a class="place-photo frame" href="/the-estate/davis-hall/" aria-label="Davis Hall: see the page">
-        {{img:davis-hall.webp|Davis Hall under its drapery, lit for the first dance}}
+    <li class="spot">
+      <a class="spot-link" href="/the-estate/davis-hall/">
+        <span class="spot-photo">{{img:davis-hall.webp|Davis Hall under its drapery, lit for the first dance}}</span>
+        <span class="spot-text">
+          <span class="eyebrow">The reception hall</span>
+          <span class="spot-name">Davis Hall</span>
+          <span class="spot-line">Drapery, chandeliers, and the largest floor on the property.</span>
+        </span>
       </a>
-      <div class="place-text">
-        <div class="eyebrow">05 &middot; Where you dine and dance</div>
-        <h3><a class="place-link" href="/the-estate/davis-hall/">Davis Hall</a></h3>
-        <p class="place-dist">650 ft from the deck</p>
-        <p>Drapery, chandeliers, and the room where the dancing happens. It carries the largest receptions on the property, and nobody has to find their car to get to it.</p>
-        <a class="btn" href="/the-estate/davis-hall/">See Davis Hall</a>
-      </div>
     </li>
-    <li class="place">
-      <a class="place-photo frame" href="/the-estate/overlook-village/" aria-label="Overlook Village: see the page">
-        {{img:stay-village.webp|The cottages of Overlook Village along the hillside}}
+    <li class="spot">
+      <a class="spot-link" href="/the-estate/overlook-village/">
+        <span class="spot-photo">{{img:stay-village.webp|The cottages of Overlook Village along the hillside}}</span>
+        <span class="spot-text">
+          <span class="eyebrow">The cottages on the hill</span>
+          <span class="spot-name">Overlook Village</span>
+          <span class="spot-line">Cottages along the hillside, and thirty-four beds on the estate.</span>
+        </span>
       </a>
-      <div class="place-text">
-        <div class="eyebrow">06 &middot; Where everyone sleeps</div>
-        <h3><a class="place-link" href="/the-estate/overlook-village/">Overlook Village</a></h3>
-        <p class="place-dist">325 ft, and then bed</p>
-        <p>Cottages along the hill, thirty-four beds, and the end of the evening about a minute from the end of the party. This is the leg that every other venue replaces with a line of taxis.</p>
-        <a class="btn" href="/the-estate/overlook-village/">See Overlook Village</a>
-      </div>
     </li>
-  </ol>
+  </ul>
 </section>
 
 <section class="band">
   {{img:band-ground.webp|The couple standing at the arch in the open meadow|class="band-img"}}
-  <p>Six places on one map, and you never leave the property to reach any of them.</p>
+  <p>Every space on one map, and you never leave the property to reach any of them.</p>
 </section>
 
 <section>
@@ -1139,7 +1120,7 @@ PAGES["the-estate/index.html"] = dict(
   <div class="closing-body">
     <div class="eyebrow">The whole of it</div>
     <h2>Seventy-four acres does not photograph.</h2>
-    <p>You can see the six places on this page. What a screen cannot show you is how far apart they are, how quiet the meadow is, or how the deck turns at six.</p>
+    <p>You can see every space on this page. What a screen cannot show you is how far apart they are, how quiet the meadow is, or how the deck turns at six.</p>
     <a class="btn" href="/pricing/">Download the Wedding Pamphlet</a>
   </div>
 </section>
@@ -1433,7 +1414,7 @@ PAGES["the-estate/magnolia-house/index.html"] = dict(
     standfirst='Built in the 1890s, lost to a fire in 2025, and raised again with the original columns at the front and a glass conservatory behind. It is the first thing you see, and the reason most people come.',
     actions=[("Download the Wedding Pamphlet", "/pricing/"),
              ("The whole estate", "/the-estate/")],
-    body='\n<section>\n  <div class="lede">\n    <div class="eyebrow">Where the estate begins</div>\n    <h2>Not a rebuild. A rebirth.</h2>\n    <p>Magnolia House is the building the estate is known by, and it is the first\n       thing every guest sees &mdash; a hundred and seventy-five feet from the gate, at the top\n       of the drive, white columns against the ridge. It was raised in the 1890s.\n       In May 2025 a fire took the interior, and the family chose to bring it back\n       rather than replace it.</p>\n    <p>The front is restored to its history as closely as the record allows. The\n       columns you marry in front of are the original columns, saved from the fire\n       and standing again. Window frames and a wooden mantle from the old house\n       are back in the new one. And behind the house, where there was nothing\n       before, there is a conservatory &mdash; glass on three sides, Lookout\n       Mountain on the fourth, light all day &mdash; which is also the answer to\n       what happens if it rains: nothing is tented, nothing is struck, and nothing\n       costs extra.</p>\n    <p>Everything else on the property is arranged around it. You arrive here.\n       You marry in the meadow below it. You come back to it for dinner under\n       glass, and you walk up to the cottages from its door.</p>\n  </div>\n  <ul class="facts">\n    <li><span>Built</span>The 1890s. Reborn in 2026, on the original footprint.</li>\n    <li><span>Holds</span>The ceremony, the reception, cocktails, and the rehearsal dinner the night before.</li>\n    <li><span>The conservatory</span>Glass on three sides, the mountain on the fourth. The weather plan that costs nothing.</li>\n    <li><span>The columns</span>Original, saved from the fire, and still what you stand in front of.</li>\n    <li><span>Where it sits</span>A hundred and seventy-five feet from the gate. The first photograph most guests take.</li>\n    <li><span>Then</span>Eight hundred and sixty feet, on foot, to the meadow.</li>\n  </ul>\n\n  <div class="note">\n    <p><b>Working note.</b> The live site still carries the rebuild page &mdash;\n       &ldquo;Coming 2026&rdquo;, pre-opening FAQs, reduced rates during construction.\n       None of it was carried over. The two frames marked &ldquo;as drawn&rdquo; are\n       architectural renderings; the finished house has not been photographed for\n       the site yet, and that is the first shoot to book.</p>\n  </div>\n</section>\n\n<section>\n  <div class="lede">\n    <div class="eyebrow">Seen</div>\n    <h2>Magnolia House, as it is.</h2>\n  </div>\n  <div class="gallery">\n    <figure>{{img:mh-1.webp|The house from the drive, with the conservatory behind it, as drawn}}</figure>\n    <figure>{{img:mh-2.webp|The original columns}}</figure>\n    <figure>{{img:mh-3.webp|Under the columns, Lookout Mountain behind}}</figure>\n    <figure>{{img:mh-4.webp|A first look on the steps}}</figure>\n    <figure>{{img:mh-5.webp|The conservatory, glass on three sides, as drawn}}</figure>\n    <figure>{{img:mh-6.webp|On the steps}}</figure>\n    <figure>{{img:mh-7.webp|The porch}}</figure>\n    <figure>{{img:mh-8.webp|A table laid on the porch}}</figure>\n  </div>\n</section>\n\n<nav class="onward" aria-label="Around the estate">\n    <span></span>\n    <a class="up" href="/the-estate/">The whole estate</a>\n    <a class="next" href="/the-estate/the-valley/"><span>On the walk, next</span><b>The Valley</b></a>\n</nav>\n\n<section class="closing">\n  <div class="closing-img" role="img" aria-label="The conservatory lit from within after dark"\n       style="background-image:url(\'/assets/img/close-weddings.webp\')"></div>\n  <div class="closing-body">\n    <div class="eyebrow">After dark</div>\n    <h2>See it lit.</h2>\n    <p>The conservatory at night is the reason the house was rebuilt with glass.\n       Come and stand in it when it suits you, or start with a conversation.</p>\n    <a class="btn" href="/pricing/">Download the Wedding Pamphlet</a>\n  </div>\n</section>\n')
+    body='\n<section>\n  <div class="lede">\n    <div class="eyebrow">Where the estate begins</div>\n    <h2>Not a rebuild. A rebirth.</h2>\n    <p>Magnolia House is the building the estate is known by, and it is the first\n       thing every guest sees &mdash; a hundred and seventy-five feet from the gate, at the top\n       of the drive, white columns against the ridge. It was raised in the 1890s.\n       In May 2025 a fire took the interior, and the family chose to bring it back\n       rather than replace it.</p>\n    <p>The front is restored to its history as closely as the record allows. The\n       columns you marry in front of are the original columns, saved from the fire\n       and standing again. Window frames and a wooden mantle from the old house\n       are back in the new one. And behind the house, where there was nothing\n       before, there is a conservatory &mdash; glass on three sides, Lookout\n       Mountain on the fourth, light all day &mdash; which is also the answer to\n       what happens if it rains: nothing is tented, nothing is struck, and nothing\n       costs extra.</p>\n    <p>Everything else on the property is arranged around it. You arrive here.\n       You marry in the meadow below it. You come back to it for dinner under\n       glass, and you walk up to the cottages from its door.</p>\n  </div>\n  <ul class="facts">\n    <li><span>Built</span>The 1890s. Reborn in 2026, on the original footprint.</li>\n    <li><span>Holds</span>The ceremony, the reception, cocktails, and the rehearsal dinner the night before.</li>\n    <li><span>The conservatory</span>Glass on three sides, the mountain on the fourth. The weather plan that costs nothing.</li>\n    <li><span>The columns</span>Original, saved from the fire, and still what you stand in front of.</li>\n    <li><span>Where it sits</span>A hundred and seventy-five feet from the gate. The first photograph most guests take.</li>\n    <li><span>Then</span>Eight hundred and sixty feet, on foot, to the meadow.</li>\n  </ul>\n\n  <div class="note">\n    <p><b>Working note.</b> The live site still carries the rebuild page &mdash;\n       &ldquo;Coming 2026&rdquo;, pre-opening FAQs, reduced rates during construction.\n       None of it was carried over. The two frames marked &ldquo;as drawn&rdquo; are\n       architectural renderings; the finished house has not been photographed for\n       the site yet, and that is the first shoot to book.</p>\n  </div>\n</section>\n\n<section>\n  <div class="lede">\n    <div class="eyebrow">Seen</div>\n    <h2>Magnolia House, as it is.</h2>\n  </div>\n  <div class="gallery">\n    <figure>{{img:magnolia-house.webp|The house from the lawn, a couple on its front steps}}</figure>\n    <figure>{{img:inc-rain.webp|The conservatory from the lawn, glass on three sides}}</figure>\n    <figure>{{img:inc-glass.webp|The conservatory inside, chandeliers over the floor}}</figure>\n    <figure>{{img:mh-1.webp|The house from the drive, with the conservatory behind it, as drawn}}</figure>\n    <figure>{{img:close-weddings.webp|The conservatory lit from within after dark}}</figure>\n    <figure>{{img:mh-5.webp|The conservatory, glass on three sides, as drawn}}</figure>\n  </div>\n</section>\n\n<nav class="onward" aria-label="Around the estate">\n    <span></span>\n    <a class="up" href="/the-estate/">The whole estate</a>\n    <a class="next" href="/the-estate/the-valley/"><span>On the walk, next</span><b>The Valley</b></a>\n</nav>\n\n<section class="closing">\n  <div class="closing-img" role="img" aria-label="The conservatory lit from within after dark"\n       style="background-image:url(\'/assets/img/close-weddings.webp\')"></div>\n  <div class="closing-body">\n    <div class="eyebrow">After dark</div>\n    <h2>See it lit.</h2>\n    <p>The conservatory at night is the reason the house was rebuilt with glass.\n       Come and stand in it when it suits you, or start with a conversation.</p>\n    <a class="btn" href="/pricing/">Download the Wedding Pamphlet</a>\n  </div>\n</section>\n')
 
 PAGES["the-estate/the-valley/index.html"] = dict(
     nav="The Estate", title="The Valley | %s" % SITE,
@@ -1679,24 +1660,22 @@ PAGES["pricing/index.html"] = dict(
       </div>
     </div>
     <div class="field">
-      <label for="pr_estimated_venue_budget">Estimated venue budget</label>
-      <!-- Answered by default rather than left blank. It is the one qualifying
-           question on the form and it should not be the thing that stops
-           somebody sending it, so nobody has to answer it to get the book --
-           they only have to correct it if they know better. -->
-      <!-- No value attributes: the option text is the value, which is the only
-           way to guarantee what the brief requires -- that the two are equal
-           character for character. Plain ASCII hyphen, no spaces around it.
-           These strings are compared exactly against the CRM options and a
-           mismatch fails silently, so do not prettify the dashes. -->
+      <label for="pr_estimated_venue_budget">Estimated venue budget <b aria-hidden="true">*</b></label>
+      <!-- Required, with no default and no "not sure": the owner uses this to
+           qualify leads, and wide bands that climb past the estate's usual
+           budget say what kind of estate this is (2026-09-15 call). -->
+      <!-- No value attributes on the bands: the option text is the value, so
+           the two are equal character for character. Plain ASCII hyphen, no
+           spaces. These strings are compared exactly against the CRM options
+           and a mismatch fails silently, so do not prettify the dashes. -->
       <select id="pr_estimated_venue_budget" name="estimated_venue_budget" required>
-        <option>Under $15,000</option>
-        <option>$15,000-$25,000</option>
-        <option>$25,000-$40,000</option>
-        <option>$40,000-$60,000</option>
-        <option>$60,000-$100,000</option>
-        <option>$100,000+</option>
-        <option selected>Not sure yet</option>
+        <option value="" selected disabled>Choose a range</option>
+        <option>Under $25,000</option>
+        <option>$25,000-$50,000</option>
+        <option>$50,000-$75,000</option>
+        <option>$75,000-$100,000</option>
+        <option>$100,000-$150,000</option>
+        <option>$150,000+</option>
       </select>
     </div>
     <p class="form-privacy">The book comes by text as well as email, which is why we ask
@@ -1776,7 +1755,12 @@ GALLERY_PLACES = [
 
 def gallery_body():
     with open(os.path.join(ROOT, "assets", "gallery.json"), encoding="utf-8") as f:
-        photos = json.load(f)
+        # Magnolia House was lost to fire in May 2025 and every photograph here
+        # was taken before it, so none of the house is shown until new ones come.
+        # The July 2024 Sara Kristen shoot was a Magnolia House session, so its
+        # night frames at the brick gate go too.
+        photos = [p for p in json.load(f) if "magnolia" not in p["tags"]
+                  and not p["id"].startswith("sarah-kristen-photo-2024")]
     names = dict(GALLERY_PLACES)
     counts = {}
     for p in photos:
@@ -1845,8 +1829,8 @@ def gallery_body():
 </section>
 
 <section class="closing">
-  <div class="closing-img" role="img" aria-label="The wedding party on the steps of Magnolia House"
-       style="background-image:url('/assets/gallery/%(close)s.webp')"></div>
+  <div class="closing-img" role="img" aria-label="The conservatory at Magnolia House from the lawn, glass on three sides"
+       style="background-image:url('/assets/img/inc-rain.webp')"></div>
   <div class="closing-body">
     <div class="eyebrow">The pamphlet</div>
     <h2>Every place in these photographs, and what it holds.</h2>
@@ -1858,8 +1842,7 @@ def gallery_body():
 """ % dict(n=len(photos), pn=len(credits), chips="".join(chips), options=options,
            tiles="\n".join(tiles),
            names="".join('<li><button type="button" data-credit="%s">%s</button></li>' % (html_attr(c), c)
-                         for c in credits),
-           close=photos[145]["id"])
+                         for c in credits))
 
 
 def html_attr(s):
@@ -1869,8 +1852,8 @@ def html_attr(s):
 PAGES["gallery/index.html"] = dict(
     nav="Gallery", title="Gallery | %s" % SITE,
     desc="Weddings at The Valley Venues, photographed by thirteen wedding photographers.",
-    hero_img="gallery-hero.webp",
-    hero_alt="A ceremony set out on the lawn in front of Magnolia House, the ridge behind",
+    hero_img="included.webp",
+    hero_alt="The conservatory at Magnolia House lit for a reception, a couple dancing under the chandeliers",
     hero_text=False,
     eyebrow="The Gallery",
     h1="Photographs sell this place better than we can.",

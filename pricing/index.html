@@ -115,24 +115,22 @@
       </div>
     </div>
     <div class="field">
-      <label for="pr_estimated_venue_budget">Estimated venue budget</label>
-      <!-- Answered by default rather than left blank. It is the one qualifying
-           question on the form and it should not be the thing that stops
-           somebody sending it, so nobody has to answer it to get the book --
-           they only have to correct it if they know better. -->
-      <!-- No value attributes: the option text is the value, which is the only
-           way to guarantee what the brief requires -- that the two are equal
-           character for character. Plain ASCII hyphen, no spaces around it.
-           These strings are compared exactly against the CRM options and a
-           mismatch fails silently, so do not prettify the dashes. -->
+      <label for="pr_estimated_venue_budget">Estimated venue budget <b aria-hidden="true">*</b></label>
+      <!-- Required, with no default and no "not sure": the owner uses this to
+           qualify leads, and wide bands that climb past the estate's usual
+           budget say what kind of estate this is (2026-09-15 call). -->
+      <!-- No value attributes on the bands: the option text is the value, so
+           the two are equal character for character. Plain ASCII hyphen, no
+           spaces. These strings are compared exactly against the CRM options
+           and a mismatch fails silently, so do not prettify the dashes. -->
       <select id="pr_estimated_venue_budget" name="estimated_venue_budget" required>
-        <option>Under $15,000</option>
-        <option>$15,000-$25,000</option>
-        <option>$25,000-$40,000</option>
-        <option>$40,000-$60,000</option>
-        <option>$60,000-$100,000</option>
-        <option>$100,000+</option>
-        <option selected>Not sure yet</option>
+        <option value="" selected disabled>Choose a range</option>
+        <option>Under $25,000</option>
+        <option>$25,000-$50,000</option>
+        <option>$50,000-$75,000</option>
+        <option>$75,000-$100,000</option>
+        <option>$100,000-$150,000</option>
+        <option>$150,000+</option>
       </select>
     </div>
     <p class="form-privacy">The book comes by text as well as email, which is why we ask
@@ -231,6 +229,6 @@
 <script src="/assets/nav.js?v=ac2a8da9" defer></script>
 <script src="/assets/reveal.js?v=bd6dff79" defer></script>
 <script src="/assets/opening.js?v=c7e2e87f" defer></script>
-<script src="/assets/forms.js?v=d3db4a76" defer></script>
+<script src="/assets/forms.js?v=167fdeeb" defer></script>
 </body>
 </html>
