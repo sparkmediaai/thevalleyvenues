@@ -1,4 +1,4 @@
-@charset "UTF-8";
+﻿@charset "UTF-8";
 /* ============================================================================
    The gallery.
 
@@ -13,7 +13,7 @@
    ========================================================================== */
 
 .gx-intro{padding-bottom:clamp(1rem,3vh,2rem);border-bottom:0}
-.gx-intro h2{max-width:22ch}
+.gx-intro h1{max-width:22ch;font-size:clamp(2.2rem,5.4vw,3.6rem)}
 .gx-intro p{max-width:44rem}
 
 /* ------------------------------------------------------------ the filters */

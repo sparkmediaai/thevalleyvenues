@@ -237,12 +237,7 @@ def shell(page, path="index.html"):
 </header>
 %(banner)s
 <header class="hero %(hero_class)s">
-%(hero)s  <div class="hero-body">
-    <div class="eyebrow">%(eyebrow)s</div>
-    <h1>%(h1)s</h1>
-    <p>%(standfirst)s</p>%(actions)s
-  </div>
-</header>
+%(hero)s%(hero_body)s</header>
 
 <main id="main">
 %(body)s
@@ -289,6 +284,11 @@ def shell(page, path="index.html"):
                    '<div class="cta-bar"><a class="btn btn-solid" href="%s">%s</a></div>\n' % (CTA[1], CTA[0]),
         "hero": hero, "eyebrow": page["eyebrow"], "h1": page["h1"],
         "standfirst": page["standfirst"], "actions": actions,
+        # A page can leave the words out of its hero when its body opens with
+        # its own heading (that heading is then the page's h1).
+        "hero_body": "" if page.get("hero_text") is False else
+                     '  <div class="hero-body">\n    <div class="eyebrow">%s</div>\n    <h1>%s</h1>\n'
+                     '    <p>%s</p>%s\n  </div>\n' % (page["eyebrow"], page["h1"], page["standfirst"], actions),
         "body": expand(page["body"]), "foot": foot,
         "hero_class": hero_class,
         "banner": page.get("banner", OPENING),
@@ -1817,7 +1817,7 @@ def gallery_body():
 <section class="gx-intro">
   <div class="lede">
     <div class="eyebrow">%(n)d photographs &middot; %(pn)d photographers</div>
-    <h2>The estate, as the people who photograph it see it.</h2>
+    <h1>The estate, as the people who photograph it see it.</h1>
     <p>Every frame here was taken at a real wedding on this property, by a working
        wedding photographer. Choose a place to see only that part of the estate, or a
        photographer to see one eye across a whole day. Every photograph opens full size.</p>
@@ -1871,6 +1871,7 @@ PAGES["gallery/index.html"] = dict(
     desc="Weddings at The Valley Venues, photographed by thirteen wedding photographers.",
     hero_img="gallery-hero.webp",
     hero_alt="A ceremony set out on the lawn in front of Magnolia House, the ridge behind",
+    hero_text=False,
     eyebrow="The Gallery",
     h1="Photographs sell this place better than we can.",
     standfirst="Magnolia House, the meadow, the deck and the grounds, at real weddings, "
