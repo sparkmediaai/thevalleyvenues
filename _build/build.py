@@ -685,7 +685,7 @@ PAGES["weddings/index.html"] = dict(
         film_a=film_row(FILM_A, "wd-film-a"), film_b=film_row(FILM_B, "wd-film-b"),
         gate=gpic("sarah-kristen-photo-2024-7-25-skp-187", "Magnolia House from the foot of its front steps"),
         h1=gpic("copy-of-882a2000", "Guests raising glasses at the reception", sizes="(max-width:760px) 60vw, 28vw"),
-        h2=gpic("august-images-valleyvenues-4-1", "A bride in her veil in the getting ready suite", sizes="(max-width:760px) 60vw, 28vw"),
+        h2=gpic("august-images-valleyvenues-1-4", "A bride getting ready on the morning of the wedding", sizes="(max-width:760px) 60vw, 28vw"),
         h3=gpic("copy-of-dsc05971-arw-1", "A couple at a picnic breakfast laid in the meadow", sizes="(max-width:760px) 60vw, 28vw"),
         fan="".join('<figure class="wd-f%d">%s</figure>' % (i + 1, gpic(pid, "", sizes="16rem"))
                     for i, pid in enumerate(FAN)),
