@@ -183,7 +183,7 @@ h1{font-size:clamp(3rem,9vw,7rem);margin:1.2rem 0 1.6rem}
 .btn:hover{background:#2B1B00;color:#FFF9F3}
 .line{font:300 italic clamp(1.8rem,4.6vw,3.4rem)/1.2 'Cormorant Garamond',serif;text-align:center;
   max-width:44rem;margin:0 auto;padding:0 1.4rem clamp(4rem,10vw,8rem)}
-.ways{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2vw,2rem);padding:0 clamp(1.2rem,4vw,3.5rem)}
+.ways{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2vw,2rem);padding:0 clamp(1.2rem,4vw,3.5rem) 3rem}
 .way img{width:100%;aspect-ratio:3/4;object-fit:cover}
 .way h3{font:400 1.8rem/1.1 'Cormorant Garamond',serif;margin:1.4rem 0 .6rem}
 .way p{margin:0 0 1rem;font-size:.98rem}

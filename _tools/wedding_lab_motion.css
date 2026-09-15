@@ -7,7 +7,8 @@
 
 /* every photograph can be touched: a slow, deep zoom */
 .hz,.hzw{overflow:hidden}
-.hzw{display:block;height:100%;min-height:0}
+.hzw{display:block}
+.hzw-fill{height:100%;min-height:0}
 .hz>img,.hzw>img{transition:scale 1.6s cubic-bezier(.16,1,.3,1),filter 1.2s ease}
 .hz:hover>img,.hzw:hover>img,a:hover .hzw>img,.way:hover .hzw>img,.feature:hover .hzw>img,
 .panel:hover>img,.still:hover .hzw>img{scale:1.07}

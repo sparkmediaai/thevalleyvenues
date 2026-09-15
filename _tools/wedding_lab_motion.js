@@ -109,7 +109,13 @@
     // A block (paragraph, button, card) lifts into place.
     lift: function (els, o) {
       o = o || {}; els = [].concat(els).filter(function (e) { return e && !isDone(e); });
-      if (!els.length) return; els.forEach(done);
+      if (!els.length) return;
+      els.forEach(function (e) {
+        done(e);
+        // transforms do not apply to a plain inline element, which would leave
+        // the offset stuck on it
+        if (getComputedStyle(e).display === "inline") e.style.display = "inline-block";
+      });
       g.from(els, { y: o.y || 34, duration: o.dur || 1.2, ease: "power3.out", stagger: o.stagger || 0.1,
         delay: o.delay || 0, scrollTrigger: o.now ? null : { trigger: o.trigger || els[0], start: "top 92%", once: true } });
     },
@@ -198,8 +204,20 @@
       var p = img.parentElement, cs = getComputedStyle(p);
       var padded = (parseFloat(cs.paddingTop) + parseFloat(cs.paddingLeft)) > 0;
       if (padded || p.tagName === "A" || p.children.length > 1 && getComputedStyle(img).position !== "absolute") {
+        // A wrapper must only take the full height where the photograph already
+        // filled its box (a grid tile, a panel). Forcing it everywhere makes a
+        // card measure its own height wrongly and spill its words out the foot.
+        // The measurement has to wait for the photograph: a lazy one still to
+        // load is 0 tall, and 0 matches 0.
         var w = document.createElement("span"); w.className = "hzw";
         p.insertBefore(w, img); w.appendChild(img);
+        var decide = function () {
+          var ih = img.getBoundingClientRect().height;
+          if (ih > 40 && Math.abs(p.getBoundingClientRect().height - ih) < 4) w.classList.add("hzw-fill");
+          ST.refresh();
+        };
+        if (img.complete && img.naturalWidth) decide();
+        else img.addEventListener("load", decide, { once: true });
       } else p.classList.add("hz");
     });
 
