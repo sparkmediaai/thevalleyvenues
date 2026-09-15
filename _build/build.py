@@ -467,10 +467,68 @@ PAGES["index.html"] = dict(
 </section>
 """)
 
+# ------------------------------------------------------ gallery photographs
+# Photographs from the gallery, by id, with a srcset over its two web sizes.
+# The web files are 1600px on the long edge, and 640px for the small one.
+_GALLERY = {}
+
+
+def gpic(pid, alt, cls="", sizes="(max-width:760px) 100vw, 50vw", eager=False, style=""):
+    if not _GALLERY:
+        with open(os.path.join(ROOT, "assets", "gallery.json"), encoding="utf-8") as f:
+            for g in json.load(f):
+                _GALLERY[g["id"]] = g
+    g = _GALLERY[pid]
+    k = 1600.0 / max(g["w"], g["h"])
+    w, h = round(g["w"] * min(k, 1)), round(g["h"] * min(k, 1))
+    sm = 640.0 / max(g["w"], g["h"])
+    return ('<img src="/assets/gallery/%(id)s.webp" srcset="/assets/gallery/%(id)s-sm.webp %(sw)dw, '
+            '/assets/gallery/%(id)s.webp %(w)dw" sizes="%(sizes)s" alt="%(alt)s" width="%(w)d" height="%(h)d"'
+            '%(cls)s%(style)s loading="%(load)s" decoding="async">' % dict(
+                id=pid, sw=round(g["w"] * min(sm, 1)), w=w, h=h, sizes=sizes, alt=alt,
+                cls=' class="%s"' % cls if cls else "", style=' style="%s"' % style if style else "",
+                load="eager" if eager else "lazy"))
+
+
+def words(text):
+    """Each word in its own span, for the line that fills as it is read."""
+    return " ".join("<span>%s</span>" % w for w in text.split())
+
+
+FILM_A = ["dji-0673", "copy-of-magnoliahouse-36", "copy-of-portraits-29", "copy-of-3i0a4588vh",
+          "katie-daisy-2o8a8905", "sarah-kristen-photo-2024-7-25-skp-195", "aybee-000084170030"]
+FILM_B = ["4k6a0982anthonyalexa", "katie-daisy-2o8a9710", "copy-of-the-valley-venues-kristen-thomison-photo-233",
+          "sarah-larae-engagement-132", "misty-lancaster-dsc04738", "copy-of-882a0160", "sarah-larae-engagement-37"]
+FAN = ["4k6a0033anthonyalexa", "aybee-000084160036", "copy-of-vintagecar-16-2",
+       "copy-of-the-valley-venues-kristen-thomison-photo-96", "copy-of-thevalley-6-1"]
+
+
+def film_row(ids, cls):
+    tiles = "".join('<figure>%s</figure>' % gpic(i, "", sizes="22rem") for i in ids)
+    # twice over, so the row is long enough to keep moving without a gap
+    return '<div class="wd-film-row %s" aria-hidden="true">%s%s</div>' % (cls, tiles, tiles)
+
+
 PAGES["weddings/index.html"] = dict(
     nav="Weddings", title="Weddings | %s" % SITE,
-    desc="The Estate Weekend at The Valley Venues.",
-    hero_img="weddings.webp", hero_alt="A ceremony under way in the meadow, guests seated toward the ridge",
+    desc="The Estate Weekend at The Valley Venues: one wedding, the whole property, for as long as you keep it.",
+    head='<link rel="stylesheet" href="/assets/weddings.css">\n',
+    hero_html=(
+        '  <div class="wd-hero wx" aria-hidden="false">\n'
+        '    <span class="wd-blob"></span>\n'
+        '    <svg class="wd-arc" viewBox="0 0 400 400" aria-hidden="true"><path d="M 40 360 C 40 120 180 40 360 40" '
+        'fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="2 7" stroke-linecap="round"/></svg>\n'
+        '    <figure class="wd-h1">%s</figure>\n'
+        '    <figure class="wd-h2">%s</figure>\n'
+        '    <figure class="wd-h3">%s</figure>\n'
+        '    <p class="wd-stamp"><b>One</b> wedding<br>on the whole estate</p>\n'
+        '  </div>\n' % (
+            gpic("copy-of-thevalley", "A couple between two floral arches in the meadow, the ridge behind",
+                 sizes="(max-width:900px) 70vw, 30vw", eager=True),
+            gpic("copy-of-3i0a4529vh", "A couple laughing in an embrace on the Lookout Deck",
+                 sizes="(max-width:900px) 50vw, 20vw", eager=True),
+            gpic("copy-of-3i0a4234vh-1", "Pale blue shoes and a blue and white bouquet on a sill",
+                 sizes="(max-width:900px) 40vw, 14vw", eager=True))),
     eyebrow="Celebrate",
     h1="More Than a Wedding Day",
     standfirst="There will be a ceremony. There will be dinner. There will be dancing. "
@@ -478,97 +536,134 @@ PAGES["weddings/index.html"] = dict(
     actions=[("Download the Wedding Pamphlet", "/pricing/"),
              ("What's Included", "/weddings/whats-included/")],
     body="""
-<section>
-  <div class="lede">
-    <h2>The Estate Weekend</h2>
+<section class="wd-read wx">
+  <div class="eyebrow">The Estate Weekend</div>
+  <p class="wd-fill">%(fill)s</p>
+  <div class="wd-read-more">
     <p>The night before, when your friends are still up at one in the morning. Sunrise over
        Lookout Mountain through the window of the room where you are already getting ready.
        Breakfast with your grandparents before anyone drives anywhere.</p>
-    <p>The ceremony takes thirty minutes. The rest of it is what you will remember.</p>
-    <p class="close">Every one of the three below is a full buyout of the property.
-       One wedding, nobody else on the estate, whichever you choose &mdash; what
-       changes is only how long you keep it.</p>
-  </div>
-  <div class="grid">
-    <article class="card">
-      {{img:w-single.webp|The ceremony set out and waiting, seen through the tall grass|class="wipe"}}
-      <div class="eyebrow">One day</div>
-      <h3>Single Day Celebration</h3>
-      <p>Fifteen hours, eight in the morning to eleven at night, with the whole
-         property closed around one wedding.
-         <a href="/weddings/single-day/">See single-day celebrations</a>.</p>
-    </article>
-    <article class="card">
-      {{img:w-weekend.webp|A ceremony under way in the meadow, the congregation seated|class="wipe"}}
-      <div class="eyebrow">Two nights</div>
-      <h3>The Estate Weekend</h3>
-      <p>All of the above, plus the property from one o&rsquo;clock the day before, the
-         rehearsal dinner set up for you, and two nights of lodging for thirty-two.</p>
-    </article>
-    <article class="card">
-      {{img:w-premium.webp|Bridesmaids beside tall floral arrangements at golden hour|class="wipe"}}
-      <div class="eyebrow">Everything handled</div>
-      <h3>All-Inclusive Estate Experience</h3>
-      <p>All of the above, plus an event designer and team, a coordinator, catering,
-         the bar, the DJ and the lighting &mdash; and Kobi&rsquo;s own hand in the design.</p>
-    </article>
+    <p>Every one of the three below is a full buyout of the property. One wedding, nobody else
+       on the estate, whichever you choose &mdash; what changes is only how long you keep it.</p>
   </div>
 </section>
 
-<section class="band">
-  {{img:band-vows.webp|The meadow with the arch standing in it, and nothing else|class="band-img"}}
-  <p>Nobody else&rsquo;s arch comes down while yours goes up.</p>
+<section class="wd-ways wx">
+  <div class="lede">
+    <div class="eyebrow">Three ways to keep it</div>
+    <h2>The same estate, for a day, a weekend, or with everything handled.</h2>
+  </div>
+  <ol class="wd-stack">
+    <li class="wd-card wd-c1">
+      <figure class="wd-card-photo">%(c1)s</figure>
+      <div class="wd-card-text">
+        <span class="wd-num">01</span>
+        <div class="eyebrow">One day</div>
+        <h3>Single Day Celebration</h3>
+        <p>A full day with the whole property closed around one wedding: the house, the meadow,
+           the deck and the hall, and nobody else on any of them.</p>
+        <ul class="wd-ticks"><li>The whole estate, for one wedding</li><li>Every space included</li>
+          <li>The getting ready suites</li></ul>
+        <a class="btn" href="/weddings/single-day/">See single-day celebrations</a>
+      </div>
+    </li>
+    <li class="wd-card wd-c2">
+      <figure class="wd-card-photo">%(c2)s</figure>
+      <div class="wd-card-text">
+        <span class="wd-num">02</span>
+        <div class="eyebrow">Two nights</div>
+        <h3>The Estate Weekend</h3>
+        <p>All of the above, plus the property from the afternoon before, the rehearsal dinner
+           set up for you, and two nights of lodging for thirty-two.</p>
+        <ul class="wd-ticks"><li>The day before, and the morning after</li><li>The rehearsal dinner, set up</li>
+          <li>Two nights for thirty-two guests</li></ul>
+        <a class="btn" href="/stay/">Where everyone sleeps</a>
+      </div>
+    </li>
+    <li class="wd-card wd-c3">
+      <figure class="wd-card-photo">%(c3)s</figure>
+      <div class="wd-card-text">
+        <span class="wd-num">03</span>
+        <div class="eyebrow">Everything handled</div>
+        <h3>All-Inclusive Estate Experience</h3>
+        <p>All of the above, plus an event designer and team, a coordinator, catering, the bar,
+           the DJ and the lighting &mdash; and Kobi&rsquo;s own hand in the design.</p>
+        <ul class="wd-ticks"><li>Design, coordination and catering</li><li>The bar, the DJ and the lighting</li>
+          <li>Kobi&rsquo;s own hand in the design</li></ul>
+        <a class="btn" href="/weddings/whats-included/">What&rsquo;s included</a>
+      </div>
+    </li>
+  </ol>
 </section>
 
-<section>
-  <div class="statement">
+<section class="wd-film wx">
+  %(film_a)s
+  <p class="wd-film-line">Nobody else&rsquo;s arch comes down while yours goes up.</p>
+  %(film_b)s
+</section>
+
+<section class="wd-gate wx">
+  <figure class="wd-gate-photo">%(gate)s</figure>
+  <div class="statement wd-gate-card">
     <div class="eyebrow">What you are actually booking</div>
     <h2 class="rise-words"><span>You</span> <span>are</span> <span>not</span> <span>renting</span> <span>a</span> <span>room.</span> <span>You</span> <span>are</span> <span>closing</span> <span>a</span> <span>gate.</span></h2>
-    <p>A venue sells you a room and a window of hours. Everything in that model
-       follows from the room having to be used again. The doors open at four
-       because they were being reset until three, and they close at eleven
-       because somebody has to be in at seven.</p>
-    <p class="close">Here the property is not being reset around you, because
-       there is nothing to reset it for. However long you stay &mdash; one day or
-       three &mdash; the gate is closed behind one family for the whole of it.</p>
+    <p>A venue sells you a room and a window of hours. Everything in that model follows from
+       the room having to be used again: it is reset before you arrive and cleared the moment
+       you leave, because somebody else is next.</p>
+    <p class="close">Here the property is not being reset around you, because there is nothing
+       to reset it for. However long you stay &mdash; one day or three &mdash; the gate is closed
+       behind one family for the whole of it.</p>
   </div>
 </section>
 
-<section>
-  <div class="stakes flip">
-    <div class="lede">
-      <div class="eyebrow">The hours nobody schedules</div>
-      <h2>Most of the weekend is not on the timeline.</h2>
-      <p>A wedding timeline covers about eight hours. What couples describe to us
-         afterwards is almost never in them: the friends still up at one in the
-         morning, the half hour before anyone else is awake, the long breakfast on
-         Sunday that nobody had to drive to.</p>
-      <p>Those hours exist here because there is nowhere else anybody has to be.
-         That is the whole of what the second night buys.</p>
-      <a class="btn" href="/stay/">Where everyone sleeps</a>
-    </div>
-    <div class="cluster">
-      <figure class="cl-1">{{img:w-night.webp|Two friends in a getting ready suite the night before, laughing}}</figure>
-      <figure class="cl-2">{{img:w-morning.webp|The bride in a robe in the quiet of the morning}}</figure>
-      <figure class="cl-3">{{img:w-after.webp|A table laid on the porch of a cottage the morning after}}</figure>
-    </div>
-  </div>
-</section>
-
-<section id="investment">
+<section class="wd-hours wx">
   <div class="lede">
-    <div class="eyebrow">Investment</div>
-    <h2>What it costs is in the Welcome Book.</h2>
-    <p>Every figure, for all four experiences, alongside what each one includes &mdash;
-       and the rest of it too: every space, every lodging option, the catering and the
-       bar. It comes to your email and your phone in about a minute.</p>
-    <a class="btn btn-solid" href="/pricing/">Download the Wedding Pamphlet</a>
+    <div class="eyebrow">The hours in between</div>
+    <h2>The best of the weekend happens around the wedding.</h2>
+    <p>What couples describe to us afterwards is almost never the part anyone planned: the
+       friends still up late, the quiet before anyone else is awake, the long breakfast nobody
+       had to drive to. Those hours exist here because there is nowhere else anybody has to be.</p>
+  </div>
+  <div class="wd-hours-row">
+    <figure class="wd-hr1">%(h1)s<figcaption>The night before</figcaption></figure>
+    <figure class="wd-hr2">%(h2)s<figcaption>The morning of</figcaption></figure>
+    <figure class="wd-hr3">%(h3)s<figcaption>The morning after</figcaption></figure>
+  </div>
+</section>
+
+<section class="wd-fan-sec wx">
+  <a class="wd-fan" href="/gallery/" aria-label="See the gallery">
+    %(fan)s
+  </a>
+  <div class="lede wd-fan-text">
+    <div class="eyebrow">Real weddings, here</div>
+    <h2>A hundred and fifty-six photographs, and not one of them shared.</h2>
+    <p>Every frame in the gallery was taken at a wedding that had the whole estate to itself,
+       by thirteen of the region&rsquo;s wedding photographers.</p>
+    <a class="btn" href="/gallery/">See the gallery</a>
+  </div>
+</section>
+
+<section id="investment" class="wd-book wx">
+  <div class="wd-book-card">
+    <div class="wd-pamphlet" aria-hidden="true">
+      <span class="wd-pamphlet-back"></span>
+      <span class="wd-pamphlet-front">%(pamphlet)s<b>The Wedding Pamphlet</b><i>The Valley Venues</i></span>
+    </div>
+    <div class="wd-book-text">
+      <div class="eyebrow">Investment</div>
+      <h2>What it costs is in the Wedding Pamphlet.</h2>
+      <p>Every figure for each experience, alongside what it includes &mdash; and the rest of it
+         too: every space, every lodging option, the catering and the bar. It comes to your
+         email and your phone in about a minute.</p>
+      <a class="btn btn-solid" href="/pricing/">Download the Wedding Pamphlet</a>
+    </div>
   </div>
 </section>
 
 <section class="closing">
-  <div class="closing-img" role="img" aria-label="The conservatory lit from within after dark"
-       style="background-image:url('/assets/img/close-weddings.webp')"></div>
+  <div class="closing-img" role="img" aria-label="The wedding party on the steps of Magnolia House"
+       style="background-image:url('/assets/gallery/copy-of-882a1248.webp')"></div>
   <div class="closing-body">
     <div class="eyebrow">One weekend at a time</div>
     <h2>Most Saturdays are already spoken for.</h2>
@@ -576,7 +671,21 @@ PAGES["weddings/index.html"] = dict(
     <a class="btn" href="/pricing/">Download the Wedding Pamphlet</a>
   </div>
 </section>
-""")
+""" % dict(
+        fill=words("The ceremony takes thirty minutes. The rest of it is what you will remember."),
+        c1=gpic("aybee-dominy-3700", "A bride and groom walking up the aisle from the meadow ceremony"),
+        c2=gpic("sarah-kristen-photo-2024-7-25-skp-264", "A couple beside the rehearsal table laid on the Magnolia House porch"),
+        c3=gpic("sarah-kristen-photo-2024-7-25-skp-279", "A long table on the porch dressed in blue linen and tall florals"),
+        film_a=film_row(FILM_A, "wd-film-a"), film_b=film_row(FILM_B, "wd-film-b"),
+        gate=gpic("sarah-kristen-photo-2024-7-25-skp-187", "Magnolia House from the foot of its front steps"),
+        h1=gpic("copy-of-882a2000", "Guests raising glasses at the reception", sizes="(max-width:760px) 60vw, 28vw"),
+        h2=gpic("august-images-valleyvenues-4-1", "A bride in her veil in the getting ready suite", sizes="(max-width:760px) 60vw, 28vw"),
+        h3=gpic("copy-of-dsc05971-arw-1", "A couple at a picnic breakfast laid in the meadow", sizes="(max-width:760px) 60vw, 28vw"),
+        fan="".join('<figure class="wd-f%d">%s</figure>' % (i + 1, gpic(pid, "", sizes="16rem"))
+                    for i, pid in enumerate(FAN)),
+        pamphlet=gpic("copy-of-portraits-29", "", sizes="12rem")),
+)
+
 
 PAGES["weddings/whats-included/index.html"] = dict(
     nav="Weddings", title="What's Included | %s" % SITE,
