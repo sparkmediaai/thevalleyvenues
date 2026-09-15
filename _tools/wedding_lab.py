@@ -13,7 +13,7 @@ Every direction uses the same words and photographs so only the design
 differs, and all of them keep to the owner's own colours:
 
     ink       #2B1B00  her pamphlet's text brown (15.9:1 on parchment)
-    parchment #FFF9F0  her base (the fifth digit to be confirmed)
+    parchment #FFF9F3  her base, read from her Canva Welcome Book
     olive     #7B7951  her grey olive (4.3:1: large type and rules only)
     accent    #FC5324  used sparingly -- a line, a mark, never a field of it
     white     #FFFFFF
@@ -29,7 +29,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "wedding-lab")
 GAL = {g["id"]: g for g in json.load(open(os.path.join(ROOT, "assets", "gallery.json"), encoding="utf-8"))}
 
-INK, PARCH, OLIVE, ACCENT, WHITE = "#2B1B00", "#FFF9F0", "#7B7951", "#FC5324", "#FFFFFF"
+INK, PARCH, OLIVE, ACCENT, WHITE = "#2B1B00", "#FFF9F3", "#7B7951", "#FC5324", "#FFFFFF"
 
 
 def webp_size(path):
@@ -167,7 +167,7 @@ a{color:inherit}
 def d01():
     css = """
 body{font:400 17px/1.7 Jost,sans-serif}
-.lw-head{background:#FFF9F0}
+.lw-head{background:#FFF9F3}
 .lw-mark{font:400 1.5rem/1 'Cormorant Garamond',serif;letter-spacing:.02em}
 .lw-nav a,.lw-cta{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase}
 .lw-cta{border-bottom:1px solid currentColor;padding-bottom:.2rem}
@@ -180,7 +180,7 @@ h1{font-size:clamp(3rem,9vw,7rem);margin:1.2rem 0 1.6rem}
 .intro p{font-size:1.1rem;max-width:34rem;margin:0 auto 2.4rem}
 .btn{display:inline-block;text-decoration:none;font-size:.74rem;letter-spacing:.24em;text-transform:uppercase;
   padding:1.1rem 2.2rem;border:1px solid #2B1B00;transition:background .4s,color .4s}
-.btn:hover{background:#2B1B00;color:#FFF9F0}
+.btn:hover{background:#2B1B00;color:#FFF9F3}
 .line{font:300 italic clamp(1.8rem,4.6vw,3.4rem)/1.2 'Cormorant Garamond',serif;text-align:center;
   max-width:44rem;margin:0 auto;padding:0 1.4rem clamp(4rem,10vw,8rem)}
 .ways{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1rem,2vw,2rem);padding:0 clamp(1.2rem,4vw,3.5rem)}
@@ -193,10 +193,10 @@ h1{font-size:clamp(3rem,9vw,7rem);margin:1.2rem 0 1.6rem}
 .full img{width:100%;height:80svh;object-fit:cover}
 .claim{text-align:center;max-width:46rem;margin:0 auto;padding:clamp(3.5rem,9vw,6rem) 1.4rem}
 .claim h2{font-size:clamp(2.2rem,5.4vw,4rem);margin-bottom:1.4rem}
-.book{background:#7B7951;color:#FFF9F0;text-align:center;padding:clamp(4.5rem,11vw,8rem) 1.4rem;margin-top:clamp(3rem,8vw,6rem)}
+.book{background:#7B7951;color:#FFF9F3;text-align:center;padding:clamp(4.5rem,11vw,8rem) 1.4rem;margin-top:clamp(3rem,8vw,6rem)}
 .book h2{font-size:clamp(2.2rem,5vw,3.8rem);max-width:40rem;margin:0 auto 1.4rem}
 .book p{max-width:32rem;margin:0 auto 2.4rem;font-size:1.05rem}
-.book .btn{border-color:#FFF9F0}.book .btn:hover{background:#FFF9F0;color:#2B1B00}
+.book .btn{border-color:#FFF9F3}.book .btn:hover{background:#FFF9F3;color:#2B1B00}
 @media (max-width:760px){.ways{grid-template-columns:1fr;gap:3rem}.way img{aspect-ratio:4/5}.full img{height:60svh}}
 """
     body = """
@@ -235,7 +235,7 @@ h1,h2,h3{font-family:'Bodoni Moda',serif;font-weight:400;margin:0}
 h1{font-size:clamp(3.2rem,min(6.4vw,11svh),7rem);line-height:.92;letter-spacing:-.02em}
 h1 em{font-style:italic}
 .spread-text p{max-width:26rem;font-size:1.05rem;margin:1.8rem 0}
-.btn{align-self:flex-start;text-decoration:none;background:#2B1B00;color:#FFF9F0;padding:1rem 1.6rem;font-size:.82rem;letter-spacing:.06em}
+.btn{align-self:flex-start;text-decoration:none;background:#2B1B00;color:#FFF9F3;padding:1rem 1.6rem;font-size:.82rem;letter-spacing:.06em}
 .btn:hover{background:#7B7951}
 .pull{font:italic 400 clamp(2rem,5vw,4.2rem)/1.08 'Bodoni Moda',serif;padding:clamp(4rem,10vw,8rem) clamp(1.2rem,8vw,8rem);
   border-bottom:1px solid #2B1B00;max-width:70rem}
@@ -294,7 +294,7 @@ h2{font-size:clamp(2.2rem,4.6vw,3.8rem)}
   display:inline-flex;gap:.8rem;align-items:center}
 .link::after{content:"";width:2.6rem;height:1px;background:#FC5324}
 .ways{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:#2B1B00;border-block:1px solid #2B1B00}
-.way{background:#FFF9F0}
+.way{background:#FFF9F3}
 .way img{width:100%;aspect-ratio:21/9;object-fit:cover}
 .way div{padding:1.8rem clamp(1.2rem,3vw,2.2rem) 2.4rem}
 .way h3{font-size:1.9rem;margin-bottom:.6rem}
@@ -337,7 +337,7 @@ h1,h2,h3{font-weight:400;margin:0;line-height:1.05}
 .hero .side{grid-column:9/13;padding-bottom:.6rem}
 .hero .side p{margin:0 0 1.6rem}
 .btn{display:inline-block;text-decoration:none;padding:1rem 1.4rem;border:1px solid #2B1B00}
-.btn:hover{background:#2B1B00;color:#FFF9F0}
+.btn:hover{background:#2B1B00;color:#FFF9F3}
 .hero-img{grid-column:1/13;margin:clamp(2rem,5vw,3.5rem) 0 0}
 .hero-img img{width:100%;height:78svh;object-fit:cover}
 .line{grid-column:3/11;font-style:italic;font-size:clamp(1.7rem,3.6vw,2.8rem);line-height:1.2;
@@ -386,7 +386,7 @@ body{font:400 16px/1.7 Jost,sans-serif}
 .lw-nav a,.lw-cta{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase}
 .hero{position:relative;height:calc(100svh - 4rem);min-height:32rem;display:flex;align-items:flex-end}
 .hero>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.hero-band{position:relative;background:#FFF9F0;width:min(44rem,100%);padding:clamp(1.6rem,4vw,2.8rem) clamp(1.2rem,4vw,3rem) 0;margin-left:clamp(0rem,4vw,3.5rem)}
+.hero-band{position:relative;background:#FFF9F3;width:min(44rem,100%);padding:clamp(1.6rem,4vw,2.8rem) clamp(1.2rem,4vw,3rem) 0;margin-left:clamp(0rem,4vw,3.5rem)}
 h1,h2,h3{font-family:Marcellus,serif;font-weight:400;margin:0;line-height:1.08}
 h1{font-size:clamp(2.6rem,6.4vw,5rem)}
 .eyebrow{font-size:.7rem;letter-spacing:.26em;text-transform:uppercase;color:#7B7951;margin-bottom:.9rem}
@@ -400,12 +400,12 @@ h1{font-size:clamp(2.6rem,6.4vw,5rem)}
 .rail{display:flex;gap:.8rem;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 clamp(1.2rem,4vw,3.5rem) 1rem;scrollbar-width:thin}
 .panel{flex:0 0 min(84vw,30rem);scroll-snap-align:start;position:relative;height:min(78svh,44rem);display:flex;align-items:flex-end}
 .panel img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.panel div{position:relative;background:#FFF9F0;margin:0 0 0 0;padding:1.4rem 1.4rem 1.6rem;width:88%}
+.panel div{position:relative;background:#FFF9F3;margin:0 0 0 0;padding:1.4rem 1.4rem 1.6rem;width:88%}
 .panel .kind{font-size:.68rem;letter-spacing:.22em;text-transform:uppercase;color:#7B7951}
 .panel h3{font-size:1.7rem;margin:.4rem 0 .5rem}
 .panel p{margin:0 0 .8rem;font-size:.94rem}
 .panel a{font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;font-weight:500}
-.claim{background:#7B7951;color:#FFF9F0;margin-top:clamp(3.5rem,9vw,6rem);padding:clamp(3.5rem,9vw,7rem) clamp(1.2rem,6vw,5rem)}
+.claim{background:#7B7951;color:#FFF9F3;margin-top:clamp(3.5rem,9vw,6rem);padding:clamp(3.5rem,9vw,7rem) clamp(1.2rem,6vw,5rem)}
 .claim h2{font-size:clamp(2.2rem,5vw,4rem);max-width:18ch;margin-bottom:1.2rem}
 .claim p{max-width:36rem;margin:0}
 .book{padding:clamp(3.5rem,9vw,7rem) clamp(1.2rem,6vw,5rem)}
@@ -435,7 +435,7 @@ h1{font-size:clamp(2.6rem,6.4vw,5rem)}
 def d06():
     css = """
 body{font:400 16px/1.75 Figtree,sans-serif}
-.lw-head{border-bottom:1px solid rgba(43,27,0,.18)}
+.lw-head{border-bottom:1px solid #7B7951}
 .lw-mark{font:italic 400 1.5rem/1 Cormorant,serif}
 .lw-nav a,.lw-cta{font-size:.8rem}.lw-cta{font-weight:500}
 .dip{display:grid;grid-template-columns:1fr 1fr}
@@ -451,7 +451,7 @@ h3{font-size:2rem}
 .dip-text p{max-width:30rem;margin:1.2rem 0}
 .btn{align-self:flex-start;text-decoration:none;border-bottom:1px solid #FC5324;padding-bottom:.35rem;font-weight:500;letter-spacing:.04em}
 .line{font:italic 400 clamp(2rem,4vw,3.2rem)/1.2 Cormorant,serif}
-.way{border-top:1px solid rgba(43,27,0,.2);padding:1.6rem 0}
+.way{border-top:1px solid #7B7951;padding:1.6rem 0}
 .way p{margin:.4rem 0 .6rem!important}
 .way a{font-weight:500}
 .mob{display:none}
@@ -494,7 +494,7 @@ h3{font-size:2rem}
            "Cinzel:wght@400;500&family=EB+Garamond:ital,wght@0,400;1,400")
 def d07():
     css = """
-body{font:400 19px/1.7 'EB Garamond',serif;background:#FFF9F0}
+body{font:400 19px/1.7 'EB Garamond',serif;background:#FFF9F3}
 .lw-head{justify-content:center;flex-wrap:wrap;border-bottom:3px double #7B7951}
 .lw-mark{font:500 1.1rem/1 Cinzel,serif;letter-spacing:.24em;text-transform:uppercase;width:100%;text-align:center}
 .lw-nav{margin:0 auto}.lw-nav a,.lw-cta{font:400 .7rem/1 Cinzel,serif;letter-spacing:.2em;text-transform:uppercase}
@@ -511,7 +511,7 @@ h3{font-size:1.15rem;letter-spacing:.12em}
 .plate.tall{max-width:30rem}.plate.tall img{aspect-ratio:4/5}
 .btn{display:inline-block;text-decoration:none;font:500 .74rem/1 Cinzel,serif;letter-spacing:.24em;text-transform:uppercase;
   padding:1.1rem 2rem;border:1px solid #2B1B00;outline:1px solid #2B1B00;outline-offset:3px;margin-top:1rem}
-.btn:hover{background:#2B1B00;color:#FFF9F0}
+.btn:hover{background:#2B1B00;color:#FFF9F3}
 .line{font-style:italic;font-size:clamp(1.5rem,3.4vw,2.2rem);line-height:1.35}
 .ways{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.2rem,3vw,2.4rem);max-width:64rem;margin:0 auto;padding:0 1.4rem;text-align:center}
 .way .plate{margin:0 0 1.4rem;width:100%}.way .plate img{aspect-ratio:3/4}
@@ -544,7 +544,7 @@ section{padding:clamp(1.5rem,4vw,2.5rem) 0}
 def d08():
     css = """
 body{font:400 16px/1.75 Jost,sans-serif}
-.lw-head{position:absolute;inset:0 0 auto;z-index:5;background:#FFF9F0}
+.lw-head{position:absolute;inset:0 0 auto;z-index:5;background:#FFF9F3}
 .lw-mark{font:400 1.4rem/1 'Gilda Display',serif}
 .lw-nav a,.lw-cta{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase}
 .film{height:100svh;min-height:32rem;position:relative;background:#7B7951;overflow:hidden}
@@ -554,7 +554,7 @@ h1,h2,h3{font-family:'Gilda Display',serif;font-weight:400;margin:0;line-height:
 h1{font-size:clamp(3rem,7.4vw,6.4rem)}
 .eyebrow{font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:#7B7951;margin-bottom:1.2rem}
 .band p{margin:0 0 1.6rem;max-width:30rem}
-.btn{display:inline-block;text-decoration:none;background:#2B1B00;color:#FFF9F0;padding:1.05rem 1.8rem;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase}
+.btn{display:inline-block;text-decoration:none;background:#2B1B00;color:#FFF9F3;padding:1.05rem 1.8rem;font-size:.74rem;letter-spacing:.2em;text-transform:uppercase}
 .btn:hover{background:#7B7951}
 .still{position:relative;margin:0}
 .still img{width:100%;height:92svh;object-fit:cover}
@@ -565,7 +565,7 @@ h1{font-size:clamp(3rem,7.4vw,6.4rem)}
 .still p{margin:0;max-width:30rem}
 .still a{font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
 .line{font:400 clamp(1.8rem,4.4vw,3.4rem)/1.2 'Gilda Display',serif;text-align:center;max-width:48rem;margin:0 auto;padding:clamp(3rem,8vw,6rem) 1.4rem}
-.claim{background:#7B7951;color:#FFF9F0;text-align:center;padding:clamp(4rem,10vw,8rem) 1.4rem}
+.claim{background:#7B7951;color:#FFF9F3;text-align:center;padding:clamp(4rem,10vw,8rem) 1.4rem}
 .claim h2{font-size:clamp(2.2rem,5.6vw,4.4rem);max-width:18ch;margin:0 auto 1.4rem}
 .claim p{max-width:34rem;margin:0 auto}
 @media (max-width:820px){.band{grid-template-columns:1fr}.still figcaption{grid-template-columns:1fr;gap:.4rem}.still img{height:64svh}}
@@ -594,10 +594,10 @@ h1{font-size:clamp(3rem,7.4vw,6.4rem)}
 def d09():
     css = """
 body{font:400 17px/1.75 'Libre Caslon Text',serif}
-.lw-head{background:#7B7951;color:#FFF9F0}
+.lw-head{background:#7B7951;color:#FFF9F3}
 .lw-mark{font:400 1.45rem/1 'Libre Caslon Display',serif}
 .lw-nav a,.lw-cta{font:500 .72rem/1 Jost,sans-serif;letter-spacing:.18em;text-transform:uppercase}
-.olive{background:#7B7951;color:#FFF9F0}
+.olive{background:#7B7951;color:#FFF9F3}
 h1,h2,h3{font-family:'Libre Caslon Display',serif;font-weight:400;margin:0;line-height:1.02}
 .hero{display:grid;grid-template-columns:1fr 1fr;min-height:calc(100svh - 4rem)}
 .hero-text{padding:clamp(2rem,6vw,5.5rem);display:flex;flex-direction:column;justify-content:center}
@@ -606,15 +606,15 @@ h1,h2,h3{font-family:'Libre Caslon Display',serif;font-weight:400;margin:0;line-
 .hero-text p{font-size:1.12rem;max-width:28rem;margin:1.6rem 0 2.2rem}
 .hero figure{margin:0}.hero img{width:100%;height:100%;object-fit:cover}
 .btn{align-self:flex-start;display:inline-block;text-decoration:none;font:500 .74rem/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;
-  padding:1.1rem 1.8rem;background:#FFF9F0;color:#2B1B00}
-.btn:hover{background:#2B1B00;color:#FFF9F0}
-.btn.dark{background:#2B1B00;color:#FFF9F0}.btn.dark:hover{background:#7B7951}
+  padding:1.1rem 1.8rem;background:#FFF9F3;color:#2B1B00}
+.btn:hover{background:#2B1B00;color:#FFF9F3}
+.btn.dark{background:#2B1B00;color:#FFF9F3}.btn.dark:hover{background:#7B7951}
 .line{font:italic 400 clamp(1.8rem,4.2vw,3.2rem)/1.25 'Libre Caslon Text',serif;padding:clamp(4rem,10vw,8rem) clamp(1.2rem,8vw,9rem);max-width:64rem}
 .ways{display:grid;grid-template-columns:repeat(3,1fr)}
 .way{display:flex;flex-direction:column}
 .way img{width:100%;aspect-ratio:1/1;object-fit:cover}
 .way div{padding:2rem clamp(1.2rem,3vw,2.6rem) 3rem;flex:1}
-.way:nth-child(2) div{background:#7B7951;color:#FFF9F0}
+.way:nth-child(2) div{background:#7B7951;color:#FFF9F3}
 .way h3{font-size:2rem;margin-bottom:.8rem}
 .way p{margin:0 0 1.2rem}
 .way a{font:500 .72rem/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase}
@@ -651,6 +651,7 @@ h1,h2,h3{font-family:'Libre Caslon Display',serif;font-weight:400;margin:0;line-
 def d10():
     css = """
 body{font:400 16px/1.7 'Instrument Sans',sans-serif;background:#fff}
+.lw-head{background:#fff}
 .lw-mark{font:italic 300 1.45rem/1 Newsreader,serif}
 .lw-nav a,.lw-cta{font-size:.8rem}.lw-cta{font-weight:500;border-bottom:2px solid #FC5324;padding-bottom:.2rem}
 h1,h2,h3{font-family:Newsreader,serif;font-weight:300;margin:0;line-height:.95;letter-spacing:-.02em}
@@ -671,12 +672,12 @@ h1,h2,h3{font-family:Newsreader,serif;font-weight:300;margin:0;line-height:.95;l
 .ways{border-top:1px solid #2B1B00}
 .way{display:grid;grid-template-columns:1.2fr 2fr 1.4fr auto;gap:clamp(1rem,3vw,2.5rem);align-items:center;
   padding:1.4rem clamp(1.2rem,3vw,2.5rem);border-bottom:1px solid #2B1B00;text-decoration:none;transition:background .3s}
-.way:hover{background:#FFF9F0}
+.way:hover{background:#FFF9F3}
 .way img{width:100%;aspect-ratio:3/2;object-fit:cover}
 .way h3{font-size:clamp(1.8rem,3.4vw,3rem)}
 .way p{margin:0}
 .way span{font-size:1.4rem}
-.claim{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,6vw,5rem);padding:clamp(4rem,10vw,8rem) clamp(1.2rem,3vw,2.5rem);background:#FFF9F0}
+.claim{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,6vw,5rem);padding:clamp(4rem,10vw,8rem) clamp(1.2rem,3vw,2.5rem);background:#FFF9F3}
 .claim h2{font-size:clamp(2.6rem,6vw,5.4rem)}
 .claim p{align-self:end;margin:0;font-size:1.1rem}
 .book{padding:clamp(4rem,10vw,8rem) clamp(1.2rem,3vw,2.5rem)}
@@ -712,16 +713,27 @@ SHELL = """<!doctype html>
 <title>%(n)s %(name)s &middot; Weddings, ten ways</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=%(fonts)s&display=swap">
+<link rel="stylesheet" href="/wedding-lab/motion.css?v=%(mv)s">
 <style>%(base)s%(css)s</style></head>
-<body>
+<body data-dir="%(n)s">
 %(body)s
 <nav class="lab-switch" aria-label="Directions">%(switch)s</nav>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="/wedding-lab/motion.js?v=%(mv)s"></script>
 </body></html>
 """
 
 
 def main():
     os.makedirs(OUT, exist_ok=True)
+    import hashlib, shutil
+    here = os.path.dirname(os.path.abspath(__file__))
+    mv = ""
+    for src, dst in (("wedding_lab_motion.js", "motion.js"), ("wedding_lab_motion.css", "motion.css")):
+        shutil.copyfile(os.path.join(here, src), os.path.join(OUT, dst))
+        mv += hashlib.md5(open(os.path.join(here, src), "rb").read()).hexdigest()[:4]
     for d in D:
         css, body = d["fn"]()
         switch = '<a href="/wedding-lab/">All</a>' + "".join(
@@ -730,14 +742,14 @@ def main():
         path = os.path.join(OUT, d["slug"])
         os.makedirs(path, exist_ok=True)
         with open(os.path.join(path, "index.html"), "w", encoding="utf-8") as f:
-            f.write(SHELL % dict(n=d["slug"], name=d["name"], fonts=d["fonts"], base=BASE_CSS, css=css, body=body, switch=switch))
+            f.write(SHELL % dict(n=d["slug"], name=d["name"], fonts=d["fonts"], base=BASE_CSS, css=css, body=body, switch=switch, mv=mv))
         print("  /wedding-lab/%s/  %s" % (d["slug"], d["name"]))
     cards = "".join('<a href="/wedding-lab/%s/"><b>%s &middot; %s</b><span>%s</span></a>' % (d["slug"], d["slug"], d["name"], d["idea"]) for d in D)
     with open(os.path.join(OUT, "index.html"), "w", encoding="utf-8") as f:
         f.write("""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>The Weddings page, ten ways</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&family=Jost:wght@400;500&display=swap">
-<style>body{margin:0;background:#FFF9F0;color:#2B1B00;font:400 16px/1.6 Jost,sans-serif}
+<style>body{margin:0;background:#FFF9F3;color:#2B1B00;font:400 16px/1.6 Jost,sans-serif}
 .w{max-width:64rem;margin:0 auto;padding:clamp(2.5rem,7vw,5rem) 1.2rem}
 h1{font:300 clamp(2.4rem,6vw,4.4rem)/1 'Cormorant Garamond',serif;margin:0 0 1rem}
 p{max-width:40rem;margin:0 0 2.5rem}
