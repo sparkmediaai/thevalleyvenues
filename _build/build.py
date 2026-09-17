@@ -1619,6 +1619,7 @@ PAGES["pricing/index.html"] = dict(
     h1="The wedding pamphlet.",
     standfirst="Every space on the estate, everything that comes with it, and what each "
                "experience costs. Tell us where to send it and it is with you in a minute.",
+    foot_js='<script src="https://link.msgsndr.com/js/form_embed.js"></script>',
     body="""
 <section>
   <div class="split">
@@ -1638,65 +1639,29 @@ PAGES["pricing/index.html"] = dict(
 </section>
 
 <section>
-  <form class="form inquiry" id="pricing" data-inquiry-type="Pricing Pamphlet" novalidate>
-    <div class="field-row">
-      <div class="field">
-        <label for="pr_first_name">First name <b aria-hidden="true">*</b></label>
-        <input id="pr_first_name" name="first_name" type="text" autocomplete="given-name" required>
-      </div>
-      <div class="field">
-        <label for="pr_last_name">Last name <b aria-hidden="true">*</b></label>
-        <input id="pr_last_name" name="last_name" type="text" autocomplete="family-name" required>
-      </div>
-    </div>
-    <div class="field-row">
-      <div class="field">
-        <label for="pr_email">Email <b aria-hidden="true">*</b></label>
-        <input id="pr_email" name="email" type="email" autocomplete="email" required>
-      </div>
-      <div class="field">
-        <label for="pr_phone">Mobile <b aria-hidden="true">*</b></label>
-        <input id="pr_phone" name="phone" type="tel" autocomplete="tel" required>
-      </div>
-    </div>
-    <div class="field">
-      <label for="pr_estimated_venue_budget">Estimated venue budget <b aria-hidden="true">*</b></label>
-      <!-- Required, with no default and no "not sure": the owner uses this to
-           qualify leads, and wide bands that climb past the estate's usual
-           budget say what kind of estate this is (2026-09-15 call). -->
-      <!-- No value attributes on the bands: the option text is the value, so
-           the two are equal character for character. Plain ASCII hyphen, no
-           spaces. These strings are compared exactly against the CRM options
-           and a mismatch fails silently, so do not prettify the dashes. -->
-      <select id="pr_estimated_venue_budget" name="estimated_venue_budget" required>
-        <option value="" selected disabled>Choose a range</option>
-        <option>Under $25,000</option>
-        <option>$25,000-$50,000</option>
-        <option>$50,000-$75,000</option>
-        <option>$75,000-$100,000</option>
-        <option>$100,000-$150,000</option>
-        <option>$150,000+</option>
-      </select>
-    </div>
-    <p class="form-privacy">The book comes by text as well as email, which is why we ask
-       for both. Only ever used to send it and to write back.</p>
-
-    <div class="hp" aria-hidden="true">
-      <label for="pr_company">Company</label>
-      <input id="pr_company" name="company" type="text" tabindex="-1" autocomplete="off">
-    </div>
-
-    <button class="btn btn-solid" type="submit">Send it to me</button>
-    <p class="form-error" id="pricing-error" role="alert" hidden></p>
-  </form>
-
-  <div class="form-done" id="pricing-done" role="status" hidden>
-    <div class="eyebrow">On its way</div>
-    <h2>Check your phone.</h2>
-    <p>The pamphlet is in your inbox and a link is on its way to your phone. If
-       neither arrives in the next few minutes, email
-       <a href="mailto:Info@thevalleyvenues.com">Info@thevalleyvenues.com</a> and it
-       will reach the same person.</p>
+  <!-- The estate's own GoHighLevel form ("Pricing Pamphlet Capture Form"),
+       embedded exactly as their current site embeds it, so every submission
+       lands in their existing sub-account and fires the pamphlet workflow they
+       already run (email, text, follow-up). It carries its own SMS consent
+       checkbox and Cloudflare Turnstile check. Its fields and look are edited
+       in GHL's form builder, not here. -->
+  <div class="ghl-form">
+    <p class="ghl-note">The pamphlet comes by text as well as email, which is why we ask for both.</p>
+    <iframe src="https://api.leadconnectorhq.com/widget/form/MmcguxzmKTkCde4XaLrd"
+            style="width:100%;height:100%;border:none;border-radius:0"
+            id="inline-MmcguxzmKTkCde4XaLrd"
+            data-layout="{'id':'INLINE'}"
+            data-trigger-type="alwaysShow" data-trigger-value=""
+            data-activation-type="alwaysActivated" data-activation-value=""
+            data-deactivation-type="neverDeactivate" data-deactivation-value=""
+            data-form-name="Pricing Pamphlet Capture Form"
+            data-height="635"
+            data-layout-iframe-id="inline-MmcguxzmKTkCde4XaLrd"
+            data-form-id="MmcguxzmKTkCde4XaLrd"
+            title="Pricing Pamphlet Capture Form"></iframe>
+    <noscript><p class="ghl-note">If the form does not appear,
+      <a href="https://api.leadconnectorhq.com/widget/form/MmcguxzmKTkCde4XaLrd">open it here</a>
+      or email <a href="mailto:Info@thevalleyvenues.com">Info@thevalleyvenues.com</a>.</p></noscript>
   </div>
 </section>
 

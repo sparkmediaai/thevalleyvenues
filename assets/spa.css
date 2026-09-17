@@ -188,3 +188,12 @@ section{border-bottom:0}
   .onward .up{display:inline-flex;align-items:center;min-height:44px}
   .colophon a{display:inline-flex;align-items:center;min-height:44px}
 }
+
+/* ------------------------------------------------ the estate's own GHL form
+   Their GoHighLevel form in an iframe. Its inside is styled in GHL's form
+   builder; this only frames it. The height is set by GHL's form_embed.js to
+   fit the form; min-height keeps room for it before that script runs. */
+.ghl-form{max-width:40rem;margin-top:1rem;background:var(--paper);border:1px solid var(--sage);
+  padding:clamp(1rem,3vw,1.8rem)}
+.ghl-form iframe{display:block;width:100%;min-height:635px;border:0}
+.ghl-note{font-size:.9rem;color:var(--ink-soft);margin:0 0 1rem}
