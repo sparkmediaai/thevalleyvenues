@@ -1,0 +1,182 @@
+@charset "UTF-8";
+/* ============================================================================
+   Olive Grove.
+
+   The site's direction, chosen from the wedding lab (11): the colours from
+   Kobi's Welcome Book, Libre Caslon for the words, Jost for the small
+   capitals, square corners throughout, and pages that read as a few large,
+   confident blocks -- olive with parchment type, alternating with parchment.
+   Her brief: large images, elegant type, good use of space; nothing bubbly.
+
+   Loaded last on every page, over site.css, the page's own sheet and spa.css
+   (which still carries the phone header and pamphlet bar). Rather than edit
+   every rule, the palette tokens are redefined here, so everything that was
+   sage or ivory becomes olive or parchment by itself; the rest is overrides.
+
+     ink        #2B1B00  her text brown (15.9:1 on parchment)
+     parchment  #FFF9F3  her page colour
+     cream      #FFF7F0  her second page colour
+     olive      #7B7951  her grey olive: blocks, rules, labels
+     accent     #FC5324  a thread, never a field
+   ========================================================================== */
+:root{
+  --ivory:#FFF9F3; --cream:#FFF7F0; --paper:#FFFFFF;
+  --deep:#2B1B00; --olive:#7B7951; --sage:#7B7951; --clay:#FC5324; --blue:#7B7951;
+  --ground:var(--ivory); --ground-2:var(--cream);
+  --ink:var(--deep); --ink-soft:var(--deep); --ink-faint:var(--deep);
+  --accent:var(--deep); --label:var(--olive);
+  --line:var(--olive); --line-soft:var(--olive);
+  --display:"Libre Caslon Display",Georgia,"Times New Roman",serif;
+  --text:"Libre Caslon Text",Georgia,"Times New Roman",serif;
+  --sans:Jost,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --round:0px; --round-lg:0px; --lift:none; --lift-soft:none;
+}
+
+/* square corners and flat surfaces, everywhere */
+*,*::before,*::after{border-radius:0!important}
+main *,.hero *,.site-foot *{box-shadow:none!important}
+html,body{overflow-x:clip}
+
+body{background:var(--ivory);color:var(--deep);font:400 17px/1.75 var(--text)}
+h1,h2,h3{font-family:var(--display);font-weight:400;letter-spacing:0}
+h1{line-height:1.02}
+h2{line-height:1.08}
+
+/* small capitals: labels, links, buttons */
+.eyebrow{display:block;font:500 .72rem/1.35 var(--sans);letter-spacing:.24em;text-transform:uppercase;color:var(--olive)}
+.eyebrow::before{display:none!important}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;font:500 .74rem/1 var(--sans);
+  letter-spacing:.2em;text-transform:uppercase;padding:1.1rem 1.8rem;border:1px solid var(--deep);
+  background:transparent;color:var(--deep);transition:background-color .4s ease,color .4s ease,border-color .4s ease}
+.btn:hover,.btn:focus-visible{background:var(--deep);border-color:var(--deep);color:var(--ivory)}
+.btn-solid{background:var(--deep);border-color:var(--deep);color:var(--ivory)}
+.btn-solid:hover,.btn-solid:focus-visible{background:transparent;color:var(--deep)}
+/* an arrow arrives on hover */
+.btn::after{content:"\2192";display:inline-block;width:0;overflow:hidden;opacity:0;transform:translateX(-.4em);
+  transition:width .45s cubic-bezier(.16,1,.3,1),opacity .35s ease,transform .45s cubic-bezier(.16,1,.3,1)}
+.btn:hover::after,.btn:focus-visible::after{width:1.4em;opacity:1;transform:none;padding-left:.5em}
+
+/* ------------------------------------------------------------------ header */
+.site-head{background:var(--olive);border-bottom:0;color:var(--ivory);transition:transform .6s cubic-bezier(.16,1,.3,1)}
+.site-head.m-hidden{transform:translateY(-105%)}
+.wordmark{color:var(--ivory)}
+.wordmark span{font-family:var(--display);font-size:1.4rem}
+.wordmark img{filter:brightness(0) invert(1);opacity:.94}
+.site-nav a{color:var(--ivory);font:500 .72rem/1 var(--sans);letter-spacing:.18em;text-transform:uppercase;
+  border-bottom:0;background:linear-gradient(currentColor,currentColor) 0 100%/0 1px no-repeat;
+  transition:background-size .5s cubic-bezier(.16,1,.3,1)}
+.site-nav a:hover,.site-nav a:focus-visible,.site-nav a[aria-current="page"]{color:var(--ivory);background-size:100% 1px}
+.site-head .btn{background:var(--ivory);border-color:var(--ivory);color:var(--deep);padding:.85rem 1.3rem}
+.site-head .btn:hover,.site-head .btn:focus-visible{background:transparent;color:var(--ivory);border-color:var(--ivory)}
+@media (max-width:860px){
+  .js .nav-toggle{background:transparent;border:1px solid var(--ivory);color:var(--ivory)}
+  .nav-open .nav-toggle{background:var(--ivory);color:var(--deep)}
+  .js .site-nav{background:var(--ivory);border-color:var(--olive)}
+  .js .site-nav a{color:var(--deep);font:400 1.5rem/1.2 var(--display);letter-spacing:0;text-transform:none;background:none}
+  .js .site-nav li{border-bottom-color:var(--olive)}
+  .js .site-nav a[aria-current="page"]::after{background:var(--clay)}
+  .js .cta-bar{background:var(--ivory);border-top:1px solid var(--olive)}
+  .js .cta-bar .btn{background:var(--deep);color:var(--ivory);border-color:var(--deep)}
+}
+.m-progress{position:fixed;left:0;top:0;height:2px;width:100%;background:var(--clay);transform:scaleX(0);
+  transform-origin:left;z-index:120;pointer-events:none}
+
+/* ------------------------------------------------------ full-bleed blocks */
+.statement,.claim,.band,.closing{margin-inline:calc(50% - 50vw)!important;width:auto}
+
+/* the statement: large type on parchment, under an olive rule */
+.statement{background:transparent;border:0;border-top:1px solid var(--olive);
+  padding:clamp(3rem,8vw,6rem) max(var(--pad),calc(50vw - 41rem))}
+.statement h2{font-size:clamp(2.4rem,5.6vw,4.4rem);max-width:18ch}
+.statement p{color:var(--deep);max-width:40rem;font-size:1.05rem}
+
+/* the claim on the home page: the photograph, then the words on olive */
+.claim{background:var(--olive);padding:0;display:block}
+.claim-img{width:100%}
+.claim-fade{display:none}
+.claim-body{background:transparent;margin:0 auto;max-width:82rem;padding:clamp(3rem,8vw,6rem) var(--pad)}
+.claim-body,.claim-body *{color:var(--ivory)!important}
+.claim .nots{border-top-color:var(--ivory)}
+.claim .nots li::after{background:var(--ivory)}
+.claim .nots li::before{background:var(--clay)}
+.claim .btn{background:var(--ivory);border-color:var(--ivory);color:var(--deep)!important}
+.claim .btn:hover{background:transparent;color:var(--ivory)!important}
+
+/* the band: a full-width photograph with its line on olive beneath */
+.band{background:var(--olive);padding:0}
+.band-img{width:100%}
+.band p{color:var(--ivory);font-family:var(--text);font-style:italic}
+
+/* the closing: photograph, then the invitation on olive */
+.closing{background:var(--olive);padding:0;border-top:0;margin-top:clamp(3rem,8vw,6rem)}
+.closing-body{max-width:82rem;padding:clamp(3rem,8vw,5.5rem) var(--pad)}
+.closing-body,.closing-body *{color:var(--ivory)}
+.closing .btn{background:var(--ivory);border-color:var(--ivory);color:var(--deep)}
+.closing .btn:hover,.closing .btn:focus-visible{background:transparent;color:var(--ivory);border-color:var(--ivory)}
+
+/* ------------------------------------------------------------ photographs */
+.cluster::before{display:none}
+.wk,.card-door{background:transparent;padding:0}
+.wk > *:not(img):not(figure),.card-door > *:not(.frame){padding-left:0;padding-right:0;margin-left:0;margin-right:0}
+.wk-when{border-top:1px solid var(--olive);padding-top:.8rem;font-family:var(--sans)}
+.wk b{font-family:var(--display)}
+.hzw{display:block;overflow:hidden}
+.hzw-fill{height:100%;min-height:0}
+.hzw>img{transition:scale 1.6s cubic-bezier(.16,1,.3,1)}
+.hzw:hover>img,a:hover .hzw>img,.wk:hover .hzw>img,.card-door:hover .hzw>img{scale:1.06}
+
+/* ----------------------------------------------------------------- lists */
+.nots,.facts,.steps,.onward{border-color:var(--olive)}
+.facts li,.named li,.step{border-bottom-color:var(--olive)}
+.facts li span{font-family:var(--sans)}
+.names-track span{font-family:var(--display)}
+.names-track span::after{background:var(--clay)}
+
+/* ------------------------------------------------------------------ forms */
+.field label{font-family:var(--sans)}
+.field input,.field select,.field textarea{border:1px solid var(--olive);background:var(--paper);font-family:var(--text)}
+.ghl-form{background:var(--paper);border:1px solid var(--olive)}
+
+/* ----------------------------------------------------------------- footer */
+.site-foot{background:var(--cream);border-top:1px solid var(--olive)}
+.site-foot h3{font-family:var(--sans);color:var(--olive)}
+.site-foot a,.site-foot .addr{color:var(--deep)}
+.colophon{border-top-color:var(--olive)}
+
+/* ------------------------------------------------------ the home page hero
+   The film at full screen and the words on a parchment band across its foot,
+   as the lab's 11 does it. The film is never darkened. */
+@media (min-width:1100px){
+  .hero-clock .hero-stage{height:calc(100svh - var(--head,76px));min-height:34rem;max-height:none}
+  .hero-clock .hero-body{align-self:end;justify-self:start;margin:0 0 0 clamp(1.5rem,4vw,3.5rem);
+    max-width:46rem;padding:clamp(2rem,3vw,3rem) clamp(1.8rem,3vw,3.2rem) clamp(1.8rem,2.4vw,2.6rem);
+    background:var(--ivory)}
+  .hero-clock .hero-body h1{font-size:clamp(2.8rem,4.6vw,5rem)}
+}
+.hero-clock .hero-body .eyebrow{color:var(--olive)}
+.hero-pause{font:500 .7rem/1 var(--sans);letter-spacing:.2em;background:var(--ivory);border:0;color:var(--deep);padding:.85rem 1.1rem}
+.hero-pause:hover{background:var(--deep);color:var(--ivory)}
+
+/* ------------------------------------------------- small type on a phone */
+@media (max-width:760px){
+  .eyebrow,.btn,.site-foot h3,.wk-when,.place-dist,.onward a span,.gx-count,.field label{font-size:.78rem!important}
+  body{font-size:16.5px}
+}
+
+/* split type, for the motion */
+.sw{display:inline-block;vertical-align:top}
+.swi,.sc{display:inline-block}
+.m-mask .sw{overflow:hidden;padding-bottom:.14em;margin-bottom:-.14em;padding-right:.02em}
+
+/* ------------------------------------------------------- page-by-page fixes */
+/* a statement set beside a photograph stays in its column, not full width */
+.room .statement,.split .statement,.stakes .statement{margin-inline:0!important;padding:clamp(2rem,5vw,3.5rem) 0;border-top:1px solid var(--olive)}
+/* no panel behind a portrait: square photographs sit on the page itself */
+.kobi-photo::before{display:none}
+.kobi-photo figcaption{background:var(--ivory);font-family:var(--sans)}
+/* the estate's place cards: flat, the photograph above an olive rule */
+.spot-link{background:transparent;border-top:1px solid var(--olive)}
+.spot-link:hover,.spot-link:focus-visible{transform:none}
+.spot-text{padding-left:0;padding-right:0}
+.place-dist{background:transparent;padding:0;font-family:var(--sans);color:var(--olive)}

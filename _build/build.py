@@ -211,15 +211,16 @@ def shell(page, path="index.html"):
 <meta name="twitter:card" content="summary_large_image">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Libre+Franklin:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=Libre+Franklin:wght@400;500;600&family=Libre+Caslon+Display&family=Libre+Caslon+Text:ital,wght@0,400;0,700;1,400&family=Jost:wght@400;500&display=swap">
 <link rel="stylesheet" href="%(root)sassets/site.css">
 <link rel="stylesheet" href="%(root)sassets/motion.css">
 <link rel="stylesheet" href="%(root)sassets/opening.css">
 <link rel="stylesheet" href="%(root)sassets/forms.css">
 %(head)s<link rel="stylesheet" href="%(root)sassets/spa.css">
+<link rel="stylesheet" href="%(root)sassets/olive.css">
 <script>document.documentElement.classList.add("js");if("IntersectionObserver" in window&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("io");setTimeout(function(){if(!window.__reveal)document.documentElement.classList.remove("io")},3000)}window.FORM_ENDPOINT=%(endpoint)s;if(/[?&]notes\b/.test(location.search))document.documentElement.classList.add("notes")</script>
 </head>
-<body>
+<body data-page="%(page_id)s">
 
 <a class="skip" href="#main">Skip to content</a>
 
@@ -266,6 +267,10 @@ def shell(page, path="index.html"):
 </footer>
 %(cta_bar)s%(foot_js)s
 <script src="%(root)sassets/nav.js" defer></script>
+<script src="%(root)sassets/vendor/gsap.min.js" defer></script>
+<script src="%(root)sassets/vendor/ScrollTrigger.min.js" defer></script>
+<script src="%(root)sassets/vendor/lenis.min.js" defer></script>
+<script src="%(root)sassets/motion-og.js" defer></script>
 <script src="%(root)sassets/reveal.js" defer></script>
 <script src="%(root)sassets/opening.js" defer></script>
 <script src="%(root)sassets/forms.js" defer></script>
@@ -291,6 +296,8 @@ def shell(page, path="index.html"):
                      '    <p>%s</p>%s\n  </div>\n' % (page["eyebrow"], page["h1"], page["standfirst"], actions),
         "body": expand(page["body"]), "foot": foot,
         "hero_class": hero_class,
+        "page_id": (path.replace("/index.html", "").replace(".html", "").replace("/", "-")
+                    if path != "index.html" else "home"),
         "banner": page.get("banner", OPENING),
         "head": page.get("head", ""), "foot_js": page.get("foot_js", ""),
     }
@@ -503,195 +510,81 @@ def words(text):
 
 # No photograph of Magnolia House from before the May 2025 fire: it does not
 # look like that any more. Every gallery photograph predates the fire.
-FILM_A = ["dji-0673", "copy-of-the-valley-venues-kristen-thomison-photo-312", "copy-of-portraits-29", "copy-of-3i0a4588vh",
-          "katie-daisy-2o8a8829", "misty-lancaster-dsc04766", "aybee-000084170030"]
-FILM_B = ["4k6a0982anthonyalexa", "katie-daisy-2o8a9710", "copy-of-the-valley-venues-kristen-thomison-photo-233",
-          "sarah-larae-engagement-132", "misty-lancaster-dsc04738", "copy-of-882a0160", "sarah-larae-engagement-37"]
-FAN = ["4k6a0033anthonyalexa", "copy-of-portraits-4-2", "copy-of-vintagecar-16-2",
-       "copy-of-the-valley-venues-kristen-thomison-photo-96", "copy-of-thevalley-6-1"]
-
-
-def film_row(ids, cls):
-    tiles = "".join('<figure>%s</figure>' % gpic(i, "", sizes="22rem") for i in ids)
-    # twice over, so the row is long enough to keep moving without a gap
-    return '<div class="wd-film-row %s" aria-hidden="true">%s%s</div>' % (cls, tiles, tiles)
-
+# The Weddings page is the chosen direction (the wedding lab's 11): the estate
+# film at full screen with the headline on a parchment band across its foot,
+# then Olive Grove's large blocks. Short on purpose -- most visitors arrive from
+# Instagram on a phone.
+WAYS = [
+    ("Single Day Celebration", "One day", "The whole estate, closed around one wedding for the day.",
+     "/weddings/single-day/", "aybee-dominy-3700", "A bride and groom walking back up the aisle in the meadow"),
+    ("The Estate Weekend", "Two nights",
+     "The estate from the day before, the rehearsal dinner set up for you, and two nights of lodging on the property.",
+     "/stay/", "copy-of-dsc05971-arw-1", "A couple at a picnic breakfast laid in the meadow"),
+    ("All-Inclusive Estate Experience", "Everything handled",
+     "Design, coordination, catering, the bar and the music, from one team, with Kobi&rsquo;s own hand in the design.",
+     "/weddings/whats-included/", "copy-of-the-valley-venues-kristen-thomison-photo-63",
+     "A reception table dressed in blue and white"),
+]
 
 PAGES["weddings/index.html"] = dict(
     nav="Weddings", title="Weddings | %s" % SITE,
-    desc="The Estate Weekend at The Valley Venues: one wedding, the whole property, for as long as you keep it.",
+    desc="The Estate Weekend at The Valley Venues: one wedding, the whole property, for a day or a weekend.",
     head='<link rel="stylesheet" href="/assets/weddings.css">\n',
+    hero_text=False,
     hero_html=(
-        '  <div class="wd-hero wx" aria-hidden="false">\n'
-        '    <span class="wd-blob"></span>\n'
-        '    <svg class="wd-arc" viewBox="0 0 400 400" aria-hidden="true"><path d="M 40 360 C 40 120 180 40 360 40" '
-        'fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="2 7" stroke-linecap="round"/></svg>\n'
-        '    <figure class="wd-h1">%s</figure>\n'
-        '    <figure class="wd-h2">%s</figure>\n'
-        '    <figure class="wd-h3">%s</figure>\n'
-        '    <p class="wd-stamp"><b>One</b> wedding<br>on the whole estate</p>\n'
-        '  </div>\n' % (
-            gpic("copy-of-thevalley", "A couple between two floral arches in the meadow, the ridge behind",
-                 sizes="(max-width:900px) 70vw, 30vw", eager=True),
-            gpic("copy-of-3i0a4529vh", "A couple laughing in an embrace on the Lookout Deck",
-                 sizes="(max-width:900px) 50vw, 20vw", eager=True),
-            gpic("copy-of-3i0a4234vh-1", "Pale blue shoes and a blue and white bouquet on a sill",
-                 sizes="(max-width:900px) 40vw, 14vw", eager=True))),
-    eyebrow="Celebrate",
-    h1="More Than a Wedding Day",
-    standfirst="There will be a ceremony. There will be dinner. There will be dancing. "
-               "And then there is everything around it.",
-    actions=[("Download the Wedding Pamphlet", "/pricing/"),
-             ("What's Included", "/weddings/whats-included/")],
+        '  <div class="fh">\n'
+        '    <figure class="fh-media">\n'
+        '      <img src="/assets/video/hero-poster.webp" alt="" aria-hidden="true" fetchpriority="high">\n'
+        '      <video autoplay muted loop playsinline preload="auto" poster="/assets/video/hero-poster.webp" aria-hidden="true">\n'
+        '        <source media="(max-width:760px)" src="/assets/video/hero-sm.mp4" type="video/mp4">\n'
+        '        <source src="/assets/video/hero.webm" type="video/webm">\n'
+        '        <source src="/assets/video/hero.mp4" type="video/mp4">\n'
+        '      </video>\n'
+        '    </figure>\n'
+        '    <div class="fh-band">\n'
+        '      <div class="eyebrow">Weddings at The Valley Venues</div>\n'
+        '      <h1>More than a wedding day.</h1>\n'
+        '      <p>One wedding at a time, on seventy-four private acres beneath Lookout Mountain. '
+        'The whole estate is yours, for a day or a weekend.</p>\n'
+        '      <a class="btn btn-solid" href="/pricing/">Download the Wedding Pamphlet</a>\n'
+        '    </div>\n'
+        '    <button type="button" class="fh-pause" aria-pressed="false">Pause film</button>\n'
+        '  </div>\n'),
+    eyebrow="Weddings", h1="More than a wedding day.", standfirst="",
+    foot_js='<script>(function(){var v=document.querySelector(".fh video"),b=document.querySelector(".fh-pause");'
+            'if(!v||!b)return;b.addEventListener("click",function(){if(v.paused){v.play();b.textContent="Pause film";'
+            'b.setAttribute("aria-pressed","false");}else{v.pause();b.textContent="Play film";'
+            'b.setAttribute("aria-pressed","true");}});})();</script>',
     body="""
-<section class="wd-read wx">
-  <div class="eyebrow">The Estate Weekend</div>
-  <p class="wd-fill">%(fill)s</p>
-  <div class="wd-read-more">
-    <p>The night before, when your friends are still up at one in the morning. Sunrise over
-       Lookout Mountain through the window of the room where you are already getting ready.
-       Breakfast with your grandparents before anyone drives anywhere.</p>
-    <p>Every one of the three below is a full buyout of the property. One wedding, nobody else
-       on the estate, whichever you choose &mdash; what changes is only how long you keep it.</p>
-  </div>
+<p class="og-line">The ceremony takes thirty minutes. The rest of it is what you will remember.</p>
+
+<section class="og-ways" aria-label="Three ways to celebrate">
+%(ways)s
 </section>
 
-<section class="wd-ways wx">
-  <div class="lede">
-    <div class="eyebrow">Three ways to keep it</div>
-    <h2>The same estate, for a day, a weekend, or with everything handled.</h2>
-  </div>
-  <ol class="wd-stack">
-    <li class="wd-card wd-c1">
-      <figure class="wd-card-photo">%(c1)s</figure>
-      <div class="wd-card-text">
-        <span class="wd-num">01</span>
-        <div class="eyebrow">One day</div>
-        <h3>Single Day Celebration</h3>
-        <p>A full day with the whole property closed around one wedding: the house, the meadow,
-           the deck and the hall, and nobody else on any of them.</p>
-        <ul class="wd-ticks"><li>The whole estate, for one wedding</li><li>Every space included</li>
-          <li>The getting ready suites</li></ul>
-        <a class="btn" href="/weddings/single-day/">See single-day celebrations</a>
-      </div>
-    </li>
-    <li class="wd-card wd-c2">
-      <figure class="wd-card-photo">%(c2)s</figure>
-      <div class="wd-card-text">
-        <span class="wd-num">02</span>
-        <div class="eyebrow">Two nights</div>
-        <h3>The Estate Weekend</h3>
-        <p>All of the above, plus the property from the afternoon before, the rehearsal dinner
-           set up for you, and two nights of lodging for thirty-two.</p>
-        <ul class="wd-ticks"><li>The day before, and the morning after</li><li>The rehearsal dinner, set up</li>
-          <li>Two nights for thirty-two guests</li></ul>
-        <a class="btn" href="/stay/">Where everyone sleeps</a>
-      </div>
-    </li>
-    <li class="wd-card wd-c3">
-      <figure class="wd-card-photo">%(c3)s</figure>
-      <div class="wd-card-text">
-        <span class="wd-num">03</span>
-        <div class="eyebrow">Everything handled</div>
-        <h3>All-Inclusive Estate Experience</h3>
-        <p>All of the above, plus an event designer and team, a coordinator, catering, the bar,
-           the DJ and the lighting &mdash; and Kobi&rsquo;s own hand in the design.</p>
-        <ul class="wd-ticks"><li>Design, coordination and catering</li><li>The bar, the DJ and the lighting</li>
-          <li>Kobi&rsquo;s own hand in the design</li></ul>
-        <a class="btn" href="/weddings/whats-included/">What&rsquo;s included</a>
-      </div>
-    </li>
-  </ol>
+<section class="og-claim">
+  <h2>One wedding on the property. Never two.</h2>
+  <p>No second ceremony on the lawn, no reset between parties, nobody else&rsquo;s guests. For as
+     long as it is yours, the estate is closed to everyone you did not invite.</p>
 </section>
 
-<section class="wd-film wx">
-  %(film_a)s
-  <p class="wd-film-line">Nobody else&rsquo;s arch comes down while yours goes up.</p>
-  %(film_b)s
-</section>
-
-<section class="wd-gate wx">
-  <figure class="wd-gate-photo">%(gate)s</figure>
-  <div class="statement wd-gate-card">
-    <div class="eyebrow">What you are actually booking</div>
-    <h2 class="rise-words"><span>You</span> <span>are</span> <span>not</span> <span>renting</span> <span>a</span> <span>room.</span> <span>You</span> <span>are</span> <span>closing</span> <span>a</span> <span>gate.</span></h2>
-    <p>A venue sells you a room and a window of hours. Everything in that model follows from
-       the room having to be used again: it is reset before you arrive and cleared the moment
-       you leave, because somebody else is next.</p>
-    <p class="close">Here the property is not being reset around you, because there is nothing
-       to reset it for. However long you stay &mdash; one day or three &mdash; the gate is closed
-       behind one family for the whole of it.</p>
-  </div>
-</section>
-
-<section class="wd-hours wx">
-  <div class="lede">
-    <div class="eyebrow">The hours in between</div>
-    <h2>The best of the weekend happens around the wedding.</h2>
-    <p>What couples describe to us afterwards is almost never the part anyone planned: the
-       friends still up late, the quiet before anyone else is awake, the long breakfast nobody
-       had to drive to. Those hours exist here because there is nowhere else anybody has to be.</p>
-  </div>
-  <div class="wd-hours-row">
-    <figure class="wd-hr1">%(h1)s<figcaption>The night before</figcaption></figure>
-    <figure class="wd-hr2">%(h2)s<figcaption>The morning of</figcaption></figure>
-    <figure class="wd-hr3">%(h3)s<figcaption>The morning after</figcaption></figure>
-  </div>
-</section>
-
-<section class="wd-fan-sec wx">
-  <a class="wd-fan" href="/gallery/" aria-label="See the gallery">
-    %(fan)s
-  </a>
-  <div class="lede wd-fan-text">
-    <div class="eyebrow">Real weddings, here</div>
-    <h2>A hundred and fifty-six photographs, and not one of them shared.</h2>
-    <p>Every frame in the gallery was taken at a wedding that had the whole estate to itself,
-       by thirteen of the region&rsquo;s wedding photographers.</p>
-    <a class="btn" href="/gallery/">See the gallery</a>
-  </div>
-</section>
-
-<section id="investment" class="wd-book wx">
-  <div class="wd-book-card">
-    <div class="wd-pamphlet" aria-hidden="true">
-      <span class="wd-pamphlet-back"></span>
-      <span class="wd-pamphlet-front">%(pamphlet)s<b>The Wedding Pamphlet</b><i>The Valley Venues</i></span>
-    </div>
-    <div class="wd-book-text">
-      <div class="eyebrow">Investment</div>
-      <h2>What it costs is in the Wedding Pamphlet.</h2>
-      <p>Every figure for each experience, alongside what it includes &mdash; and the rest of it
-         too: every space, every lodging option, the catering and the bar. It comes to your
-         email and your phone in about a minute.</p>
-      <a class="btn btn-solid" href="/pricing/">Download the Wedding Pamphlet</a>
-    </div>
-  </div>
-</section>
-
-<section class="closing">
-  <div class="closing-img" role="img" aria-label="The conservatory lit from within after dark"
-       style="background-image:url('/assets/img/close-weddings.webp')"></div>
-  <div class="closing-body">
-    <div class="eyebrow">One weekend at a time</div>
-    <h2>Most Saturdays are already spoken for.</h2>
-    <p>The estate holds one wedding at a time, which means the calendar is shorter than it looks. Walking the property is how most couples decide, and it costs nothing but an afternoon.</p>
-    <a class="btn" href="/pricing/">Download the Wedding Pamphlet</a>
+<section class="og-book">
+  <figure>%(aerial)s</figure>
+  <div>
+    <h2>What it costs, and everything it includes.</h2>
+    <p>The Wedding Pamphlet has every figure and every space. It comes to your email and your
+       phone in about a minute.</p>
+    <a class="btn btn-solid" href="/pricing/">Download the Wedding Pamphlet</a>
   </div>
 </section>
 """ % dict(
-        fill=words("The ceremony takes thirty minutes. The rest of it is what you will remember."),
-        c1=gpic("aybee-dominy-3700", "A bride and groom walking up the aisle from the meadow ceremony"),
-        c2=gpic("4k6a1790anthonyalexa", "A long table laid on the Lookout Deck above the autumn valley"),
-        c3=gpic("copy-of-the-valley-venues-kristen-thomison-photo-63", "A reception table dressed in blue and white, with blue glassware"),
-        film_a=film_row(FILM_A, "wd-film-a"), film_b=film_row(FILM_B, "wd-film-b"),
-        gate='<img src="/assets/img/magnolia-house.webp" alt="Magnolia House, a couple on its front steps" width="%d" height="%d" loading="lazy" decoding="async">' % webp_size(os.path.join(IMG, "magnolia-house.webp")),
-        h1=gpic("copy-of-882a2000", "Guests raising glasses at the reception", sizes="(max-width:760px) 60vw, 28vw"),
-        h2=gpic("august-images-valleyvenues-1-4", "A bride getting ready on the morning of the wedding", sizes="(max-width:760px) 60vw, 28vw"),
-        h3=gpic("copy-of-dsc05971-arw-1", "A couple at a picnic breakfast laid in the meadow", sizes="(max-width:760px) 60vw, 28vw"),
-        fan="".join('<figure class="wd-f%d">%s</figure>' % (i + 1, gpic(pid, "", sizes="16rem"))
-                    for i, pid in enumerate(FAN)),
-        pamphlet=gpic("copy-of-portraits-29", "", sizes="12rem")),
+        ways="\n".join(
+            '  <article class="og-way">%s<div><div class="eyebrow">%s</div><h3>%s</h3><p>%s</p>'
+            '<a href="%s">Discover</a></div></article>' % (
+                gpic(img, alt, sizes="(max-width:820px) 100vw, 33vw"), kind, name, text, href)
+            for name, kind, text, href, img, alt in WAYS),
+        aerial=gpic("dji-0673", "The estate from the air, the meadow and the ridge in autumn",
+                    sizes="(max-width:820px) 100vw, 50vw")),
 )
 
 
