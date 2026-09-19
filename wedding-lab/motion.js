@@ -12,7 +12,7 @@
      the opening, which plays at once, is allowed to mask type completely.
    - Photographs open from a partly visible frame, never from nothing.
 
-   GSAP + ScrollTrigger (and Lenis for smooth scrolling) load from a CDN; if they
+   GSAP + ScrollTrigger load from a CDN; if they
    do not, the pages are simply static and complete. */
 (function () {
   "use strict";
@@ -29,15 +29,7 @@
   g.registerPlugin(ST);
   docEl.classList.add("motion");
 
-  /* ------------------------------------------------------ smooth scrolling */
-  var lenis = null;
-  if (fine && window.Lenis) {
-    lenis = new window.Lenis({ lerp: 0.085, wheelMultiplier: 0.9 });
-    window.__lenis = lenis;
-    lenis.on("scroll", ST.update);
-    g.ticker.add(function (t) { lenis.raf(t * 1000); });
-    g.ticker.lagSmoothing(0);
-  }
+  /* Scrolling is the browser's own: nothing here smooths or slows it. */
 
   /* -------------------------------------------------------------- splitting */
   function split(el, mode) {

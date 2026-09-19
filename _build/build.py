@@ -269,7 +269,6 @@ def shell(page, path="index.html"):
 <script src="%(root)sassets/nav.js" defer></script>
 <script src="%(root)sassets/vendor/gsap.min.js" defer></script>
 <script src="%(root)sassets/vendor/ScrollTrigger.min.js" defer></script>
-<script src="%(root)sassets/vendor/lenis.min.js" defer></script>
 <script src="%(root)sassets/motion-og.js" defer></script>
 <script src="%(root)sassets/reveal.js" defer></script>
 <script src="%(root)sassets/opening.js" defer></script>

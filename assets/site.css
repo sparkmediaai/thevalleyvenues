@@ -62,7 +62,7 @@
 }
 
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
+html{scroll-behavior:auto}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   /* The estate map is exempt, like the hero film: its motion is the point of

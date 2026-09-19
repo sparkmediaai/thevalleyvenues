@@ -1,7 +1,7 @@
 /* Motion for the whole site, in the Olive Grove direction.
 
    The engine from the wedding lab, on the real pages. Every page gets the
-   same foundation -- smooth scrolling with a mouse, a reading thread in the
+   same foundation -- a reading thread in the
    accent, a header that steps aside while reading down and returns on the
    way up, buttons that lean toward the pointer, and a slow zoom on the
    photographs you can hover -- then the home and Weddings pages get their own
@@ -17,7 +17,7 @@
      reveal.js / motion.css (.reveal, .rise-words, .wipe, .par, the cluster,
      the claim's drift) are skipped.
 
-   GSAP + ScrollTrigger + Lenis are bundled in /assets/vendor. If they fail to
+   GSAP + ScrollTrigger are bundled in /assets/vendor. If they fail to
    load the pages are simply static and complete. */
 (function () {
   "use strict";
@@ -32,18 +32,8 @@
   var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
   var SKIP = ".reveal,.rise-words,.wipe,.par,.cluster,.claim-img,.gx,.gv,.park-stage,.walk-map,.ghl-form,.site-head,.site-foot,.hero-stage,.opening";
 
-  /* -------------------------------------------------------- smooth scrolling */
-  if (fine && window.Lenis) {
-    var lenis = new window.Lenis({ lerp: 0.09, wheelMultiplier: 0.9 });
-    window.__lenis = lenis;
-    lenis.on("scroll", ST.update);
-    g.ticker.add(function (t) { lenis.raf(t * 1000); });
-    g.ticker.lagSmoothing(0);
-    // the gallery viewer scrolls its own strip and locks the page behind it
-    new MutationObserver(function () {
-      if (document.body.classList.contains("gv-lock")) lenis.stop(); else lenis.start();
-    }).observe(document.body, { attributes: true, attributeFilter: ["class"] });
-  }
+  /* Scrolling is the browser's own, always: nothing here smooths, slows or
+     takes over the wheel, the trackpad or a touch. */
 
   /* --------------------------------------------------------------- splitting */
   function split(el, mode) {
