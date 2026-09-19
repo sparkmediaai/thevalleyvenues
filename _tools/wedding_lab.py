@@ -23,6 +23,7 @@ the May 2025 fire, and no itinerary ("where you marry" etc.).
 """
 import json
 import os
+import re
 import struct
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -706,6 +707,56 @@ h1,h2,h3{font-family:Newsreader,serif;font-weight:300;margin:0;line-height:.95;l
     return css, head_bar() + body
 
 
+@direction("11", "Olive Grove, with the film",
+           "The pick: Olive Grove's colours, type and olive blocks, opened by the estate film at full "
+           "screen with the headline on a parchment band across its foot, the way Promenade sets it.",
+           "Libre+Caslon+Display&family=Libre+Caslon+Text:ital@0;1&family=Jost:wght@500")
+def d11():
+    css09, body09 = d09()
+    # Olive Grove, less its split hero; the film takes the whole first screen.
+    css = css09 + """
+.fh{position:relative;height:calc(100svh - 4rem);min-height:34rem;display:flex;align-items:flex-end;
+  overflow:hidden;background:#7B7951}
+.fh-media{position:absolute;inset:0;margin:0}
+.fh-media img,.fh-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.fh-band{position:relative;z-index:2;background:#FFF9F3;color:#2B1B00;width:min(46rem,100%);
+  margin-left:clamp(0rem,4vw,3.5rem);padding:clamp(1.8rem,4vw,3rem) clamp(1.4rem,4vw,3.2rem) clamp(1.6rem,3vw,2.6rem)}
+.fh-band .eyebrow{color:#7B7951;opacity:1;margin-bottom:1.1rem}
+.fh-band h1{font-size:clamp(2.8rem,6.2vw,5.6rem)}
+.fh-band p{font-size:1.1rem;max-width:32rem;margin:1.3rem 0 1.8rem}
+.fh-pause{position:absolute;z-index:3;right:clamp(1rem,3vw,2rem);bottom:clamp(1rem,3vw,2rem);
+  font:500 .7rem/1 Jost,sans-serif;letter-spacing:.2em;text-transform:uppercase;cursor:pointer;
+  background:#FFF9F3;color:#2B1B00;border:0;padding:.85rem 1.1rem}
+.fh-pause:hover{background:#2B1B00;color:#FFF9F3}
+@media (max-width:760px){
+  .fh{height:auto;min-height:0;display:block}
+  .fh-media{position:relative;height:62svh}
+  .fh-band{margin:0;width:100%}
+  .fh-pause{top:calc(62svh - 3.6rem);bottom:auto}
+}
+"""
+    hero = """<section class="fh">
+  <figure class="fh-media">
+    <img src="/assets/video/hero-poster.webp" alt="" aria-hidden="true" fetchpriority="high">
+    <video autoplay muted loop playsinline preload="auto" poster="/assets/video/hero-poster.webp" aria-hidden="true">
+      <source media="(max-width:760px)" src="/assets/video/hero-sm.mp4" type="video/mp4">
+      <source src="/assets/video/hero.webm" type="video/webm">
+      <source src="/assets/video/hero.mp4" type="video/mp4">
+    </video>
+  </figure>
+  <div class="fh-band"><div class="eyebrow">%(eyebrow)s</div><h1>%(h1)s</h1>
+    <p>%(stand)s</p><a class="btn dark" href="%(cta_href)s">%(cta)s</a></div>
+  <button type="button" class="fh-pause" aria-pressed="false">Pause film</button>
+</section>
+<script>
+(function(){var v=document.querySelector('.fh video'),b=document.querySelector('.fh-pause');
+  b.addEventListener('click',function(){if(v.paused){v.play();b.textContent='Pause film';b.setAttribute('aria-pressed','false');}
+    else{v.pause();b.textContent='Play film';b.setAttribute('aria-pressed','true');}});})();
+</script>""" % C
+    body = re.sub(r'<section class="hero olive">.*?</section>', lambda m: hero, body09, count=1, flags=re.S)
+    return css, body
+
+
 # ===================================================================== write
 INDEX = """<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
@@ -729,6 +780,9 @@ h1 em{font-style:italic}
 .chips span{width:2.2rem;height:2.2rem;border:1px solid __OLIVE__}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1.8rem,4vw,3.5rem);margin-top:clamp(2.5rem,6vw,4.5rem)}
 .pick{display:block}
+.pick-11{grid-column:1/-1}
+.pick-11 .pick-line b{color:__ACCENT__}
+.pick-11 .pick-line b::after{content:"  ·  the pick";letter-spacing:.22em}
 .pick-shot{display:block;overflow:hidden;background:__CREAM__;border:1px solid __OLIVE__}
 .pick-shot img{width:100%;transition:scale 1.4s cubic-bezier(.16,1,.3,1)}
 .pick:hover .pick-shot img,.pick:focus-visible .pick-shot img{scale:1.04}
@@ -748,7 +802,7 @@ h1 em{font-style:italic}
 <body><div class="wrap">
 <div class="lede">
   <div><p class="eyebrow">The Valley Venues &middot; for Kobi</p>
-    <h1>The Weddings page,<br><em>ten ways</em>.</h1></div>
+    <h1>The Weddings page,<br><em>and the pick</em>.</h1></div>
   <div><p>The same words and the same photographs, designed %(n)s ways. Every one is in your
     colours, with nothing rounded, and every one is built for a phone first.</p>
     <p>Open any of them and scroll. Pick the one that feels like the estate, or the parts you
@@ -812,11 +866,11 @@ def main():
             f.write(SHELL % dict(n=d["slug"], name=d["name"], fonts=d["fonts"], base=BASE_CSS, css=css, body=body, switch=switch, mv=mv))
         print("  /wedding-lab/%s/  %s" % (d["slug"], d["name"]))
     cards = "".join(
-        '''<a class="pick" href="/wedding-lab/%(slug)s/">
+        '''<a class="pick pick-%(slug)s" href="/wedding-lab/%(slug)s/">
       <span class="pick-shot"><img src="/wedding-lab/thumbs/%(slug)s.webp" alt="" width="900" height="525" loading="%(load)s" decoding="async"></span>
       <span class="pick-line"><b>%(slug)s</b><em>%(name)s</em></span>
       <span class="pick-idea">%(idea)s</span>
-    </a>''' % dict(d, load="eager" if i < 2 else "lazy") for i, d in enumerate(D))
+    </a>''' % dict(d, load="eager" if i < 2 else "lazy") for i, d in enumerate(sorted(D, key=lambda d: d["slug"] != "11")))
     chips = "".join('<span style="background:%s"></span>' % c for c in (INK, PARCH, OLIVE, ACCENT))
     with open(os.path.join(OUT, "index.html"), "w", encoding="utf-8") as f:
         f.write(index_page(cards, chips, len(D)))

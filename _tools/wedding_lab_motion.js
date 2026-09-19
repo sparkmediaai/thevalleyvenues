@@ -426,13 +426,8 @@
       scrollTrigger: { trigger: ".claim", start: "top bottom", end: "top 50%", scrub: true } });
   };
 
-  R["09"] = function () { // Olive Grove: colour floods in and the type rises through it
-    var tl = g.timeline({ delay: 0.1 });
-    tl.fromTo(".hero.olive", { clipPath: "inset(0% 50% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.5, ease: "expo.inOut" })
-      .fromTo(".hero figure img", { clipPath: "inset(100% 0% 0% 0%)", scale: 1.35 }, { clipPath: "inset(0% 0% 0% 0%)", scale: 1, duration: 1.8, ease: "expo.inOut" }, 0.35)
-      .add(E.maskIn($(".hero h1"), { stagger: 0.08 }), 0.7)
-      .from([".hero-text .eyebrow", ".hero-text p", ".hero-text .btn"], { y: 26, duration: 1.1, ease: "power3.out", stagger: 0.12 }, 1);
-    $(".hero figure img")._rev = true; done($(".hero-text p")); done($(".hero-text .btn"));
+  // Everything below Olive Grove's first screen, shared by 09 and 11.
+  function ogRest() {
     E.inkRead($(".line"));
     E.marquee($(".line"), { cls: "mq-olive" });
     $$(".ways .way").forEach(function (w, i) {
@@ -446,6 +441,31 @@
       scrollTrigger: { trigger: ".claim", start: "top bottom", end: "top 35%", scrub: true } });
     E.softIn($(".claim h2"), { rotate: 2 });
     var bi = $(".book img"); E.reveal(bi, { from: "inset(0% 100% 0% 0%)", scale: 1.3, scaleTo: 1.1 }); E.drift(bi, 6);
+  }
+
+  R["09"] = function () { // Olive Grove: colour floods in and the type rises through it
+    var tl = g.timeline({ delay: 0.1 });
+    tl.fromTo(".hero.olive", { clipPath: "inset(0% 50% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.5, ease: "expo.inOut" })
+      .fromTo(".hero figure img", { clipPath: "inset(100% 0% 0% 0%)", scale: 1.35 }, { clipPath: "inset(0% 0% 0% 0%)", scale: 1, duration: 1.8, ease: "expo.inOut" }, 0.35)
+      .add(E.maskIn($(".hero h1"), { stagger: 0.08 }), 0.7)
+      .from([".hero-text .eyebrow", ".hero-text p", ".hero-text .btn"], { y: 26, duration: 1.1, ease: "power3.out", stagger: 0.12 }, 1);
+    $(".hero figure img")._rev = true; done($(".hero-text p")); done($(".hero-text .btn"));
+    ogRest();
+  };
+
+
+  R["11"] = function () { // Olive Grove, opened by the film: it settles, then the band rises out of it
+    var tl = g.timeline({ delay: 0.1 });
+    tl.from(".fh-media", { scale: 1.14, duration: 2.8, ease: "expo.out" })
+      .from(".fh-band", { yPercent: 100, duration: 1.4, ease: "expo.out" }, 0.35)
+      .add(E.maskIn($(".fh-band h1"), { stagger: 0.08 }), 0.75)
+      .from([".fh-band .eyebrow", ".fh-band p", ".fh-band .btn"], { y: 24, duration: 1.1, ease: "power3.out", stagger: 0.12 }, 1)
+      .from(".fh-pause", { y: 20, opacity: 0, duration: .8, ease: "power3.out" }, 1.4);
+    done($(".fh-band p")); done($(".fh-band .btn"));
+    // the film drifts up behind the band as the page begins
+    g.to(".fh-media", { yPercent: 12, ease: "none",
+      scrollTrigger: { trigger: ".fh", start: "top top", end: "bottom top", scrub: true } });
+    ogRest();
   };
 
   R["10"] = function () { // Mosaic: the headline builds letter by letter over tiles that fall into place

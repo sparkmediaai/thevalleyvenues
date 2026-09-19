@@ -20,6 +20,9 @@ h1 em{font-style:italic}
 .chips span{width:2.2rem;height:2.2rem;border:1px solid #7B7951}
 .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(1.8rem,4vw,3.5rem);margin-top:clamp(2.5rem,6vw,4.5rem)}
 .pick{display:block}
+.pick-11{grid-column:1/-1}
+.pick-11 .pick-line b{color:#FC5324}
+.pick-11 .pick-line b::after{content:"  ·  the pick";letter-spacing:.22em}
 .pick-shot{display:block;overflow:hidden;background:#FFF7F0;border:1px solid #7B7951}
 .pick-shot img{width:100%;transition:scale 1.4s cubic-bezier(.16,1,.3,1)}
 .pick:hover .pick-shot img,.pick:focus-visible .pick-shot img{scale:1.04}
@@ -39,50 +42,54 @@ h1 em{font-style:italic}
 <body><div class="wrap">
 <div class="lede">
   <div><p class="eyebrow">The Valley Venues &middot; for Kobi</p>
-    <h1>The Weddings page,<br><em>ten ways</em>.</h1></div>
-  <div><p>The same words and the same photographs, designed 10 ways. Every one is in your
+    <h1>The Weddings page,<br><em>and the pick</em>.</h1></div>
+  <div><p>The same words and the same photographs, designed 11 ways. Every one is in your
     colours, with nothing rounded, and every one is built for a phone first.</p>
     <p>Open any of them and scroll. Pick the one that feels like the estate, or the parts you
       want from several, and the rest of the site follows it.</p>
     <div class="chips"><span style="background:#2B1B00"></span><span style="background:#FFF9F3"></span><span style="background:#7B7951"></span><span style="background:#FC5324"></span></div></div>
 </div>
-<div class="grid"><a class="pick" href="/wedding-lab/01/">
+<div class="grid"><a class="pick pick-11" href="/wedding-lab/11/">
+      <span class="pick-shot"><img src="/wedding-lab/thumbs/11.webp" alt="" width="900" height="525" loading="eager" decoding="async"></span>
+      <span class="pick-line"><b>11</b><em>Olive Grove, with the film</em></span>
+      <span class="pick-idea">The pick: Olive Grove's colours, type and olive blocks, opened by the estate film at full screen with the headline on a parchment band across its foot, the way Promenade sets it.</span>
+    </a><a class="pick pick-01" href="/wedding-lab/01/">
       <span class="pick-shot"><img src="/wedding-lab/thumbs/01.webp" alt="" width="900" height="525" loading="eager" decoding="async"></span>
       <span class="pick-line"><b>01</b><em>Aegean</em></span>
       <span class="pick-idea">The resort site: a full-screen photograph, the headline set large and light beneath it, and a great deal of empty parchment. Everything centred and quiet.</span>
-    </a><a class="pick" href="/wedding-lab/02/">
-      <span class="pick-shot"><img src="/wedding-lab/thumbs/02.webp" alt="" width="900" height="525" loading="eager" decoding="async"></span>
+    </a><a class="pick pick-02" href="/wedding-lab/02/">
+      <span class="pick-shot"><img src="/wedding-lab/thumbs/02.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
       <span class="pick-line"><b>02</b><em>Folio</em></span>
       <span class="pick-idea">A magazine spread. The headline is set enormous in a high-contrast serif beside a tall photograph; the three experiences are full-width feature spreads with a drop cap.</span>
-    </a><a class="pick" href="/wedding-lab/03/">
+    </a><a class="pick pick-03" href="/wedding-lab/03/">
       <span class="pick-shot"><img src="/wedding-lab/thumbs/03.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
       <span class="pick-line"><b>03</b><em>Horizon</em></span>
       <span class="pick-idea">The estate as a sequence of wide landscapes. Each section is one panoramic photograph and one line beneath it, nothing else. The shortest page of the ten.</span>
-    </a><a class="pick" href="/wedding-lab/04/">
+    </a><a class="pick pick-04" href="/wedding-lab/04/">
       <span class="pick-shot"><img src="/wedding-lab/thumbs/04.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
       <span class="pick-line"><b>04</b><em>Atelier</em></span>
       <span class="pick-idea">A design studio's precision: a strict grid, small letterspaced labels, fine olive rules, photographs set off-grid at different sizes, and a restrained serif for the words that matter.</span>
-    </a><a class="pick" href="/wedding-lab/05/">
+    </a><a class="pick pick-05" href="/wedding-lab/05/">
       <span class="pick-shot"><img src="/wedding-lab/thumbs/05.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
       <span class="pick-line"><b>05</b><em>Promenade</em></span>
       <span class="pick-idea">Built for the phone. The headline sits over the bottom of a full-screen photograph on a solid parchment band, and the three experiences are full-height panels you swipe through sideways.</span>
-    </a><a class="pick" href="/wedding-lab/06/">
+    </a><a class="pick pick-06" href="/wedding-lab/06/">
       <span class="pick-shot"><img src="/wedding-lab/thumbs/06.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
       <span class="pick-line"><b>06</b><em>Diptych</em></span>
       <span class="pick-idea">Two halves. A photograph holds still on the left while the words move on the right, and the photograph changes as each section arrives. On a phone the photograph sits above its words.</span>
-    </a><a class="pick" href="/wedding-lab/07/">
+    </a><a class="pick pick-07" href="/wedding-lab/07/">
       <span class="pick-shot"><img src="/wedding-lab/thumbs/07.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
       <span class="pick-line"><b>07</b><em>Invitation</em></span>
       <span class="pick-idea">Stationery rather than a website: a narrow centred column, engraved capitals, fine double rules and photographs set in thin olive keylines, like the pages of a letterpress invitation.</span>
-    </a><a class="pick" href="/wedding-lab/08/">
+    </a><a class="pick pick-08" href="/wedding-lab/08/">
       <span class="pick-shot"><img src="/wedding-lab/thumbs/08.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
       <span class="pick-line"><b>08</b><em>Cinema</em></span>
       <span class="pick-idea">The estate film opens the page at full screen, with nothing laid over it. The headline follows in a wide, calm band, and the three experiences are full-width stills you scroll through.</span>
-    </a><a class="pick" href="/wedding-lab/09/">
+    </a><a class="pick pick-09" href="/wedding-lab/09/">
       <span class="pick-shot"><img src="/wedding-lab/thumbs/09.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
       <span class="pick-line"><b>09</b><em>Olive Grove</em></span>
       <span class="pick-idea">Colour does the work. Whole sections are laid in the owner's olive with parchment type, alternating with parchment ones, so the page reads as a few large, confident blocks.</span>
-    </a><a class="pick" href="/wedding-lab/10/">
+    </a><a class="pick pick-10" href="/wedding-lab/10/">
       <span class="pick-shot"><img src="/wedding-lab/thumbs/10.webp" alt="" width="900" height="525" loading="lazy" decoding="async"></span>
       <span class="pick-line"><b>10</b><em>Mosaic</em></span>
       <span class="pick-idea">The type is the architecture: the headline runs the full width of the page, huge, over a tiled mosaic of real weddings. The owner's orange appears once, as a single thread.</span>
