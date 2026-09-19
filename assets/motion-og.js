@@ -178,14 +178,12 @@
   /* -------------------------------------------------------------------- pages */
   var R = {};
 
-  R.home = function () {
+  R.home = function () { // the film alone, settling; its words rise in beneath it
+    g.from(".hero-stage", { scale: 1.08, duration: 2.8, ease: "expo.out" });
     var body = $(".hero-clock .hero-body");
-    if (!body || innerWidth < 1100) return;
-    var tl = g.timeline({ delay: 0.15 });
-    tl.from(body, { yPercent: 100, duration: 1.4, ease: "expo.out" })
-      .add(E.maskIn($("h1", body), { stagger: 0.08 }), 0.4)
-      .from($$(".eyebrow, p, .hero-actions", body), { y: 24, duration: 1.1, ease: "power3.out", stagger: 0.12 }, 0.7);
-    $$("p, .hero-actions", body).forEach(mark);
+    if (!body) return;
+    E.maskIn($("h1", body), { stagger: 0.08, delay: 0.4 });
+    E.lift($$(".eyebrow, p, .hero-actions", body), { stagger: 0.12, trigger: body });
   };
 
   R.weddings = function () {

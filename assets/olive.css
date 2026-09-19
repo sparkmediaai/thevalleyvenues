@@ -180,3 +180,28 @@ h2{line-height:1.08}
 .spot-link:hover,.spot-link:focus-visible{transform:none}
 .spot-text{padding-left:0;padding-right:0}
 .place-dist{background:transparent;padding:0;font-family:var(--sans);color:var(--olive)}
+
+/* ============================================================================
+   Heroes.
+
+   The home page is the drone film and nothing else: no words laid over it,
+   only a quiet pause control. Its headline follows directly beneath.
+   Every other page keeps its words in their own block on the hero.
+   ========================================================================== */
+
+/* ---------------------------------------------------------------- home */
+body[data-page="home"] .hero-clock{display:block}
+body[data-page="home"] .hero-clock .hero-stage{grid-area:auto;aspect-ratio:auto;
+  height:calc(100svh - var(--head,76px));min-height:30rem;max-height:none}
+body[data-page="home"] .hero-clock .hero-body{grid-area:auto;margin:0 auto;max-width:82rem;width:100%;
+  padding:clamp(3rem,7vw,5.5rem) var(--pad) clamp(2rem,5vw,3.5rem);background:transparent}
+body[data-page="home"] .hero-clock .hero-body > *{max-width:52rem}
+body[data-page="home"] .hero-clock .hero-body h1{font-size:clamp(2.8rem,6vw,5.4rem)}
+body[data-page="home"] .hero-clock .hero-body p{font-size:1.12rem}
+/* the pause control keeps its name for screen readers but shows only its icon */
+body[data-page="home"] .hero-pause{width:44px;height:44px;padding:0;display:grid;place-items:center}
+body[data-page="home"] .hero-pause span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+body[data-page="home"] .hero-pause svg{width:.8rem;height:.8rem}
+@media (max-width:760px){
+  body[data-page="home"] .hero-clock .hero-stage{height:72svh;min-height:24rem}
+}
