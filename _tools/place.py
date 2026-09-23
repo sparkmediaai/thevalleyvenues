@@ -16,6 +16,7 @@ from PIL import Image, ImageStat, ImageEnhance
 
 LIB = r"D:/DevStuff/VV Images/Sorted"
 LODGE = r"D:/DevStuff/VV Images/The Lodge/Lodge"
+CLIENT = r"D:/DevStuff/VV Images/VV Images"
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "img")
 
 # (destination, category folder, filename, width, height, vertical bias)
@@ -45,6 +46,8 @@ SLOTS = [
     ("planners",       "01 Mountain & landscape", "ValleyVenuesStyledShoot-061.jpg", 2000, 1000, 0.52),
     ("vendors",        "08 Details & decor",      "WeddingDay-20.jpg",              2000, 1000, 0.50),
     ("about",          "03 Magnolia House",       "ValleyVenuesStyledShoot-124.jpg", 2000, 1000, 0.46),
+    # The Difference: Kobi's pick, a couple on the deck in the last of the light.
+    ("difference",     CLIENT,                    "3I0A4529vh.jpg",                 2000, 1000, 0.30),
 
     # --- the Lodge ------------------------------------------------------
     # Straight from the client's own folder rather than the sort: the estate

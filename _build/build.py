@@ -1411,7 +1411,8 @@ PAGES["the-estate/overlook-village/index.html"] = dict(
 PAGES["the-difference/index.html"] = dict(
     nav="The Difference", title="The Difference | %s" % SITE,
     desc="Why one wedding at a time changes everything else: the whole estate, everything handled, and everyone knows your name.",
-    hero_img="single-day.webp", hero_alt="The meadow, empty and waiting, with the ridge beyond",
+    hero_img="difference.webp",
+    hero_alt="A couple on the Lookout Deck in the last of the light, the bride laughing",
     eyebrow="The Difference",
     h1="Yours, and only yours.",
     standfirst="For two days there is nobody on seventy-four acres you did not invite. "
