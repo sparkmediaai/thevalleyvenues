@@ -69,6 +69,23 @@ PICKS = [
     ('ov-6', 'lodging', 72, 1000, 750, 0.50),
     ('ov-7', 'lodging', 14, 1000, 750, 0.50),
     ('ov-8', 'lodging', 18, 1000, 750, 0.50),
+
+    # The Lodge's kitchen and dining room, which the client's own folder of
+    # Lodge photographs does not cover and which Kobi asked to lead with.
+    ('lg-10', 'lodging', 2, 1000, 750, 0.50),
+    ('lg-11', 'lodging', 3, 1000, 750, 0.50),
+    ('lg-12', 'lodging', 69, 1000, 750, 0.50),
+
+    # Lost in the Woods, which is its own hub rather than a spare bedroom:
+    # the lit terrace, the fire pit over the valley, the hammock, and inside.
+    ('lw-1', 'lodging', 18, 1400, 510, 0.50),
+    ('lw-2', 'lodging', 13, 1000, 750, 0.50),
+    ('lw-3', 'lodging', 43, 1000, 750, 0.50),
+    ('lw-4', 'lodging', 14, 1000, 750, 0.50),
+    ('lw-5', 'lodging', 49, 1400, 510, 0.50),
+    ('lw-6', 'lodging', 15, 1000, 750, 0.50),
+    ('lw-7', 'lodging', 20, 1000, 750, 0.50),
+    ('lw-8', 'lodging', 50, 1000, 750, 0.50),
 ]
 
 

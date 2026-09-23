@@ -15,6 +15,7 @@ import os
 from PIL import Image, ImageStat, ImageEnhance
 
 LIB = r"D:/DevStuff/VV Images/Sorted"
+LODGE = r"D:/DevStuff/VV Images/The Lodge/Lodge"
 OUT = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "assets", "img")
 
 # (destination, category folder, filename, width, height, vertical bias)
@@ -44,6 +45,23 @@ SLOTS = [
     ("planners",       "01 Mountain & landscape", "ValleyVenuesStyledShoot-061.jpg", 2000, 1000, 0.52),
     ("vendors",        "08 Details & decor",      "WeddingDay-20.jpg",              2000, 1000, 0.50),
     ("about",          "03 Magnolia House",       "ValleyVenuesStyledShoot-124.jpg", 2000, 1000, 0.46),
+
+    # --- the Lodge ------------------------------------------------------
+    # Straight from the client's own folder rather than the sort: the estate
+    # had no pictures of the Lodge at all until these arrived, and the page
+    # Kobi asked for leads on the getting-ready suites, the kitchen and the
+    # beds rather than on the building.
+    ("the-lodge", LODGE, "The Valley Venues Property Images by Alyssa Rachelle Photography-58.jpg", 2000, 1000, .42),
+    ("lg-1",  LODGE, "The Valley Venues Property Images by Alyssa Rachelle Photography-27.jpg", 1600, 1200, .50),
+    ("lg-2",  LODGE, "The Valley Venues Property Images by Alyssa Rachelle Photography-58.jpg", 1600, 1200, .50),
+    ("lg-3",  LODGE, "2023 The Valley Venues Property Images by Alyssa Rachelle Photography-1.jpg", 1400, 1050, .34),
+    ("lg-4",  LODGE, "2023 The Valley Venues Property Images by Alyssa Rachelle Photography-16.jpg", 1600, 1200, .50),
+    ("lg-5",  LODGE, "2023 The Valley Venues Property Images by Alyssa Rachelle Photography-17.jpg", 1600, 1200, .50),
+    ("lg-6",  LODGE, "2023 The Valley Venues Property Images by Alyssa Rachelle Photography-13.jpg", 1600, 1200, .50),
+    ("lg-7",  LODGE, "2023 The Valley Venues Property Images by Alyssa Rachelle Photography-20.jpg", 1600, 1200, .50),
+    ("lg-8",  LODGE, "2023 The Valley Venues Property Images by Alyssa Rachelle Photography-49.jpg", 1600, 1200, .50),
+    ("lg-9",  LODGE, "The Valley Venues Property Images by Alyssa Rachelle Photography-85.jpg", 2000, 1000, .50),
+
 # --- the hero, read as a clock ---------------------------------------
     # Five frames from one property across one day. The estate's whole claim is
     # that it belongs to one family for the length of a weekend, so the hero

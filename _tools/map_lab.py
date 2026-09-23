@@ -77,8 +77,8 @@ PHOTOS = {
     "hall":     ["dh-2", "dh-3", "dh-5"],
     "deck":     ["ld-2", "ld-4", "ld-7"],
     "village":  ["ov-2", "ov-4", "ov-8"],
-    "woods":    ["close-woods", "sd-fire", "stay-inside"],
-    "lodge":    ["ov-5", "ov-6", "ov-7"],
+    "woods":    ["lw-1", "lw-3", "lw-4"],
+    "lodge":    ["lg-1", "lg-10", "lg-2"],
 }
 BLURB = {
     "magnolia": "Columns, glass, and the first photograph every guest takes.",
@@ -86,8 +86,8 @@ BLURB = {
     "hall":     "Dinner, the first dance, and the largest floor on the estate.",
     "deck":     "Fifteen thousand square feet out over the valley.",
     "village":  "Four cottages along the hill, each turned to face out.",
-    "woods":    "One cabin at the far edge, for the two of you.",
-    "lodge":    "The largest party sleeps here, and the morning starts here.",
+    "woods":    "A cabin, a fire pit and a terrace, off on its own.",
+    "lodge":    "Two getting-ready suites, a kitchen for a crowd, fourteen beds.",
 }
 
 SHELL = """<!doctype html>

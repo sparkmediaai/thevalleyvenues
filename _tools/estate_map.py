@@ -65,7 +65,7 @@ PLACES = {
     "valley":   dict(x=1520, y=548, label="The Valley",
                      href="/the-estate/the-valley/", lx=1520, ly=630),
     "woods":    dict(x=214,  y=706, label="Lost in the Woods",
-                     href="/stay/", lx=214, ly=768),
+                     href="/the-estate/lost-in-the-woods/", lx=214, ly=768),
 }
 
 # ----------------------------------------------------------------- the roads
