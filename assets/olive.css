@@ -17,11 +17,13 @@
      parchment  #FFF9F3  her page colour
      cream      #FFF7F0  her second page colour
      olive      #7B7951  her grey olive: blocks, rules, labels
-     accent     #FC5324  a thread, never a field
+     accent     #2B1B00  the ink itself: Kobi found the orange too loud,
+                          so the thread, the nav underline and the small
+                          marks are drawn in ink rather than a colour
    ========================================================================== */
 :root{
   --ivory:#FFF9F3; --cream:#FFF7F0; --paper:#FFFFFF;
-  --deep:#2B1B00; --olive:#7B7951; --sage:#7B7951; --clay:#FC5324; --blue:#7B7951;
+  --deep:#2B1B00; --olive:#7B7951; --sage:#7B7951; --clay:#2B1B00; --blue:#7B7951;
   --ground:var(--ivory); --ground-2:var(--cream);
   --ink:var(--deep); --ink-soft:var(--deep); --ink-faint:var(--deep);
   --accent:var(--deep); --label:var(--olive);
