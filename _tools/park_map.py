@@ -44,14 +44,15 @@ SANS = "'Libre Franklin',system-ui,sans-serif"
 # where its banner flies. Anchors follow estate_map; a park map exaggerates
 # buildings, so they are scaled up and nudged onto clear ground.
 STAND = {
-    "village":  dict(x=1236, y=134, s=.70, bx=1236, by=184),
-    "magnolia": dict(x=652,  y=424, s=.70, bx=652,  by=262),
-    "hall":     dict(x=1492, y=356, s=.72, bx=1402, by=246),
-    "deck":     dict(x=1668, y=414, s=.72, bx=1740, by=486),
-    "valley":   dict(x=1370, y=618, s=.78, bx=1370, by=712),
-    "woods":    dict(x=250,  y=718, s=.74, bx=250,  by=756),
+    "village":  dict(x=1240, y=148, s=.70, bx=1240, by=198),
+    "magnolia": dict(x=652,  y=408, s=.70, bx=652,  by=250),
+    "lodge":    dict(x=1386, y=402, s=.52, bx=1444, by=452),
+    "hall":     dict(x=1570, y=352, s=.68, bx=1560, by=232),
+    "deck":     dict(x=1716, y=410, s=.66, bx=1806, by=496),
+    "valley":   dict(x=1524, y=596, s=.74, bx=1524, by=690),
+    "woods":    dict(x=252,  y=716, s=.74, bx=252,  by=756),
 }
-ORDER = ["magnolia", "valley", "deck", "hall", "village", "woods"]
+ORDER = ["magnolia", "valley", "deck", "hall", "lodge", "village", "woods"]
 
 
 def el(tag, **a):
@@ -280,8 +281,11 @@ def hall():
         b.append(el("rect", x=wx - 7, y=-54, width=14, height=36, rx=1.5, fill=DEEP, **sh(stroke_width=1.2)))
         b.append(el("rect", x=wx - 5, y=-52, width=4, height=14, fill=CREAM, opacity=.35))
     b.append(el("rect", x=-36, y=-58, width=48, height=58, fill=WHITE, **sh(stroke_width=2)))
-    b.append(el("path", d="M -12 -58 V 0 M -36 -58 L -12 0 M -12 -58 L -36 0 M 12 -58 L -12 0 M -12 -58 L 12 0",
-                stroke=DEEP, stroke_width=1.6, fill="none"))
+    b.append(el("path", d="M -12 -58 V 0", stroke=DEEP, stroke_width=1.8, fill="none"))
+    for dx in (-24, 0):
+        b.append(el("rect", x=dx - 6, y=-50, width=12, height=20, rx=1, fill=CREAM, **sh(stroke_width=1)))
+    for dx in (-17, 5):
+        b.append(el("circle", cx=dx, cy=-26, r=1.8, fill=DEEP))
     # lights along the eave
     for k in range(-126, 92, 12):
         b.append(el("circle", cx=k, cy=-62 + (3 if k % 24 else 0), r=2.3, fill=CREAM, stroke=DEEP, stroke_width=.6))
@@ -378,8 +382,36 @@ def woods():
                 stroke_width=3, stroke_linecap="round", opacity=.7))
     return "".join(b)
 
+def lodge():
+    """The lodge on the drive below the village: one gable, a deep porch, and
+       the two rooms that matter on the day lit behind it."""
+    b = []
+    b.append(el("ellipse", cx=8, cy=6, rx=104, ry=16, fill=DEEP, opacity=.12))
+    # the body, white board under a dark metal roof
+    b.append(el("rect", x=-66, y=-62, width=132, height=62, fill=WHITE, **sh()))
+    b.append(poly([(-80, -62), (0, -108), (80, -62)], fill=DEEP, **sh()))
+    b.append(el("line", x1=-66, y1=-70, x2=66, y2=-70, stroke=CREAM, stroke_width=2.2, opacity=.25))
+    # the porch, out over the drive on two posts
+    b.append(poly([(-92, -40), (-66, -52), (-66, -30), (-92, -22)], fill=SAGE, opacity=.45))
+    for px in (-88, -70):
+        b.append(el("line", x1=px, y1=-26, x2=px, y2=0, stroke=DEEP, stroke_width=3.4))
+    b.append(el("rect", x=-96, y=-4, width=36, height=6, fill=SAGE, **sh(stroke_width=1.6)))
+    # the door, and the lit windows of the two suites
+    b.append(el("rect", x=-14, y=-44, width=28, height=44, fill=CLAY, **sh(stroke_width=1.8)))
+    b.append(el("circle", cx=8, cy=-22, r=1.8, fill=CREAM))
+    for wx in (-46, 40):
+        b.append(el("rect", x=wx - 12, y=-46, width=24, height=26, rx=1.5, fill=CREAM, **sh(stroke_width=1.6)))
+        b.append(el("line", x1=wx, y1=-46, x2=wx, y2=-20, stroke=DEEP, stroke_width=1.2))
+    b.append(el("rect", x=-13, y=-92, width=26, height=18, rx=1.5, fill=CREAM, **sh(stroke_width=1.5)))
+    # a hedge along the front
+    for k in range(-58, 64, 22):
+        b.append(el("circle", cx=k, cy=0, r=9, fill=OLIVE, **sh(stroke_width=1.4)))
+        b.append(el("circle", cx=k - 3, cy=-3, r=2.6, fill=WHITE, opacity=.8))
+    return "".join(b)
 
-DRAW = dict(magnolia=magnolia, village=village, hall=hall, deck=deck, valley=valley, woods=woods)
+
+DRAW = dict(magnolia=magnolia, village=village, hall=hall, deck=deck, valley=valley,
+            woods=woods, lodge=lodge)
 
 
 # ================================================================ the banners
@@ -442,13 +474,13 @@ def gate():
     """Two stone piers where the drive leaves Pope Creek Road. The site says
     the gate closes behind you, so the map should show one."""
     g = ['<g class="gate">']
-    for px in (998, 1104):
-        g.append(el("rect", x=px - 11, y=692, width=22, height=46, fill=CREAM, **sh(stroke_width=2)))
-        g.append(el("rect", x=px - 15, y=684, width=30, height=10, rx=2, fill=CLAY, **sh(stroke_width=1.8)))
-        g.append(el("circle", cx=px, cy=678, r=6, fill=CREAM, **sh(stroke_width=1.6)))
-        for k in (704, 716, 728):
+    for px in (996, 1078):
+        g.append(el("rect", x=px - 11, y=500, width=22, height=46, fill=CREAM, **sh(stroke_width=2)))
+        g.append(el("rect", x=px - 15, y=492, width=30, height=10, rx=2, fill=CLAY, **sh(stroke_width=1.8)))
+        g.append(el("circle", cx=px, cy=486, r=6, fill=CREAM, **sh(stroke_width=1.6)))
+        for k in (512, 524, 536):
             g.append(el("line", x1=px - 11, y1=k, x2=px + 11, y2=k, stroke=DEEP, stroke_width=.8, opacity=.35))
-    g.append('<path d="M 1009 704 Q 1051 684 1093 704" fill="none" stroke="%s" stroke-width="3"/>' % DEEP)
+    g.append('<path d="M 1007 512 Q 1037 492 1067 512" fill="none" stroke="%s" stroke-width="3"/>' % DEEP)
     g.append("</g>")
     return "".join(g)
 
@@ -489,6 +521,7 @@ FLAGS = {
     "deck":     [(-22, -98), (94, -98)],
     "valley":   [(0, -114)],
     "woods":    [(130, -90)],
+    "lodge":    [(-74, -96)],
 }
 
 STAR = "M 0 -10 Q 1.4 -1.4 10 0 Q 1.4 1.4 0 10 Q -1.4 1.4 -10 0 Q -1.4 -1.4 0 -10 Z"
@@ -823,7 +856,7 @@ def build(**opt):
 
     # ------------------------------------------------------------ parking
     p.append('<g class="parking">')
-    for x, y, rx, ry in ((1720, 262, 84, 28), (1170, 446, 64, 22), (1112, 592, 78, 27)):
+    for x, y, rx, ry in ((1668, 290, 92, 28), (1228, 448, 58, 20), (1132, 602, 76, 26)):
         p.append(el("ellipse", cx=x, cy=y, rx=rx, ry=ry, fill=SAGE, **sh(stroke_width=2)))
         p.append(el("circle", cx=x - rx + 24, cy=y, r=12, fill=CREAM, **sh(stroke_width=1.6)))
         p.append('<text x="%d" y="%d" dy=".35em" text-anchor="middle" font-family="%s" font-size="14" '
@@ -906,8 +939,8 @@ def build(**opt):
     p.append("</g>")
 
     p.append('<g class="signs">')
-    for x, y, text in ((300, 440, "Exit only"), (646, 520, "One way"), (900, 448, "One way"),
-                       (930, 646, "Entrance"), (420, 318, "Vendors")):
+    for x, y, text in ((248, 444, "Exit only"), (470, 484, "One way"), (880, 470, "One way"),
+                       (856, 636, "Entrance"), (486, 322, "Vendors")):
         w = len(text) * 8.4 + 18
         p.append(el("line", x1=x, y1=y + 4, x2=x, y2=y + 22, stroke=DEEP, stroke_width=3))
         p.append(el("rect", x=x - w / 2.0, y=y - 12, width=w, height=18, rx=3, fill=CREAM, **sh(stroke_width=1.6)))

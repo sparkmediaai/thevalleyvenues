@@ -78,6 +78,7 @@ PHOTOS = {
     "deck":     ["ld-2", "ld-4", "ld-7"],
     "village":  ["ov-2", "ov-4", "ov-8"],
     "woods":    ["close-woods", "sd-fire", "stay-inside"],
+    "lodge":    ["ov-5", "ov-6", "ov-7"],
 }
 BLURB = {
     "magnolia": "Columns, glass, and the first photograph every guest takes.",
@@ -86,6 +87,7 @@ BLURB = {
     "deck":     "Fifteen thousand square feet out over the valley.",
     "village":  "Four cottages along the hill, each turned to face out.",
     "woods":    "One cabin at the far edge, for the two of you.",
+    "lodge":    "The largest party sleeps here, and the morning starts here.",
 }
 
 SHELL = """<!doctype html>

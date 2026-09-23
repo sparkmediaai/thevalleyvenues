@@ -44,101 +44,110 @@ DEEP = "#34372F"
 
 # ---------------------------------------------------------------- the places
 # x, y is the anchor the building is drawn around; the label sits below it.
+# Every position here is traced from Kobi's own site plan: her drawing was
+# sampled, the drive colour separated from the woodland, and the result mapped
+# into this 2000x800 frame, so the two maps agree to within a few feet.
 PLACES = {
-    "village":  dict(x=1230, y=112, label="Overlook Village",
-                     href="/the-estate/overlook-village/", lx=1230, ly=246),
-    "magnolia": dict(x=650,  y=372, label="Magnolia House",
-                     href="/the-estate/magnolia-house/", lx=650, ly=316),
+    "village":  dict(x=1240, y=112, label="Overlook Village",
+                     href="/the-estate/overlook-village/", lx=1240, ly=246),
+    "magnolia": dict(x=652,  y=372, label="Magnolia House",
+                     href="/the-estate/magnolia-house/", lx=652, ly=316),
+    # The lodge for the largest party, on the drive between the village and
+    # the hall, where her older map has it.
+    "lodge":    dict(x=1402, y=402, label="The Lodge",
+                     href="/the-estate/overlook-village/", lx=1402, ly=452),
     # One structure, two named spaces: the deck is the hall's own wrap-around,
     # which is what the site plan shows and what the pamphlet says.
-    "hall":     dict(x=1500, y=352, label="Davis Hall",
-                     href="/the-estate/davis-hall/", lx=1452, ly=300),
-    "deck":     dict(x=1640, y=386, label="The Lookout Deck",
-                     href="/the-estate/lookout-deck/", lx=1706, ly=440),
-    "valley":   dict(x=1370, y=560, label="The Valley",
-                     href="/the-estate/the-valley/", lx=1370, ly=642),
-    "woods":    dict(x=210,  y=690, label="Lost in the Woods",
-                     href="/stay/", lx=210, ly=762),
+    "hall":     dict(x=1600, y=364, label="Davis Hall",
+                     href="/the-estate/davis-hall/", lx=1560, ly=300),
+    "deck":     dict(x=1830, y=396, label="The Lookout Deck",
+                     href="/the-estate/lookout-deck/", lx=1830, ly=456),
+    "valley":   dict(x=1520, y=548, label="The Valley",
+                     href="/the-estate/the-valley/", lx=1520, ly=630),
+    "woods":    dict(x=214,  y=706, label="Lost in the Woods",
+                     href="/stay/", lx=214, ly=768),
 }
 
 # ----------------------------------------------------------------- the roads
-# Estate drives, in the order they are travelled. Each is (path, kind).
+# Her layout exactly: the climb to the village, the spine down the west side
+# to the cottage, the one-way loop around Magnolia House, the run east under
+# the courtyard, the fork where the entrance comes up off Pope Creek Road, and
+# the climb to the hall's parking. Nothing runs to The Valley: it is walked to.
 DRIVES = [
-    # the entrance, up off Pope Creek Road
-    ("M 1075 800 C 1075 720 1040 660 1010 610 C 980 560 975 520 975 470", "drive"),
-    # the one-way east arm, past the courtyard toward the hall
-    ("M 975 470 C 1080 470 1160 456 1228 444 C 1292 432 1340 424 1392 420", "drive"),
-    # the one-way loop around Magnolia House, closed
-    ("M 975 470 C 900 486 840 492 786 490 "
-     "C 676 498 566 486 522 456 C 486 430 508 398 572 386 "
-     "C 652 372 742 378 792 400 C 828 416 822 450 792 468 "
-     "C 784 474 790 484 786 490", "drive"),
-    # out of the loop, heading west
-    ("M 522 456 C 460 468 380 470 300 466", "drive"),
-    # the vendor spur, behind the house
-    ("M 560 390 C 512 362 476 342 440 334", "spur"),
-    # exit only, running west
-    ("M 300 466 C 240 470 190 466 150 452", "drive"),
+    # the entrance, up off Pope Creek Road to the fork
+    ("M 828 650 C 888 652 948 646 984 634 C 1012 624 1031 606 1036 576 "
+     "C 1042 540 1038 500 1022 466", "drive"),
+    # the one-way east arm, from the roundabout under the courtyard to the fork
+    ("M 596 428 C 612 464 646 488 692 496 C 726 503 762 487 790 468 "
+     "C 822 449 900 437 962 442 C 990 446 1008 454 1022 466", "drive"),
+    # the loop around Magnolia House: over the top, and the lower arm back
+    ("M 380 414 C 392 374 424 350 470 345 C 520 340 568 360 590 398 "
+     "C 594 408 596 418 596 428", "drive"),
+    ("M 596 428 C 560 446 516 452 470 450 C 430 448 398 436 380 414", "drive"),
+    # out of the loop, heading west, and exit only beyond it
+    ("M 380 414 C 326 414 256 418 200 420 C 170 421 146 424 126 414", "drive"),
     # the long climb north-east to the village
-    ("M 150 452 C 108 430 112 372 128 318 C 146 258 200 222 268 206 "
-     "C 420 172 700 140 900 118 C 1010 106 1100 98 1180 94", "drive"),
-    # down to the cottage in the woods
-    ("M 150 452 C 118 490 96 540 92 592 C 88 648 118 686 165 700", "drive"),
-    # the hall's own approach and its parking
-    ("M 1392 420 C 1420 398 1436 360 1452 330 C 1470 296 1508 282 1548 282", "drive"),
-    # down to the meadow
-    ("M 1392 420 C 1388 460 1380 492 1372 520", "spur"),
+    ("M 134 276 C 140 240 160 216 196 206 C 250 190 320 186 392 176 "
+     "C 560 152 740 128 900 106 C 990 94 1080 80 1168 68", "drive"),
+    # the west spine, down the property to the cottage in the woods
+    ("M 134 276 C 130 316 126 352 120 392 C 112 434 96 472 86 514 "
+     "C 74 562 58 610 62 650 C 66 684 86 704 120 712 C 152 720 186 716 214 710", "drive"),
+    # the fork's other arm: east past the Lodge, then up to the hall's parking
+    ("M 1022 466 C 1062 448 1124 438 1200 433 C 1248 430 1280 428 1296 418 "
+     "C 1316 404 1324 380 1326 350 C 1330 310 1350 282 1384 268 "
+     "C 1422 254 1468 262 1506 272 C 1528 278 1544 282 1554 286", "drive"),
+    # the spur off it to the Lodge and the hall's door
+    ("M 1327 356 C 1358 352 1396 350 1424 351 C 1434 351 1440 351 1446 351", "spur"),
 ]
 
 # Pope Creek Road is public and is drawn differently: it is the only thing on
 # the map that does not belong to the estate.
-POPE = ("M 0 372 C 60 372 96 388 118 420 C 150 466 156 520 168 566 "
-        "C 182 620 236 646 320 656 C 470 674 700 700 880 740 "
-        "C 980 762 1040 780 1075 800")
+POPE = ("M 0 380 C 40 384 92 396 120 412 C 150 450 168 520 182 576 "
+        "C 196 620 230 612 300 617 C 420 628 600 643 780 659 "
+        "C 900 670 1040 684 1100 706 C 1130 730 1145 770 1150 800")
 
-# Lookout Creek, which the pamphlet names and the sketch leaves out.
-CREEK = ("M 236 800 C 288 744 318 694 362 656 C 416 610 472 596 546 592 "
-         "C 630 588 706 610 772 646 C 840 682 896 716 946 754")
+# Lookout Creek, which the pamphlet names and the sketch leaves out. It keeps
+# to the low ground along the bottom, clear of her drives.
+CREEK = ("M 120 800 C 240 782 420 766 600 758 C 760 752 900 758 1010 776 "
+         "C 1070 786 1120 794 1160 800")
 
 # ------------------------------------------------------- parking and wayfinding
-PARKING = [(1596, 268, 104, 34), (1286, 458, 72, 24), (1112, 590, 80, 28)]
+PARKING = [(1560, 276, 190, 48), (1262, 436, 100, 32), (1064, 580, 134, 44)]
 
 SIGNS = [
-    (286, 452, "Exit only", "middle"),
-    (640, 512, "One way", "middle"),
-    (896, 456, "One way", "middle"),
-    (962, 648, "Entrance", "end"),
-    (416, 326, "Vendor drop-off", "middle"),
+    (248, 444, "Exit only", "middle"),
+    (428, 470, "One way", "middle"),
+    (868, 470, "One way", "middle"),
+    (843, 634, "Entrance", "end"),
+    (470, 322, "Vendor drop-off", "middle"),
 ]
 
 # Woodland, as polygons the trees are scattered inside.
 WOODS = [
-    [(120, 150), (620, 92), (1160, 60), (1160, 132), (620, 176), (150, 246)],
-    [(96, 250), (330, 214), (360, 300), (300, 420), (150, 430), (86, 340)],
-    [(180, 480), (330, 470), (360, 560), (300, 660), (150, 640), (120, 540)],
-    [(420, 500), (900, 480), (980, 700), (700, 760), (440, 700)],
-    [(1040, 470), (1300, 440), (1340, 560), (1150, 640), (1040, 580)],
-    [(1180, 600), (1700, 590), (1980, 640), (1980, 780), (1300, 780)],
-    [(1400, 180), (1760, 170), (1800, 300), (1500, 320)],
+    [(150, 150), (420, 120), (760, 92), (1080, 64), (1120, 116), (800, 144), (460, 180), (180, 218)],
+    [(150, 248), (360, 222), (416, 300), (378, 386), (200, 398), (138, 330)],
+    [(178, 470), (340, 456), (380, 546), (300, 650), (160, 630), (130, 546)],
+    [(430, 520), (900, 500), (980, 700), (700, 760), (450, 700)],
+    [(1060, 492), (1232, 482), (1340, 566), (1150, 640), (1060, 580)],
+    [(1180, 620), (1700, 600), (1980, 650), (1980, 780), (1300, 780)],
+    [(1200, 150), (1560, 124), (1620, 240), (1300, 284), (1200, 240)],
     [(1770, 250), (2000, 230), (2000, 600), (1800, 560)],
-    [(1000, 150), (1330, 120), (1380, 300), (1060, 330)],
-    [(1420, 460), (1620, 470), (1660, 570), (1440, 580)],
+    [(1570, 474), (1780, 464), (1820, 570), (1610, 590)],
 ]
 
 # Which way the one-ways run. (index into DRIVES, fraction along it, flip)
 ARROWS = [
-    # The path is drawn from the road upward and that is the way the traffic
-    # goes, so this one is not flipped.
+    # The entrance path is drawn from the road upward, which is the way the
+    # traffic goes, so it is not flipped.
     (0, .52, False),   # in off Pope Creek Road
-    (1, .34, False),   # east toward the hall
-    (1, .78, False),
-    (2, .18, False),   # round the loop, anticlockwise
-    (2, .56, False),
-    (2, .86, False),
-    (3, .55, False),   # out west
-    (5, .50, False),   # exit only
-    (6, .42, False),   # up to the village
-    (7, .55, False),   # down to the woods
+    (1, .40, True),    # east arm: traffic runs west, against the drawing
+    (1, .76, True),
+    (2, .50, False),   # round the loop, over the top of the island
+    (3, .50, False),   # and back along the lower arm
+    (4, .50, False),   # out west, exit only
+    (5, .42, False),   # up to the village
+    (6, .62, False),   # down to the woods
+    (7, .34, False),   # east toward the Lodge and the hall
 ]
 
 
