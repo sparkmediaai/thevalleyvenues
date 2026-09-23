@@ -11,6 +11,34 @@ Every page carries `noindex,nofollow`. That comes off when the client signs
 off, not before: a prototype indexed on a real domain competes with their live
 site in search results.
 
+## The Instagram strip
+
+The home page can carry the estate's own latest posts, above the closing call
+to action. They are pulled once a day by `.github/workflows/instagram.yml`,
+which runs `_tools/instagram.py`: the pictures are cut to a square and saved
+into the repo like any other photograph, and the page renders them in the
+site's own type. No embed script, no third-party cookies, nothing to slow a
+page down.
+
+It is dormant until the account is connected. With no feed file the section
+does not render at all, and it hides itself again if the newest post is more
+than seventy-five days old -- a quiet feed reads worse than none.
+
+To turn it on, set these as repository secrets (Settings -> Secrets and
+variables -> Actions):
+
+| Secret        | What it is                                                        |
+| ------------- | ----------------------------------------------------------------- |
+| `IG_TOKEN`    | A long-lived access token for @thevalleyvenues                     |
+| `IG_USER_ID`  | Optional. `me` works for a token issued to the account itself      |
+| `IG_API_BASE` | Optional. Set to `https://graph.facebook.com/v23.0` for a Page token |
+
+Getting the token is a job on the client's side: their Instagram has to be a
+Business or Creator account, a Meta app needs creating, and the token issued
+from it. A token from Meta Business Manager's system user does not expire; a
+plain long-lived token lasts sixty days and is renewed with
+`python _tools/instagram.py refresh`.
+
 ## Pages are generated, not written
 
 Twelve pages share one header, one footer and one set of stylesheets. Writing

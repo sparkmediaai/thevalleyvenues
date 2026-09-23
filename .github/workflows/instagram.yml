@@ -1,0 +1,67 @@
+# The estate's Instagram, pulled once a day.
+#
+# Fetches the latest posts, cuts them to the site's own square, rebuilds the
+# pages and pushes. Pages redeploys from the push, so the strip is at most a
+# day behind. If the secrets are not set the job says so and stops: the site
+# builds and deploys perfectly well without a feed, and the section hides
+# itself.
+name: Instagram
+
+on:
+  schedule:
+    - cron: "17 12 * * *"      # every day, mid-morning Chattanooga time
+  workflow_dispatch:           # and on demand, from the Actions tab
+
+permissions:
+  contents: write
+
+concurrency:
+  group: instagram
+  cancel-in-progress: false
+
+jobs:
+  pull:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install --quiet pillow
+
+      - name: Is the account connected yet?
+        id: gate
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+        run: |
+          if [ -z "$IG_TOKEN" ]; then
+            echo "No IG_TOKEN secret set — nothing to pull. See README."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Pull the posts and rebuild
+        if: steps.gate.outputs.ready == 'true'
+        env:
+          IG_TOKEN: ${{ secrets.IG_TOKEN }}
+          IG_USER_ID: ${{ secrets.IG_USER_ID }}
+          IG_API_BASE: ${{ secrets.IG_API_BASE }}
+        run: |
+          python _tools/instagram.py
+          python _build/build.py
+
+      - name: Commit, if anything moved
+        if: steps.gate.outputs.ready == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/instagram.json assets/img/ig index.html
+          if git diff --cached --quiet; then
+            echo "Nothing new on the account."
+          else
+            git commit -m "Instagram: the latest posts"
+            git push
+          fi

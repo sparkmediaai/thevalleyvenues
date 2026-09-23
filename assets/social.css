@@ -1,0 +1,63 @@
+@charset "UTF-8";
+/* ============================================================================
+   The Instagram strip.
+
+   Their own posts, in the site's own frame: eight squares edge to edge, the
+   caption held back until the pointer arrives, and the handle underneath as
+   the only thing that looks like a link. No Instagram chrome, no logo lockup,
+   no embedded iframe -- the pictures are theirs and the typography is ours.
+
+   Everything here comes from olive.css's tokens, so the strip follows the
+   palette without knowing what the palette is.
+   ========================================================================== */
+
+.social{border-bottom:0}
+.social .lede{margin-bottom:clamp(1.4rem,3vw,2.2rem)}
+
+.ig-grid{
+  display:grid;gap:2px;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  margin-inline:calc(50% - 50vw);
+}
+.ig-frame{position:relative;display:block;overflow:hidden;background:var(--olive);
+  aspect-ratio:1/1;text-decoration:none}
+.ig-frame img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .9s cubic-bezier(.2,.7,.2,1)}
+.ig-frame:hover img,.ig-frame:focus-visible img{transform:scale(1.06)}
+.ig-frame:focus-visible{outline:3px solid var(--deep);outline-offset:-3px}
+
+/* the caption, held back until someone reaches for the frame */
+.ig-cap{
+  position:absolute;inset:auto 0 0 0;padding:1.6rem 1rem .9rem;
+  font:400 .84rem/1.35 var(--text);color:#fff;
+  background:linear-gradient(transparent,rgba(43,27,0,.82));
+  opacity:0;transform:translateY(8px);
+  transition:opacity .35s ease,transform .35s cubic-bezier(.16,.8,.24,1);
+}
+.ig-frame:hover .ig-cap,.ig-frame:focus-visible .ig-cap{opacity:1;transform:none}
+
+/* a post that is a reel gets the one mark the strip allows itself */
+.ig-video::after{
+  content:"";position:absolute;top:.7rem;right:.7rem;width:0;height:0;
+  border:7px solid transparent;border-left:12px solid #fff;
+  filter:drop-shadow(0 1px 3px rgba(43,27,0,.5));
+}
+
+.ig-follow{
+  display:inline-block;margin-top:clamp(1.2rem,3vw,2rem);
+  font:500 .72rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;
+  color:var(--deep);text-decoration:none;
+  background:linear-gradient(currentColor,currentColor) 0 100%/100% 1px no-repeat;
+  padding-bottom:.4rem;transition:background-size .5s cubic-bezier(.16,1,.3,1);
+}
+.ig-follow:hover,.ig-follow:focus-visible{background-size:0 1px;background-position:100% 100%}
+
+@media (max-width:900px){
+  .ig-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  /* No hover on a phone, so the caption would never be read: it stays off and
+     the picture does the work. */
+  .ig-cap{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  .ig-frame img,.ig-cap{transition:none}
+}

@@ -9,6 +9,7 @@ pages are data and the shell is code.
 Run:  python _build/build.py
 """
 import json, os, re, struct
+from datetime import datetime, timezone
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 IMG = os.path.join(ROOT, "assets", "img")
@@ -307,9 +308,66 @@ def shell(page, path="index.html"):
 # ---------------------------------------------------------------- the pages
 PAGES = {}
 
+# --------------------------------------------------------------- Instagram
+# The estate's own posts, pulled on a schedule by _tools/instagram.py and
+# served from this repo like any other photograph -- no embed script, no
+# third-party cookies, and the frames are cut to the site's own square.
+#
+# A feed that has gone quiet reads worse than no feed at all, so the section
+# hides itself if the newest post is older than STALE_DAYS or if there are
+# fewer than three to show. Before the account is connected there is no file
+# at all, and the page is simply shorter.
+STALE_DAYS = 75
+
+
+def instagram_section():
+    path = os.path.join(ROOT, "assets", "instagram.json")
+    if not os.path.exists(path):
+        return ""
+    with open(path, encoding="utf-8") as f:
+        feed = json.load(f)
+    posts = feed.get("posts", [])[:8]
+    if len(posts) < 3:
+        return ""
+    newest = max((p.get("timestamp", "") for p in posts), default="")
+    try:
+        when = datetime.strptime(newest[:19], "%Y-%m-%dT%H:%M:%S").replace(tzinfo=timezone.utc)
+    except ValueError:
+        return ""
+    age = (datetime.now(timezone.utc) - when).days
+    if age > STALE_DAYS:
+        print("  instagram: newest post is %d days old, section hidden" % age)
+        return ""
+
+    frames = []
+    for p in posts:
+        label = p.get("caption") or "A post from the estate"
+        frames.append(
+            '    <a class="ig-frame%s" href="%s" target="_blank" rel="noopener">\n'
+            '      <img src="/assets/img/ig/%s" alt="%s" width="900" height="900" loading="lazy" decoding="async">\n'
+            '      <span class="ig-cap">%s</span>\n'
+            '    </a>' % (" ig-video" if p.get("video") else "", p.get("permalink", ""),
+                          p["img"], esc(label), esc(label)))
+    return ('\n<section class="social">\n'
+            '  <div class="lede">\n'
+            '    <div class="eyebrow">Lately</div>\n'
+            '    <h2>The last few weeks, as they happened.</h2>\n'
+            '    <p>Posted by the estate, straight from the property.</p>\n'
+            '  </div>\n'
+            '  <div class="ig-grid">\n%s\n  </div>\n'
+            '  <a class="ig-follow" href="%s" target="_blank" rel="noopener">@%s on Instagram</a>\n'
+            '</section>\n' % ("\n".join(frames), feed.get("profile", ""), feed.get("handle", "")))
+
+
+def esc(text):
+    return (text.replace("&", "&amp;").replace("<", "&lt;")
+                .replace(">", "&gt;").replace('"', "&quot;"))
+
+
 PAGES["index.html"] = dict(
     nav=None, title="%s | %s" % (SITE, TAGLINE), desc=TAGLINE,
     head='<link rel="stylesheet" href="/assets/home.css">\n'
+         '<link rel="stylesheet" href="/assets/social.css">\n'
          '<link rel="preload" as="image" href="/assets/video/hero-poster.webp"\n'
          '      imagesrcset="/assets/video/hero-poster-sm.webp 720w, /assets/video/hero-poster.webp 1600w"\n'
          '      imagesizes="100vw">\n',
@@ -468,6 +526,7 @@ PAGES["index.html"] = dict(
   </div>
 </section>
 
+%(instagram)s
 <section class="closing">
   <div class="closing-img" role="img" aria-label="A cottage in the woods, lit at night"
        style="background-image:url('/assets/img/close-woods.webp')"></div>
@@ -479,7 +538,8 @@ PAGES["index.html"] = dict(
     <a class="btn" href="/pricing/">Download the Wedding Pamphlet</a>
   </div>
 </section>
-""")
+""" % dict(instagram=instagram_section()))
+
 
 # ------------------------------------------------------ gallery photographs
 # Photographs from the gallery, by id, with a srcset over its two web sizes.
