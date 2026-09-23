@@ -55,7 +55,7 @@ PLACES = {
     # The lodge for the largest party, on the drive between the village and
     # the hall, where her older map has it.
     "lodge":    dict(x=1402, y=402, label="The Lodge",
-                     href="/the-estate/overlook-village/", lx=1402, ly=452),
+                     href="/the-estate/the-lodge/", lx=1402, ly=452),
     # One structure, two named spaces: the deck is the hall's own wrap-around,
     # which is what the site plan shows and what the pamphlet says.
     "hall":     dict(x=1600, y=364, label="Davis Hall",

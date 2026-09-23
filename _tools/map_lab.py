@@ -181,6 +181,8 @@ body.lab{background:var(--ivory);color:var(--deep);font:400 16px/1.6 var(--sans)
   transition:opacity .32s ease,transform .32s cubic-bezier(.16,.8,.24,1);
 }
 .peek.on{opacity:1;transform:translate(-50%,-104%) scale(1)}
+.peek.down{transform:translate(-50%,10%) scale(.96)}
+.peek.down.on{transform:translate(-50%,4%) scale(1)}
 .peek figure{margin:0;background:var(--cream);padding:.5rem .5rem .1rem;
   box-shadow:0 18px 40px rgba(52,55,47,.28);border-radius:2px}
 .peek img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover}
@@ -234,11 +236,21 @@ function peekInit(opts){
   var shots = window.LAB_PHOTOS, timer = null, at = 0, cur = null;
 
   function place(el){
-    // Anchor to the building, not the pointer, so it never jitters.
-    var b = el.getBBox ? el.getBBox() : null;
-    var r = el.getBoundingClientRect(), s = stage.getBoundingClientRect();
-    peek.style.left = (r.left - s.left + r.width / 2) + 'px';
-    peek.style.top  = (r.top  - s.top) + 'px';
+    // Anchor to the building, not the pointer, so it never jitters. A place
+    // near the top of the drawing -- the village sits hard against it -- has
+    // no room for the photograph above it, so the panel hangs below instead,
+    // and it is kept inside the drawing left and right.
+    // measured on the drawing itself: the place's halo is far taller than
+    // what is on the page, and would send every panel downward
+    var art = el.querySelector('.map-art') || el;
+    var r = art.getBoundingClientRect(), s = stage.getBoundingClientRect();
+    var w = peek.offsetWidth || 260, h = peek.offsetHeight || 240;
+    var down = (r.top - h - 10) < 8;
+    peek.classList.toggle('down', down);
+    var x = r.left - s.left + r.width / 2;
+    x = Math.max(w / 2 + 8, Math.min(x, s.width - w / 2 - 8));
+    peek.style.left = x + 'px';
+    peek.style.top  = ((down ? r.bottom : r.top) - s.top) + 'px';
   }
   function show(el){
     var key = el.getAttribute('data-place');
