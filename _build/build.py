@@ -392,10 +392,10 @@ PAGES["index.html"] = dict(
         '<span>Pause film</span></button>\n'
         '  </div>\n'),
     eyebrow="Wildwood, Georgia &middot; Fifteen minutes from downtown Chattanooga",
-    h1="One Private Mountain Estate. All for You.",
-    standfirst="Seventy-four private acres beneath Lookout Mountain, fifteen minutes from "
-               "downtown Chattanooga. One wedding at a time, ever. For your two days the gate closes "
-               "behind one family, and every field, every porch and every bed is yours.",
+    h1="All yours, uninterrupted.",
+    standfirst="A private world beneath Lookout Mountain, unfolding across seventy-four "
+               "secluded acres fifteen minutes from downtown Chattanooga. Every space on it "
+               "is yours, and only yours, for as long as your celebration lasts.",
     actions=[("Download the Wedding Pamphlet", "/pricing/"),
              ("Walk the Estate", "/the-estate/")],
     body="""
@@ -403,14 +403,15 @@ PAGES["index.html"] = dict(
  <div class="stakes">
   <div class="lede reveal">
     <div class="eyebrow">Why any of this matters</div>
-    <h2>This is one of the best days of your life.</h2>
-    <p>It is also one of the only times in a life when nearly everyone you love is in one
-       place. Parents and grandparents. Childhood friends and college friends. Brothers and
-       sisters. People who moved across the country and have not been in the same room in
+    <h2>One of the most beautiful days of your life.</h2>
+    <p>It is also one of the rare moments when nearly everyone you love gathers in one
+       place. Parents and grandparents. Childhood friends and college roommates. Brothers
+       and sisters. People who scattered across the country and have not shared a room in
        years.</p>
-    <p>Most venues compress all of that into a handful of scheduled hours &mdash; arrive,
-       ceremony, cocktail hour, reception, leave. Everything below follows from thinking
-       that is the wrong way round.</p>
+    <p>A gathering this precious deserves more than a handful of scheduled hours. It
+       deserves room to breathe, to linger over long conversations, to laugh late into the
+       evening and wake together to the mountain. Every corner of this estate exists for
+       that one purpose.</p>
   </div>
   <div class="cluster">
     <figure class="cl-1"><img src="/assets/img/note-1.webp"
@@ -432,19 +433,19 @@ PAGES["index.html"] = dict(
   <div class="claim-body">
     <div class="eyebrow">What makes this different</div>
     <h2 class="rise-words"><span>One</span> <span>estate.</span> <span>One</span> <span>couple.</span> <span>One</span> <span>weekend.</span></h2>
-    <p>Larger estates in this region run two and sometimes three weddings on a
-       single Saturday. It is how the acreage pays for itself &mdash; and it means
-       another bride is on the property, another family&rsquo;s flowers are going out
-       the far door, and another cocktail hour is audible from the ceremony.
-       Someone else&rsquo;s arch is coming down while yours goes up.</p>
+    <p>Many of the region&rsquo;s larger estates welcome two or three weddings in a
+       single day, each couple sharing the grounds with another. Yours is given
+       something rarer: an entire estate devoted to one celebration. Every flower,
+       every toast, every whispered promise unfolds for you alone, against the
+       mountain, shared only with the people you hold dearest.</p>
     <ul class="nots">
-      <li>No second wedding on the property</li>
-      <li>Nothing flipped or reset around you</li>
-      <li>Nothing shared, overheard, or hurried</li>
-      <li>Every gate, every field, every bed</li>
+      <li>Yours is the only wedding on the property</li>
+      <li>Every space prepared around your vision</li>
+      <li>Every conversation private, every moment savored</li>
+      <li>Every field, every porch, every bed</li>
     </ul>
-    <p class="close">For two days, the only people on seventy&#8209;four acres are
-       the ones you invited.</p>
+    <p class="close">For as long as your celebration lasts, the only people on
+       seventy&#8209;four acres are the ones you invited.</p>
     <a class="btn" href="/the-difference/">Why that changes everything</a>
   </div>
 </section>
@@ -453,36 +454,41 @@ PAGES["index.html"] = dict(
   <div class="lede">
     <div class="eyebrow">The weekend</div>
     <h2>More than a wedding day.</h2>
-    <p>The ceremony takes thirty minutes. Most venues sell those thirty minutes and the
-       eight hours around them. This estate sells the two days you live inside.</p>
+    <p>When a celebration deserves more than a single day, the whole weekend becomes
+       yours: shared meals, quiet mornings and golden evenings beneath the mountain, with
+       everyone you love close at hand from the first welcome to the last embrace.</p>
   </div>
   <ol class="weekend">
     <li class="wk reveal">
       <figure><img src="/assets/img/wk-arrive.webp" alt="Magnolia House from the foot of its front steps" width="1200" height="900" loading="lazy" decoding="async"></figure>
-      <span class="wk-when">Arriving</span>
+      <span class="wk-when">The arrival</span>
       <b>You arrive once</b>
-      <p>Through the gate, and for the next two days this is simply where you are. The
-         rehearsal happens where the vows will, and nobody goes back to a hotel.</p>
+      <p>Through the gate, and for the next two days this is simply where you are.
+         Familiar faces arrive one hug at a time, until the people you love most are
+         around one long table, laughing like they were never apart.</p>
     </li>
     <li class="wk reveal">
       <figure><img src="/assets/img/wk-morning.webp" alt="A bride smiling into the mirror of the getting ready suite" width="1200" height="900" loading="lazy" decoding="async"></figure>
-      <span class="wk-when">The morning</span>
-      <b>Sunrise comes with the room</b>
-      <p>Light comes up over Lookout Mountain and fills the room you are already standing
-         in. Hair can start at five. There is no commute in a wedding dress.</p>
+      <span class="wk-when">Getting ready</span>
+      <b>There is no commute in a wedding dress</b>
+      <p>You wake to light spilling over Lookout Mountain, coffee already warm and your
+         closest friends drifting in. Hair can start at five, and your gown waits in the
+         next room, steps from where you will say I do.</p>
     </li>
     <li class="wk reveal">
       <figure><img src="/assets/img/wk-golden.webp" alt="A couple laughing in an embrace on the Lookout Deck in the evening light" width="1200" height="900" loading="lazy" decoding="async"></figure>
       <span class="wk-when">Golden hour</span>
       <b>The mountain turns gold</b>
-      <p>Guests walk from the ceremony to the overlook. Nobody drives, nobody follows
-         directions, and nobody starts looking for their keys at eleven.</p>
+      <p>As evening settles over the valley, the ridge begins to glow. Guests come up
+         from the ceremony, glasses rise, conversations soften, and the light pours
+         across the mountain for about half an hour.</p>
     </li>
     <li class="wk reveal">
       <figure><img src="/assets/img/wk-after.webp" alt="A couple walking hand in hand across the misty meadow the next morning" width="1200" height="900" loading="lazy" decoding="async"></figure>
-      <span class="wk-when">The morning after</span>
+      <span class="wk-when">The farewell</span>
       <b>Goodnight instead of goodbye</b>
-      <p>Two nights means three mornings, and the last thing you do together is breakfast
+      <p>When the last song ends, everyone you love strolls up the hill to bed. Two
+         nights means three mornings, and the last of them is a long breakfast together
          rather than a parking lot.</p>
     </li>
   </ol>
@@ -492,9 +498,11 @@ PAGES["index.html"] = dict(
   <div class="lede reveal">
     <div class="eyebrow">Everyone stays</div>
     <h2>Nobody drives home.</h2>
-    <p>Cottages, suites and lodges spread across the property, each with a name rather
-       than a number. Your family is not at a hotel by the interstate; they are up the
-       hill, and they come down for breakfast.</p>
+    <p>Cottages, suites and a lodge for the whole wedding party are tucked across the
+       estate, each with a name rather than a number, with beds for thirty-four of your
+       nearest. Instead of a late drive to a hotel by the interstate, your family strolls
+       up the hill, and by morning they drift back down for breakfast with the mountain
+       glowing beyond the porch.</p>
   </div>
   <div class="names" aria-hidden="true">
     <div class="names-track"><span>Phoenix</span><span>Bluebird</span><span>Goldfinch</span><span>Hummingbird</span><span>Willow</span><span>Mahogany</span><span>Overlook Village</span><span>The Lodge</span><span>Lost in the Woods</span><span>Phoenix</span><span>Bluebird</span><span>Goldfinch</span><span>Hummingbird</span><span>Willow</span><span>Mahogany</span><span>Overlook Village</span><span>The Lodge</span><span>Lost in the Woods</span></div>
@@ -532,9 +540,11 @@ PAGES["index.html"] = dict(
        style="background-image:url('/assets/img/close-woods.webp')"></div>
   <div class="closing-body">
     <div class="eyebrow">And then</div>
-    <h2>You disappear, without leaving.</h2>
-    <p>A cottage in the woods at the far edge of the property, a short ride from the music.
-       Married, alone, and thirty seconds from everyone you love.</p>
+    <h2>Where your forever begins.</h2>
+    <p>At the far edge of the estate, where the trees close in, a private cottage waits.
+       The night before, it gathers your wedding party around the fire. The night after,
+       it belongs to the two of you alone &mdash; a soaking tub, a fountain under the
+       stars, and thirty seconds between you and everyone you love.</p>
     <a class="btn" href="/pricing/">Download the Wedding Pamphlet</a>
   </div>
 </section>
@@ -1397,7 +1407,7 @@ PAGES["inquire/index.html"] = dict(
   <div class="closing-img" role="img" aria-label="Magnolia House at the top of the drive, the ridge behind it"
        style="background-image:url('/assets/img/close-tour.webp')"></div>
   <div class="closing-body">
-    <div class="eyebrow">When you are ready</div>
+    <div class="eyebrow">Your next chapter</div>
     <h2>Come and stand in it.</h2>
     <p>More than half of the couples who walk this property choose it. When it suits
        you, come and see it for yourself &mdash; fifteen minutes from downtown
@@ -1480,21 +1490,23 @@ PAGES["the-difference/index.html"] = dict(
     hero_img="difference.webp",
     hero_alt="A couple on the Lookout Deck in the last of the light, the bride laughing",
     eyebrow="The Difference",
-    h1="Yours, and only yours.",
-    standfirst="For two days there is nobody on seventy-four acres you did not invite. "
-               "Everything you need is already here, everything is handled, and everyone "
-               "you meet will call you by your first name.",
+    h1="The whole estate, devoted to you.",
+    standfirst="Seventy-four acres beneath Lookout Mountain, shared only with the people "
+               "you invited. Everything you need is already here, every detail is handled, "
+               "and everyone you meet will greet you by your first name.",
     actions=[("Download the Wedding Pamphlet", "/pricing/"),
              ("Walk the Estate", "/the-estate/")],
     body="""
 <section>
   <div class="statement">
-    <div class="eyebrow">Read this first</div>
-    <h2 class="rise-words"><span>Weddings</span> <span>are</span> <span>stressful.</span> <span>This</span> <span>one</span> <span>does</span> <span>not</span> <span>have</span> <span>to</span> <span>be.</span></h2>
-    <p>Most of the stress of a wedding is not the wedding. It is eleven companies who have
-       never met, four hotels, a room that opens at four because it was being reset until
-       three, and a timeline somebody else wrote. None of that is on the property.</p>
-    <p class="close">What is left is the day, and the two of you in it.</p>
+    <div class="eyebrow">Peace of mind</div>
+    <h2 class="rise-words"><span>Your</span> <span>wedding</span> <span>will</span> <span>feel</span> <span>like</span> <span>magic.</span></h2>
+    <p>Everything your celebration needs already lives on this estate. Tables, linens and
+       a decor library, ready to be styled to your vision. Rooms that are yours from the
+       moment you arrive, and a timeline you write rather than inherit. One team, on one
+       property, with a single purpose.</p>
+    <p class="close">What is left is the celebration itself, and the two of you at the
+       center of it.</p>
   </div>
 </section>
 
@@ -1503,13 +1515,13 @@ PAGES["the-difference/index.html"] = dict(
     {{img:band-estate.webp|The estate from above, two people alone in the meadow}}
     <div class="split-text">
       <div class="eyebrow">One at a time</div>
-      <h2>The whole estate. One wedding. Ever.</h2>
+      <h2>One estate. One celebration. Yours.</h2>
       <p>Larger estates around here run two or three weddings on a Saturday. This one
          holds one, and holds it for the weekend. The gate closes on Friday behind one
          family and does not open for anyone else until you leave.</p>
-      <p>So nothing on the property is timed around anyone but you. The ceremony happens
-         when the light is best, not when the room is free. The rehearsal happens where the
-         vows will. The music runs as late as your people do.</p>
+      <p>So every hour moves to your rhythm. The ceremony happens when the light is best,
+         not when the room is free. The rehearsal happens where the vows will. Toasts
+         last as long as the stories do, and the music runs as late as your people do.</p>
       <a class="btn" href="/the-estate/">Walk the Estate</a>
     </div>
   </div>
@@ -1517,18 +1529,18 @@ PAGES["the-difference/index.html"] = dict(
 
 <section>
   <div class="lede">
-    <div class="eyebrow">Not here</div>
-    <h2>The list of things you will not find.</h2>
+    <div class="eyebrow">All included</div>
+    <h2>A world made ready for two.</h2>
     <ul class="nots">
-      <li>A second wedding on the property</li>
-      <li>A shuttle between the ceremony and the party</li>
-      <li>A room that opens at four and closes at eleven</li>
-      <li>A tent, or a fee to move indoors</li>
-      <li>A vendor you have to find yourself</li>
-      <li>A room number</li>
+      <li>Every space on the estate, from the mountain views to the open meadow</li>
+      <li>Linens, arches, backdrops and thirty thousand dollars of decor, styled to your vision</li>
+      <li>Floor plans drawn around your celebration rather than around the room</li>
+      <li>Shelter for any sky: glass, cover, and no fee to move indoors</li>
+      <li>The estate&rsquo;s own kitchen, and the crew who set every scene</li>
+      <li>Getting-ready suites, and golf carts for anyone who would rather ride than walk</li>
     </ul>
-    <p class="close">Everything on that list is where the stress comes from. It is simply
-       not here.</p>
+    <p class="close">And what you will not find: a second wedding, a shuttle, a room that
+       closes at eleven, a tent fee, or a room number.</p>
   </div>
 </section>
 
@@ -1536,12 +1548,12 @@ PAGES["the-difference/index.html"] = dict(
   <div class="split flip">
     {{img:wk-dawn.webp|A suite on the estate in the morning}}
     <div class="split-text">
-      <div class="eyebrow">No travel, no rush</div>
-      <h2>You arrive once.</h2>
-      <p>You wake up where you are getting married. Hair can start at five, because the
-         aisle is a short walk from the room you slept in. Guests walk from the ceremony to
-         the deck to dinner; nobody drives between anything, and nobody starts looking for
-         their keys at eleven.</p>
+      <div class="eyebrow">Steps from I do</div>
+      <h2>Arrive once, then simply be.</h2>
+      <p>The morning of your wedding begins a short walk from your vows. Hair can start at
+         five, your friends gather close, and your gown waits in the next room. Guests
+         drift from the ceremony to the deck to dinner on foot, or by golf cart if they
+         would rather ride, and nobody starts looking for their keys at eleven.</p>
       <p>Your family is not at a hotel by the interstate. They are up the hill, and they
          come down for breakfast. Fifteen minutes from downtown Chattanooga, six from a
          hotel for anyone who needs one, thirty from the airport.</p>
@@ -1552,25 +1564,28 @@ PAGES["the-difference/index.html"] = dict(
 
 <section>
   <div class="lede">
-    <div class="eyebrow">Everything is thought of</div>
+    <div class="eyebrow">The art of the moment</div>
     <h2>Bring your people. The rest is here.</h2>
-    <p>Tables, chairs, linens and thirty thousand dollars of decor are already on the
-       property. The kitchen is ours. The crew that sets up, clears, drives the carts and
-       parks the cars has done it here hundreds of times. And the person designing the day
-       is trained to design how a moment feels.</p>
+    <p>A wedding here is designed the way a story is told, scene by scene: the moment
+       guests first step onto the grounds, the hush before the vows, the swell of laughter
+       as glasses rise. Each one is imagined for how it will feel, then built around your
+       vision &mdash; with thirty thousand dollars of decor already on the property, the
+       estate&rsquo;s own kitchen, and a crew who have set this place hundreds of
+       times.</p>
   </div>
   <div class="grid">
     <article class="card">
       {{img:inc-food.webp|Copper mugs and a garnished cocktail on a wooden board|class="wipe"}}
       <div class="eyebrow">The kitchen</div>
-      <h3>Catering, from here.</h3>
+      <h3>Flavors made for the occasion.</h3>
       <p>Food actually cooked on the estate, by a kitchen that works it every weekend
-         &mdash; from the rehearsal dinner to breakfast on Sunday.</p>
+         &mdash; from the rehearsal dinner to breakfast on Sunday, each course to your
+         taste.</p>
     </article>
     <article class="card">
       {{img:w-premium.webp|Bridesmaids beside tall floral arrangements at golden hour|class="wipe"}}
       <div class="eyebrow">The design</div>
-      <h3>Built around you, by Kobi.</h3>
+      <h3>Your vision, brought to life by Kobi.</h3>
       <p>There is no standard floor plan. Yours is drawn with you by a designer trained at
          SCAD and Disney to think about what a guest feels, not only what a room looks
          like. <a href="/about/">Meet Kobi</a>.</p>
@@ -1578,10 +1593,10 @@ PAGES["the-difference/index.html"] = dict(
     <article class="card">
       {{img:inc-glass.webp|The conservatory inside, chandeliers over the floor|class="wipe"}}
       <div class="eyebrow">The weather</div>
-      <h3>It rained, and nothing changed.</h3>
-      <p>Glass, cover and the whole property to move into. No tent, no five o&rsquo;clock
-         panic, no flip fee. <a href="/weddings/whats-included/">Everything that is
-         included</a>.</p>
+      <h3>Beautiful in any weather.</h3>
+      <p>Soaring glass, graceful cover, and the whole property to move into. No tent, no
+         five o&rsquo;clock panic, no flip fee. <a href="/weddings/whats-included/">Everything
+         that is included</a>.</p>
     </article>
   </div>
 </section>
@@ -1593,12 +1608,13 @@ PAGES["the-difference/index.html"] = dict(
 
 <section>
   <div class="statement">
-    <div class="eyebrow">Not a number</div>
-    <h2 class="rise-words"><span>You</span> <span>are</span> <span>not</span> <span>a</span> <span>Saturday.</span> <span>You</span> <span>are</span> <span>a</span> <span>name.</span></h2>
-    <p>This is a family estate, not a sales office. The people who answer your first
-       message are the people who will be on the property at eleven at night on your
-       Saturday. By the rehearsal they will know your mother&rsquo;s name too, and which
-       cousin needs to be nowhere near the speakers.</p>
+    <div class="eyebrow">A family estate</div>
+    <h2 class="rise-words"><span>The</span> <span>little</span> <span>things,</span> <span>remembered.</span></h2>
+    <p>Every couple here is welcomed like family, and this is a family estate rather than
+       a sales office. The people who answer your first message are the people who will be
+       on the property at eleven at night on your Saturday. By the rehearsal they will know
+       your mother&rsquo;s name, your favorite song, and which cousin needs to be nowhere
+       near the speakers.</p>
     <p class="close">The estate will grow. Nobody who marries here will ever be a room
        number.</p>
   </div>
@@ -1610,7 +1626,9 @@ PAGES["the-difference/index.html"] = dict(
   <div class="closing-body">
     <div class="eyebrow">When you are ready</div>
     <h2>Let&rsquo;s talk about yours.</h2>
-    <p>Tell us a little about the two of you and the day you are imagining. A person writes back, by name, and the visit comes whenever it suits you.</p>
+    <p>It begins with a few words about the two of you. Tell us about the day you are
+       imagining and a person writes back, by name, with the visit whenever it suits you.
+       With one celebration at a time, the date you choose belongs to you alone.</p>
     <a class="btn" href="/pricing/">Download the Wedding Pamphlet</a>
   </div>
 </section>
@@ -1623,21 +1641,23 @@ PAGES["pricing/index.html"] = dict(
     hero_img="band-ground.webp",
     hero_alt="The arch standing alone in the open meadow, the ridge beyond it",
     eyebrow="Pricing",
-    h1="The wedding pamphlet.",
-    standfirst="Every space on the estate, everything that comes with it, and what each "
-               "experience costs. Tell us where to send it and it is with you in a minute.",
+    h1="Your celebration, in your hands.",
+    standfirst="Every space on the estate, all that comes with it and each way to celebrate, "
+               "in one guide, with the investment for every experience. Tell us where to send "
+               "it and it is with you in a minute.",
     foot_js='<script src="https://link.msgsndr.com/js/form_embed.js"></script>',
     body="""
 <section>
   <div class="split">
     <div class="split-text">
-      <div class="eyebrow">What is in it</div>
+      <div class="eyebrow">What awaits you</div>
       <h2>The whole thing, not a teaser.</h2>
-      <p>Each of the six places and what it holds. The getting ready suites. Every
-         lodging option and what it sleeps. What is included before you have hired
-         anybody &mdash; tables, chairs, linens, the decor library, the staff who set
-         it all up. The catering and bar menus. And the figures: a single day, the
-         estate weekend, the all-inclusive experience, and micro weddings.</p>
+      <p>Every space on the estate and the moments it holds. The getting-ready suites.
+         Every cottage, suite and lodge, and how many each one sleeps. What is included
+         before you have hired anybody &mdash; tables, chairs, linens, the decor library,
+         and the team who set it all up. The catering and bar menus. And the investment
+         for every way to celebrate: a single day, the estate weekend, the all-inclusive
+         experience, and micro weddings.</p>
       <p>It goes to your email and your phone, so it is still there when you are
          standing in a kitchen explaining it to somebody else.</p>
     </div>
