@@ -2068,6 +2068,47 @@ def build_redirects():
 
 build_redirects()
 
+
+# ================================================================= sitemap.xml
+# Written on every build, but only listed in robots.txt when the site is live
+# at its real address -- a sitemap advertising a staging copy would undo the
+# noindex it sits beside. The redirect stubs are left out: their whole job is
+# to point somewhere else.
+def build_sitemap():
+    pages = sorted(PAGES)
+    rows = []
+    for path in pages:
+        url = BASE + ("" if path == "index.html" else path[:-len("index.html")])
+        rows.append("  <url><loc>%s</loc></url>" % url)
+    xml = ('<?xml version="1.0" encoding="UTF-8"?>\n'
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+           + "\n".join(rows) + "\n</urlset>\n")
+    with open(os.path.join(ROOT, "sitemap.xml"), "w", encoding="utf-8") as f:
+        f.write(xml)
+
+    live = BASE == PRODUCTION
+    lines = ["# The site is live. Crawl it, and here is everything in it."] if live else [
+        "# Crawling is allowed on purpose, and every page carries noindex,nofollow.",
+        "#",
+        "# That pairing is deliberate. \"Disallow: /\" would stop a crawler fetching the",
+        "# pages, which also stops it reading the noindex meta tag -- and a URL somebody",
+        "# links to can then be indexed anyway, with no snippet and no way to remove it.",
+        "# Letting the crawler in to read \"do not index me\" is what actually keeps the",
+        "# site out of search results.",
+        "#",
+        "# sitemap.xml is written on every build but is deliberately not advertised",
+        "# here until the site is live at its real address.",
+    ]
+    lines += ["", "User-agent: *", "Allow: /", ""]
+    if live:
+        lines += ["Sitemap: %ssitemap.xml" % BASE, ""]
+    with open(os.path.join(ROOT, "robots.txt"), "w", encoding="utf-8") as f:
+        f.write("\n".join(lines))
+    print("  sitemap: %d pages" % len(pages))
+
+
+build_sitemap()
+
 for path, page in PAGES.items():
     dest = os.path.join(ROOT, path)
     os.makedirs(os.path.dirname(dest), exist_ok=True)

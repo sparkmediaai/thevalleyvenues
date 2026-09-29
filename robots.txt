@@ -6,6 +6,8 @@
 # Letting the crawler in to read "do not index me" is what actually keeps the
 # site out of search results.
 #
-# At launch: drop the noindex from _build/build.py, add a sitemap here.
+# sitemap.xml is written on every build but is deliberately not advertised
+# here until the site is live at its real address.
+
 User-agent: *
 Allow: /
