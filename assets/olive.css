@@ -71,7 +71,7 @@ h2{line-height:1.08}
 .site-nav a:hover,.site-nav a:focus-visible,.site-nav a[aria-current="page"]{color:var(--ivory);background-size:100% 1px}
 .site-head .btn{background:var(--ivory);border-color:var(--ivory);color:var(--deep);padding:.85rem 1.3rem}
 .site-head .btn:hover,.site-head .btn:focus-visible{background:transparent;color:var(--ivory);border-color:var(--ivory)}
-@media (max-width:860px){
+@media (max-width:1040px){
   .js .nav-toggle{background:transparent;border:1px solid var(--ivory);color:var(--ivory)}
   .nav-open .nav-toggle{background:var(--ivory);color:var(--deep)}
   .js .site-nav{background:var(--ivory);border-color:var(--olive)}
@@ -206,4 +206,15 @@ body[data-page="home"] .hero-pause span{position:absolute;width:1px;height:1px;o
 body[data-page="home"] .hero-pause svg{width:.8rem;height:.8rem}
 @media (max-width:760px){
   body[data-page="home"] .hero-clock .hero-stage{height:72svh;min-height:24rem}
+}
+
+/* ---------------------------------------------- the header, at laptop width
+   Six links and a button need about 1280px to sit on one line. Between the
+   width where the menu button takes over and that, the bar tightens rather
+   than wrapping to three lines, which is what it used to do. */
+@media (min-width:1041px) and (max-width:1279px){
+  .site-nav ul{gap:1.15rem}
+  .site-nav a{font-size:.66rem;letter-spacing:.12em}
+  .site-head .btn{padding:.8rem 1rem;font-size:.66rem;letter-spacing:.12em}
+  .wordmark span{font-size:1.25rem}
 }

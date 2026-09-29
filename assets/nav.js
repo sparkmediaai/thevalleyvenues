@@ -23,7 +23,7 @@
     if (head.classList.contains("nav-open") && !head.contains(e.target)) set(false);
   });
   nav.addEventListener("click", function (e) { if (e.target.closest("a")) set(false); });
-  matchMedia("(min-width: 861px)").addEventListener("change", function (m) { if (m.matches) set(false); });
+  matchMedia("(min-width: 1041px)").addEventListener("change", function (m) { if (m.matches) set(false); });
 
   // Other scripts (the gallery's sticky bar) read the header's height.
   function measure() { document.documentElement.style.setProperty("--head", head.offsetHeight + "px"); }

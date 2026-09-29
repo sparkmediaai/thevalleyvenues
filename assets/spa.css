@@ -24,7 +24,7 @@ section{border-bottom:0}
 /* ---------------------------------------------------------------- masthead */
 .site-head{background:var(--ivory);border-bottom:1px solid var(--sage)}
 .site-nav a[aria-current="page"],.site-nav a:hover,.site-nav a:focus-visible{border-bottom-color:var(--sage)}
-@media (max-width:860px){.site-nav{border-top-color:var(--sage)}}
+@media (max-width:1040px){.site-nav{border-top-color:var(--sage)}}
 
 /* ----------------------------------------------------------------- buttons */
 .btn{border-radius:999px;padding:.9rem 1.7rem;letter-spacing:.12em;
@@ -128,7 +128,7 @@ section{border-bottom:0}
    nav.js the header falls back to listing its links as before.
    ========================================================================== */
 .nav-toggle,.cta-bar{display:none}
-@media (max-width:860px){
+@media (max-width:1040px){
   .site-head .inner{flex-wrap:nowrap;padding:.5rem var(--pad);gap:.8rem}
   .wordmark{min-height:44px}
   .js .site-head .inner > .btn{display:none}

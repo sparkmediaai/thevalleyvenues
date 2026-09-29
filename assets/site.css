@@ -145,7 +145,7 @@ p{margin:0;max-width:var(--measure)}
 .btn-solid{background:var(--accent);color:var(--ground)}
 .btn-solid:hover,.btn-solid:focus-visible{background:transparent;color:var(--accent)}
 
-@media (max-width:860px){
+@media (max-width:1040px){
   .site-head .inner{flex-wrap:wrap;gap:.9rem}
   .site-nav{order:3;width:100%;border-top:1px solid var(--line-soft);padding-top:.7rem}
   .site-nav ul{gap:1.1rem}
