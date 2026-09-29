@@ -2003,6 +2003,71 @@ JOURNAL_CLOSE = """
 
 build_journal()
 
+
+# ========================================================== the old addresses
+# The live WordPress site's URLs. GitHub Pages cannot serve a 301, so each one
+# becomes a page that carries the canonical link to its replacement and sends
+# the reader on immediately. Search engines follow both; a person sees a line
+# of text for a moment, or reads it if their browser blocks the redirect.
+#
+# Pages that exist here under the same address -- /weddings/, /about/, /blog/,
+# /reviews/ and every /blog/<slug>/ -- are not in this table. They need no
+# redirect, which is the point of having kept their addresses.
+REDIRECTS = {
+    "wedding-pricing": "/pricing/",
+    "lodging": "/stay/",
+    "wedding-gallery": "/gallery/",
+    "micro-weddings": "/the-estate/lost-in-the-woods/",
+    "in-house-catering": "/weddings/whats-included/",
+    "davis-hall": "/the-estate/davis-hall/",
+    "the-valley": "/the-estate/the-valley/",
+    "lookout-deck": "/the-estate/lookout-deck/",
+    "magnolia-house": "/the-estate/magnolia-house/",
+    "magnolia-house-old": "/the-estate/magnolia-house/",
+    "testimonials": "/reviews/",
+    "contact-us": "/inquire/",
+    "contact-form": "/inquire/",
+    "newsletter": "/inquire/",
+    "vendor-open-house": "/",
+    "shop": "/",
+    "thank-you": "/",
+    "thank-you-micro-weddings": "/",
+}
+
+STUB = """<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Moved | %(site)s</title>
+<link rel="canonical" href="%(base)s%(to)s">
+<meta name="robots" content="noindex, follow">
+<meta http-equiv="refresh" content="0; url=%(to)s">
+<style>
+ body{margin:0;min-height:100vh;display:grid;place-items:center;background:#FFF9F3;color:#2B1B00;
+   font:400 1rem/1.5 'Libre Caslon Text',Georgia,serif;text-align:center;padding:2rem}
+ a{color:inherit}
+</style>
+</head>
+<body>
+  <p>This page has moved. <a href="%(to)s">Continue to %(to)s</a>.</p>
+  <script>location.replace("%(to)s");</script>
+</body>
+</html>
+"""
+
+
+def build_redirects():
+    for old, new in REDIRECTS.items():
+        d = os.path.join(ROOT, old)
+        os.makedirs(d, exist_ok=True)
+        with open(os.path.join(d, "index.html"), "w", encoding="utf-8") as f:
+            f.write(STUB % dict(site=SITE, base=BASE.rstrip("/"), to=new))
+    print("  redirects: %d old addresses" % len(REDIRECTS))
+
+
+build_redirects()
+
 for path, page in PAGES.items():
     dest = os.path.join(ROOT, path)
     os.makedirs(os.path.dirname(dest), exist_ok=True)
