@@ -139,6 +139,10 @@ FOOTER = [
     ("Stay", [
         ("Lodging on the Estate", "/stay/"),
     ]),
+    ("Read", [
+        ("The Journal", "/blog/"),
+        ("Reviews", "/reviews/"),
+    ]),
     ("The Estate", [
         ("The whole property", "/the-estate/"),
         ("Magnolia House", "/the-estate/magnolia-house/"),
@@ -176,7 +180,15 @@ def shell(page, path="index.html"):
     # page brings its own markup because its hero is a clock; every other page
     # gets one frame and the shared scrim over it.
     hero, hero_class = page.get("hero_html", ""), "hero-clock"
-    if not hero and page.get("hero_img"):
+    if not hero and page.get("hero_src"):
+        # a picture that lives somewhere other than assets/img -- the journal
+        # keeps its own, imported with the posts
+        w, h = webp_size(os.path.join(ROOT, page["hero_src"].lstrip("/")))
+        hero_class = "hero-photo"
+        hero = ('  <img class="hero-bg" src="%s" alt="%s" width="%d" height="%d" '
+                'fetchpriority="high" decoding="async">\n'
+                % (page["hero_src"], page["hero_alt"], w, h))
+    elif not hero and page.get("hero_img"):
         w, h = webp_size(os.path.join(IMG, page["hero_img"]))
         hero_class = "hero-photo"
         hero = ('  <img class="hero-bg" src="%sassets/img/%s" alt="%s" '
@@ -1880,6 +1892,116 @@ def version_assets(html):
                 _digest[rel] = hashlib.md5(f.read()).hexdigest()[:8]
         return '%s?v=%s"' % (m.group(1), _digest[rel])
     return ASSET_LINK.sub(stamp, html)
+
+
+# ============================================================== the journal
+# Thirty-two posts and a page of reviews, brought across from the WordPress
+# site by _tools/blog_import.py so the cutover does not 404 a year of writing.
+# The URLs are theirs, unchanged: /blog/<slug>/ stays /blog/<slug>/.
+#
+# Five of the "posts" are two-line testimonials rather than articles. Their
+# pages are still built, because the URLs have to resolve, but they are kept
+# out of the journal's list and shown on the reviews page instead, where they
+# belong.
+def _date(iso):
+    y, m, d = iso.split("-")
+    month = ["January", "February", "March", "April", "May", "June", "July",
+             "August", "September", "October", "November", "December"][int(m) - 1]
+    return "%s %d, %s" % (month, int(d), y)
+
+
+def build_journal():
+    path = os.path.join(ROOT, "assets", "blog.json")
+    if not os.path.exists(path):
+        print("  journal: no assets/blog.json, skipping")
+        return
+    with open(path, encoding="utf-8") as f:
+        feed = json.load(f)
+    posts = feed.get("posts", [])
+    articles = [p for p in posts if len(p["body"]) >= 600]
+    notes = [p for p in posts if len(p["body"]) < 600]
+
+    for i, p in enumerate(posts):
+        nxt = articles[articles.index(p) + 1] if p in articles and articles.index(p) + 1 < len(articles) else None
+        prv = articles[articles.index(p) - 1] if p in articles and articles.index(p) > 0 else None
+        onward = ['<nav class="onward" aria-label="More from the journal">']
+        onward.append('    <a href="%s"><span>Newer</span><b>%s</b></a>' % (prv["url"], prv["title"])
+                      if prv else "    <span></span>")
+        onward.append('    <a class="up" href="/blog/">The journal</a>')
+        onward.append('    <a class="next" href="%s"><span>Older</span><b>%s</b></a>' % (nxt["url"], nxt["title"])
+                      if nxt else "    <span></span>")
+        onward.append("</nav>")
+        PAGES["blog/%s/index.html" % p["slug"]] = dict(
+            nav=None, title="%s | %s" % (p["title"], SITE),
+            desc=p["standfirst"],
+            head='<link rel="stylesheet" href="/assets/journal.css">\n',
+            hero_src="/assets/blog/%s" % p["cover"] if p["cover"] else None,
+            hero_alt=p["title"],
+            eyebrow="The journal &middot; %s" % _date(p["date"]),
+            h1=p["title"],
+            standfirst=p["standfirst"],
+            body='\n<section class="jr-post">\n  <div class="prose">\n%s\n  </div>\n%s\n</section>\n%s'
+                 % (p["body"], "\n".join(onward), JOURNAL_CLOSE))
+
+    cards = "\n".join(
+        '    <li class="jr-card">\n'
+        '      <a href="%s">\n'
+        '        <figure><img src="/assets/blog/%s" alt="" width="1400" height="933" '
+        'loading="lazy" decoding="async"></figure>\n'
+        '        <span class="jr-when">%s</span>\n'
+        '        <h2>%s</h2>\n'
+        '        <p>%s</p>\n'
+        '      </a>\n'
+        '    </li>' % (p["url"], p["cover"], _date(p["date"]), p["title"], p["standfirst"])
+        for p in articles if p["cover"])
+
+    PAGES["blog/index.html"] = dict(
+        nav=None, title="The Journal | %s" % SITE,
+        desc="Writing from the estate: planning, the seasons, and the weekends themselves.",
+        head='<link rel="stylesheet" href="/assets/journal.css">\n',
+        eyebrow="The journal",
+        h1="Writing from the estate.",
+        standfirst="Planning notes, the seasons on the property, and what actually happens "
+                   "on a weekend here.",
+        body='\n<section>\n  <ul class="jr-list">\n%s\n  </ul>\n</section>\n%s'
+             % (cards, JOURNAL_CLOSE))
+
+    quotes = feed.get("reviews", []) + [n["body"] for n in notes]
+    clean = []
+    for q in quotes:
+        q = re.sub(r"<[^>]+>", " ", q)
+        q = re.sub(r"\s+", " ", q).strip()
+        if 60 <= len(q) <= 900 and q not in clean:
+            clean.append(q)
+    PAGES["reviews/index.html"] = dict(
+        nav=None, title="Reviews | %s" % SITE,
+        desc="What couples say after a weekend on the estate.",
+        head='<link rel="stylesheet" href="/assets/journal.css">\n',
+        hero_img="band-family.webp",
+        hero_alt="A couple walking together in the meadow",
+        eyebrow="Reviews",
+        h1="What couples say afterwards.",
+        standfirst="Collected from the estate&rsquo;s own reviews. Every one of them is "
+                   "about a weekend that actually happened here.",
+        body='\n<section>\n  <ul class="jr-quotes">\n%s\n  </ul>\n</section>\n%s'
+             % ("\n".join('    <li>%s</li>' % q for q in clean), JOURNAL_CLOSE))
+    print("  journal: %d posts, %d reviews" % (len(posts), len(clean)))
+
+
+JOURNAL_CLOSE = """
+<section class="closing">
+  <div class="closing-img" role="img" aria-label="The conservatory lit from within after dark"
+       style="background-image:url('/assets/img/close-weddings.webp')"></div>
+  <div class="closing-body">
+    <div class="eyebrow">When you are ready</div>
+    <h2>Come and see it for yourself.</h2>
+    <p>The estate answers most of these questions better than a page can. Download the wedding pamphlet, or walk the property when it suits you.</p>
+    <a class="btn" href="/pricing/">Download the Wedding Pamphlet</a>
+  </div>
+</section>
+"""
+
+build_journal()
 
 for path, page in PAGES.items():
     dest = os.path.join(ROOT, path)
