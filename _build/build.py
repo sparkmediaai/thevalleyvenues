@@ -82,7 +82,7 @@ SITE = "The Valley Venues"
 OPENING = '\n<aside class="opening" id="opening" data-until="2026-09-13T20:00:00Z"\n       data-through="2026-09-13T23:00:00Z">\n  <div class="opening-inner">\n    <div class="opening-what">\n      <span class="eyebrow">Grand opening</span>\n      <p><b>Magnolia House</b> opens Sunday 13 September, 4&ndash;7pm EDT</p>\n      <p class="opening-with">Free food and drink &middot; Live music &middot; Estate tours</p>\n    </div>\n    <p class="opening-count" aria-hidden="true"></p>\n  </div>\n</aside>\n'
 
 URL_ROOT = "/"
-BASE = "https://thevalley.sparkmedia.ai/"
+BASE = "https://thevalleyvenues.com/"
 
 # The address the site is actually for. While BASE is anything else this is a
 # staging copy of a real business's website, sitting on a public host with its
