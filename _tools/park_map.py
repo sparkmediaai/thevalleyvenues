@@ -37,6 +37,13 @@ from estate_map import IVORY, CREAM, OLIVE, CLAY, BLUE, SAGE, DEEP
 
 W, H = 2000, 800
 WHITE = "#FFFFFF"
+# The two greens the planting is drawn in. The palette's olive and sage are
+# grey-greens, right for boards and shadow and wrong for a canopy: Kobi asked
+# for truer, slightly more saturated greens, so the foliage gets its own pair
+# and everything built stays as it was.
+LEAF = "#7E9B58"        # the canopy, and the grass it stands on
+LEAF_LIGHT = "#A3BC7C"  # the lighter trees, roughly one in five
+
 SERIF = "'Cormorant Garamond',Georgia,'Times New Roman',serif"
 SANS = "'Libre Franklin',system-ui,sans-serif"
 
@@ -803,7 +810,7 @@ def build(**opt):
             d = " ".join(loop_d(l) for l in by_level[k])
             p.append('<g class="lvl" style="--l:%d">' % k)
             p.append('<path d="%s" fill="%s" opacity=".16" transform="translate(0 6)"/>' % (d, DEEP))
-            p.append('<path d="%s" fill="%s" fill-opacity="%.2f"/>' % (d, SAGE if k % 2 else OLIVE,
+            p.append('<path d="%s" fill="%s" fill-opacity="%.2f"/>' % (d, LEAF_LIGHT if k % 2 else LEAF,
                                                                      .2 + .04 * k if k % 2 else .1 + .025 * k))
             p.append('<path d="%s" fill="none" stroke="%s" stroke-width="3" stroke-opacity=".8"/>' % (d, CREAM))
             p.append('<path d="%s" fill="none" stroke="%s" stroke-width="1.4" stroke-opacity=".4" '
@@ -815,7 +822,7 @@ def build(**opt):
                                     (1500, 640, 560, 220, .24), (1550, 230, 460, 160, .18),
                                     (620, 140, 520, 120, .16), (180, 640, 260, 190, .2)):
             p.append(el("ellipse", cx=cx, cy=cy + 8, rx=rx, ry=ry, fill=DEEP, opacity=.05))
-            p.append(el("ellipse", cx=cx, cy=cy, rx=rx, ry=ry, fill=OLIVE, opacity=o))
+            p.append(el("ellipse", cx=cx, cy=cy, rx=rx, ry=ry, fill=LEAF, opacity=o))
             p.append(el("ellipse", cx=cx - rx * .18, cy=cy - ry * .32, rx=rx * .62, ry=ry * .42,
                         fill=CREAM, opacity=.22))
     p.append(mountains())
@@ -900,7 +907,7 @@ def build(**opt):
     trees.sort()
     p.append('<g class="forest">')
     for y, x, kind, s, t in trees:
-        colour = SAGE if t > .78 else OLIVE
+        colour = LEAF_LIGHT if t > .78 else LEAF
         delay = .9 * (x / W) + .25 * (y / H) + rng.uniform(0, .12)
         p.append(use_tree(kind, x, y, s, colour, delay))
     p.append("</g>")
