@@ -290,19 +290,35 @@
   }
  ],
  "reviews": [
-  "I can’t say enough about how absolutely stunning the Valley Venues is!",
-  "With massive acreage and intentionally thought-out design in several buildings throughout their venue, it’s idyllic and absolutely, jaw-droppingly gorgeous. My sister and I toured through together and couldn’t stop gawking at how gorgeous the design is even in the accommodations that the venue offers!",
-  "Kobi is a kind, wonderful human with an intentional eye for making the event stunning and well-thought out from beginning to end. She is someone well worth the trust and the investment and can’t recommend enough!",
-  "We took our maternity photos here… the venue is absolutely stunning!!",
-  "The staff were sweet to escort us via golf cart so that we could make the most of our time! Photographer is Tiffany Smith!",
-  "From the moment we arrived, Kobi and the staff made sure everything was taken care of, allowing us to relax and fully enjoy our celebration. The lodge and cabins were cozy, beautifully decorated, and added such a personal touch to our stay. It was clear that everyone at The Valley Venues is dedicated to creating an unforgettable experience.",
-  "Our outdoor ceremony and reception were exactly what we had envisioned—perfectly framed by the stunning mountain backdrop and vibrant fall foliage. The scenery was breathtaking, and the weather couldn’t have been more ideal.",
-  "Overall, our wedding weekend was everything we hoped for and more. We will always cherish the memories of this beautiful place, the incredible views, and the warm hospitality we received. We are beyond grateful to Kobi and the entire team for making our day so special.",
-  "What a wedding!! Kobi welcomed us with less than 2 weeks notice for a 225 person wedding when we unexpectedly found out that our original hotel couldn’t handle our event. She met us over Labor Day weekend so we could tour the property and talk about the logistics. Kobi was kind, calming, and sympathetic to the situation the hotel had put us in. Valley Venues is a beautiful space and the outdoor views are breathtaking! The outdoor cocktail hour was perfect for my daughter’s “garden party” theme.",
-  "The deck/patio had plenty of space for 11 bistro tables, a bar, Clumpies ice cream cart and a lot of room for our guests to stroll. The Lodge was a beautiful space for the bride and her bridal party to stay the night before. The groom and groomsmen arrived the next day and spent the day in their space playing pool and relaxing. Our guests stayed at the Double Tree in downtown Chattanooga (also a wonderful vendor as they accommodated our out of town guests on short notice), and it was a short and easy drive to Valley Venues. If you want a wedding in Chattanooga, make an appointment to tour The Valley Venues!!",
-  "We utilized The Valley Venues for our daughter’s rehearsal dinner, wedding and lodging for the entire wedding party over a weekend. The facilities were all first class and the Valley and views breathtaking. The kitchens in the Lodge, the cabins, and Davis Hall were well equipped for serving our guests. Kobi and all her staff were amazing to work with in preparation and delivery of everything we needed to make the weekend a treasured memory for all who attended.",
-  "With Wedding WordPress Theme you will have everything you need to create a memorable and enchanting online presence. Start create your dream wedding site today.",
-  "Shop now our wedding registry, help us to achieve our dreams !",
-  "Find out first how much you can go to spend and ask us for more information on our contact page."
+  {
+   "title": "Jaw-droppingly gorgeous",
+   "words": "I can’t say enough about how absolutely stunning the Valley Venues is! With massive acreage and intentionally thought-out design in several buildings throughout their venue, it’s idyllic and absolutely, jaw-droppingly gorgeous. My sister and I toured through together and couldn’t stop gawking at how gorgeous the design is even in the accommodations that the venue offers! Kobi is a kind, wonderful human with an intentional eye for making the event stunning and well-thought out from beginning to end. She is someone well worth the trust and the investment and can’t recommend enough!",
+   "who": "Elyse S.",
+   "date": "December 3, 2024"
+  },
+  {
+   "title": "Absolutely Stunning",
+   "words": "We took our maternity photos here… the venue is absolutely stunning!! The staff were sweet to escort us via golf cart so that we could make the most of our time! Photographer is Tiffany Smith!",
+   "who": "Anna P.",
+   "date": "November 14, 2024"
+  },
+  {
+   "title": "Unforgettable Experience",
+   "words": "From the moment we arrived, Kobi and the staff made sure everything was taken care of, allowing us to relax and fully enjoy our celebration. The lodge and cabins were cozy, beautifully decorated, and added such a personal touch to our stay. It was clear that everyone at The Valley Venues is dedicated to creating an unforgettable experience. Our outdoor ceremony and reception were exactly what we had envisioned—perfectly framed by the stunning mountain backdrop and vibrant fall foliage. The scenery was breathtaking, and the weather couldn’t have been more ideal. Overall, our wedding weekend was everything we hoped for and more. We will always cherish the memories of this beautiful place, the incredible views, and the warm hospitality we received. We are beyond grateful to Kobi and the entire team for making our day so special.",
+   "who": "Alexa E.",
+   "date": "November 2, 2024"
+  },
+  {
+   "title": "Breathtaking",
+   "words": "What a wedding!! Kobi welcomed us with less than 2 weeks notice for a 225 person wedding when we unexpectedly found out that our original hotel couldn’t handle our event. She met us over Labor Day weekend so we could tour the property and talk about the logistics. Kobi was kind, calming, and sympathetic to the situation the hotel had put us in. Valley Venues is a beautiful space and the outdoor views are breathtaking! The outdoor cocktail hour was perfect for my daughter’s “garden party” theme. The deck/patio had plenty of space for 11 bistro tables, a bar, Clumpies ice cream cart and a lot of room for our guests to stroll. The Lodge was a beautiful space for the bride and her bridal party to stay the night before. The groom and groomsmen arrived the next day and spent the day in their space playing pool and relaxing. Our guests stayed at the Double Tree in downtown Chattanooga (also a wonderful vendor as they accommodated our out of town guests on short notice), and it was a short and easy drive to Valley Venues. If you want a wedding in Chattanooga, make an appointment to tour The Valley Venues!!",
+   "who": "Patti O.",
+   "date": "October 9, 2024"
+  },
+  {
+   "title": "First Class",
+   "words": "We utilized The Valley Venues for our daughter’s rehearsal dinner, wedding and lodging for the entire wedding party over a weekend. The facilities were all first class and the Valley and views breathtaking. The kitchens in the Lodge, the cabins, and Davis Hall were well equipped for serving our guests. Kobi and all her staff were amazing to work with in preparation and delivery of everything we needed to make the weekend a treasured memory for all who attended.",
+   "who": "Debby P.",
+   "date": "June 30, 2024"
+  }
  ]
 }

@@ -54,11 +54,27 @@
   margin-top:.6rem;text-align:center}
 
 /* ----------------------------------------------------------- the reviews */
-.jr-quotes{list-style:none;margin:clamp(1.6rem,4vw,2.6rem) 0 0;padding:0;
-  columns:2;column-gap:clamp(1.6rem,4vw,3rem)}
-.jr-quotes li{break-inside:avoid;margin:0 0 clamp(1.4rem,3vw,2.2rem);
-  padding:clamp(1.3rem,3vw,2rem) clamp(1.3rem,3vw,1.9rem);background:var(--cream);
-  font:italic 400 1.02rem/1.55 var(--text)}
-.jr-quotes li::before{content:"\\201C";display:block;font:400 2.4rem/0.6 var(--display);
-  color:var(--olive);margin-bottom:.5rem}
-@media (max-width:820px){.jr-quotes{columns:1}}
+/* Five reviews, each with a name against it. They are set as testimony --
+   the headline the reviewer gave it, their words, and their signature --
+   rather than as decorative pull quotes in boxes, which is what the first
+   pass did and which read as filler. */
+.rv-list{list-style:none;margin:clamp(1.8rem,5vw,3.4rem) 0 0;padding:0;
+  display:grid;gap:clamp(2.4rem,6vw,4.5rem);max-width:44rem}
+.rv{display:grid;gap:.9rem;padding-top:clamp(1.6rem,4vw,2.4rem);border-top:1px solid var(--olive)}
+.rv:first-child{border-top:0;padding-top:0}
+.rv h2{font-size:clamp(1.7rem,3.4vw,2.6rem);line-height:1.1;margin:0;max-width:20ch}
+.rv blockquote{margin:0;font:400 1.05rem/1.65 var(--text);max-width:38rem}
+.rv-who{margin:.3rem 0 0;font:500 .7rem/1.4 var(--sans);letter-spacing:.2em;
+  text-transform:uppercase;color:var(--olive)}
+.rv-who span{display:block;letter-spacing:.14em;opacity:.75;margin-top:.3rem}
+
+/* Wide enough, and the signature sits out in the margin beside the words,
+   where a name belongs. */
+@media (min-width:1100px){
+  .rv-list{max-width:none}
+  .rv{grid-template-columns:minmax(0,26rem) 1fr;column-gap:clamp(2rem,4vw,4rem);
+    align-items:start}
+  .rv h2{grid-column:1;grid-row:1}
+  .rv-who{grid-column:1;grid-row:2;margin-top:.6rem}
+  .rv blockquote{grid-column:2;grid-row:1 / span 2}
+}

@@ -127,7 +127,6 @@ NAV = [
     ("Gallery", "/gallery/", None),
     ("About", "/about/", [
         ("The Journal", "/blog/"),
-        ("Reviews", "/reviews/"),
     ]),
 ]
 CTA = ("Download the Wedding Pamphlet", "/pricing/")
@@ -1981,26 +1980,32 @@ def build_journal():
         body='\n<section>\n  <ul class="jr-list">\n%s\n  </ul>\n</section>\n%s'
              % (cards, JOURNAL_CLOSE))
 
-    quotes = feed.get("reviews", []) + [n["body"] for n in notes]
-    clean = []
-    for q in quotes:
-        q = re.sub(r"<[^>]+>", " ", q)
-        q = re.sub(r"\s+", " ", q).strip()
-        if 60 <= len(q) <= 900 and q not in clean:
-            clean.append(q)
+    # The reviews carry a name and a date, so they are set as reviews rather
+    # than as anonymous pull quotes: the headline the reviewer gave it, their
+    # words, and who wrote them. The first pass scraped the page as loose
+    # paragraphs and swept up three lines of the old theme's demo text along
+    # with them, which is what made it read like filler.
+    reviews = [r for r in feed.get("reviews", []) if isinstance(r, dict)]
+    cards = "\n".join(
+        '    <li class="rv">\n'
+        '      <h2>%s</h2>\n'
+        '      <blockquote>%s</blockquote>\n'
+        '      <p class="rv-who">%s<span>%s</span></p>\n'
+        '    </li>' % (r["title"], r["words"], r["who"] or "A guest", r["date"])
+        for r in reviews)
     PAGES["reviews/index.html"] = dict(
         nav=None, title="Reviews | %s" % SITE,
-        desc="What couples say after a weekend on the estate.",
+        desc="What couples and their families say after a weekend on the estate.",
         head='<link rel="stylesheet" href="/assets/journal.css">\n',
         hero_img="band-family.webp",
         hero_alt="A couple walking together in the meadow",
         eyebrow="Reviews",
-        h1="What couples say afterwards.",
-        standfirst="Collected from the estate&rsquo;s own reviews. Every one of them is "
-                   "about a weekend that actually happened here.",
-        body='\n<section>\n  <ul class="jr-quotes">\n%s\n  </ul>\n</section>\n%s'
-             % ("\n".join('    <li>%s</li>' % q for q in clean), JOURNAL_CLOSE))
-    print("  journal: %d posts, %d reviews" % (len(posts), len(clean)))
+        h1="In their own words.",
+        standfirst="Written by the people who married here, and by the families who came "
+                   "with them.",
+        body='\n<section>\n  <ul class="rv-list">\n%s\n  </ul>\n</section>\n%s'
+             % (cards, JOURNAL_CLOSE))
+    print("  journal: %d posts, %d reviews" % (len(posts), len(reviews)))
 
 
 JOURNAL_CLOSE = """
