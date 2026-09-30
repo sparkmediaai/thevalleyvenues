@@ -126,7 +126,7 @@ NAV = [
     ("The Estate", "/the-estate/", None),
     ("Gallery", "/gallery/", None),
     ("About", "/about/", [
-        ("Blog", "/blog/"),
+        ("The Journal", "/blog/"),
         ("Reviews", "/reviews/"),
     ]),
 ]
