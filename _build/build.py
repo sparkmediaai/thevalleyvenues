@@ -116,13 +116,19 @@ TAGLINE = "One Private Mountain Estate. All for You."
 # Primary navigation. Five destinations and one invitation — the Venues
 # dropdown is deliberately absent; it is what made the estate read as four
 # separate places.
+# An entry may carry a third item: the pages that hang beneath it. About holds
+# the writing and the reviews, which are about the estate rather than about a
+# celebration, and which would otherwise crowd a bar that is already six wide.
 NAV = [
-    ("The Difference", "/the-difference/"),
-    ("Weddings", "/weddings/"),
-    ("Stay", "/stay/"),
-    ("The Estate", "/the-estate/"),
-    ("Gallery", "/gallery/"),
-    ("About", "/about/"),
+    ("The Difference", "/the-difference/", None),
+    ("Weddings", "/weddings/", None),
+    ("Stay", "/stay/", None),
+    ("The Estate", "/the-estate/", None),
+    ("Gallery", "/gallery/", None),
+    ("About", "/about/", [
+        ("Blog", "/blog/"),
+        ("Reviews", "/reviews/"),
+    ]),
 ]
 CTA = ("Download the Wedding Pamphlet", "/pricing/")
 
@@ -165,10 +171,19 @@ def shell(page, path="index.html"):
     """Wrap one page's body in the site chrome."""
     depth_root = URL_ROOT
     url = BASE + (path[:-len("index.html")] if path.endswith("index.html") else path)
-    nav = "\n".join(
-        '        <li><a href="%s"%s>%s</a></li>'
-        % (href, ' aria-current="page"' if page["nav"] == label else "", label)
-        for label, href in NAV)
+    def nav_item(label, href, under):
+        here = ' aria-current="page"' if page["nav"] == label else ""
+        link = '<a href="%s"%s>%s</a>' % (href, here, label)
+        if not under:
+            return "        <li>%s</li>" % link
+        kids = "".join(
+            '\n            <li><a href="%s"%s>%s</a></li>'
+            % (h, ' aria-current="page"' if page["nav"] == t else "", t)
+            for t, h in under)
+        return ('        <li class="has-sub">%s\n          <ul class="sub">%s\n          </ul>\n        </li>'
+                % (link, kids))
+
+    nav = "\n".join(nav_item(*item) for item in NAV)
 
     foot = "\n".join(
         '        <div>\n          <h3>%s</h3>\n          <ul>%s</ul>\n        </div>'
