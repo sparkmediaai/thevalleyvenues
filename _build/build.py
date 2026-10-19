@@ -2057,8 +2057,8 @@ def build_journal():
 
 JOURNAL_CLOSE = """
 <section class="closing">
-  <div class="closing-img" role="img" aria-label="The conservatory lit from within after dark"
-       style="background-image:url('/assets/img/close-weddings.webp')"></div>
+  <div class="closing-img" role="img" aria-label="The Magnolia House and its glass conservatory, from the lawn"
+       style="background-image:url('/assets/img/close-magnolia.webp')"></div>
   <div class="closing-body">
     <div class="eyebrow">When you are ready</div>
     <h2>Come and see it for yourself.</h2>

@@ -19,7 +19,14 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "assets", "video")
 
-# (start, end) in the reel, each held clear of the cut on either side
+# The opening of the Magnolia House, filmed in 4K by Barlow Film Co. These are
+# whole two-second clips rather than ranges, and they need scaling into the
+# reel's letterboxed frame rather than cropping out of it.
+OPENING = r"D:/DevStuff/VV Images/Magnolia house opening/BROLL/HORIZONTAL"
+WIDE = "scale=1920:1080,crop=1920:916:0:82"
+
+# (start, end) in the reel, each held clear of the cut on either side. A shot
+# may carry a third item -- its own source file -- and a fourth, its own filter.
 SHOTS = [
     (4.4, 7.7),     # the meadow set for a ceremony, from the air
     (14.35, 16.15), # the estate from above
@@ -31,6 +38,24 @@ SHOTS = [
     (53.6, 55.4),   # walking, the mountain behind
     (62.0, 63.55),  # the sparkler dance
 ]
+
+# Four from the opening, cut in among them: the estate rather than the party.
+SHOTS = [
+    SHOTS[0],                                                     # the meadow, from the air
+    (0.15, 1.95, OPENING + "/barlowfilmco-magnoliahouse-broll-2026_00000527.mov", WIDE),
+    SHOTS[1],                                                     # the estate from above
+    (0.15, 1.95, OPENING + "/barlowfilmco-magnoliahouse-broll-2026_00000126.mov", WIDE),
+    SHOTS[4],                                                     # the valley and the ridge
+    (0.15, 1.95, OPENING + "/barlowfilmco-magnoliahouse-broll-2026_00051197.mov", WIDE),
+    SHOTS[5],                                                     # the ceremony from overhead
+    (0.15, 1.95, OPENING + "/barlowfilmco-magnoliahouse-broll-2026_00000093.mov", WIDE),
+    SHOTS[6],                                                     # the couple on the steps
+    SHOTS[7],                                                     # walking, the mountain behind
+    SHOTS[8],                                                     # the sparkler dance
+]
+# The indices the lift and the tighter crop applied to have moved with them.
+LIFT = {4: "eq=gamma=1.12"}
+TIGHT = {8: "crop=1760:840:80:80,scale=1920:916"}
 # The valley aerial is the one shot noticeably darker than the rest. It is lifted
 # to sit with its neighbours, not graded: the brief is that nothing is darkened.
 LIFT = {4: "eq=gamma=1.12"}
@@ -57,12 +82,14 @@ def build_master(src, path):
     ff = ffmpeg()
     args = [ff, "-y", "-hide_banner", "-loglevel", "error"]
     shots = SHOTS + [SHOTS[0]]              # the first shot again, to fade back into
-    for a, b in shots:
-        args += ["-ss", "%.3f" % a, "-t", "%.3f" % (b - a), "-i", src]
+    for shot in shots:
+        a, b = shot[0], shot[1]
+        args += ["-ss", "%.3f" % a, "-t", "%.3f" % (b - a), "-i", shot[2] if len(shot) > 2 else src]
     f = []
-    for i in range(len(shots)):
-        chain = [TIGHT.get(i, CROP), "fps=30", "format=yuv420p", "setsar=1"]
-        if i in LIFT:
+    for i, shot in enumerate(shots):
+        own = shot[3] if len(shot) > 3 else None
+        chain = [own or TIGHT.get(i, CROP), "fps=30", "format=yuv420p", "setsar=1"]
+        if own is None and i in LIFT:
             chain.insert(1, LIFT[i])
         f.append("[%d:v]%s,settb=AVTB[v%d]" % (i, ",".join(chain), i))
     prev, t = "v0", 0.0
