@@ -26,9 +26,9 @@
 <link rel="stylesheet" href="/assets/motion.css?v=5a1114f3">
 <link rel="stylesheet" href="/assets/opening.css?v=ed9d2a70">
 <link rel="stylesheet" href="/assets/forms.css?v=91ff89ad">
-<link rel="stylesheet" href="/assets/plan.css?v=7639727c">
+<link rel="stylesheet" href="/assets/plan.css?v=fdd03738">
 <link rel="stylesheet" href="/assets/spa.css?v=1e628f78">
-<link rel="stylesheet" href="/assets/olive.css?v=354236f4">
+<link rel="stylesheet" href="/assets/olive.css?v=ddd24345">
 <script>document.documentElement.classList.add("js");if("IntersectionObserver" in window&&!matchMedia("(prefers-reduced-motion: reduce)").matches){document.documentElement.classList.add("io");setTimeout(function(){if(!window.__reveal)document.documentElement.classList.remove("io")},3000)}window.FORM_ENDPOINT="https://services.leadconnectorhq.com/hooks/oDcqfZdwDgTOXwK0GS98/webhook-trigger/53fd0129-80af-4311-bfb2-e0955fb2ebe0";if(/[?&]notes/.test(location.search))document.documentElement.classList.add("notes")</script>
 </head>
 <body data-page="the-estate-magnolia-house">
@@ -69,16 +69,23 @@
   </div>
 </aside>
 
-<header class="hero hero-photo">
-  <img class="hero-bg" src="/assets/img/mh-open-house.webp" alt="The Magnolia House and its glass conservatory from the air, the valley beyond" width="1600" height="900" fetchpriority="high" decoding="async">
-  <div class="hero-body">
-    <div class="eyebrow">The Estate &middot; Magnolia House &middot; Where it begins</div>
-    <h1>The house the estate is known by.</h1>
-    <p>Built in the 1890s, lost to a fire in 2025, and raised again with the original columns at the front and a glass conservatory behind. It is the first thing you see, and the reason most people come.</p>
-    <div class="hero-actions">
+<header class="hero hero-clock">
+  <div class="fh">
+    <figure class="fh-media">
+      <img src="/assets/video/magnolia-hero-poster.webp" alt="" aria-hidden="true" fetchpriority="high">
+      <video autoplay muted loop playsinline preload="auto" poster="/assets/video/magnolia-hero-poster.webp" aria-hidden="true">
+        <source media="(max-width:760px)" src="/assets/video/magnolia-hero-sm.mp4" type="video/mp4">
+        <source src="/assets/video/magnolia-hero.webm" type="video/webm">
+        <source src="/assets/video/magnolia-hero.mp4" type="video/mp4">
+      </video>
+    </figure>
+    <div class="fh-band">
+      <div class="eyebrow">The Estate &middot; Magnolia House</div>
+      <h1>Not a rebuild. A rebirth.</h1>
+      <p>The house the estate is known by, back on its own footprint, with a glass conservatory where there was nothing before.</p>
       <a class="btn btn-solid" href="/pricing/">Download the Wedding Pamphlet</a>
-      <a class="btn" href="/the-estate/">The whole estate</a></div>
-    
+    </div>
+    <button type="button" class="fh-pause" aria-pressed="false">Pause film</button>
   </div>
 </header>
 
@@ -127,15 +134,13 @@
   <div class="lede">
     <div class="eyebrow">The opening</div>
     <h2>The day the doors opened.</h2>
-    <p>Forty seconds of the grand opening and ribbon cutting, filmed by Barlow Film
-       Co. The captions are part of the picture, so it reads with the sound off.
-       <a href="/blog/the-magnolia-house-is-officially-open/">Read about the day</a>.</p>
+    <p><a href="/blog/the-magnolia-house-is-officially-open/">Read about the day</a>.</p>
   </div>
-  <figure class="place-film">
-    <video src="/assets/video/magnolia-opening.mp4"
-           poster="/assets/video/magnolia-opening-poster.webp"
-           controls playsinline preload="metadata" width="1920" height="1080"
-           aria-label="A forty-second film of the grand opening of the Magnolia House: drone views of the estate, the glass conservatory, styled tables, and guests celebrating, with Kobi Cummings welcoming everyone"></video>
+  <figure class="place-film tall">
+    <video src="/assets/video/magnolia-recap.mp4"
+           poster="/assets/video/magnolia-recap-poster.webp"
+           controls playsinline preload="metadata" width="1080" height="1920"
+           aria-label="The grand opening of the Magnolia House: the estate from the air, the glass conservatory, styled tables, guests celebrating, and Kobi Cummings welcoming everyone"></video>
   </figure>
 </section>
 
@@ -245,7 +250,7 @@
   </div>
 </footer>
 <div class="cta-bar"><a class="btn btn-solid" href="/pricing/">Download the Wedding Pamphlet</a></div>
-
+<script>(function(){var v=document.querySelector(".fh video"),b=document.querySelector(".fh-pause");if(!v||!b)return;b.addEventListener("click",function(){if(v.paused){v.play();b.textContent="Pause film";b.setAttribute("aria-pressed","false");}else{v.pause();b.textContent="Play film";b.setAttribute("aria-pressed","true");}});})();</script>
 <script src="/assets/nav.js?v=eacfdba6" defer></script>
 <script src="/assets/vendor/gsap.min.js" defer></script>
 <script src="/assets/vendor/ScrollTrigger.min.js" defer></script>

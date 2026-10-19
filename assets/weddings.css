@@ -8,28 +8,6 @@
    type and buttons come from olive.css.
    ========================================================================== */
 
-/* ------------------------------------------------------------ the film hero */
-.hero:has(> .fh){display:block;border-bottom:0;padding:0;max-width:none}
-.fh{position:relative;height:calc(100svh - var(--head,76px));min-height:34rem;display:flex;
-  align-items:flex-end;overflow:hidden;background:var(--olive)}
-.fh-media{position:absolute;inset:0;margin:0}
-.fh-media img,.fh-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.fh-band{position:relative;z-index:2;background:var(--ivory);color:var(--deep);width:min(46rem,100%);
-  margin-left:clamp(0rem,4vw,3.5rem);padding:clamp(1.8rem,4vw,3rem) clamp(1.4rem,4vw,3.2rem) clamp(1.6rem,3vw,2.6rem)}
-.fh-band .eyebrow{margin-bottom:1.1rem}
-.fh-band h1{font-size:clamp(2.8rem,6.2vw,5.6rem)}
-.fh-band p{font-size:1.1rem;max-width:32rem;margin:1.3rem 0 1.8rem}
-.fh-pause{position:absolute;z-index:3;right:clamp(1rem,3vw,2rem);bottom:clamp(1rem,3vw,2rem);
-  font:500 .7rem/1 var(--sans);letter-spacing:.2em;text-transform:uppercase;cursor:pointer;
-  background:var(--ivory);color:var(--deep);border:0;padding:.85rem 1.1rem;min-height:44px}
-.fh-pause:hover,.fh-pause:focus-visible{background:var(--deep);color:var(--ivory)}
-@media (max-width:760px){
-  .fh{height:auto;min-height:0;display:block}
-  .fh-media{position:relative;height:62svh}
-  .fh-band{margin:0;width:100%}
-  .fh-pause{top:calc(62svh - 3.8rem);bottom:auto}
-}
-
 /* ------------------------------------------------------------------ the line */
 .og-line{font:italic 400 clamp(1.8rem,4.2vw,3.2rem)/1.25 var(--text);max-width:64rem;
   padding:clamp(4rem,10vw,8rem) 0;margin:0}
