@@ -352,7 +352,16 @@ def instagram_section():
         return ""
     with open(path, encoding="utf-8") as f:
         feed = json.load(f)
-    posts = feed.get("posts", [])[:8]
+    posts = list(feed.get("posts", []))
+
+    # Posts written here live in their own file, so that re-running the
+    # importer -- which rewrites blog.json wholesale from the old WordPress
+    # site -- can never take one of them with it.
+    mine = os.path.join(ROOT, "assets", "journal-new.json")
+    if os.path.exists(mine):
+        with open(mine, encoding="utf-8") as f:
+            posts += json.load(f).get("posts", [])
+    posts.sort(key=lambda p: p["date"], reverse=True)[:8]
     if len(posts) < 3:
         return ""
     newest = max((p.get("timestamp", "") for p in posts), default="")
@@ -1455,14 +1464,14 @@ PAGES["the-estate/magnolia-house/index.html"] = dict(
     nav="The Estate", title="Magnolia House | %s" % SITE,
     desc='Built in the 1890s, lost to a fire in 2025, and raised again with the original columns at the front and a glass conservatory behind.',
     head='<link rel="stylesheet" href="/assets/plan.css">\n',
-    hero_img='magnolia-house.webp',
-    hero_alt='Magnolia House, white columns above the lawn, the ridge behind',
+    hero_img='mh-open-house.webp',
+    hero_alt='The Magnolia House and its glass conservatory from the air, the valley beyond',
     eyebrow='The Estate &middot; Magnolia House &middot; Where it begins',
     h1='The house the estate is known by.',
     standfirst='Built in the 1890s, lost to a fire in 2025, and raised again with the original columns at the front and a glass conservatory behind. It is the first thing you see, and the reason most people come.',
     actions=[("Download the Wedding Pamphlet", "/pricing/"),
              ("The whole estate", "/the-estate/")],
-    body='\n<section>\n  <div class="lede">\n    <div class="eyebrow">Where the estate begins</div>\n    <h2>Not a rebuild. A rebirth.</h2>\n    <p>Magnolia House is the building the estate is known by, and it is the first\n       thing every guest sees &mdash; a hundred and seventy-five feet from the gate, at the top\n       of the drive, white columns against the ridge. It was raised in the 1890s.\n       In May 2025 a fire took the interior, and the family chose to bring it back\n       rather than replace it.</p>\n    <p>The front is restored to its history as closely as the record allows. The\n       columns you marry in front of are the original columns, saved from the fire\n       and standing again. Window frames and a wooden mantle from the old house\n       are back in the new one. And behind the house, where there was nothing\n       before, there is a conservatory &mdash; glass on three sides, Lookout\n       Mountain on the fourth, light all day &mdash; which is also the answer to\n       what happens if it rains: nothing is tented, nothing is struck, and nothing\n       costs extra.</p>\n    <p>Everything else on the property is arranged around it. You arrive here.\n       You marry in the meadow below it. You come back to it for dinner under\n       glass, and you walk up to the cottages from its door.</p>\n  </div>\n  <ul class="facts">\n    <li><span>Built</span>The 1890s. Reborn in 2026, on the original footprint.</li>\n    <li><span>Holds</span>The ceremony, the reception, cocktails, and the rehearsal dinner the night before.</li>\n    <li><span>The conservatory</span>Glass on three sides, the mountain on the fourth. The weather plan that costs nothing.</li>\n    <li><span>The columns</span>Original, saved from the fire, and still what you stand in front of.</li>\n    <li><span>Where it sits</span>A hundred and seventy-five feet from the gate. The first photograph most guests take.</li>\n    <li><span>Then</span>Eight hundred and sixty feet, on foot, to the meadow.</li>\n  </ul>\n\n  <div class="note">\n    <p><b>Working note.</b> The live site still carries the rebuild page &mdash;\n       &ldquo;Coming 2026&rdquo;, pre-opening FAQs, reduced rates during construction.\n       None of it was carried over. The two frames marked &ldquo;as drawn&rdquo; are\n       architectural renderings; the finished house has not been photographed for\n       the site yet, and that is the first shoot to book.</p>\n  </div>\n</section>\n\n<section>\n  <div class="lede">\n    <div class="eyebrow">Seen</div>\n    <h2>Magnolia House, as it is.</h2>\n  </div>\n  <div class="gallery">\n    <figure>{{img:magnolia-house.webp|The house from the lawn, a couple on its front steps}}</figure>\n    <figure>{{img:inc-rain.webp|The conservatory from the lawn, glass on three sides}}</figure>\n    <figure>{{img:inc-glass.webp|The conservatory inside, chandeliers over the floor}}</figure>\n    <figure>{{img:mh-1.webp|The house from the drive, with the conservatory behind it, as drawn}}</figure>\n    <figure>{{img:close-weddings.webp|The conservatory lit from within after dark}}</figure>\n    <figure>{{img:mh-5.webp|The conservatory, glass on three sides, as drawn}}</figure>\n  </div>\n</section>\n\n<nav class="onward" aria-label="Around the estate">\n    <span></span>\n    <a class="up" href="/the-estate/">The whole estate</a>\n    <a class="next" href="/the-estate/the-valley/"><span>On the walk, next</span><b>The Valley</b></a>\n</nav>\n\n<section class="closing">\n  <div class="closing-img" role="img" aria-label="The conservatory lit from within after dark"\n       style="background-image:url(\'/assets/img/close-weddings.webp\')"></div>\n  <div class="closing-body">\n    <div class="eyebrow">After dark</div>\n    <h2>See it lit.</h2>\n    <p>The conservatory at night is the reason the house was rebuilt with glass.\n       Come and stand in it when it suits you, or start with a conversation.</p>\n    <a class="btn" href="/pricing/">Download the Wedding Pamphlet</a>\n  </div>\n</section>\n')
+    body='\n<section>\n  <div class="lede">\n    <div class="eyebrow">Where the estate begins</div>\n    <h2>Not a rebuild. A rebirth.</h2>\n    <p>Magnolia House is the building the estate is known by, and it is the first\n       thing every guest sees &mdash; a hundred and seventy-five feet from the gate, at the top\n       of the drive, white columns against the ridge. It was raised in the 1890s.\n       In May 2025 a fire took the interior, and the family chose to bring it back\n       rather than replace it.</p>\n    <p>The front is restored to its history as closely as the record allows. The\n       columns you marry in front of are the original columns, saved from the fire\n       and standing again. Window frames and a wooden mantle from the old house\n       are back in the new one. And behind the house, where there was nothing\n       before, there is a conservatory &mdash; glass on three sides, Lookout\n       Mountain on the fourth, light all day &mdash; which is also the answer to\n       what happens if it rains: nothing is tented, nothing is struck, and nothing\n       costs extra.</p>\n    <p>Everything else on the property is arranged around it. You arrive here.\n       You marry in the meadow below it. You come back to it for dinner under\n       glass, and you walk up to the cottages from its door.</p>\n  </div>\n  <ul class="facts">\n    <li><span>Built</span>The 1890s. Reborn in 2026, on the original footprint.</li>\n    <li><span>Holds</span>The ceremony, the reception, cocktails, and the rehearsal dinner the night before.</li>\n    <li><span>The conservatory</span>Glass on three sides, the mountain on the fourth. The weather plan that costs nothing.</li>\n    <li><span>The columns</span>Original, saved from the fire, and still what you stand in front of.</li>\n    <li><span>Where it sits</span>A hundred and seventy-five feet from the gate. The first photograph most guests take.</li>\n    <li><span>Then</span>Eight hundred and sixty feet, on foot, to the meadow.</li>\n  </ul>\n\n  <div class="note">\n    <p><b>Working note.</b> The live site still carries the rebuild page &mdash;\n       &ldquo;Coming 2026&rdquo;, pre-opening FAQs, reduced rates during construction.\n       None of it was carried over. The renderings are gone: every photograph on\n       this page is now the finished building, lifted from the 4K footage of the\n       opening. A proper stills shoot would still be better than frames from a film.</p>\n  </div>\n</section>\n\n<section>\n  <div class="lede">\n    <div class="eyebrow">The opening</div>\n    <h2>The day the doors opened.</h2>\n    <p>Forty seconds of the grand opening and ribbon cutting, filmed by Barlow Film\n       Co. The captions are part of the picture, so it reads with the sound off.\n       <a href="/blog/the-magnolia-house-is-officially-open/">Read about the day</a>.</p>\n  </div>\n  <figure class="place-film">\n    <video src="/assets/video/magnolia-opening.mp4"\n           poster="/assets/video/magnolia-opening-poster.webp"\n           controls playsinline preload="metadata" width="1920" height="1080"\n           aria-label="A forty-second film of the grand opening of the Magnolia House: drone views of the estate, the glass conservatory, styled tables, and guests celebrating, with Kobi Cummings welcoming everyone"></video>\n  </figure>\n</section>\n\n<section>\n  <div class="lede">\n    <div class="eyebrow">Seen</div>\n    <h2>Magnolia House, as it is.</h2>\n  </div>\n  <div class="gallery">\n    <figure>{{img:mh-open-house.webp|The finished house and its conservatory from the air, the valley beyond}}</figure>\n    <figure>{{img:mh-open-conservatory.webp|Inside the conservatory: a vaulted glass roof, the balcony above, tables below}}</figure>\n    <figure>{{img:mh-open-exterior.webp|The house from the lawn, white columns and glass}}</figure>\n    <figure>{{img:mh-open-styled.webp|Tables styled in sage and ivory under the glass}}</figure>\n    <figure>{{img:mh-open-terrace.webp|The terrace, a round bar and the ridge beyond}}</figure>\n    <figure>{{img:mh-open-fountain.webp|The walk to the conservatory, past the fountain}}</figure>\n    <figure>{{img:mh-open-upstairs.webp|The room upstairs, under its own chandelier}}</figure>\n    <figure>{{img:mh-open-lounge.webp|The lounge on the brick-walled patio}}</figure>\n    <figure>{{img:inc-glass.webp|The conservatory inside, chandeliers over the floor}}</figure>\n    <figure>{{img:close-weddings.webp|The conservatory lit from within after dark}}</figure>\n  </div>\n</section>\n\n<nav class="onward" aria-label="Around the estate">\n    <span></span>\n    <a class="up" href="/the-estate/">The whole estate</a>\n    <a class="next" href="/the-estate/the-valley/"><span>On the walk, next</span><b>The Valley</b></a>\n</nav>\n\n<section class="closing">\n  <div class="closing-img" role="img" aria-label="The conservatory lit from within after dark"\n       style="background-image:url(\'/assets/img/close-weddings.webp\')"></div>\n  <div class="closing-body">\n    <div class="eyebrow">After dark</div>\n    <h2>See it lit.</h2>\n    <p>The conservatory at night is the reason the house was rebuilt with glass.\n       Come and stand in it when it suits you, or start with a conversation.</p>\n    <a class="btn" href="/pricing/">Download the Wedding Pamphlet</a>\n  </div>\n</section>\n')
 
 PAGES["the-estate/the-valley/index.html"] = dict(
     nav="The Estate", title="The Valley | %s" % SITE,
@@ -1931,7 +1940,16 @@ def build_journal():
         return
     with open(path, encoding="utf-8") as f:
         feed = json.load(f)
-    posts = feed.get("posts", [])
+    posts = list(feed.get("posts", []))
+
+    # Posts written here live in their own file, so that re-running the
+    # importer -- which rewrites blog.json wholesale from the old WordPress
+    # site -- can never take one of them with it.
+    mine = os.path.join(ROOT, "assets", "journal-new.json")
+    if os.path.exists(mine):
+        with open(mine, encoding="utf-8") as f:
+            posts += json.load(f).get("posts", [])
+    posts.sort(key=lambda p: p["date"], reverse=True)
     articles = [p for p in posts if len(p["body"]) >= 600]
     notes = [p for p in posts if len(p["body"]) < 600]
 
@@ -1949,7 +1967,7 @@ def build_journal():
             nav=None, title="%s | %s" % (p["title"], SITE),
             desc=p["standfirst"],
             head='<link rel="stylesheet" href="/assets/journal.css">\n',
-            hero_src="/assets/blog/%s" % p["cover"] if p["cover"] else None,
+            hero_src=(p.get("cover_dir", "/assets/blog/") + p["cover"]) if p["cover"] else None,
             hero_alt=p["title"],
             eyebrow="The journal &middot; %s" % _date(p["date"]),
             h1=p["title"],
@@ -1960,13 +1978,14 @@ def build_journal():
     cards = "\n".join(
         '    <li class="jr-card">\n'
         '      <a href="%s">\n'
-        '        <figure><img src="/assets/blog/%s" alt="" width="1400" height="933" '
+        '        <figure><img src="%s%s" alt="" width="1400" height="933" '
         'loading="lazy" decoding="async"></figure>\n'
         '        <span class="jr-when">%s</span>\n'
         '        <h2>%s</h2>\n'
         '        <p>%s</p>\n'
         '      </a>\n'
-        '    </li>' % (p["url"], p["cover"], _date(p["date"]), p["title"], p["standfirst"])
+        '    </li>' % (p["url"], p.get("cover_dir", "/assets/blog/"), p["cover"],
+                       _date(p["date"]), p["title"], p["standfirst"])
         for p in articles if p["cover"])
 
     PAGES["blog/index.html"] = dict(

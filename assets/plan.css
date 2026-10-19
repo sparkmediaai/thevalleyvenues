@@ -106,3 +106,8 @@
 }
 /* Seven places: four and three reads better than five and two. */
 @media (min-width:1100px){.spots{grid-template-columns:repeat(4,minmax(0,1fr))}.spot-name{font-size:1.45rem}}
+
+/* A film on a place page sits where a wide photograph would, and keeps the
+   browser's own controls -- nothing here plays at anybody unasked. */
+.place-film{margin:clamp(1.4rem,3vw,2.2rem) 0 0;width:100%}
+.place-film video{width:100%;height:auto;display:block;background:var(--deep)}

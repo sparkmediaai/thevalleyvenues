@@ -78,3 +78,10 @@
   .rv-who{grid-column:1;grid-row:2;margin-top:.6rem}
   .rv blockquote{grid-column:2;grid-row:1 / span 2}
 }
+
+/* ---------------------------------------------------------------- a film
+   A film inside a post reaches the same width its pictures do, and keeps the
+   browser's own controls: this is a thing to watch, not a thing to autoplay
+   at somebody. The poster carries the weight until it is asked for. */
+.prose .jr-video{width:min(46rem,100%)}
+.prose .jr-video video{width:100%;height:auto;display:block;background:var(--deep)}
