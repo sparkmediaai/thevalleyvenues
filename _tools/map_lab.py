@@ -31,7 +31,11 @@ from map_lab_fairy import FAIRY
 VARIATIONS = PARK + FAIRY
 
 INDEX = """<!doctype html>
-<html lang="en"><head><meta charset="utf-8">
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-650RHH7CHE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-650RHH7CHE');gtag('config','G-ZX1FCYBWMN');</script>
+<meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Map Lab &mdash; The Valley Venues</title>
@@ -93,6 +97,10 @@ BLURB = {
 SHELL = """<!doctype html>
 <html lang="en">
 <head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-650RHH7CHE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-650RHH7CHE');gtag('config','G-ZX1FCYBWMN');</script>
+
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow">

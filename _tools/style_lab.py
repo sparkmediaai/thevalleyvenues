@@ -74,7 +74,11 @@ def main():
     cards = "".join(
         '<a class="c" href="/style-lab/%s/"><b>%s</b><span>%s</span></a>' % (s, n, d) for s, n, d in OPTIONS)
     open(os.path.join(LAB, "index.html"), "w", encoding="utf-8").write("""<!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-650RHH7CHE"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-650RHH7CHE');gtag('config','G-ZX1FCYBWMN');</script>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><title>Spa restyle &middot; The Valley Venues</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,400&family=Libre+Franklin:wght@400;500;600&display=swap">
 <style>
